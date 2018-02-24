@@ -28,6 +28,7 @@ TestBackend:
   script:
     - coverage run --source='.' manage.py test
     - coverage report
+  coverage: '/\d+\%\s*$/'
 
 TestFrontend:
   image: node:8.9.1
