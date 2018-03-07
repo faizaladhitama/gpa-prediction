@@ -1,0 +1,1 @@
+<h1>This is {{name}}/profile page</h1>
