@@ -1,0 +1,11 @@
+body {
+	background-color: black;
+}
+
+#logo {
+	margin: 50% auto;
+}
+
+#login-button {
+	margin: 110% auto;
+}
