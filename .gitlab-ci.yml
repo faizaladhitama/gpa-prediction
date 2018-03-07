@@ -66,8 +66,9 @@ DeploymentStaging:
 DeploymentCobacoba:
   image: ruby:2.4
   stage: deploy
-  only: 
-    - coba_coba
+  except:
+    - master 
+    - sit_uat
   before_script:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
