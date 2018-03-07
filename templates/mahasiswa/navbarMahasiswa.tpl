@@ -3,21 +3,26 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: black;">
-  <a class="navbar-brand" href="#" style="color: white">Logo</a>
+  <a class="navbar-brand" href="#" style="color: white">
+  {% load static %} 
+  <img src="{% static "assets/logo.png" %}" width="30"class="d-inline-block align-top" alt="">
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse  w-100 order-3 dual-collapse2 " id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-      <div style="text-align: right;display: inline-block;">
-        <a class="nav-link activate" href="#" style="color: white" ">
+      <div style="text-align: right;display: inline-block; margin-left: -15%;">
+        <a class="nav-link activate" href="#" style="color: white;" ">
           <h10>Nama</h10><br>
           <h10>Term</h10><br>
           <h10">Role</h10>
         </a>
         </div>
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 40%;">
+        {% load static %} 
+        <img src="{% static "assets/logo.png" %}" width="30" height="30" class="d-inline-block align-top" alt="" style="margin-top: 25%; margin-left: 5%">
+        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 30%;">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" style="margin-top: -1%;outline: blue">
@@ -29,9 +34,9 @@
     </ul>
   </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">e
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>

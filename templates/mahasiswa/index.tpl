@@ -1,1 +1,1 @@
-<h1>This is {{name}} page</h1>>
+{% include "mahasiswa/navbarMahasiswa.tpl" %}
