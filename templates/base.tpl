@@ -25,6 +25,8 @@
 <script type="text/javascript" src= "{% static "assets/js/script.js" %}"></script>
 <footer class="footer">
 	<div class="container">
+		{{user}}
+		<br/>
 		Usagi Studio - 2018
 	</div>
 </footer>
