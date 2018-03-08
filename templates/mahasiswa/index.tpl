@@ -1,2 +1,2 @@
-{% include "mahasiswa/mahasiswaBase.tpl" %}
+{% extends 'mahasiswa/mahasiswaBase.tpl' %}
 {% block content %} Tes {% endblock %}

@@ -1,5 +1,3 @@
-{% extends 'mahasiswa/mahasiswaBase' %}
-{% block navbar %} 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: black;">
   <a class="navbar-brand" href="#" style="color: white">
   {% load static %} 
@@ -25,8 +23,9 @@
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" style="margin-top: -1%;outline: blue">
-    {% block dropdown %}
-    {% endblock %}
+    <a class="dropdown-item" href="/mahasiswa/profile">Profile</a>
+    <div class="dropdown-divider border-info"></div>
+    <a class="dropdown-item" href="#">Log Out</a>
   </div>
       </li>
     </ul>
@@ -35,9 +34,12 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ">
-      {% block underNavbar %}
-      {% endblock %}
+      <li class="nav-item">
+        <a class="nav-link" href="/mahasiswa">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/mahasiswa/rekomendasi">Rekomendasi Matkul</a>
+      </li>
     </ul>
   </div>
 </nav>
-{% endblock %}
