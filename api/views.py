@@ -7,5 +7,9 @@ def index(request):
     return render(request, 'api/index.tpl', context)
 
 def login(request):
-    context = {'team':'usagi studio'}
-    return render(request, 'login.tpl',context)
+	if request.user == None:
+		user = "None"
+	else:
+		user = request.user
+	context={'team':'usagi studio','user':user}
+	return render(request, 'login.tpl',context)
