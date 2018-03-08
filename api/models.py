@@ -3,21 +3,22 @@ from django.db import models
 # Create your models here.
 class Mahasiswa(models.Model):
 
-	npm = models.IntegerField() #key
+	npm = models.IntegerField(primary_key=True) #key
 	angkatan = models.IntegerField()
 	prodi = models.CharField(max_length = 20)
 	nama = models.CharField(max_length = 100)
+	tingkatKerjasama = models.IntegerField(0)
 	status_evaluasi = models.BooleanField()
 
 class MataKuliah(models.Model):
 
-	kode_matkul = models.IntegerField() # key
+	kode_matkul = models.IntegerField(primary_key=True) # key
 	nip_pengajar = models.IntegerField()
 	nama_matkul = models.CharField(max_length = 40)
 	prodi = models.CharField(max_length = 30)
 
 class Dosen(models.Model):
-	nip_pengajar = models.IntegerField()
+	nip_pengajar = models.IntegerField(primary_key=True)
 	nama_dosen = models.CharField(max_length = 100)
 	is_pa = models.BooleanField()
 
@@ -27,7 +28,7 @@ class AnggotaKelas(models.Model):
 
 class PrasyaratMataKuliah:
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
-    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+    kode_matkul_pras = models.CharField()
 
 class InformasiAkademis:
 	npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
