@@ -11,4 +11,8 @@
 	6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% load static %} 
 <script type="text/javascript" src= "{% static "assets/js/script.js" %}"></script>
-<h1>Usagi Studio - 2018</h1>
+<footer class="footer">
+	<div class="container">
+		Usagi Studio - 2018
+	</div>
+</footer>
