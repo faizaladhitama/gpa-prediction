@@ -14,9 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,re_path
+from django.conf.urls import url
+from django.urls import path, re_path, include
+import django_cas_ng.views
 from . import views
 
 urlpatterns = [
-    re_path(r'^$',views.index,name='index')
-]
+    url(r'^$', views.login, name='index'),
+	re_path(r'^login$', django_cas_ng.views.login,{"next_page":"","required":False},name='cas_ng_login'),
+	re_path(r'^logout$', django_cas_ng.views.logout,{"next_page":""}, name='cas_ng_logout')
+] 	
