@@ -1,7 +1,7 @@
 <head>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	{% load static %} 
-	<link rel="stylesheet" type="text/css" href= "{% static "assets/css/style.css" %}">
+	<link rel="stylesheet" type="text/css" href= "{% static "css/style.css" %}">
 </head>
 <body>
 	<div class="container-fluid">
@@ -21,5 +21,5 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR
 	6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	{% load static %} 
-	<script type="text/javascript" src= "{% static "assets/js/script.js" %}"></script>
+	<script type="text/javascript" src= "{% static "js/script.js" %}"></script>
 </body>
