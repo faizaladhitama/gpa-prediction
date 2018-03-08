@@ -27,6 +27,7 @@ TestBackend:
     - python manage.py runserver 8000 &
   when: on_success
   script:
+    - pylint --load-plugins pylint_django api/ backend/ dosen/ mahasiswa/ pa/ sekre/ --reports=y
     - coverage run --include='api/*','mahasiswa/*','dosen/*','pa/*','sekre/*' manage.py test
     - coverage report
   coverage: '/\d+\%\s*$/'
