@@ -1,5 +1,6 @@
 body {
 	background-color: black;
+	color: white;
 }
 
 #logo {
@@ -8,4 +9,10 @@ body {
 
 #login-button {
 	margin: 110% auto;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
