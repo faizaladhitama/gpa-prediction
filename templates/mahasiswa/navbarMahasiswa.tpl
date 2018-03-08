@@ -1,53 +1,16 @@
-<head>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: black;">
-  <a class="navbar-brand" href="#" style="color: white">
-  {% load static %} 
-  <img src="{% static "assets/logo-horizontal.png" %}" width="80%" class="d-inline-block align-top" alt="">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse  w-100 order-3 dual-collapse2 " id="navbarNavDropdown">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-      <div style="text-align: right;display: inline-block; margin-left: -15%;">
-        <a class="nav-link activate" href="#" style="color: white;" ">
-          <h10>Kanna</h10><br>
-          <h10>2017/2018 - 2</h10><br>
-          <h10">Mahasiswa</h10>
-        </a>
-        </div>
-        {% load static %} 
-        <img src="{% static "assets/profile.jpg" %}" width = "60px" class="d-inline-block align-top rounded-circle border border-white" alt="" style="margin-top: 10%; margin-left: 5%; border-width: 2px !important">
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 22%;">
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <div class="dropdown-menu  dropdown-menu-right border-info" style="margin-top: -1%;outline: blue">
+{% extends 'navbar.tpl' %}
+
+	{% block dropdown %}
     <a class="dropdown-item" href="/mahasiswa/profile">Profile</a>
     <div class="dropdown-divider border-info"></div>
     <a class="dropdown-item" href="#">Log Out</a>
-  </div>
-      </li>
-    </ul>
-  </div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto ">
-      <li class="nav-item">
+    {% endblock %}
+    
+    {% block underNavbar %}
+          <li class="nav-item">
         <a class="nav-link" href="/mahasiswa">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/mahasiswa/rekomendasi">Rekomendasi Matkul</a>
       </li>
-    </ul>
-  </div>
-</nav>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-
+    {% endblock %}
