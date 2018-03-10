@@ -7,7 +7,7 @@
 		<div class="row ">
 			<div class="col-sm-8">
 				{% load static %} 
-				<img id="logo" src= "{% static "logo_horizontal.png" %}">
+				<img id="logo" src= "{% static "assets/logo_horizontal.png" %}">
 			</div>
 			<div class="col-sm-4">
 				<button type="button" class="btn btn-outline-warning btn-lg" id="login-button">Log in</button>
@@ -25,8 +25,6 @@
 <script type="text/javascript" src= "{% static "assets/js/script.js" %}"></script>
 <footer class="footer">
 	<div class="container">
-		{{user}}
-		<br/>
 		Usagi Studio - 2018
 	</div>
 </footer>

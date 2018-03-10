@@ -4,11 +4,13 @@ body {
 }
 
 #logo {
-	margin: 50% auto;
+	position: fixed;
+	top: 50%;
+  	left: 50%;
 }
 
 #login-button {
-	margin: 110% auto;
+	margin: auto;
 }
 
 .footer {
