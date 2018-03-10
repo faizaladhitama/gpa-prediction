@@ -7,7 +7,6 @@ class Mahasiswa(models.Model):
 	angkatan = models.IntegerField()
 	prodi = models.CharField(max_length = 20)
 	nama = models.CharField(max_length = 100)
-	tingkatKerjasama = models.IntegerField(0)
 	status_evaluasi = models.BooleanField()
 
 class MataKuliah(models.Model):
@@ -16,6 +15,7 @@ class MataKuliah(models.Model):
 	nip_pengajar = models.IntegerField()
 	nama_matkul = models.CharField(max_length = 40)
 	prodi = models.CharField(max_length = 30)
+	tingkatKerjasama = models.IntegerField(0)
 
 class Dosen(models.Model):
 	nip_pengajar = models.IntegerField(primary_key=True)
