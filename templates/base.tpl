@@ -2,19 +2,6 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 {% load static %} 
 <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-
-<div class="container-fluid">
-		<div class="row ">
-			<div class="col-sm-8">
-				{% load static %} 
-				<img id="logo" src= "{% static "assets/logo_horizontal.png" %}">
-			</div>
-			<div class="col-sm-4">
-				<button type="button" class="btn btn-outline-warning btn-lg" id="login-button">Log in</button>
-			</div>
-		</div>
-
-</div>
 {% block content %}
 {% endblock %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
