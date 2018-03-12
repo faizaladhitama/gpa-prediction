@@ -1,5 +1,11 @@
 {% extends 'base.tpl' %}
 
+
+{% block customized_css%}
+{% load static %} 
+<link rel="stylesheet" type="text/css" href="{% static "css/landing-page.css" %}">
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
 		<div class="row ">
