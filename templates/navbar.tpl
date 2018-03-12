@@ -33,7 +33,8 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ">
-    {% block content %}
+    <h2>Hello</h2>
+    {% block navbar2 %}
     {% endblock %}
     </ul>
   </div>
