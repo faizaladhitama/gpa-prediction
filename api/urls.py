@@ -26,8 +26,4 @@ urlpatterns = [
     url(r'^$', views.landing_page, name='landing_page'),
 	re_path(r'^login$', django_cas_ng.views.login,{"next_page":"","required":False},name='cas_ng_login'),
 	re_path(r'^logout$', django_cas_ng.views.logout,{"next_page":""}, name='cas_ng_logout')
-	
-    url(r'^$', views.login, name='index'),
-    re_path(r'^login$', CAS_LOGIN, {"next_page": ""}, name='cas_ng_login'),
-    re_path(r'^logout$', CAS_LOGOUT, {"next_page": ""}, name='cas_ng_logout')
 ]
