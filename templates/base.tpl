@@ -1,13 +1,13 @@
 <title>{% block title %}Prediksi Kinerja Mahasiswa{% endblock %}</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 {% load static %} 
-<link rel="stylesheet" type="text/css" href="{% static "css/landing-page-style.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
 
 <div class="container-fluid">
 		<div class="row ">
 			<div class="col-sm-8">
 				{% load static %} 
-				<img id="logo" src= "{% static "logo_horizontal.png" %}">
+				<img id="logo" src= "{% static "assets/logo_horizontal.png" %}">
 			</div>
 			<div class="col-sm-4">
 				<button type="button" class="btn btn-outline-warning btn-lg" id="login-button">Log in</button>
@@ -22,12 +22,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR
 	6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% load static %} 
-<script type="text/javascript" src= "{% static "assets/js/script.js" %}"></script>
+<script type="text/javascript" src= "{% static "js/script.js" %}"></script>
 <footer class="footer">
 	<div class="container">
-		{{user}}
-		{{peran}}
-		<br/>
 		Usagi Studio - 2018
 	</div>
 </footer>

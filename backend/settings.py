@@ -97,14 +97,23 @@ CAS_EXTRA_LOGIN_PARAMS = {'renew': True}
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+"""Prima Postgres Database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'prima',
+            'USER': 'usagistudio',
+            'PASSWORD': 'pplc7',
+            'HOST': 'postgres',
+            'PORT': '5432',
+        }
+    }
+"""
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'prima',
-        'USER': 'usagistudio',
-        'PASSWORD': 'pplc7',
-        'HOST': 'postgres',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
