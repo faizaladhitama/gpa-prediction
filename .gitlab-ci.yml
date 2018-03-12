@@ -5,12 +5,13 @@ stages:
 TestBackend:
   image: python:3.6
   stage: test
-  services:
-    - postgres:latest
-  variables:
-    POSTGRES_DB: prima
-    POSTGRES_USER: usagistudio
-    POSTGRES_PASSWORD: pplc7
+  #Postgres CI
+  #services:
+  #  - postgres:latest
+  #variables:
+  #  POSTGRES_DB: prima
+  #  POSTGRES_USER: usagistudio
+  #  POSTGRES_PASSWORD: pplc7
   before_script:
     #Reference : Lab PPW Odd Semester 2017/2018
     #- wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
