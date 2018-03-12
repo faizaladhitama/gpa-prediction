@@ -26,6 +26,7 @@
 <footer class="footer">
 	<div class="container">
 		{{user}}
+		{{peran}}
 		<br/>
 		Usagi Studio - 2018
 	</div>
