@@ -1,2 +1,2 @@
-{% extends 'mahasiswa/mahasiswaBase.tpl' %}
-{% block content %} Tes {% endblock %}
+{% extends 'base.tpl' %}
+{% block content %} THIS IS INDEX {% endblock %}
