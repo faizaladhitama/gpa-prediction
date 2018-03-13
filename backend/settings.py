@@ -11,10 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import socket
 import dj_database_url
-import django_heroku
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +27,6 @@ SECRET_KEY = '0cqmq9_8hn^&i7zk3)w9*1cs8+ecb=)-#q38%zulc848wo_!1n'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -85,14 +81,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.APPLICATION'
 CAS_SERVER_URL = 'https://sso.ui.ac.id/cas2/:443'
 CAS_RETRY_LOGIN = False
 CAS_CREATE_USER = True
 CAS_APPLY_ATTRIBUTES_TO_USER = True
 CAS_RENEW = True
 CAS_EXTRA_LOGIN_PARAMS = {'renew': True}
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -117,10 +112,9 @@ DATABASES = {
     }
 }
 
-#If Using Heroku Environemnt, then Use Database Setting on Heroku
+# If Using Heroku Environemnt, then Use Database Setting on Heroku
 if PRODUCTION:
     DATABASES['default'] = dj_database_url.config()
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -140,7 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -151,9 +144,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
-    
-USE_TZ = True
 
+USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'

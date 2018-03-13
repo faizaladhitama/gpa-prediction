@@ -3,11 +3,13 @@ from api.models import Civitas
 from api.models import Mahasiswa
 from django.contrib.auth.models import User
 
+
 # Create your views here.
 def index(request):
-	#context : passing args to template
-    context = {'team':'usagi studio'}
+    # context : passing args to template
+    context = {'team': 'usagi studio'}
     return render(request, 'api/index.tpl', context)
+
 
 def login(request):
 	if request.user == None:
@@ -20,3 +22,8 @@ def login(request):
 		print(mahasiswa.peran_user)
 	context={'team':'usagi studio','user':user,'peran':mahasiswa.peran_user}
 	return render(request, 'mahasiswa/index.tpl',context)
+
+def landing_page(request):
+	#context : passing args to template
+    context = {'team':'usagi studio'}
+    return render(request, 'landing_page.tpl', context)

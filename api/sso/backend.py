@@ -1,12 +1,11 @@
-from django_cas_ng.backends import CASBackend
-from django.contrib import messages
-from django_cas_ng.utils import get_cas_client
-from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import ModelBackend
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from django.contrib.auth import get_user_model
+from django_cas_ng.backends import CASBackend
 from django_cas_ng.signals import cas_user_authenticated
+from django_cas_ng.utils import get_cas_client
+
 from api.models import create_user_profile
+
 
 class MyCASBackend(CASBackend):
     def authenticate(self, request, ticket, service):
@@ -19,7 +18,7 @@ class MyCASBackend(CASBackend):
 
         if not username:
             return None
-        
+
         user = None
         username = self.clean_username(username)
         if attributes:
@@ -27,26 +26,26 @@ class MyCASBackend(CASBackend):
             if reject:
                 return None
 
-        UserModel = get_user_model()
+        user_model = get_user_model()
 
         # Note that this could be accomplished in one try-except clause, but
         # instead we use get_or_create when creating unknown users since it has
         # built-in safeguards for multiple threads.
         if settings.CAS_CREATE_USER:
             user_kwargs = {
-                UserModel.USERNAME_FIELD: username
+                user_model.USERNAME_FIELD: username
             }
             if settings.CAS_CREATE_USER_WITH_ID:
                 user_kwargs['id'] = self.get_user_id(attributes)
 
-            user, created = UserModel._default_manager.get_or_create(**user_kwargs)
+            user, created = user_model._default_manager.get_or_create(**user_kwargs)
             if created:
                 user = self.configure_user(user)
         else:
             created = False
             try:
-                user = UserModel._default_manager.get_by_natural_key(username)
-            except UserModel.DoesNotExist:
+                user = user_model._default_manager.get_by_natural_key(username)
+            except user_model.DoesNotExist:
                 pass
 
         if not self.user_can_authenticate(user):
@@ -62,7 +61,7 @@ class MyCASBackend(CASBackend):
             # and push the responsibility to the CAS provider or remove
             # them from the dictionary entirely instead. Handling these
             # is a little ambiguous.
-            user_model_fields = UserModel._meta.fields
+            user_model_fields = user_model._meta.fields
             for field in user_model_fields:
                 # Handle null -> '' conversions mentioned above
                 if not field.null:
@@ -87,8 +86,7 @@ class MyCASBackend(CASBackend):
             if settings.CAS_CREATE_USER:
                 print("create user")
                 user.save()
-                create_user_profile(user,True,attributes=attributes)
-
+                create_user_profile(user, True, attributes=attributes)
 
         # send the `cas_user_authenticated` signal
         cas_user_authenticated.send(
@@ -105,13 +103,13 @@ class MyCASBackend(CASBackend):
     def user_can_authenticate(self, user):
         return True
 
-    def configure_user(self,user):
+    def configure_user(self, user):
         print("configure:")
         print(user)
         return user
 
     def bad_attributes_reject(self, request, username, attributes):
-        print("Request :",request)
-        print("Username :",username)
-        print("Attribute :",attributes)
+        print("Request :", request)
+        print("Username :", username)
+        print("Attribute :", attributes)
         return False
