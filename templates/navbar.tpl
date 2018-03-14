@@ -13,8 +13,9 @@
       <div style="text-align: right;display: inline-block; margin-left: -15%;">
         <a class="nav-link activate" href="#" style="color: white;">
           <h10>{{user}}</h10><br>
-          <h10>2017/2018 - 2</h10><br>
-          <h10>{{peran}}</h10>
+          <h10>{{role}}</h10><br>
+          <h10>{{id}}</h10><br>
+          <h10>{{term}}</h10>
         </a>
         </div>
         {% load static %} 
