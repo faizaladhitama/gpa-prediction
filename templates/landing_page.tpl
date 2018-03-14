@@ -11,10 +11,21 @@
 		<div class="row ">
 			<div class="col-sm-8">
 				{% load static %} 
-				<img id="logo" src= "{% static "assets/logo_horizontal.png" %}">
+				<img id="logo" src= "{% static "assets/logo_persegi.png" %}">
 			</div>
 			<div class="col-sm-4">
-				<button type="button" class="btn btn-outline-warning btn-lg" id="login-button">Log in</button>
+				<form class="login-form">
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" name="username" id="username" class="form-group">
+					</div>
+					<div class="form-group">
+						<label for="username">Password </label>
+						<input type="text" name="username" id="username" class="form-group">
+					</div>
+				<button type="button" class="btn btn-outline-warning" id="login-button">Log in</button>
+				</form>
+
 			</div>
 		</div>
 </div>
