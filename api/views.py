@@ -2,21 +2,16 @@ from django.shortcuts import render
 from .models import Mahasiswa, Civitas
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
-from .sso.csui_helper import get_access_token, verify_user, get_client_id
+from .sso.csui_helper import get_access_token, verify_user, get_client_id, get_data_user
 from .api_dev import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
+import datetime
 
 
 # Create your views here.
-def dummy(request):
-    # context : passing args to template
-    context = {'team': 'usagi studio'}
-    return render(request, 'api/index.tpl', context)
-
-
 def landing(request):
     context = {'team': 'usagi studio'}
     return render(request, 'landing_page.tpl', context)
@@ -53,7 +48,7 @@ def auth_login(request):
             return HttpResponseRedirect(reverse('api:index'))
         else:
             messages.error(request, "Username atau password salah")
-            return HttpResponseRedirect(reverse('api:login'))
+            return HttpResponseRedirect(reverse('api:landing'))
 
 def auth_logout(request):
     print ("#==> auth logout")
@@ -62,5 +57,18 @@ def auth_logout(request):
     return HttpResponseRedirect(reverse('api:landing'))
 
 def index(request):
-    context={'team':'usagi studio'}
+    now = datetime.datetime.now()
+    term = 0
+    if now.month <  8:
+        year = now.year - 1
+        if now.month > 2 and now.month < 7 :
+            term = 2
+        else :
+            term = 3
+    else:
+        year = now.year
+        term = 1
+    term_str = str(year)+"/"+str(year+1)+" - "+str(term)
+    get_data_user(request.session['access_token'],request.session['kode_identitas'])
+    context={'term':term_str,'team':'usagi studio','user':request.session['user_login'],'id':request.session['kode_identitas'],'role':request.session['role']}
     return render(request, 'mahasiswa/index.tpl',context)
