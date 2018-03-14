@@ -1,1 +1,2 @@
-<h1>This is {{name}} page</h1>
+{% extends 'mahasiswa/mahasiswaBase.tpl' %}
+{% block content %} Tes {% endblock %}

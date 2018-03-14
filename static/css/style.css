@@ -1,0 +1,20 @@
+body {
+	background-color: black;
+	color: white;
+}
+
+#logo {
+	margin-top: 50%;
+}
+
+#login-button {
+	position:relative;
+	top:80%; 
+	left:auto;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

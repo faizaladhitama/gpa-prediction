@@ -2,6 +2,7 @@ import requests
 
 API_MAHASISWA = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/"
 API_VERIFY_USER = "https://akun.cs.ui.ac.id/oauth/token/verify/"
+PASSWORD = "DEFINE YA PASSWORD"
 def get_access_token(username, password):
     try:
         url = "https://akun.cs.ui.ac.id/oauth/token/"
@@ -38,4 +39,4 @@ def get_data_user(access_token, id):
     print ("response => ", response.json())
     return response.json()
 
-get_access_token("muhammad.faiz52","10glastonbury")
+get_access_token("muhammad.faiz52",PASSWORD)
