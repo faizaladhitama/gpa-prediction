@@ -12,3 +12,4 @@
 
 [![pipeline status](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/coba_coba/pipeline.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/coba_coba)
 [![coverage report](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/coba_coba/coverage.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/coba_coba)
+
