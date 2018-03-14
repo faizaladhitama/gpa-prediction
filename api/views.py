@@ -7,6 +7,7 @@ from .api_dev import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -16,27 +17,18 @@ def dummy(request):
     return render(request, 'api/index.tpl', context)
 
 
-def index(request):
-    """
-    if request.user is None:
-        user = "None"
-    else:
-        user = request.user
-        user = list(User.objects.filter(username=user))[0]
-        civitas = list(Civitas.objects.filter(user_id=user.id))[0]
-        mahasiswa = list(Mahasiswa.objects.filter(civitas_ptr_id=civitas.id))[0]
-        print(mahasiswa)
-    """
+def landing(request):
     context = {'team': 'usagi studio'}
+    return render(request, 'landing_page.tpl', context)
+    """
     if 'user_login' in request.session.keys():
         print("masuk")
         cari_info_program(request.session['kode_identitas'],get_client_id(),request.session['access_token'])
     return render(request, 'login.tpl', context)
+    """
 
 def login(request):
-    context = {'team': 'usagi studio'}
-    print(request.session)
-    return render(request, 'api/prima_login.tpl', context)
+    return render(request, 'api/login.tpl', {})
 
 def auth_login(request):
     print ("#==> auth_login ",request.method)
@@ -61,11 +53,14 @@ def auth_login(request):
             return HttpResponseRedirect(reverse('api:index'))
         else:
             messages.error(request, "Username atau password salah")
+            return HttpResponseRedirect(reverse('api:login'))
 
 def auth_logout(request):
     print ("#==> auth logout")
-    request.session.flush() # menghapus semua session
-
+    request.session.flush() # menghapus semua session\
     messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
-    return HttpResponseRedirect(reverse('api:index'))
+    return HttpResponseRedirect(reverse('api:landing'))
 
+def index(request):
+    context={'team':'usagi studio'}
+    return render(request, 'mahasiswa/index.tpl',context)

@@ -4,17 +4,11 @@ body {
 }
 
 #logo {
-	margin-top: 50%;
+	margin-top: 30%;
 }
 
 #login-button {
 	position:relative;
 	top:80%; 
 	left:auto;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 }
