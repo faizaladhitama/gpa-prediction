@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.urls import re_path
-import django_cas_ng.views
+#import django_cas_ng.views
 
 from . import views
 
-CAS_LOGIN = django_cas_ng.views.login
-CAS_LOGOUT = django_cas_ng.views.logout
+app_name = 'api'
+#CAS_LOGIN = django_cas_ng.views.login
+#CAS_LOGOUT = django_cas_ng.views.logout
 urlpatterns = [
-    url(r'^$', views.login, name='index'),
-    re_path(r'^login$', CAS_LOGIN, {"next_page": ""}, name='cas_ng_login'),
-    re_path(r'^logout$', CAS_LOGOUT, {"next_page": ""}, name='cas_ng_logout')
+    url(r'^$', views.landing, name='landing'),
+    re_path(r'^login$', views.login, name='login'),
+    re_path(r'^auth-login$', views.auth_login, name='auth-login'),
+    re_path(r'^logout$', views.auth_logout, name='auth-logout'),
+    url(r'^index', views.index, name='index'),
 ]

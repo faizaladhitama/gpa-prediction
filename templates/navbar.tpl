@@ -12,19 +12,18 @@
 
       <div style="text-align: right;display: inline-block; margin-left: -15%;">
         <a class="nav-link activate" href="#" style="color: white;">
-          <h10>Kanna</h10><br>
-          <h10>2017/2018 - 2</h10><br>
-          <h10">Mahasiswa</h10>
+          <h10>{{user}}</h10><br>
+          <h10>{{role}}</h10><br>
+          <h10>{{id}}</h10><br>
+          <h10>{{term}}</h10>
         </a>
         </div>
         {% load static %} 
-        <img src="{% static "assets/profile.jpg" %}" width = "60px" class="d-inline-block align-top rounded-circle border border-white" alt="" style="margin-top: 10%; margin-left: 5%; border-width: 2px !important">
         <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 22%;">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" style="margin-top: -1%;outline: blue">
-    {% block navbar %}
-    {% endblock %}
+    {% include 'mahasiswa/dropdown.tpl' %}
   </div>
       </li>
     </ul>
@@ -33,9 +32,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ">
-    <h2>Hello</h2>
-    {% block navbar2 %}
-    {% endblock %}
+    {% include 'mahasiswa/underNavbar.tpl' %}
     </ul>
   </div>
 </nav>

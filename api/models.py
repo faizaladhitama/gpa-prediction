@@ -17,23 +17,19 @@ class Mahasiswa(Civitas):
     npm = models.TextField(primary_key=True, max_length=100, blank=True)
     study_program = models.TextField(max_length=100, blank=True)
     educational_program = models.TextField(max_length=100, blank=True)
-
+    nip_pa = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
 class MahasiswaSIAK(Mahasiswa):
-
-	angkatan = models.IntegerField()
-	prodi = models.CharField(max_length = 20)
 	status_evaluasi = models.BooleanField()
 
 class MahasiswaSSO(Mahasiswa):
     ldap_cn = models.TextField(max_length=100, blank=True)
     kd_org = models.TextField(max_length=100, blank=True)
-    npm = models.TextField(max_length=100, blank=True)
     faculty = models.TextField(max_length=100, blank=True)
 
 class MataKuliah(models.Model):
 
-	kode_matkul = models.IntegerField(primary_key=True) # key
+	kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
 	nip_pengajar = models.IntegerField()
 	nama_matkul = models.CharField(max_length = 40)
 	prodi = models.CharField(max_length = 30)
@@ -45,8 +41,8 @@ class Dosen(models.Model):
 	is_pa = models.BooleanField()
 
 class AnggotaKelas(models.Model):
-	npm = models.IntegerField()
-	kode_matkul = models.IntegerField()
+	npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+	kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
 class PrasyaratMataKuliah:
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
