@@ -1,57 +1,94 @@
 from django.shortcuts import render
-from api.models import Civitas
-from api.models import Mahasiswa
+from .models import Mahasiswa, Civitas
 from django.contrib.auth.models import User
-
-# list of mobile User Agents
-mobile_uas = [
-    'w3c ','acs','alav','amoi','audi','avan','benq','bird','blanc',
-    'blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno',
-    'ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-',
-    'maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-',
-    'newt','noki','oper','palm','pana','pant','phil','play','port','prox',
-    'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
-    'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
-    'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp'
-    'wapr','webc','winw','xda','-xda'
-]
-mobile_ua_hints = ['SymbianOS','Opera Mini','iPhone']
-# Create your views here.
-
+from django.views.decorators.csrf import csrf_protect
+from .sso.csui_helper import get_access_token, verify_user, get_client_id, get_data_user
+from .api_dev import *
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.models import User
+import datetime
+import re
+import gtk
+"""
 def mobileBrowser(request):
-    mobile_browser = False
-    ua = request.META['HTTP_USER_AGENT'].lower()[0:4]
-    if(ua in mobile_uas):
-       mobile_browser = True
+    width = gtk.gdk.screen_width()
+    height = gtk.gdk.screen_height()
+
+    MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
+    if MOBILE_AGENT_RE.match(request.META['HTTP_USER_AGENT']):
+        return True
+    elif width <= 800 and height <= 600:
+    	return True
     else:
-       for hint in mobile_ua_hints:
-                if(request.META['HTTP_USER_AGENT'].find(hint)>0):
-                        mobile_browser = True
-    return mobile_browser
+    	return False
+"""
 
-def index(request):
-    # context : passing args to template
+def landing(request):
+
     context = {'team': 'usagi studio'}
-    return render(request, 'api/index.tpl', context)
-
+    return render(request, 'landing_page.tpl', context)
+    """
+    if 'user_login' in request.session.keys():
+        print("masuk")
+        cari_info_program(request.session['kode_identitas'],get_client_id(),request.session['access_token'])
+    return render(request, 'login.tpl', context)
+    """
 
 def login(request):
-    if request.user == None:
-        user = "None"
-    else:
-        user = request.user
-        user_django_id = list(User.objects.filter(username=user))[0].id
-        civitas = list(Civitas.objects.filter(user_id=user_django_id))[0]
-        mahasiswa = list(Mahasiswa.objects.filter(civitas_ptr_id=civitas.id))[0]
-        print(mahasiswa.peran_user)
-        context={'team':'usagi studio','user':user,'peran':mahasiswa.peran_user}
-        if mobileBrowser(request):
-            t = 'mahasiswa/index.tpl'
-        else:
-            t = 'mahasiswa/mobile/index.tpl'
-    return render(request, t ,context)
+    return render(request, 'api/login.tpl', {})
 
-def landing_page(request):
-    #context : passing args to template
-    context = {'team':'usagi studio'}
-    return render(request, 'landing_page.tpl', context)
+def auth_login(request):
+    print ("#==> auth_login ",request.method)
+
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        #call csui_helper
+        access_token = get_access_token(username, password)
+        print(access_token)
+        if access_token is not None:
+            ver_user = verify_user(access_token)
+            kode_identitas = ver_user['identity_number']
+            role = ver_user['role']
+
+            # set session
+            request.session['user_login'] = username
+            request.session['access_token'] = access_token
+            request.session['kode_identitas'] = kode_identitas
+            request.session['role'] = role
+            messages.success(request, "Anda berhasil login "+username)
+            return HttpResponseRedirect(reverse('api:index'))
+        else:
+            messages.error(request, "Username atau password salah")
+            return HttpResponseRedirect(reverse('api:landing'))
+
+def auth_logout(request):
+    print ("#==> auth logout")
+    request.session.flush() # menghapus semua session\
+    messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
+    return HttpResponseRedirect(reverse('api:landing'))
+
+def index(request):
+    now = datetime.datetime.now()
+    term = 0
+    if now.month <  8:
+        year = now.year - 1
+        if now.month > 2 and now.month < 7 :
+            term = 2
+        else :
+            term = 3
+    else:
+        year = now.year
+        term = 1
+    term_str = str(year)+"/"+str(year+1)+" - "+str(term)
+    get_data_user(request.session['access_token'],request.session['kode_identitas'])
+    context={'term':term_str,'team':'usagi studio','user':request.session['user_login'],'id':request.session['kode_identitas'],'role':request.session['role']}
+    """
+    if mobileBrowser(request):
+        t = 'mahasiswa/index.tpl'
+    else:
+        t = 'mahasiswa/mobile/index.tpl'
+    """
+    return render(request, 'mahasiswa/index.tpl' ,context)

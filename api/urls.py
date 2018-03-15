@@ -19,11 +19,13 @@ import django_cas_ng.views
 
 from . import views
 
+app_name = 'api'
 CAS_LOGIN = django_cas_ng.views.login
 CAS_LOGOUT = django_cas_ng.views.logout
 urlpatterns = [
-    url(r'^ll', views.login, name='index'),
-    url(r'^$', views.landing_page, name='landing_page'),
-	re_path(r'^login$', django_cas_ng.views.login,{"next_page":"","required":False},name='cas_ng_login'),
-	re_path(r'^logout$', django_cas_ng.views.logout,{"next_page":""}, name='cas_ng_logout')
+    url(r'^$', views.landing, name='landing'),
+    re_path(r'^login$', views.login, name='login'),
+    re_path(r'^auth-login$', views.auth_login, name='auth-login'),
+    re_path(r'^logout$', views.auth_logout, name='auth-logout'),
+    url(r'^index', views.index, name='index'),
 ]
