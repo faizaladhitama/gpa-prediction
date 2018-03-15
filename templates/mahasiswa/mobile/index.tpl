@@ -1,0 +1,2 @@
+{% extends 'mahasiswa/mahasiswaBase.tpl' %}
+
