@@ -25,7 +25,6 @@ def auth_login(request):
         password = request.POST['password']
         # call csui_helper
         access_token = get_access_token(username, password)
-        print(access_token)
         if access_token is not None:
             ver_user = verify_user(access_token)
             kode_identitas = ver_user['identity_number']
