@@ -20,8 +20,8 @@ def get_access_token(username, password):
         response = requests.request("POST", url, data=payload, headers=headers)
 
         return response.json()["access_token"]
-    except ConnectionError as error:
-        return error
+    except KeyError:
+        return None
     #except Exception as error:
     #   return error
 
