@@ -7,9 +7,9 @@ ignore=backend.py,migrations
 [MESSAGES CONTROL]
 
 disable=
-    duplicate-code,
     missing-docstring,
     protected-access,
+    no-else-return
 
 [VARIABLES]
 
