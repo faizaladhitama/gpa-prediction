@@ -14,7 +14,7 @@
         <a class="nav-link activate" href="#" style="color: white;">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
-	  <h10>{{role}}</h10>
+	        <h10>{{role}}</h10>
         </a>
         </div>
         {% load static %} 
