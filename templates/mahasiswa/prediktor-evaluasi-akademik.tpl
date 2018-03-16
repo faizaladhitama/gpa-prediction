@@ -6,7 +6,8 @@
 <div class="container-fluid">
 		<div class="row ">
 			<div class="col">
-				<button>lulus</button> 
+				{% load static %} 
+				<img src= "{% static "assets/greenButton.png" %}">
 			</div>
 		</div>
 
