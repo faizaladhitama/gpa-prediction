@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.APPLICATION'
+WSGI_APPLICATION = 'backend.wsgi.application'
 CAS_SERVER_URL = 'https://sso.ui.ac.id/cas2/:443'
 CAS_RETRY_LOGIN = False
 CAS_CREATE_USER = True
