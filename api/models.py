@@ -1,8 +1,8 @@
 import json
 import os
-from backend.settings import BASE_DIR
 from django.contrib.auth.models import User
 from django.db import models
+from backend.settings import BASE_DIR
 
 # Create your models here.
 class Civitas(models.Model):
@@ -20,7 +20,7 @@ class Mahasiswa(Civitas):
     nip_pa = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
 class MahasiswaSIAK(Mahasiswa):
-	status_evaluasi = models.BooleanField()
+    status_evaluasi = models.BooleanField()
 
 class MahasiswaSSO(Mahasiswa):
     ldap_cn = models.TextField(max_length=100, blank=True)
@@ -29,39 +29,39 @@ class MahasiswaSSO(Mahasiswa):
 
 class MataKuliah(models.Model):
 
-	kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
-	nip_pengajar = models.IntegerField()
-	nama_matkul = models.CharField(max_length = 40)
-	prodi = models.CharField(max_length = 30)
-	tingkatKerjasama = models.IntegerField(0)
+    kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
+    nip_pengajar = models.IntegerField()
+    nama_matkul = models.CharField(max_length=40)
+    prodi = models.CharField(max_length=30)
+    tingkatKerjasama = models.IntegerField(0)
 
 class Dosen(models.Model):
-	nip_pengajar = models.IntegerField(primary_key=True)
-	nama_dosen = models.CharField(max_length = 100)
-	is_pa = models.BooleanField()
+    nip_pengajar = models.IntegerField(primary_key=True)
+    nama_dosen = models.CharField(max_length=100)
+    is_pa = models.BooleanField()
 
 class AnggotaKelas(models.Model):
-	npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
-	kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
+    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+    kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
 class PrasyaratMataKuliah:
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
     kode_matkul_pras = models.CharField()
 
 class InformasiAkademis:
-	npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
-	ip = models.IntegerField()
-	sks_dipunya = models.IntegerField()
+    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+    ip = models.IntegerField()
+    sks_dipunya = models.IntegerField()
 
 class PrediksiMataKuliah:
-	npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
-	kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
+    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+    kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
 class RekamJejakNilaiMataKuliah:
-	npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
-	kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
-	nilai = models.IntegerField()
-	Term = models.IntegerField()
+    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+    kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
+    nilai = models.IntegerField()
+    Term = models.IntegerField()
 
 
 def create_user_profile(instance, created, **kwargs):

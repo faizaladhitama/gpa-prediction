@@ -7,7 +7,6 @@ from .api_dev import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth.models import User
 import datetime
 
 
@@ -18,7 +17,8 @@ def landing(request):
     """
     if 'user_login' in request.session.keys():
         print("masuk")
-        cari_info_program(request.session['kode_identitas'],get_client_id(),request.session['access_token'])
+        cari_info_program(request.session['kode_identitas'],get_client_id(),
+        request.session['access_token'])
     return render(request, 'login.tpl', context)
     """
 
@@ -26,7 +26,7 @@ def login(request):
     return render(request, 'api/login.tpl', {})
 
 def auth_login(request):
-    print ("#==> auth_login ",request.method)
+    print("#==> auth_login ", request.method)
 
     if request.method == "POST":
         username = request.POST['username']
@@ -38,7 +38,6 @@ def auth_login(request):
             ver_user = verify_user(access_token)
             kode_identitas = ver_user['identity_number']
             role = ver_user['role']
-
             # set session
             request.session['user_login'] = username
             request.session['access_token'] = access_token
@@ -51,7 +50,7 @@ def auth_login(request):
             return HttpResponseRedirect(reverse('api:landing'))
 
 def auth_logout(request):
-    print ("#==> auth logout")
+    print("#==> auth logout")
     request.session.flush() # menghapus semua session\
     messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
     return HttpResponseRedirect(reverse('api:landing'))
@@ -59,16 +58,19 @@ def auth_logout(request):
 def index(request):
     now = datetime.datetime.now()
     term = 0
-    if now.month <  8:
+    if now.month < 8:
         year = now.year - 1
-        if now.month > 2 and now.month < 7 :
+        if now.month > 2 and now.month < 7:
             term = 2
-        else :
+        else:
             term = 3
     else:
         year = now.year
         term = 1
     term_str = str(year)+"/"+str(year+1)+" - "+str(term)
-    get_data_user(request.session['access_token'],request.session['kode_identitas'])
-    context={'term':term_str,'team':'usagi studio','user':request.session['user_login'],'id':request.session['kode_identitas'],'role':request.session['role']}
-    return render(request, 'mahasiswa/index.tpl',context)
+    get_data_user(request.session['access_token'], request.session['kode_identitas'])
+    context={'term':term_str, 'team':'usagi studio',
+             'user':request.session['user_login'],
+             'id':request.session['kode_identitas'], 
+             'role':request.session['role']}
+    return render(request, 'mahasiswa/index.tpl', context)
