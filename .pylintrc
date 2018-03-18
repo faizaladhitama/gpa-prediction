@@ -2,14 +2,14 @@
 
 # Add files or directories to the blacklist. They should be base names, not
 # paths.
-ignore=backend.py,migrations
+ignore=backend.py,migrations,wsgi.py
 
 [MESSAGES CONTROL]
 
 disable=
-    duplicate-code,
     missing-docstring,
     protected-access,
+    no-else-return
 
 [VARIABLES]
 
