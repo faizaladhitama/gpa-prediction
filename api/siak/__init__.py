@@ -15,3 +15,11 @@ def get_academic_record(npm, username, password):
 def get_access_token(username, password):
     generator = AuthGenerator()
     return generator.get_access_token(username, password)
+
+def verify_user(access_token):
+    generator = AuthGenerator()
+    return generator.verify_user(access_token)
+
+def get_data_user(access_token, npm):
+    generator = AuthGenerator()
+    return generator.get_data_user(access_token, npm)
