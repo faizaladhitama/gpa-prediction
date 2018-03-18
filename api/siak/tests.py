@@ -1,7 +1,7 @@
 from unittest.mock import Mock, patch
 from requests.models import Response
 from django.test import TestCase
-from api.siak import get_academic_record
+from api.siak import get_academic_record, get_access_token
 from api.siak.utils import AuthGenerator, Requester
 
 def create_mocked_response(status_code, data):
@@ -134,13 +134,15 @@ class SiakTest(TestCase):
 
     def test_get_record_on_valid(self):
         self.mocked_generator.return_value = None
-        self.mocked_verify.return_value = {"username":"gibran.muhammad"}
+        self.mocked_verify.return_value = {"username":"kafuu.chino"}
         self.mocked_requester.return_value = "mocked"
-        self.mocked_get_id = 1
-        self.mocked_get_token = 1
+        self.mocked_get_id.return_value = 1
+        self.mocked_get_token.return_value = 1
         mock_npm = "mocked"
+        mock_username = "kafuu.chino"
+        mock_password = "1"
 
-        resp = get_academic_record(mock_npm)
+        resp = get_academic_record(mock_npm, mock_username, mock_password)
 
         self.assertEqual("mocked", resp)
 
@@ -148,11 +150,23 @@ class SiakTest(TestCase):
         self.mocked_generator.return_value = None
         self.mocked_verify.return_value = {"username":"mocked"}
         self.mocked_requester.return_value = "mocked"
-        self.mocked_get_id = 1
-        self.mocked_get_token = 1
+        self.mocked_get_id.return_value = 1
+        self.mocked_get_token.return_value = 1
         mock_npm = "mocked"
+        mock_username = "kafuu.chino"
+        mock_password = "1"
 
         with self.assertRaises(Exception) as context:
-            get_academic_record(mock_npm)
+            get_academic_record(mock_npm, mock_username, mock_password)
 
         self.assertEqual("Failed to verificate token", str(context.exception))
+
+    def test_get_token_on_valid(self):
+        self.mocked_generator.return_value = None
+        self.mocked_get_token.return_value = 1
+
+        mock_username = "kafuu.chino"
+        mock_password = "1"
+
+        resp = get_access_token(mock_username, mock_password)
+        self.assertEqual(1, resp)
