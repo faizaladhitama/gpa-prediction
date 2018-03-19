@@ -7,6 +7,6 @@ from api.db.utils import getSiakData, credentialGenerator
 
 class UtilsTest(TestCase):
 	def test_credentialGenerator(self):
-		pass
+		assert(credentialGenerator() == AuthGenerator.get_access_token())
 	def test_getSiakData(self):
-		pass
+		assert(getSiakData() != null)
