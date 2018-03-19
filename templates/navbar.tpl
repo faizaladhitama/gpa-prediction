@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: black;">
-  <a class="navbar-brand" href="#" style="color: white">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
+  <a class="navbar-brand" href="#">
   {% load static %} 
   <img src="{% static "assets/logo_horizontal.png" %}" width="80%" class="d-inline-block align-top" alt="">
   </a>

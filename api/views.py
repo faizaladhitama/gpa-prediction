@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
 from .sso.csui_helper import get_access_token, verify_user, get_data_user
 
 
