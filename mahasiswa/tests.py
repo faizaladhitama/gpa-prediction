@@ -25,7 +25,6 @@ class ElementTest(TestCase):
 
     def test_search_bar(self):
         pass
-
-    def 
     
-            
+    def tearDown(self):
+        pass      
