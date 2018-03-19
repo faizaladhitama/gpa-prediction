@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-
 class URLTest(TestCase):
     def test_homepage(self):
         response = self.client.get('/mahasiswa', follow=True)
