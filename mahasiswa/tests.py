@@ -23,8 +23,11 @@ class ElementTest(TestCase):
         resp = self.client.get('/mahasiswa')
         self.assertNotContains(response=resp, text="<h10>", status_code=301)
 
-    def test_search_bar(self):
-        pass
+    def test_page_title(self):
+        driver = self.driver()
+        driver.get('http://localhost:8000')
+        self.assertIn('Homepage', driver.title)
+        self.fail('Finish the test!')
     
     def tearDown(self):
         self.driver.close()      
