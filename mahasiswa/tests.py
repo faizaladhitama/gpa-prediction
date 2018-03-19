@@ -30,7 +30,7 @@ class ElementTest(TestCase):
         self.assertIn('Homepage', driver.title)
         self.fail('Finish the test!')
 
-    def test_klik_tab_prediksi_kelulusan_matkul(self):
+    def test_konten_tab_prediksi_kelulusan_matkul(self):
         pass    
 
     def test_search_bar_blank_search(self):
