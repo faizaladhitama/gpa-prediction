@@ -27,7 +27,7 @@
 						<label for="password">Password </label>
 						<input type="password" name="password" id="password" class="form-group" onfocus="deleteMessage()">
 					</div>
-				<input type="submit" class="btn btn-outline-warning" id="login-button" value="Log in"></input>
+				<input type="submit" class="btn btn-outline-warning" id="login-button" value="Log in">
 				</form>
 
 			</div>
