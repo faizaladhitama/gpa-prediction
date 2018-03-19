@@ -1,5 +1,5 @@
 from django.test import TestCase
-from sso.csui_helper import get_access_token, verify_user, get_data_user, get_client_id
+
 
 class URLTest(TestCase):
     def test_login(self):
