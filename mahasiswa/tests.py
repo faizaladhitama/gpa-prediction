@@ -1,5 +1,6 @@
 from django.test import TestCase
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 class URLTest(TestCase):
     def test_homepage(self):
@@ -29,8 +30,10 @@ class ElementTest(TestCase):
         self.assertIn('Homepage', driver.title)
         self.fail('Finish the test!')
 
-    def test_search_bar(self):
-        pass    
+    def test_search_bar_blank_search(self):
+        element = driver.find_element_by_id('search-bar')
+        element.send_keys('', Keys.RETURN)
+        assert "No results found." not in driver.page_source
     
     def tearDown(self):
         self.driver.close()      
