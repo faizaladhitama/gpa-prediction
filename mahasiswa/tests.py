@@ -27,4 +27,4 @@ class ElementTest(TestCase):
         pass
     
     def tearDown(self):
-        pass      
+        self.driver.close()      
