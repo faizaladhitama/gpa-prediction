@@ -28,6 +28,9 @@ class ElementTest(TestCase):
         driver.get('http://localhost:8000')
         self.assertIn('Homepage', driver.title)
         self.fail('Finish the test!')
+
+    def test_search_bar(self):
+        pass    
     
     def tearDown(self):
         self.driver.close()      
