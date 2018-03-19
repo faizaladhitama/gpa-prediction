@@ -31,7 +31,9 @@ class ElementTest(TestCase):
         self.fail('Finish the test!')
 
     def test_konten_tab_prediksi_kelulusan_matkul(self):
-        pass    
+        element_container = driver.find_element_by_id('container-prediksi-kelulusan-matkul')
+        element_search = driver.find_element_by_id('search-bar')
+        self.assertIn(element_search, element_container)    
 
     def test_search_bar_blank_search(self):
         element = driver.find_element_by_id('search-bar')
