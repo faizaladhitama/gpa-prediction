@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+import sys
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -114,6 +114,15 @@ DATABASES = {
         'NAME': 'db.sqlite3',
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'test', # in memory
+        'TEST_NAME': 'test_db', # in memory
+    }
+
+    TEMPLATE_DEBUG = False
 
 # If Using Heroku Environemnt, then Use Database Setting on Heroku
 if PRODUCTION:
