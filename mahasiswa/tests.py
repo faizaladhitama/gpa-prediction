@@ -14,7 +14,7 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/profile', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_ prediktor(self):
+    def test_ prediktor_evaluasi(self):
         response = self.client.get('/prediktor_evaluasi', follow=True)
         self.assertEqual(response.status_code, 200)
 
