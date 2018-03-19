@@ -16,6 +16,8 @@ class URLTest(TestCase):
 
 
 class ElementTest(TestCase):
+    def setUp(self):
+        pass
 
     def test_homepage(self):
         resp = self.client.get('/mahasiswa')
@@ -24,5 +26,6 @@ class ElementTest(TestCase):
     def test_search_bar(self):
         pass
 
+    def 
     
             
