@@ -5,8 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .sso.csui_helper import get_access_token, verify_user, get_data_user
-
+from .siak import get_access_token, verify_user, get_data_user
 
 def landing(request):
     context = {'team': 'usagi studio'}
@@ -48,7 +47,6 @@ def auth_logout(request):
     request.session.flush()  # menghapus semua session\
     messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
     return HttpResponseRedirect(reverse('api:landing'))
-
 
 def index(request):
     now = datetime.datetime.now()
