@@ -17,7 +17,7 @@ class URLTest(TestCase):
 
 class ElementTest(TestCase):
     def setUp(self):
-        pass
+        self.driver = webdriver.Chrome()
 
     def test_homepage(self):
         resp = self.client.get('/mahasiswa')
