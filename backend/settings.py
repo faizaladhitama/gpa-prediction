@@ -171,4 +171,4 @@ STATICFILES_DIRS = (
 if platform.system() == "Windows":
     CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
 else:
-    CHROME_PATH = os.path.join(BASE_DIR, "chromedriver")
+    CHROME_PATH = "./chromedriver"
