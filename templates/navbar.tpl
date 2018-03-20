@@ -14,11 +14,14 @@
         <a class="nav-link activate" href="#" style="color: white;">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
-	        <h10>{{role}}</h10>
+          <h10>{{role}}</h10>
+          <h10>{% for message in messages %}
+				<h3 class="messages">{{message}}</h3>
+				{% endfor %}</h10>
         </a>
         </div>
         {% load static %} 
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 13%;">
+        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 13%;" id="navbar-dropdown">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" style="margin-top: -1%;outline: blue">

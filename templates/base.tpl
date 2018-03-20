@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% load static %}
-<script type="text/javascript" src="{% static " js/script.js" %}"></script>
+<script type="text/javascript" src="{% static "js/script.js" %}"></script>
 
 {% block customized_js%}
 {% endblock %}
