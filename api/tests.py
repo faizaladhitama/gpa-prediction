@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-
 class URLTest(TestCase):
     def test_login(self):
         response = self.client.get('/login', follow=True)
@@ -24,7 +23,12 @@ class URLTest(TestCase):
 
 
 class UserTest(TestCase):
+    def test_auth_login_positive(self):
+        response = self.client.post('/auth-login',
+                                    {'username': 'admin', 'password': 'admin'}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
     def test_auth_login_negative(self):
         response = self.client.post('/auth-login',
-                                    {'username': 'djono', 'password': 'hengki'}, follow=True)
+                                    {'username': 'molo', 'password': 'mola'}, follow=True)
         self.assertEqual(response.status_code, 200)
