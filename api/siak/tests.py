@@ -34,10 +34,8 @@ class RequesterTest(TestCase):
         mock_access_token = "mocked"
         mock_client_id = "mocked"
 
-        with self.assertRaises(Exception) as context:
-            Requester.request_academic_data(mock_npm, mock_access_token, mock_client_id)
-
-        self.assertTrue("mocked" in str(context.exception))
+        resp = Requester.request_academic_data(mock_npm, mock_access_token, mock_client_id)
+        self.assertFalse(resp)
 
 class UtilsTest(TestCase):
     def setUp(self):
@@ -69,10 +67,9 @@ class UtilsTest(TestCase):
         mock_uname = "mocked"
         mock_pswd = "mocked"
 
-        with self.assertRaises(Exception) as context:
-            self.generator.get_access_token(mock_uname, mock_pswd)
+        resp = self.generator.get_access_token(mock_uname, mock_pswd)
 
-        self.assertTrue('mocked' in str(context.exception))
+        self.assertFalse(resp)
 
     def test_verify_user_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
@@ -87,10 +84,9 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
 
-        with self.assertRaises(Exception) as context:
-            self.generator.verify_user(mock_access_token)
+        resp = self.generator.verify_user(mock_access_token)
 
-        self.assertTrue("mocked" in str(context.exception))
+        self.assertFalse(resp)
 
     def test_get_data_user_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
@@ -107,10 +103,9 @@ class UtilsTest(TestCase):
         mock_access_token = "mocked"
         mock_npm = "mocked"
 
-        with self.assertRaises(Exception) as context:
-            self.generator.get_data_user(mock_access_token, mock_npm)
+        resp = self.generator.get_data_user(mock_access_token, mock_npm)
 
-        self.assertTrue('mocked' in str(context.exception))
+        self.assertFalse(resp)
 
 class SiakTest(TestCase):
     def setUp(self):
@@ -156,10 +151,9 @@ class SiakTest(TestCase):
         mock_username = "kafuu.chino"
         mock_password = "1"
 
-        with self.assertRaises(Exception) as context:
-            get_academic_record(mock_npm, mock_username, mock_password)
+        resp = get_academic_record(mock_npm, mock_username, mock_password)
 
-        self.assertEqual("Failed to verificate token", str(context.exception))
+        self.assertEqual(False, resp)
 
     def test_get_token_on_valid(self):
         self.mocked_generator.return_value = None

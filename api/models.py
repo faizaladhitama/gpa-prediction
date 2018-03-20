@@ -1,3 +1,4 @@
+"""
 import json
 import os
 from django.contrib.auth.models import User
@@ -59,3 +60,4 @@ def create_user_profile(instance, created, **kwargs):
                 print("create profile")
                 print(attributes)
                 Staff.objects.create(user=instance, nip=nip)
+"""
