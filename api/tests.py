@@ -11,6 +11,11 @@ class SeleniumTestCase(LiveServerTestCase):
     @classmethod
     def setUp(cls):
         chrome_options = Options()
+        chrome_options.add_argument('--dns-prefetch-disable')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument("window-size=1200,640")
+        chrome_options.add_argument('disable-gpu')
         print(settings.CHROME_PATH)
         cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
         super(SeleniumTestCase, cls).setUp(cls)
@@ -60,11 +65,11 @@ class LandingPageTest(SeleniumTestCase):
         self.browser.find_element_by_css_selector('#username').send_keys('admin')
         self.browser.find_element_by_css_selector('#password').send_keys('admin')
         self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        print(self.browser.find_element_by_css_selector('#navbar-dropdown'))
         self.browser.find_element_by_css_selector('#navbar-dropdown').click()
         self.browser.find_element_by_css_selector('#logout-button').click()
         self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
                       self.browser.page_source)
-
 
 class URLTest(TestCase):
     def test_login(self):
