@@ -24,5 +24,5 @@ urlpatterns = [
     re_path(r'^login$', views.login, name='login'),
     re_path(r'^auth-login$', views.auth_login, name='auth-login'),
     re_path(r'^logout$', views.auth_logout, name='auth-logout'),
-    url(r'^index', views.index, name='index'),
+    url(r'^index', views.index, name='index')
 ]

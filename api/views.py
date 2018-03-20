@@ -4,8 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .sso.csui_helper import get_access_token, verify_user, get_data_user
-
+from .siak import get_access_token, verify_user, get_data_user
 
 def landing(request):
     context = {'team': 'usagi studio'}
@@ -24,7 +23,6 @@ def auth_login(request):
         password = request.POST['password']
         # call csui_helper
         access_token = get_access_token(username, password)
-        print(access_token)
         if access_token is not None:
             ver_user = verify_user(access_token)
             kode_identitas = ver_user['identity_number']
@@ -48,7 +46,6 @@ def auth_logout(request):
     request.session.flush()  # menghapus semua session\
     messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
     return HttpResponseRedirect(reverse('api:landing'))
-
 
 def index(request):
     now = datetime.datetime.now()
