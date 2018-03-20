@@ -118,10 +118,9 @@ DATABASES = {
 if 'test' in sys.argv:
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'test', # in memory
-        'TEST_NAME': 'test_db', # in memory
+        'NAME': 'test.sqlite3',
+        'TEST_NAME': 'test_db.sqlite3',
     }
-
     TEMPLATE_DEBUG = False
 
 # If Using Heroku Environemnt, then Use Database Setting on Heroku
