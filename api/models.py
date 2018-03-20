@@ -38,24 +38,24 @@ class AnggotaKelas(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
-class PrasyaratMataKuliah:
+class PrasyaratMataKuliah(models.Model):
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
-    kode_matkul_pras = models.CharField()
+    kode_matkul_pras = models.CharField(max_length=100)
 
-class InformasiAkademis:
+class InformasiAkademis(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
     ip = models.IntegerField()
     sks_dipunya = models.IntegerField()
 
-class PrediksiMataKuliah:
+class PrediksiMataKuliah(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
 
-class RekamJejakNilaiMataKuliah:
+class RekamJejakNilaiMataKuliah(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
-    nilai = models.IntegerField()
-    Term = models.IntegerField()
+    nilai = models.CharField(max_length=2)
+    term = models.IntegerField()
 
 
 def create_user_profile(instance, created, **kwargs):

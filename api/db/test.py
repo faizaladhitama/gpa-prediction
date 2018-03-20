@@ -8,42 +8,54 @@ from api.db.utils import *
 class UtilsTest(TestCase):
     
     def setUp(self):
-        mocked_get_siak_data = patch('api.db.getSiakData') 
-        mocked_parse_siak_data = patch('api.db.parseSiakData')
+        self.mocked_get_siak_data = patch('api.db.utils.getSiakData')
+        self.mocked_get_academic_record = patch('api.siak.get_academic_record') 
+        self.mocked_parse_siak_data = patch('api.db.utils.parseSiakData')
 
+        self.mocked_get_academic_record.start()
         self.mocked_get_siak_data.start()
         self.mocked_parse_siak_data.start()
 
-        self.addCleanup(mocked_get_siak_data.stop)
-        self.addCleanup(mocked_parse_siak_data.stop)
+        self.addCleanup(self.mocked_get_siak_data.stop)
+        self.addCleanup(self.mocked_parse_siak_data.stop)
+        self.addCleanup(self.mocked_get_academic_record.stop)
 
-    def test_getSiakData(self):
-        self.mocked_generator.return_value = None
-        self.mocked_verify.return_value = {"username":"sonoko.nogi"}
-        self.mocked_requester.return_value = "mocked"
-        self.mocked_get_id.return_value = 1
-        self.mocked_get_token.return_value = 1
+    @patch('api.siak.get_academic_record')    
+    def test_getSiakData(self, *args):
+        self.mocked_get_academic_record.return_value = "mocked-record"
         mock_npm = "mocked"
         mock_username = "sonoko.nogi"
         mock_password = "12345"
 
-        resp = getSiakData(mock_npm, mock_username, mock_password)
+        with self.assertRaises(Exception) as context:
+            resp = getSiakData(mock_npm, mock_username, mock_password)
 
-        self.assertEqual("mocked", resp)
+        expected = "Wrong username or password, input: sonoko.nogi, 12345"
+        self.assertEqual(expected, str(context.exception))
     
     def test_ParseSiak(self):
+        self.mocked_get_siak_data.return_value = "mocked"
         mock_npm = "mocked"
         mock_username = "sonoko.nogi"
         mock_password = "12345"
-        hasil = parseSiakDataToDb(mock_npm, mock_username, mock_password)
-        self.assertEqual("ABC",hasil)
+        hasil = parseSiakData(mock_npm, mock_username, mock_password)
+        return hasil != None 
 
     def test_insertToDbRekamJejakAllNull(self):
         mock_npm = "11111111111"
         mock_kode_matkul = "123"
         mock_nilai = "A"
-        #kesavedong :()
-        return True
+        insertToDbRekamJejak(npm=mock_npm, kode_matkul=mock_kode_matkul, nilai=mock_nilai)
+        flag1 = Mahasiswa.objects.filter(npm=mock_npm).count() > 0
+        flag2 =  MataKuliah.objects.filter(kode_matkul=mock_kode_matkul).count() > 0
+        flag3 =  RekamJejakNilaiMataKuliah.objects.filter(npm=mock_npm, 
+                                                          kode_matkul=mock_kode_matkul).count() > 0
+        return flag1 and flag2 and flag3
+
+    def test_createMockDataMahasiswa(self):
+        return createMockDataMahasiswa()
 
     def test_createMockDataDosen(self):
-        return True
+        createMockDataDosen(5)
+        flag = Dosen.objects.filter(nama="nama5").count() > 0
+        return flag
