@@ -11,6 +11,10 @@ class SeleniumTestCase(LiveServerTestCase):
     @classmethod
     def setUp(cls):
         chrome_options = Options()
+        chrome_options.add_argument('--dns-prefetch-disable')
+        chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--headless')
+        chrome_options.add_argument('disable-gpu')
         print(settings.CHROME_PATH)
         cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
         super(SeleniumTestCase, cls).setUp(cls)
