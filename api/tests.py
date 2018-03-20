@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.test import Client
 from django.test import LiveServerTestCase
 from django.test import TestCase
@@ -10,7 +11,8 @@ class SeleniumTestCase(LiveServerTestCase):
     @classmethod
     def setUp(cls):
         chrome_options = Options()
-        cls.browser = webdriver.Chrome('./chromedriver.exe', chrome_options=chrome_options)
+        print(settings.CHROME_PATH)
+        cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
         super(SeleniumTestCase, cls).setUp(cls)
 
     @classmethod
