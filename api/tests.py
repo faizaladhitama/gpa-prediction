@@ -57,23 +57,23 @@ class LandingPageTest(SeleniumTestCase):
             pass
         
     def test_user_login_valid(self):
-        #self.browser.get('http://127.0.0.1:8000/')
-        # self.browser.find_element_by_id('username').send_keys('newuser')
-        # self.browser.find_element_by_id('password').send_keys('NiGiw3Ch')
-        # self.browser.find_element_by_id('login-button').send_keys(Keys.RETURN)
-        # # self.assertEqual(self.user.username, self.browser.find_element_by_id("username-text").text)
-        # self.assertIn('Prediksi Kinerja Mahasiswa', self.browser.title)
-        # assert 'Anda berhasil login' in self.browser.page_source
+        self.browser.get('http://127.0.0.1:8000/')
+        self.browser.find_element_by_id('username').send_keys('validuser')
+        self.browser.find_element_by_id('password').send_keys('NiGiw3Ch')
+        self.browser.find_element_by_id('login-button').send_keys(Keys.RETURN)
+        # self.assertEqual(self.user.username, self.browser.find_element_by_id("username-text").text)
+        self.assertIn('Prediksi Kinerja Mahasiswa', self.browser.title)
+        assert 'Anda berhasil login' in self.browser.page_source
         pass
 
     def test_user_login_invalid(self):
-        #self.browser.get('http://127.0.0.1:8000/')
-        # self.browser.find_element_by_id('username').send_keys('newuser')
-        # self.browser.find_element_by_id('password').send_keys('NiGiw3Ch')
-        # self.browser.find_element_by_id('login-button').send_keys(Keys.RETURN)
-        # # self.assertEqual(self.user.username, self.browser.find_element_by_id("username-text").text)
-        # self.assertIn('Prediksi Kinerja Mahasiswa', self.browser.title)
-        # assert 'Username atau password salah' in self.browser.page_source
+        self.browser.get('http://127.0.0.1:8000/')
+        self.browser.find_element_by_id('username').send_keys('newuser')
+        self.browser.find_element_by_id('password').send_keys('NiGiw3Ch')
+        self.browser.find_element_by_id('login-button').send_keys(Keys.RETURN)
+        # self.assertEqual(self.user.username, self.browser.find_element_by_id("username-text").text)
+        self.assertIn('Prediksi Kinerja Mahasiswa', self.browser.title)
+        assert 'Username atau password salah' in self.browser.page_source
         pass
 
 
