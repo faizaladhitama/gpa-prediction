@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import platform
 import sys
+
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -165,3 +167,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+if platform.system() == "Windows":
+    CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
+else:
+    CHROME_PATH = os.path.join(BASE_DIR, "chromedriver")
