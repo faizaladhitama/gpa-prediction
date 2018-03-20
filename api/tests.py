@@ -98,3 +98,4 @@ class UserTest(TestCase):
         response = self.client.post('/auth-login',
                                     {'username': 'molo', 'password': 'mola'}, follow=True)
         self.assertEqual(response.status_code, 200)
+        

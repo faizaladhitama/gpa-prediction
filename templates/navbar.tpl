@@ -10,7 +10,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
 
-      <div style="text-align: right;display: inline-block; margin-left: -15%;">
+      <span id="identity">
         <a class="nav-link activate" href="#" style="color: white;">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
@@ -19,7 +19,7 @@
 				<h3 class="messages">{{message}}</h3>
 				{% endfor %}</h10>
         </a>
-        </div>
+        </span>
         {% load static %} 
         <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 13%;" id="navbar-dropdown">
     <span class="sr-only">Toggle Dropdown</span>
@@ -32,8 +32,12 @@
   </div>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto ">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#underNavbar" aria-controls="underNavbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse  w-100 order-3 dual-collapse2 " id="underNavbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
     {% include 'mahasiswa/underNavbar.tpl' %}
     </ul>
   </div>
