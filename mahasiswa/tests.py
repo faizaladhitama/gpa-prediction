@@ -17,8 +17,7 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/prediktor_evaluasi', follow=True)
         self.assertEqual(response.status_code, 404)
 
-
 class ElementTest(TestCase):
     def test_homepage(self):
         resp = self.client.get('/mahasiswa')
-        self.assertNotContains(response=resp, text="<h10>", status_code=301)
+        self.assertNotContains(response=resp, text="<h10></h10>", status_code=301)

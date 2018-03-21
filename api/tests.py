@@ -1,26 +1,29 @@
-from django.test import TestCase
-from django.test import LiveServerTestCase
-from selenium import webdriver
+from django.conf import settings
 from django.test import Client
-from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
+from django.test import TestCase
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import NoSuchElementException
-# from .siak import get_access_token, verify_user
-# from unittest.mock import Mock, patch
+from selenium.webdriver.common.keys import Keys
 
 
 class SeleniumTestCase(LiveServerTestCase):
-
     @classmethod
-    def setUp(self):
+    def setUp(cls):
         chrome_options = Options()
-        self.browser = webdriver.Chrome('./chromedriver.exe', chrome_options=chrome_options)
-        super(SeleniumTestCase, self).setUp(self)
+        chrome_options.add_argument('--dns-prefetch-disable')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument("window-size=1200,640")
+        chrome_options.add_argument('disable-gpu')
+        print(settings.CHROME_PATH)
+        cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
+        super(SeleniumTestCase, cls).setUp(cls)
 
     @classmethod
-    def tearDown(self):
-        self.browser.quit()
-        super(SeleniumTestCase, self).tearDown(self)
+    def tearDown(cls):
+        cls.browser.quit()
+        super(SeleniumTestCase, cls).tearDown(cls)
 
 
 class LandingPageTest(SeleniumTestCase):
@@ -29,53 +32,44 @@ class LandingPageTest(SeleniumTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_login(self):
-        # Opening the link we want to test
         self.browser.get('http://127.0.0.1:8000/')
-        # find the form element & fill the form data
-        # mocked_get_token = patch('siak.utils.get_access_token')
-        # mocked_get_token.return_value = True
-        # mocked_verify_user = patch('siak.utils.verify_user')
-        # mocked_verify_user.return_value = True
-        try:
-            elementBody = self.browser.find_elements_by_css_selector('body')
-            print (elementBody)
-            elementLogo = self.browser.find_elements_by_css_selector('#logo')
-            print (elementLogo)
-            elementForm = self.browser.find_elements_by_css_selector('login_form')
-            print (elementForm)
-            elementUsername = self.browser.find_element_by_id('username')
-            print(elementUsername)
-            elementPassword = self.browser.find_element_by_id('password')
-            print(elementPassword)
-            elementLoginButton = self.browser.find_element_by_id('login-button')
-            print( elementLoginButton)
-        except NoSuchElementException:
-            print('No element found')
-        else:
-            pass
-        finally:
-            pass
-        
+        element_body = self.browser.find_elements_by_css_selector('body')
+        print("body ", element_body)
+        element_logo = self.browser.find_elements_by_css_selector('#logo')
+        print("logo ", element_logo)
+        element_form = self.browser.find_elements_by_css_selector('.login_form')
+        print("form ", element_form)
+        element_username = self.browser.find_elements_by_css_selector('#username')
+        print("username ", element_username)
+        element_password = self.browser.find_elements_by_css_selector('#password')
+        print("password ", element_password)
+        element_login_button = self.browser.find_elements_by_css_selector('#login-button')
+        print("login button ", element_login_button)
+
     def test_user_login_valid(self):
-        #self.browser.get('http://127.0.0.1:8000/')
-        # self.browser.find_element_by_id('username').send_keys('newuser')
-        # self.browser.find_element_by_id('password').send_keys('NiGiw3Ch')
-        # self.browser.find_element_by_id('login-button').send_keys(Keys.RETURN)
-        # # self.assertEqual(self.user.username, self.browser.find_element_by_id("username-text").text)
-        # self.assertIn('Prediksi Kinerja Mahasiswa', self.browser.title)
-        # assert 'Anda berhasil login' in self.browser.page_source
-        pass
+        self.browser.get('http://127.0.0.1:8000/')
+        self.browser.find_element_by_css_selector('#username').send_keys('admin')
+        self.browser.find_element_by_css_selector('#password').send_keys('admin')
+        self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        self.assertIn("Anda berhasil login", self.browser.page_source)
 
     def test_user_login_invalid(self):
-        #self.browser.get('http://127.0.0.1:8000/')
-        # self.browser.find_element_by_id('username').send_keys('newuser')
-        # self.browser.find_element_by_id('password').send_keys('NiGiw3Ch')
-        # self.browser.find_element_by_id('login-button').send_keys(Keys.RETURN)
-        # # self.assertEqual(self.user.username, self.browser.find_element_by_id("username-text").text)
-        # self.assertIn('Prediksi Kinerja Mahasiswa', self.browser.title)
-        # assert 'Username atau password salah' in self.browser.page_source
-        pass
+        self.browser.get('http://127.0.0.1:8000/')
+        self.browser.find_element_by_css_selector('#username').send_keys('mola')
+        self.browser.find_element_by_css_selector('#password').send_keys('molo')
+        self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        self.assertIn("Username atau password salah", self.browser.page_source)
 
+    def test_user_logout(self):
+        self.browser.get('http://127.0.0.1:8000/')
+        self.browser.find_element_by_css_selector('#username').send_keys('admin')
+        self.browser.find_element_by_css_selector('#password').send_keys('admin')
+        self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        print(self.browser.find_element_by_css_selector('#navbar-dropdown'))
+        self.browser.find_element_by_css_selector('#navbar-dropdown').click()
+        self.browser.find_element_by_css_selector('#logout-button').click()
+        self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
+                      self.browser.page_source)
 
 class URLTest(TestCase):
     def test_login(self):
@@ -100,7 +94,13 @@ class URLTest(TestCase):
 
 
 class UserTest(TestCase):
+    def test_auth_login_positive(self):
+        response = self.client.post('/auth-login',
+                                    {'username': 'admin', 'password': 'admin'}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
     def test_auth_login_negative(self):
         response = self.client.post('/auth-login',
-                                    {'username': 'djono', 'password': 'hengki'}, follow=True)
+                                    {'username': 'molo', 'password': 'mola'}, follow=True)
         self.assertEqual(response.status_code, 200)
+        

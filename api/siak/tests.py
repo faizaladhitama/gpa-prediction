@@ -195,7 +195,7 @@ class SiakTest(TestCase):
         resp = get_access_token(self.mock_username, self.mock_password)
         self.assertEqual("mocked error", resp)
 
-    def est_get_record_on_conn_error(self):
+    def test_get_token_on_conn_error(self):
         self.mocked_generator.return_value = None
         self.mocked_get_token.side_effect = requests.ConnectionError("connection refused")
 

@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
 from .siak import get_access_token, verify_user, get_data_user
 
 
@@ -49,18 +48,16 @@ def auth_logout(request):
 
 
 def index(request):
+    now = datetime.datetime.now()
+    year = now.year
+    term = 1
+    if now.month < 8:
+        year = now.year - 1
+        term = 3
+        if now.month > 2 and now.month < 7:
+            term = 2
+    term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     try:
-        now = datetime.datetime.now()
-        if now.month < 8:
-            year = now.year - 1
-            if now.month > 2 and now.month < 7:
-                term = 2
-            else:
-                term = 3
-        else:
-            year = now.year
-            term = 1
-        term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
         get_data_user(request.session['access_token'], request.session['kode_identitas'])
         context = {
             'term': term_str,
