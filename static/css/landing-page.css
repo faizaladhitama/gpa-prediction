@@ -1,5 +1,5 @@
 // Extra small devices (portrait phones, less than 576px)
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 600) {
 	#logo {
 		margin-top: 10%;
 		display: block;
