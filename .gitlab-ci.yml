@@ -60,6 +60,7 @@ DeploymentStaging:
   script:
     - dpl --provider=heroku --app=prima-sit-uat --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+    - heroku run --app prima-sit-uat makemigrations
     - heroku run --app prima-sit-uat migrate
   environment:
     name: staging
@@ -77,6 +78,7 @@ DeploymentCobacoba:
   script:
     - dpl --provider=heroku --app=prima-cobacoba --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+    - heroku run --app prima-cobacoba makemigrations
     - heroku run --app prima-cobacoba migrate
   environment:
     name: coba-coba
