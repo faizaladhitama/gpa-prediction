@@ -17,5 +17,6 @@ class URLTest(TestCase):
 class ElementTest(TestCase):
     def function(self):
         resp = self.client.get('/mahasiswa')
+        resp = resp
         #with self.assertHTML(resp) as html:
         #     self.assertNotEqual(html.find('body/h10').text, '') , unknown error
