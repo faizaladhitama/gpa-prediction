@@ -44,7 +44,7 @@ DeploymentProduction:
   script:
     - dpl --provider=heroku --app=prima-pplc7 --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - heroku run --app prima-pplc7 migrate
+    - heroku bash run --app prima-pplc7 ./deployment.sh
   environment:
     name: production
     url: https://prima-pplc7.herokuapp.com/
@@ -60,8 +60,7 @@ DeploymentStaging:
   script:
     - dpl --provider=heroku --app=prima-sit-uat --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - heroku run --app prima-sit-uat makemigrations
-    - heroku run --app prima-sit-uat migrate
+    - heroku bash run --app prima-sit-uat ./deployment.sh
   environment:
     name: staging
     url: https://prima-sit-uat.herokuapp.com/
@@ -78,8 +77,7 @@ DeploymentCobacoba:
   script:
     - dpl --provider=heroku --app=prima-cobacoba --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - heroku run --app prima-cobacoba makemigrations
-    - heroku run --app prima-cobacoba migrate
+    - heroku bash run --app prima-cobacoba ./deployment.sh
   environment:
     name: coba-coba
     url: https://prima-cobacoba.herokuapp.com/
