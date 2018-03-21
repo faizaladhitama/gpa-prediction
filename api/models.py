@@ -1,7 +1,4 @@
-import json
-import os
 from django.db import models
-from backend.settings import BASE_DIR
 
 # Create your models here.
 class Civitas(models.Model):
