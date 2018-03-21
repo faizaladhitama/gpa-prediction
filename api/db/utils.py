@@ -17,8 +17,8 @@ def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
         create_matakuliah(kode_matkul=kode_matkul)
     npm = Mahasiswa.objects.get(npm=npm)
     kode_matkul = MataKuliah.objects.get(kode_matkul=kode_matkul)
-    re_je = RekamJejakNilaiMataKuliah(npm=npm, kode_matkul=kode_matkul, nilai=nilai, term=term)
-    re_je.save()
+    rj_new = RekamJejakNilaiMataKuliah(npm=npm, kode_matkul=kode_matkul, nilai=nilai, term=term)
+    rj_new.save()
 
 def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa Jenjang", nip_pa=""):
     if Dosen.objects.filter(nip=nip_pa).count() < 1:
@@ -27,13 +27,13 @@ def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa J
         #else:
         create_dosen(nip=nip_pa, is_pa=True)
 
-    ma_1 = Mahasiswa(npm=npm, nama=nama, study_program=prodi, educational_program=program)
-    ma_1.nip_pa = Dosen.objects.get(nip=nip_pa)
-    ma_1.save()
+    ma_new = Mahasiswa(npm=npm, nama=nama, study_program=prodi, educational_program=program)
+    ma_new.nip_pa = Dosen.objects.get(nip=nip_pa)
+    ma_new.save()
 
 def create_dosen(nip, nama="namadef", is_pa=False):
-    do_1 = Dosen(nama=nama, nip=nip, is_pa=is_pa)
-    do_1.save()
+    do_new = Dosen(nama=nama, nip=nip, is_pa=is_pa)
+    do_new.save()
 
 def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tingkat_kerjasama=1):
     matkul = MataKuliah(kode_matkul=kode_matkul, nip_pengajar=nip, nama_matkul=nama, prodi=prodi,
