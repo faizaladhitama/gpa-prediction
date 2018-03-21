@@ -24,7 +24,7 @@ class AuthGenerator:
         response = requests.post(self.api_token, data=payload, headers=headers)
 
         if response.status_code == 401:
-            raise Exception("Wrong username or password, input: {}, {}".format(username, password,))
+            raise ValueError("Wrong username or password, input: {}, {}".format(username, password))
 
         return response.json()["access_token"]
 
@@ -32,14 +32,14 @@ class AuthGenerator:
         parameters = {"access_token": access_token, "client_id": self.get_client_id()}
         response = requests.get(self.api_verify_user, params=parameters)
         if response.status_code == 403:
-            raise Exception("{} input : {}".format(response.json()['detail'], access_token))
+            raise ValueError("{} input : {}".format(response.json()['detail'], access_token))
         return response.json()
 
     def get_data_user(self, access_token, npm):
         parameters = {"access_token": access_token, "client_id": self.get_client_id()}
         response = requests.get(self.api_mahasiswa+npm, params=parameters)
         if response.status_code == 403:
-            raise Exception("{} input: {}, {}".format(response.json()['detail'], access_token, npm))
+            raise ValueError("{} input: {},{}".format(response.json()['detail'], access_token, npm))
         return response.json()
 
 class Requester:
@@ -51,5 +51,5 @@ class Requester:
         response = requests.get(url)
         if response.status_code == 403:
             err_msg = response.json()['detail']
-            raise Exception("{} input: {}, {}, {}".format(err_msg, npm, client_id, token))
+            raise ValueError("{} input: {}, {}, {}".format(err_msg, npm, client_id, token))
         return response.json()
