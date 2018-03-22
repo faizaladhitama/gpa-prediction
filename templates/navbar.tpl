@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
+<nav class="navbar navbar-expand-lg navbar-dark" id = "first-navbar">
   <a class="navbar-brand" href="#">
   {% load static %} 
   <img src="{% static "assets/logo_horizontal.png" %}" width="80%" class="d-inline-block align-top" alt="">
@@ -11,7 +11,7 @@
       <li class="nav-item">
 
       <span id="identity">
-        <a class="nav-link activate" href="#" style="color: white;">
+        <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
           <h10>{{role}}</h10>
@@ -20,18 +20,17 @@
 				{% endfor %}</h10>
         </a>
         </span>
-        {% load static %} 
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 13%;" id="navbar-dropdown">
+        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
-  <div class="dropdown-menu  dropdown-menu-right border-info" style="margin-top: -1%;outline: blue">
+  <div class="dropdown-menu  dropdown-menu-right border-info" id = "dropdown">
     {% include 'mahasiswa/dropdown.tpl' %}
   </div>
       </li>
     </ul>
   </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4D03F;box-shadow: 0px 6px 7px grey;">
+<nav class="navbar navbar-expand-lg navbar-light" id ="second-navbar">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#underNavbar" aria-controls="underNavbar" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
