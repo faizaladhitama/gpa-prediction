@@ -1,5 +1,22 @@
-// Extra small devices (portrait phones, less than 576px)
-@media only screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
+
+	input[type=date], input[type=datetime-local], input[type=email], input[type=number], input[type=password], input[type=search-md], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], textarea.textarea-new {
+		background-color: transparent;
+		border: none;
+		border-bottom: 2px solid #bdbdbd;
+		border-radius: 0;
+		outline: 0;
+		height: 2.1.2rem;
+		width: 70%;
+		font-size: 1.2rem;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
+		-webkit-transition: all .3s;
+		transition: all .3s;
+	}
+
 	#logo {
 		margin-top: 10%;
 		display: block;
@@ -17,20 +34,18 @@
 	#username-label {
 		display: block;
 		text-align: center;
-		font-size: 24px;
+		font-size: 20px;
 	}
 	#username {
-		width: 70%;
 		margin: 0 auto;
 		display: block;
 	}
 	#pwd-label {
 		display: block;
 		text-align: center;
-		font-size: 24px;
+		font-size: 20px;
 	}
 	#password {
-		width: 70%;
 		margin: 0 auto;
 		display: block;
 	}
@@ -56,4 +71,8 @@ body {
 	position:relative;
 	top:50%; 
 	left:auto;
+}
+
+.form-control{
+	width: 70%;
 }

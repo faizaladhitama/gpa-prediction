@@ -21,11 +21,11 @@
                 {% csrf_token %}
 					<div class="form-group">
 						<label for="username" id="username-label">Username</label>
-						<input type="text" name="username" id="username" class="form-group" onfocus="deleteMessage()">
+						<input type="text" name="username" id="username" class="form-control" onfocus="deleteMessage()">
 					</div>
 					<div class="form-group">
 						<label for="password" id="pwd-label">Password </label>
-						<input type="password" name="password" id="password" class="form-group" onfocus="deleteMessage()">
+						<input type="password" name="password" id="password" class="form-control" onfocus="deleteMessage()">
 					</div>
 				<input type="submit" class="btn btn-outline-warning" id="login-button" value="Log in">
 				</form>
