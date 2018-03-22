@@ -31,7 +31,7 @@
 	.login-form {
 		position: relative;
 	}
-	#username-label {
+	.login-label {
 		display: block;
 		text-align: center;
 		font-size: 20px;
@@ -39,11 +39,6 @@
 	#username {
 		margin: 0 auto;
 		display: block;
-	}
-	#pwd-label {
-		display: block;
-		text-align: center;
-		font-size: 20px;
 	}
 	#password {
 		margin: 0 auto;
