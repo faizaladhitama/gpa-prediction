@@ -1,5 +1,29 @@
-@media only screen and (max-width: 600px) {
+#identity {
+
+        text-align: center;
+}
+
+@media screen and (min-width: 480px) {
     #identity {
-        margin-left : auto;
+    text-align: right;
+    display: inline-block; 
+    margin-left: -7%;
     }
+}
+#navbar-dropdown{
+	margin-top: 13%;
+}
+#dropdown{
+	margin-top: -1%;
+	outline: blue;
+}
+#second-navbar{
+	background-color: #F4D03F;
+	box-shadow: 0px 6px 7px grey;
+}
+#first-navbar{
+	background-color: black;
+}
+#user-term-role{
+	color: white;
 }
