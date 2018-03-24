@@ -10,7 +10,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
 
-      <span id="identity">
+      <span id="identity" class="float-right">
         <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
@@ -20,7 +20,9 @@
 				{% endfor %}</h10>
         </a>
         </span>
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
+	</li>
+	<li>
+        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" id = "dropdown">
