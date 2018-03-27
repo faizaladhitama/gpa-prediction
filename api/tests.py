@@ -5,6 +5,8 @@ from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait as wait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class SeleniumTestCase(LiveServerTestCase):
@@ -51,6 +53,7 @@ class LandingPageTest(SeleniumTestCase):
         self.browser.find_element_by_css_selector('#username').send_keys('admin')
         self.browser.find_element_by_css_selector('#password').send_keys('admin')
         self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        wait(self.browser, 15).until_not(EC.url_changes('index'))
         self.assertIn("Anda berhasil login", self.browser.page_source)
 
     def test_user_login_invalid(self):
