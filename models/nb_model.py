@@ -41,25 +41,26 @@ class NbModel:
 	def train_model(self):
 		df = self.df
 		scaled_features = {}
-		for feature in self.num_features:
+		for each in self.num_features:
 			mean, std = df[each].mean(), df[each].std()
 			scaled_features[each] = [mean, std]
 			df.loc[:, each] = (df[each] - mean)/std	
 
-		feature = df.values[:,:len(self.num_features)]
-		target = df.valuse[:,len(self.num_features)] #au saya juga bingung , cc Gibran MFW aja
+		features = df.values[:,:len(self.num_features)]
+		target = df.values[:,len(self.num_features)] #au saya juga bingung , cc Gibran MFW aja
 		features_train, features_test, target_train, target_test = train_test_split(features, target, test_size = 0.33, random_state = 10)
 
 		self.clf.fit(features_train, target_train)
-		target_pred = clf.predict(features_test)
+		target_pred = self.clf.predict(features_test)
 		self.accuracy = accuracy_score(target_test, target_pred, normalize=True)
 
 
-	def saveModel(self):
-		file_name = 'savefile/'+self.course_name+'.sav'
+	def save_model(self):
+		pwd = os.path.dirname(__file__)
+		file_name = pwd+'/savefile/'+self.course_name+'.sav'
 		pickle.dump(self.clf, open(file_name, 'wb'))
 
 	def build_model(self):
 		self.create_model()
 		self.train_model()
-		self.saveModel()
+		self.save_model()
