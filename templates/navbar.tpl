@@ -10,14 +10,11 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
 
-      <span id="identity" class="float-right">
+      <span id="identity">
         <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
           <h10>{{role}}</h10>
-          <h10>{% for message in messages %}
-				<h3 class="messages">{{message}}</h3>
-				{% endfor %}</h10>
         </a>
         </span>
 	</li>
