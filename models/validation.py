@@ -1,0 +1,1 @@
+class validation_test:
