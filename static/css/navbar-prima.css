@@ -1,5 +1,16 @@
+@media screen and (max-width: 768px) {
+	#identity{
+		margin-left: 50%;
+		text-align : center;
+	}
+	#navbar-dropdown{
+		margin-top: 0% !important;
+		width : 20%;
+		height : 20% !important;
+	}
+	}
 #navbar-dropdown{
-	height: 13%;
+	margin-top: 125%;
 }
 #dropdown{
 	margin-top: -1%;
