@@ -23,7 +23,7 @@
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" id = "dropdown">
-    {% include 'mahasiswa/dropdown.tpl' %}
+    {% include 'mahasiswa/navbar-dropdown.tpl' %}
   </div>
       </li>
     </ul>
@@ -36,7 +36,7 @@
   <div class="collapse navbar-collapse  w-100 order-3 dual-collapse2 " id="underNavbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-    {% include 'mahasiswa/underNavbar.tpl' %}
+    {% include 'mahasiswa/second-navbar.tpl' %}
     </ul>
   </div>
 </nav>
