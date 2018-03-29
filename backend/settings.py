@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'mahasiswa',
     'sekre',
     'pa',
+    'models',
 ]
 
 MIDDLEWARE = [
