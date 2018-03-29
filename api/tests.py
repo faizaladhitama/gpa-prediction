@@ -53,7 +53,7 @@ class LandingPageTest(SeleniumTestCase):
         self.browser.find_element_by_css_selector('#username').send_keys('admin')
         self.browser.find_element_by_css_selector('#password').send_keys('admin')
         self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
-        wait(self.browser, 15).until_not(EC.url_changes('index'))
+        wait(self.browser, 15).until(EC.url_changes('index'))
         self.assertIn("Anda berhasil login", self.browser.page_source)
 
     def test_user_login_invalid(self):
