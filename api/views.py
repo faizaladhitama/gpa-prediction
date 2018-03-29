@@ -57,10 +57,11 @@ def index(request):
         if now.month > 2 and now.month < 7:
             term = 2
     term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
+    request.session['term'] = term_str
     try:
         get_data_user(request.session['access_token'], request.session['kode_identitas'])
         context = {
-            'term': term_str,
+            'term': request.session['term'],
             'team': 'usagi studio',
             'user': request.session['user_login'],
             'id': request.session['kode_identitas'],
