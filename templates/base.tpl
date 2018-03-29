@@ -20,7 +20,5 @@
 {% endblock %}
 
 <footer class="footer">
-	<div class="container">
-		Usagi Studio - 2018
-	</div>
+	Usagi Studio - 2018
 </footer>
