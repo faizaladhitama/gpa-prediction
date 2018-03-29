@@ -22,24 +22,29 @@
 		display: block;
 		margin: 20 auto !important;
 	}
+
 	#login-button {
-		margin: 0 auto !important;
+		margin: 30px auto !important;
 		display: block;
 		width: 70%;
 	}
+
 	.login-form {
 		position: relative;
 		top: 0 !important;
 	}
+
 	.login-label {
 		display: block;
 		text-align: center;
 		font-size: 20px;
 	}
+
 	#username {
 		margin: 0 auto;
 		display: block;
 	}
+	
 	#password {
 		margin: 0 auto;
 		display: block;
