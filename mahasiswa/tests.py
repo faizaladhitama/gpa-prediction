@@ -2,7 +2,7 @@ from django.test import TestCase
 
 class URLTest(TestCase):
     def test_homepage(self):
-        response = self.client.get('/mahasiswa', follow=True)
+        response = self.client.get('/mahasiswa/', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_rekomendasi(self):
@@ -16,8 +16,3 @@ class URLTest(TestCase):
     def test_prediktor_evaluasi(self):
         response = self.client.get('/mahasiswa/prediktor_evaluasi', follow=True)
         self.assertEqual(response.status_code, 404)
-
-class ElementTest(TestCase):
-    def test_homepage(self):
-        resp = self.client.get('/mahasiswa')
-        self.assertNotContains(response=resp, text="<h10></h10>", status_code=301)

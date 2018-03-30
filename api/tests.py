@@ -48,12 +48,12 @@ class LandingPageTest(SeleniumTestCase):
         element_login_button = self.browser.find_elements_by_css_selector('#login-button')
         print("login button ", element_login_button)
 
-    def test_user_login_valid(self):
+    def test_user_login_mahasiswa_valid(self):
         self.browser.get('http://127.0.0.1:8000/')
         self.browser.find_element_by_css_selector('#username').send_keys('admin')
         self.browser.find_element_by_css_selector('#password').send_keys('admin')
         self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
-        wait(self.browser, 15).until(EC.url_changes('index'))
+        wait(self.browser, 15).until(EC.url_changes('mahasiswa/'))
         self.assertIn("Anda berhasil login", self.browser.page_source)
 
     def test_user_login_invalid(self):
