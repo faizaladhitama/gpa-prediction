@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs mt-5 mx-5" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="custom-bg-yellow nav-link active text-center" id="evaluasi-tab" data-toggle="tab" href="#evaluasi" role="tab" aria-controls="evaluasi" aria-selected="true">
-        Prediktor <br> Lolos <br> Evaluasi Akademik
+        Prediktor <br> Kelulusan <br> Evaluasi Akademik
     </a>
   </li>
   <li class="nav-item">
@@ -11,8 +11,11 @@
   </li>
 </ul>
 <div class="tab-content mx-5" id="myTabContent">
-  <div class="tab-pane fade show active" id="evaluasi" role="tabpanel" aria-labelledby="evaluas-tab">...</div>
+  <div class="tab-pane fade show active" id="evaluasi" role="tabpanel" aria-labelledby="evaluas-tab">
+    {% include 'mahasiswa/prediktor-evaluasi-akademik.tpl' %}  
+  </div>
   <div class="tab-pane fade" id="matkul" role="tabpanel" aria-labelledby="matkul-tab">
     {% include 'search-bar.tpl' %}
+    {% include 'mahasiswa/prediktor-matkul.tpl' %}
   </div>
 </div>
