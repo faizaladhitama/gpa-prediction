@@ -71,3 +71,7 @@ h3 {
 	text-transform: uppercase;
 	font-weight: bold;
 }
+
+#prediktor-eval-button {
+	margin-left: 70px;
+}

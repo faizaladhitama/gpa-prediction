@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
 		<div class="row ">
-			<div class="col prediktor-body">
+			<div class="col prediktor-body" id="prediktor-eval-button">
 				{% load static %} 
 				<img src= "{% static "assets/greenButton.png" %}">
 			</div>
