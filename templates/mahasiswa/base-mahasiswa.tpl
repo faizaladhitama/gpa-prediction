@@ -10,3 +10,6 @@
 {% block contentPage %}
 {% endblock %}
 {% endblock %}
+
+{% block customized_js%}
+{% endblock %}
