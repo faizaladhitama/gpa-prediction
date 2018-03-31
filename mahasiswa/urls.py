@@ -19,11 +19,8 @@ from . import views
 
 app_name = 'mahasiswa'
 urlpatterns = [
-<<<<<<< HEAD
     url(r'^$', views.index, name='index'),
     url(r'^profile$', views.profile, name='profile'),
     url(r'^rekomendasi$', views.rekomendasi, name='rekomendasi'),
-=======
-    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor-matkul')
->>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor-matkul'),
 ]
