@@ -1,4 +1,4 @@
-{% extends 'base-mahasiswa.tpl' %}
+{% extends 'mahasiswa/base-mahasiswa.tpl' %}
 
 <ul id="mytabs" class="nav nav-justified nav-tabs">
   <li class="active"><a href="#f" data-toggle="tab">Prediktor Kelulusan Evaluasi Akademik</a></li>
