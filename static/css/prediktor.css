@@ -1,0 +1,79 @@
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url("../fonts/Montserrat-Bold.ttf");
+}
+
+@font-face {
+    font-family: Montserrat-SemiBold;
+    src: url("../fonts/Montserrat-SemiBold.ttf");
+}
+
+h1 {
+	font-family: 'Montserrat-Bold';
+}
+
+h3 {
+	font-family: 'Montserrat-SemiBold';
+	color: #09A8DD;
+}
+
+#mytabs {
+	margin-top: 50px;
+	margin-left: 30px;
+}
+
+.prediktor-tab {
+	width: 50%;
+	border-bottom: 1px solid #424242;
+	border-radius: 4px 4px 0 0;
+	background-color: yellow;
+	font-size: 20px;
+}
+
+.prediktor-tab>li>a:hover {
+	background-color: red;
+	text-decoration: none;
+}
+
+.tab-content {
+	margin-left: 35%;
+}
+
+.prediktor-title {
+	margin-left: -15%;
+}
+
+.prediktor-title {
+	margin-left: -15%;
+}
+
+.prediktor-body {
+	margin-top: 70px;
+}
+
+.matkul-to-predict {
+	margin-left: 0%;
+}
+
+#result-button {
+	margin-left: -10%;
+}
+
+#table-matkul-prasyarat {
+	position: relative;
+	left: 30%;
+}
+
+.prediktor-message {
+	margin-left: -10%;
+	margin-top: 30px;
+}
+
+.verdict {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+#prediktor-eval-button {
+	margin-left: 70px;
+}

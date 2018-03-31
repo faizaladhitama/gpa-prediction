@@ -5,10 +5,11 @@
 
 # SIT_UAT Branch
 
-[![pipeline status](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/sit_uat/pipeline.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/sit_uat)
+<!--[![pipeline status](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/sit_uat/pipeline.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/sit_uat)
 [![coverage report](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/sit_uat/coverage.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/sit_uat)
+-->
 
-# Coba_coba Branch
+# login_and_logout Branch
 
-[![pipeline status](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/coba_coba/pipeline.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/coba_coba)
-[![coverage report](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/coba_coba/coverage.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/coba_coba)
+[![pipeline status](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/login_and_logout/pipeline.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/login_and_logout)
+[![coverage report](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/badges/login_and_logout/coverage.svg)](https://gitlab.com/PPL2018csui/Kelas-C/PPL2018-C7/commits/login_and_logout)

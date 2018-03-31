@@ -12,3 +12,6 @@ def get_prediction(mata_kuliah, nilai):
 def create_prediction(mata_kuliah, column, fitur):
 	model_baru = NbModel(mata_kuliah, column, fitur)
 	model_baru.build_model()
+
+def get_prediction_by_matkul(npm, matkul):
+	pass

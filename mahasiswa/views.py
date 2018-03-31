@@ -1,17 +1,6 @@
 from django.shortcuts import render
 
 
-# Create your views here.
-def index(request):
+def prediktor_matkul(request):
     context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/navbarMahasiswa.tpl', context)
-
-
-def profile(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/profile.tpl', context)
-
-
-def rekomendasi(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/rekomendasi.tpl', context)
+    return render(request, 'mahasiswa/prediktor-matkul.tpl', context)
