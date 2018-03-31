@@ -1,4 +1,4 @@
-def getTerm(datetime):
+def get_term(datetime):
     year = datetime.year
     term = 1
     if datetime.month < 8:
@@ -10,12 +10,17 @@ def getTerm(datetime):
     return term_str
 
 
-def getContextMahasiswa(request, term_str):
-    context = {
-        'term': term_str,
-        'team': 'usagi studio',
-        'user': request.session['user_login'],
-        'id': request.session['kode_identitas'],
-        'role': request.session['role']
-    }
-    return context
+def get_context_mahasiswa(request, term_str):
+    try:
+        context = {
+            'term': term_str,
+            'team': 'usagi studio',
+            'user': request.session['user_login'],
+            'id': request.session['kode_identitas'],
+            'role': request.session['role']
+        }
+        return context
+    except KeyError as excp:
+        return str(excp)
+    except AttributeError as excp:
+        return str(excp)
