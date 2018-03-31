@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs mt-5 mx-5" id="myTab" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="evaluasi-tab" data-toggle="tab" href="#evaluasi" role="tab" aria-controls="evaluasi" aria-selected="true">
+    <a class="custom-bg-yellow nav-link active text-center" id="evaluasi-tab" data-toggle="tab" href="#evaluasi" role="tab" aria-controls="evaluasi" aria-selected="true">
         Prediktor <br> Lolos <br> Evaluasi Akademik
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#matkul" role="tab" aria-controls="matkul" aria-selected="false">
+    <a class="custom-bg-yellow nav-link text-center" id="matkul-tab" data-toggle="tab" href="#matkul" role="tab" aria-controls="matkul" aria-selected="false">
         Prediktor <br> Kelulusan <br> Matkul
     </a>
   </li>
