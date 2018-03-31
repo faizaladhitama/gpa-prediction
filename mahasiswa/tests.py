@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.test import TestCase
 
-from mahasiswa.utils import getTerm, getContextMahasiswa
+from mahasiswa.utils import get_term, get_context_mahasiswa
 
 
 class URLTest(TestCase):
@@ -33,15 +33,15 @@ class MockRequest:
 class UnitTest(TestCase):
     def test_term_1(self):
         now = datetime(2018, 4, 1)
-        self.assertEqual(getTerm(now), "2017/2018 - 2")
+        self.assertEqual(get_term(now), "2017/2018 - 2")
 
     def test_term_2(self):
         now = datetime(2018, 9, 1)
-        self.assertEqual(getTerm(now), "2018/2019 - 1")
+        self.assertEqual(get_term(now), "2018/2019 - 1")
 
     def test_term_3(self):
         now = datetime(2018, 7, 1)
-        self.assertEqual(getTerm(now), "2017/2018 - 3")
+        self.assertEqual(get_term(now), "2017/2018 - 3")
 
     def test_context_mahasiswa_valid(self):
         session = {
@@ -50,12 +50,16 @@ class UnitTest(TestCase):
             'role': 'dummy'
         }
         request = MockRequest(session)
-        getContextMahasiswa(request, getTerm(datetime.now()))
+        context = get_context_mahasiswa(request, get_term(datetime.now()))
+        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio', \
+                                   'user': 'dummy', 'id': 'dummy', 'role': 'dummy'})
 
-    def test_context_mahasiswa_invalid_request(self):
+    def test_context_invalid_request(self):
         request = None
-        getContextMahasiswa(request, getTerm(datetime.now()))
+        context = get_context_mahasiswa(request, get_term(datetime.now()))
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
-    def test_context_mahasiswa_invalid_session(self):
+    def test_context_invalid_session(self):
         request = MockRequest()
-        getContextMahasiswa(request, getTerm(datetime.now()))
+        context = get_context_mahasiswa(request, get_term(datetime.now()))
+        self.assertEqual(context, "'user_login'")
