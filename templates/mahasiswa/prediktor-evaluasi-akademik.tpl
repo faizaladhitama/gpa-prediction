@@ -1,4 +1,4 @@
-<h1 class="prediktor-title"> Prediktor Kelulusan Evaluasi Akademik </h1>
+<h1 class="prediktor-eval-title"> Prediktor Kelulusan Evaluasi Akademik </h1>
 
 <div class="container-fluid">
 		<div class="row ">
@@ -10,7 +10,7 @@
 
 		<div class="row ">
 			<div class="col">
-				<p class="evaluation-status"> Selamat, anda berpeluang lolos evaluasi akademik semester 2!<p>
+				<p class="evaluation-message"> Selamat, anda berpeluang lolos evaluasi akademik semester 2!<p>
 			</div>
 		</div>
 </div>
