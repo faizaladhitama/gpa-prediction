@@ -7,12 +7,22 @@
 	width: 50%;
 	border-bottom: 1px solid #424242;
 	border-radius: 4px 4px 0 0;
-}
-
-.prediktor-tab>li>a:hover {
 	background-color: yellow;
 }
 
+/*.prediktor-tab>li>a:hover {
+	background-color: yellow;
+}*/
+
 .tab-content {
-	margin-left: 30%;
+	margin-left: 35%;
+}
+
+.evaluation-status {
+	margin-left: -10%;
+	margin-top: 5px;
+}
+
+.prediktor-title {
+	margin-left: -25%;
 }
