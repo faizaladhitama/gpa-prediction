@@ -9,6 +9,8 @@
 
 {% block content %}
     {% include 'navbar.tpl' %}
+    {% include 'search-bar.tpl' %}
     {% block contentPage %}
+        
     {% endblock %}
 {% endblock %}
