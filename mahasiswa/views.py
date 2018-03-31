@@ -36,5 +36,6 @@ def rekomendasi(request):
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
 
 
-def prediktor_matkul():
-    pass
+def prediktor_matkul(request):
+    context = {'name': 'mahasiswa'}
+    return render(request, 'mahasiswa/prediktor-matkul.tpl', context)
