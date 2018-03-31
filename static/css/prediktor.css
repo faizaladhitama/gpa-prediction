@@ -27,10 +27,12 @@ h3 {
 	border-bottom: 1px solid #424242;
 	border-radius: 4px 4px 0 0;
 	background-color: yellow;
+	font-size: 20px;
 }
 
 .prediktor-tab>li>a:hover {
-	background-color: yellow;
+	background-color: red;
+	text-decoration: none;
 }
 
 .tab-content {
