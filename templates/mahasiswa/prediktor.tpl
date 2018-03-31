@@ -12,7 +12,7 @@
   <div id="f1" class="tab-pane fade">
     <!-- <h3>Prediktor Kelulusan Matkul</h3>
     <p>Some content in Prediktor Kelulusan Matkul.</p> -->
-    {% block content_prediktor %}
+    {% block content_prediktor_matkul %}
     {% endblock %}
   </div>
 </div>
