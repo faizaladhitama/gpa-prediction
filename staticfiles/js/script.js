@@ -1,3 +1,0 @@
-function deleteMessage(){
-     $(".messages").remove();
-}

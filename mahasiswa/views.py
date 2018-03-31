@@ -1,7 +1,6 @@
-import datetime
-
 from django.shortcuts import render
 
+<<<<<<< HEAD
 # Create your views here.
 def index(request):
     now = datetime.datetime.now()
@@ -34,3 +33,9 @@ def profile(request):
 def rekomendasi(request):
     context = {'name': 'mahasiswa'}
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
+=======
+
+def prediktor_matkul(request):
+    context = {'name': 'mahasiswa'}
+    return render(request, 'mahasiswa/prediktor-matkul.tpl', context)
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
