@@ -1,6 +1,7 @@
 import os.path
 from django.test import TestCase
 from api.models.nb_model import NbModel
+#from api.models import getPredictionByMatkul
 
 class NbModelTest(TestCase):
     def setUp(self):
@@ -36,3 +37,19 @@ class NbModelTest(TestCase):
         flag1 = self.model.accuracy is not None
         flag2 = self.model.df is not None
         return flag1 and flag2
+
+"""
+Uncomment when the predictor method is done
+class PrediktorKelulusanMatkulTest(TestCase):
+    def matkul_not_found(self):
+        self.assertEquals(getPredictionByMatkul("admin", "SPS"), "not-found")
+
+    def POK_lulus_test(self):
+        self.assertEquals(getPredictionByMatkul("admin", "POK"), "lulus")
+
+    def POK_hati_hati_test(self):
+        self.assertEquals(getPredictionByMatkul("CIA", "POK"), "hati-hati")
+
+    def POK_tidak_lulus_test(self):
+        self.assertEquals(getPredictionByMatkul("CEO", "POK"), "tidak-lulus")
+"""
