@@ -18,11 +18,8 @@ class URLTest(TestCase):
     def test_prediktor_evaluasi(self):
         response = self.client.get('/mahasiswa/prediktor_evaluasi', follow=True)
         self.assertEqual(response.status_code, 404)
-<<<<<<< HEAD
 
 
 class ElementTest(TestCase):
     def test(self):
         return True
-=======
->>>>>>> b2acbdfe2550a0aa190e71a7d76b85d5ea0144f3
