@@ -21,6 +21,5 @@ app_name = 'mahasiswa'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^profile$', views.profile, name='profile'),
-    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor-matkul'),
     url(r'^rekomendasi$', views.rekomendasi, name='rekomendasi'),
 ]
