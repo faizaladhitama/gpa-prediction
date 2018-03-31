@@ -1,8 +1,5 @@
-{% extends 'index.tpl' %}
-
 {% block title %} Prediktor Kelulusan Evaluasi Akademik{% endblock %}
 
-{% block content %}
 <div class="container-fluid">
 		<div class="row ">
 			<div class="col">
@@ -17,5 +14,3 @@
 			</div>
 		</div>
 </div>
-{% endblock %}
-
