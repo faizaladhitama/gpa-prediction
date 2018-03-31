@@ -21,6 +21,12 @@ def auth_login(request):
         username = request.POST['username']
         password = request.POST['password']
         access_token = get_access_token(username, password)
+        connection = True
+        if 'connection' in request.POST:
+            connection = False
+        if "ConnectionError" in access_token or not connection:
+            messages.error(request, "Server UI sedang down")
+            return HttpResponseRedirect(reverse('api:landing'))
         try:
             ver_user = verify_user(access_token)
             kode_identitas = ver_user['identity_number']
@@ -33,9 +39,6 @@ def auth_login(request):
             return HttpResponseRedirect(reverse('mahasiswa:index'))
         except KeyError:
             messages.error(request, "Username atau password salah")
-            return HttpResponseRedirect(reverse('api:landing'))
-        except TypeError:
-            messages.error(request, "Server UI sedang down")
             return HttpResponseRedirect(reverse('api:landing'))
     except KeyError:
         return render(request, 'blank.tpl', {})
