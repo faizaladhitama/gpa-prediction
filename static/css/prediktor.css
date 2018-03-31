@@ -1,0 +1,18 @@
+#mytabs {
+	margin-top: 50px;
+	margin-left: 30px;
+}
+
+.prediktor-tab {
+	width: 50%;
+	border-bottom: 1px solid #424242;
+	border-radius: 4px 4px 0 0;
+}
+
+.prediktor-tab>li>a:hover {
+	background-color: yellow;
+}
+
+.tab-content {
+	margin-left: 30%;
+}

@@ -1,6 +1,6 @@
 <ul id="mytabs" class="nav nav-justified nav-tabs">
-  <li class="active"><a href="#f" data-toggle="tab">Prediktor Kelulusan Evaluasi Akademik</a></li>
-  <li><a href="#f1" data-toggle="pill">Prediktor Kelulusan Matkul</a></li>
+  <li class="active prediktor-tab"><a href="#f" data-toggle="tab">Prediktor Kelulusan Evaluasi Akademik</a></li>
+  <li class="prediktor-tab"><a href="#f1" data-toggle="pill">Prediktor Kelulusan Matkul</a></li>
 </ul>
 <div class="tab-content nav-item">
   <div id="f" class="tab-pane fade in active">
@@ -12,3 +12,8 @@
 	{% include 'mahasiswa/prediktor-matkul.tpl' %}
   </div>
 </div>
+<!-- 
+{% block customized_js%}
+	{% load static %}
+	<script type="text/javascript" src="{% static "js/prediktor.js" %}"></script>
+{% endblock %} -->
