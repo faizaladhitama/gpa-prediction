@@ -1,16 +1,18 @@
 from datetime import datetime
+
 from django.shortcuts import render
-from mahasiswa.utils import getTerm, getContextMahasiswa
+
+from mahasiswa.utils import get_term, get_context_mahasiswa
 
 
 # Create your views here.
 def index(request):
     now = datetime.now()
-    term_str = getTerm(now)
+    term_str = get_term(now)
     try:
-        context = getContextMahasiswa(request,term_str)
+        context = get_context_mahasiswa(request, term_str)
         return render(request, 'mahasiswa/index.tpl', context)
-    except KeyError:
+    except TypeError:
         return render(request, 'landing_page.tpl', {})
 
 
