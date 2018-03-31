@@ -4,3 +4,5 @@
 	<h3 class="messages">{{message}}</h3>
 {% endfor %}</h10>
 {% endblock %}
+{% extends 'mahasiswa/prediktor.tpl'%}
+
