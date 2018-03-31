@@ -1,12 +1,12 @@
 <ul class="nav nav-tabs mt-5 mx-5" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="custom-bg-yellow nav-link active text-center" id="evaluasi-tab" data-toggle="tab" href="#evaluasi" role="tab" aria-controls="evaluasi" aria-selected="true">
-        Prediktor <br> Kelulusan <br> Evaluasi Akademik
+  <li class="nav-item tab-head">
+    <a class="custom-tab-head nav-link active text-center" id="evaluasi-tab" data-toggle="tab" href="#evaluasi" role="tab" aria-controls="evaluasi" aria-selected="true"><h5>
+        Prediktor <br> Kelulusan <br> Evaluasi Akademik</h5>
     </a>
   </li>
-  <li class="nav-item">
-    <a class="custom-bg-yellow nav-link text-center" id="matkul-tab" data-toggle="tab" href="#matkul" role="tab" aria-controls="matkul" aria-selected="false">
-        Prediktor <br> Kelulusan <br> Matkul
+  <li class="nav-item tab-head">
+    <a class="custom-tab-head nav-link text-center" id="matkul-tab" data-toggle="tab" href="#matkul" role="tab" aria-controls="matkul" aria-selected="false"><h5>
+        Prediktor <br> Kelulusan <br> Mata Kuliah</h5>
     </a>
   </li>
 </ul>
