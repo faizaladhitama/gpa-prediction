@@ -1,11 +1,8 @@
-{% extends 'index.tpl' %}
+<h1 class="prediktor-title"> Prediktor Kelulusan Evaluasi Akademik </h1>
 
-{% block title %} Prediktor Kelulusan Evaluasi Akademik{% endblock %}
-
-{% block content %}
 <div class="container-fluid">
 		<div class="row ">
-			<div class="col">
+			<div class="col prediktor-body" id="prediktor-eval-button">
 				{% load static %} 
 				<img src= "{% static "assets/greenButton.png" %}">
 			</div>
@@ -13,9 +10,7 @@
 
 		<div class="row ">
 			<div class="col">
-				Selamat, anda berpeluang lolos evaluasi akademik semester 2!
+				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">lolos</span> evaluasi akademik semester 2!<p>
 			</div>
 		</div>
 </div>
-{% endblock %}
-

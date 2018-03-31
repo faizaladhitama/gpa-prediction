@@ -19,7 +19,7 @@
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
 }
@@ -30,6 +30,6 @@ body {
 }
 
 .messages {
-	margin-top:3%;
 	font-family: 'Montserrat-Bold';
+	color: transparent;
 }
