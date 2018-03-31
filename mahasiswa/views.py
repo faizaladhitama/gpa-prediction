@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-<<<<<<< HEAD
 
 # Create your views here.
 def index(request):
@@ -34,9 +33,6 @@ def profile(request):
 def rekomendasi(request):
     context = {'name': 'mahasiswa'}
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
-
-=======
->>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
 
 def prediktor_matkul(request):
     context = {'name': 'mahasiswa'}
