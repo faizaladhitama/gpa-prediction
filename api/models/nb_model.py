@@ -9,7 +9,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
 class NbModel:
-    def __init__(self, name, columns, num_features):
+    def __init__(self, name, columns=[], num_features=[]):
         self.course_name = str(name)
         self.columns = columns
         self.num_features = num_features
@@ -63,6 +63,15 @@ class NbModel:
         pwd = os.path.dirname(__file__)
         file_name = pwd+'/savefile/'+self.course_name+'.sav'
         pickle.dump(self.clf, open(file_name, 'wb'))
+
+    def load_model(self):
+        pwd = os.path.dirname(__file__)
+        file_name = pwd+'/savefile/'+self.course_name+'.sav'
+        self.clf = pickle.load(open(file_name, 'rb'))
+
+    def predict(self, features_test):
+        prediction = self.clf.predict(features_test)
+        return prediction
 
     def build_model(self):
         self.create_model()
