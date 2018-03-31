@@ -4,11 +4,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 {% load static %} 
 <link rel="stylesheet" type="text/css" href="{% static "css/navbar-prima.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "css/prediktor.css" %}">
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
 =======
 >>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
 =======
@@ -48,6 +51,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
 >>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
 =======
 >>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
