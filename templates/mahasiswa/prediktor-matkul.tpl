@@ -1,7 +1,7 @@
-<h1 class="prediktor-matkul-title">Prediktor Kelulusan Mata Kuliah</h1>
+<h1 class="prediktor-title">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">Proyek Perangkat Lunak</h3>
 <div class="container-fluid">
-		<div class="row prediktor-matkul">
+		<div class="row prediktor-body">
 			<div class="col-xs-4" id="result-button">
 				{% load static %} 
 				<img src= "{% static "assets/yellowButton.png" %}">
@@ -44,7 +44,7 @@
 
 		<div class="row">
 			<div class="col">
-				<p id="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">lolos</span> evaluasi akademik semester 2!<p>
+				<p class="prediktor-message"> Hati-hati! Anda memiliki kemungkinan  <span class ="verdict">tidak lulus</span> Proyek Perangkat Lunak <p>
 			</div>
 		</div>
 </div>

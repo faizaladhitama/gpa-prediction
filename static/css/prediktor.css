@@ -37,20 +37,15 @@ h3 {
 	margin-left: 35%;
 }
 
-.evaluation-message {
-	margin-left: -10%;
-	margin-top: 5px;
-}
-
-.prediktor-eval-title {
-	margin-left: -25%;
-}
-
-.prediktor-matkul-title {
+.prediktor-title {
 	margin-left: -15%;
 }
 
-.prediktor-matkul {
+.prediktor-title {
+	margin-left: -15%;
+}
+
+.prediktor-body {
 	margin-top: 70px;
 }
 
@@ -67,7 +62,7 @@ h3 {
 	left: 30%;
 }
 
-#prediktor-message {
+.prediktor-message {
 	margin-left: -10%;
 	margin-top: 30px;
 }
