@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+
 from .siak import get_access_token, verify_user
 
 
@@ -16,7 +17,6 @@ def login(request):
 
 def auth_login(request):
     print("#==> auth_login ", request.method)
-
     try:
         username = request.POST['username']
         password = request.POST['password']
@@ -33,6 +33,9 @@ def auth_login(request):
             return HttpResponseRedirect(reverse('mahasiswa:index'))
         except KeyError:
             messages.error(request, "Username atau password salah")
+            return HttpResponseRedirect(reverse('api:landing'))
+        except TypeError:
+            messages.error(request, "Server UI sedang down")
             return HttpResponseRedirect(reverse('api:landing'))
     except KeyError:
         return render(request, 'blank.tpl', {})
