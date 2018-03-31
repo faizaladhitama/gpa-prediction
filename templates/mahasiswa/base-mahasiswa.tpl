@@ -9,7 +9,7 @@
 
 {% block content %}
     {% include 'navbar.tpl' %}
-    {% include 'search-bar.tpl' %}
+    {% include 'predictor-tabs.tpl' %}
     {% block contentPage %}
         
     {% endblock %}
