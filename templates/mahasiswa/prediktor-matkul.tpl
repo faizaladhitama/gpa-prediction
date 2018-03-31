@@ -1,4 +1,4 @@
-{% extends 'prediktor.tpl' %}
+{% extends 'mahasiswa/prediktor.tpl' %}
 
 {% block title %}Prediksi Kelulusan Mata Kuliah{% endblock %}
 
