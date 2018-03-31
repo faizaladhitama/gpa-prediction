@@ -51,6 +51,4 @@ def create_mock_data_dosen(jumlah):
         nip = randint(100000000, 999999999)
         dosen = Dosen(nama=nama_cur, nip=str(nip), is_pa=is_pa)
         is_pa = True
-        if randint(1, 10) > 8:
-            is_pa = False
         dosen.save()

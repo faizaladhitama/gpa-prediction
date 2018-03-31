@@ -1,8 +1,10 @@
 from unittest.mock import patch
 from django.test import TestCase
+
 from api.db.utils import get_siak_data, parse_siak_data, insert_to_db_rekam_jejak, \
-                         create_mock_data_mahasiswa, create_mock_data_dosen
+    create_mock_data_mahasiswa, create_mock_data_dosen
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
+
 
 class UtilsTest(TestCase):
     def setUp(self):
@@ -28,8 +30,7 @@ class UtilsTest(TestCase):
         mock_password = "12345"
 
         with self.assertRaises(Exception) as context:
-            resp = get_siak_data(mock_npm, mock_username, mock_password)
-            resp = resp
+            get_siak_data(mock_npm, mock_username, mock_password)
 
         expected = "Wrong username or password, input: sonoko.nogi, 12345"
         self.assertEqual(expected, str(context.exception))
