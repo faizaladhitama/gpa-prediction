@@ -1,6 +1,11 @@
 @font-face {
     font-family: Montserrat-Regular;
-    src: url("../static/fonts/Montserrat-Regular.ttf");
+    src: url("../fonts/Montserrat-Regular.ttf");
+}
+
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url("../fonts/Montserrat-Bold.ttf");
 }
 
 @media screen and (max-width: 768px) {
@@ -26,4 +31,5 @@ body {
 
 .messages {
 	margin-top:3%;
+	font-family: 'Montserrat-Bold';
 }

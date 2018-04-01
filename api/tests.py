@@ -5,8 +5,8 @@ from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait as wait
 
 
 class SeleniumTestCase(LiveServerTestCase):
@@ -74,6 +74,7 @@ class LandingPageTest(SeleniumTestCase):
         self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
                       self.browser.page_source)
 
+
 class URLTest(TestCase):
     def test_login(self):
         response = self.client.get('/login', follow=True)
@@ -105,4 +106,17 @@ class UserTest(TestCase):
     def test_auth_login_negative(self):
         response = self.client.post('/auth-login',
                                     {'username': 'molo', 'password': 'mola'}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+
+class ExternalAPITest(TestCase):
+    def test_ui_server_up(self):
+        response = self.client.post('/auth-login',
+                                    {'username': 'molo', 'password': 'mola'}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_ui_server_down(self):
+        response = self.client.post('/auth-login',
+                                    {'username': 'molo', 'password': 'mola', 'connection': False},
+                                    follow=True)
         self.assertEqual(response.status_code, 200)

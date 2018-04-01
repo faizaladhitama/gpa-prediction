@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+
 from .siak import get_access_token, verify_user
 
 
@@ -16,11 +17,16 @@ def login(request):
 
 def auth_login(request):
     print("#==> auth_login ", request.method)
-
     try:
         username = request.POST['username']
         password = request.POST['password']
         access_token = get_access_token(username, password)
+        connection = True
+        if 'connection' in request.POST:
+            connection = False
+        if "ConnectionError" in access_token or not connection:
+            messages.error(request, "Server UI sedang down")
+            return HttpResponseRedirect(reverse('api:landing'))
         try:
             ver_user = verify_user(access_token)
             kode_identitas = ver_user['identity_number']
