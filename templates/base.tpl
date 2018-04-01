@@ -5,7 +5,7 @@
 <script type="text/javascript" scr="{% static "js/popper.min.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
 <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
 
 {% block customized_css%}
 {% endblock %}

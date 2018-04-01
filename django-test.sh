@@ -1,6 +1,7 @@
 coverage run --include='api/*','mahasiswa/*','dosen/*','pa/*','sekre/*' manage.py test
 coverage report
 <<<<<<< HEAD
+coverage html
 =======
 coverage html
->>>>>>> b2acbdfe2550a0aa190e71a7d76b85d5ea0144f3
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87

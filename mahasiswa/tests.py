@@ -1,14 +1,32 @@
 from django.test import TestCase
-from django.urls import resolve
-from django.test import Client
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
 
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
 
-class URLTest(TestCase):
-    def test_homepage(self):
-        response = self.client.get('/mahasiswa/', follow=True)
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
+
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+
+class PrediktorKelulusanMatkulTest(TestCase):
+    def test_prediktor_matkul_url_exist(self):
+        response = self.client.post('/mahasiswa/prediktor-matkul', follow=True)
         self.assertEqual(response.status_code, 200)
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 
     def test_rekomendasi(self):
         response = self.client.get('/mahasiswa/rekomendasi', follow=True)
@@ -21,17 +39,13 @@ class URLTest(TestCase):
     def test_prediktor_evaluasi(self):
         response = self.client.get('/mahasiswa/prediktor_evaluasi', follow=True)
         self.assertEqual(response.status_code, 404)
-
-
-class PrediktorKelulusanMatkulTest(object):
-    """docstring for PrediktorKelulusanMatkulTest"""
-    def test_prediktor_matkul_url_is_exist(self):
-        response = self.client.get('/prediktor-matkul', follow=True)
-        self.assertEqual(response.status_code, 200)
-    
-    def test_prediktor_matkul_view_path():
-        found = resolve('/prediktor-matkul/')
-        self.assertEqual(found.func, prediktor_matkul)
-
-    def test_template(self):
-        self.assertTemplateUsed(self.response, 'prediktor-matkul.tpl')
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
+=======
+>>>>>>> 10b4c1826d2f64a1b254fe830a3d10f15fd60b87
