@@ -1,0 +1,28 @@
+@media screen and (max-width: 768px) {
+	#identity{
+		margin-left: 50%;
+		text-align : center;
+	}
+	#navbar-dropdown{
+		margin-top: 0% !important;
+		width : 20% !important;
+		height : 20% !important;
+	}
+	}
+#navbar-dropdown{
+	margin-top: 125%;
+}
+#dropdown{
+	margin-top: -1%;
+	outline: blue;
+}
+#second-navbar{
+	background-color: #F4D03F;
+	box-shadow: 0px 6px 7px grey;
+}
+#first-navbar{
+	background-color: black;
+}
+#user-term-role{
+	color: white;
+}
