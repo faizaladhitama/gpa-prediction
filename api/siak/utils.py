@@ -13,9 +13,21 @@ class Requester:
 
     @staticmethod
     def request_mahasiswa_data(npm, client_id, token):
+        url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/{}/?client_id={}&access_token={}".format(npm, client_id, token)
+        response = requests.get(url)
+        if response.status_code == 403:
+            err_msg = response.json()['detail']
+            raise ValueError("Can't find user with npm :{}".format(npm))
+        return response.json()
 
     @staticmethod
     def request_sks(npm, term, year, client_id, token):
+        url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/{}/riwayat/{}/{}/?client_id={}&access_token={}".format(npm, year, term, client_id, token)
+        response = requests.get(url)
+        if response.status_code == 403:
+            err_msg = response.json()['detail']
+            raise ValueError("Can't find user with npm :{}".format(npm))
+        return response.json()
 
 class AuthGenerator:
     def __init__(self):
