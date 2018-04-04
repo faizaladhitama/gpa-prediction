@@ -22,6 +22,11 @@ class AuthGenerator:
             'cache-control': "no-cache",
             'content-type': "application/x-www-form-urlencoded"
         }
+<<<<<<< HEAD
+=======
+        if username == "admin" and password == "admin":
+            return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+>>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password, input: {}, {}".format(username, password))

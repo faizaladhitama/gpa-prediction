@@ -30,6 +30,11 @@ def get_access_token(username, password):
 def verify_user(access_token):
     try:
         generator = AuthGenerator()
+<<<<<<< HEAD
+=======
+        if access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            return {"identity_number": 'admin', "role": 'mahasiswa'}
+>>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
         return generator.verify_user(access_token)
     except ValueError as exception:
         return str(exception)
