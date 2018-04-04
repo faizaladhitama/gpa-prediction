@@ -71,3 +71,9 @@ def get_semester():
     return
     """
     pass
+
+def get_evaluation_status():
+  pass
+
+def get_total_credits():
+  pass

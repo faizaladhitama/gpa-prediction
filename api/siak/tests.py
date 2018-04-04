@@ -89,7 +89,7 @@ class RequesterTest(TestCase):
 
         self.assertTrue("mocked" in str(context.exception))
 
-class UtilsTest(TestCase):
+class AuthGeneratorTest(TestCase):
     def setUp(self):
         mocked_post = patch('requests.post')
         mocked_get = patch('requests.get')
@@ -100,17 +100,14 @@ class UtilsTest(TestCase):
         self.addCleanup(mocked_post.stop)
         self.addCleanup(mocked_get.stop)
 
-    def test_get_client_id(self):
-        client_id = 'X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG'
-        self.assertEqual(client_id, self.generator.get_client_id())
-
     def test_get_token_on_valid(self):
         self.mocked_post.return_value = create_mocked_response(200, {"access_token": 1})
 
         mock_uname = "mocked"
         mock_pswd = "mocked"
+        mock_hash = "mocked"
 
-        resp = self.generator.get_access_token(mock_uname, mock_pswd)
+        resp = self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
         self.assertEqual(1, resp)
 
     def test_get_token_on_invalid(self):
@@ -118,9 +115,10 @@ class UtilsTest(TestCase):
 
         mock_uname = "mocked"
         mock_pswd = "mocked"
+        mock_hash = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.get_access_token(mock_uname, mock_pswd)
+            self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
 
         self.assertTrue('mocked' in str(context.exception))
 
@@ -128,17 +126,19 @@ class UtilsTest(TestCase):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
 
         mock_access_token = "mocked"
+        mock_client_id = "mocked"
 
-        resp = self.generator.verify_user(mock_access_token)
+        resp = self.generator.verify_user(mock_access_token, mock_client_id)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_verify_user_on_invalid(self):
         self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
         mock_access_token = "mocked"
+        mock_client_id = "mocked"
 
         with self.assertRaises(ValueError) as context:
-            self.generator.verify_user(mock_access_token)
+            self.generator.verify_user(mock_access_token, mock_client_id)
 
         self.assertEqual("Token not detected", str(context.exception))
 
@@ -147,8 +147,9 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
+        mock_client_id = "mocked"
 
-        resp = self.generator.get_data_user(mock_access_token, mock_npm)
+        resp = self.generator.get_data_user(mock_access_token, mock_npm, mock_client_id)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_get_data_user_on_invalid(self):
@@ -156,9 +157,10 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
+        mock_client_id = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.get_data_user(mock_access_token, mock_npm)
+            self.generator.get_data_user(mock_access_token, mock_npm, mock_client_id)
 
         self.assertTrue('mocked' in str(context.exception))
 
@@ -166,14 +168,12 @@ class SiakTest(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
-        mocked_get_id = patch('api.siak.utils.AuthGenerator.get_client_id')
         mocked_verify = patch('api.siak.utils.AuthGenerator.verify_user')
         mocked_get_data = patch('api.siak.utils.AuthGenerator.get_data_user')
         mocked_requester = patch('api.siak.utils.Requester.request_academic_data')
 
         self.mocked_generator = mocked_generator.start()
         self.mocked_verify = mocked_verify.start()
-        self.mocked_get_id = mocked_get_id.start()
         self.mocked_get_token = mocked_get_token.start()
         self.mocked_get_data = mocked_get_data.start()
         self.mocked_requester = mocked_requester.start()
@@ -183,7 +183,6 @@ class SiakTest(TestCase):
         self.addCleanup(mocked_verify.stop)
         self.addCleanup(mocked_get_token.stop)
         self.addCleanup(mocked_get_data.stop)
-        self.addCleanup(mocked_get_id.stop)
 
         self.mock_npm = "mocked"
         self.mock_username = "kafuu.chino"
@@ -193,7 +192,6 @@ class SiakTest(TestCase):
         self.mocked_generator.return_value = None
         self.mocked_verify.return_value = {"username":"kafuu.chino"}
         self.mocked_requester.return_value = "mocked"
-        self.mocked_get_id.return_value = 1
         self.mocked_get_token.return_value = 1
 
         resp = get_academic_record(self.mock_npm, self.mock_username, self.mock_password)
@@ -204,7 +202,6 @@ class SiakTest(TestCase):
         self.mocked_generator.return_value = None
         self.mocked_verify.return_value = {"username":"mocked"}
         self.mocked_requester.return_value = "mocked"
-        self.mocked_get_id.return_value = 1
         self.mocked_get_token.return_value = 1
 
         resp = get_academic_record(self.mock_npm, self.mock_username, self.mock_password)
@@ -214,7 +211,6 @@ class SiakTest(TestCase):
     def test_get_record_on_value_error(self):
         self.mocked_generator.return_value = None
         self.mocked_verify.side_effect = ValueError("mocked error")
-        self.mocked_get_id.return_value = 1
         self.mocked_get_token.return_value = 1
 
         resp = get_academic_record(self.mock_npm, self.mock_username, self.mock_password)
