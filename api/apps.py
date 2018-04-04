@@ -12,5 +12,5 @@ class prediksiEvaluasiAkademik():
 			status = "Lolos"
 		else if(sks_lulus < sks_minimal and sks_kemungkinan >= sks_minimal):
 			status = "Hati Hati"
-
+		#ip buat apa ya? harus check aturan akademis dulu
 		return status

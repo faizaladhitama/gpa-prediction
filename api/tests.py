@@ -120,7 +120,3 @@ class ExternalAPITest(TestCase):
                                     {'username': 'molo', 'password': 'mola', 'connection': False},
                                     follow=True)
         self.assertEqual(response.status_code, 200)
-
-class EvaluasiAkademikTest(TestCase):
-    def test_rumus(self):
-        pass
