@@ -1,6 +1,9 @@
-{% extends 'mahasiswa/base-mahasiswa.tpl' %}
+{% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-<h10>{% for message in messages %}
-	<h3 class="messages">{{message}}</h3>
-{% endfor %}</h10>
+	<h6>
+		{% for message in messages %}
+			<h6 class="messages">{{message}}</h6>
+		{% endfor %}
+	</h6>
+	{% include 'mahasiswa/prediktor.tpl' %}
 {% endblock %}
