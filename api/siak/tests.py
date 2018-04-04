@@ -23,29 +23,29 @@ class RequesterTest(TestCase):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
 
         mock_npm = "mocked"
-        mock_access_token = "mocked"
+        mock_token = "mocked"
         mock_client_id = "mocked"
         mock_term = 1
         mock_year = 1512
 
-        resp = Requester.request_sks(mock_npm, mock_term, mock_year, mock_client_id, mock_access_token)
+        resp = Requester.request_sks(mock_npm, mock_term, mock_year, mock_client_id, mock_token)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_request_sks_on_invalid(self):
         self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
 
         mock_npm = "mocked"
-        mock_access_token = "mocked"
+        mock_token = "mocked"
         mock_client_id = "mocked"
         mock_term = 1
         mock_year = 1512
 
         with self.assertRaises(ValueError) as context:
-            resp = Requester.request_sks(mock_npm, mock_term, mock_year, mock_client_id, mock_access_token)
+            Requester.request_sks(mock_npm, mock_term, mock_year, mock_client_id, mock_token)
 
         self.assertTrue("mocked" in str(context.exception))
 
-    def test_request_mahasiswa_data_on_valid(self):
+    def test_request_md_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
 
         mock_npm = "mocked"
@@ -55,7 +55,7 @@ class RequesterTest(TestCase):
         resp = Requester.request_mahasiswa_data(mock_npm, mock_client_id, mock_access_token)
         self.assertEqual("mocked", resp["mocked"])
 
-    def test_request_mahasiswa_data_on_invalid(self):
+    def test_request_md_on_invalid(self):
         self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
 
         mock_npm = "mocked"
