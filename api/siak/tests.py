@@ -19,6 +19,54 @@ class RequesterTest(TestCase):
         self.mocked_get = mocked_get.start()
         self.addCleanup(mocked_get.stop)
 
+    def test_request_sks_on_valid(self):
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+
+        mock_npm = "mocked"
+        mock_token = "mocked"
+        mock_client_id = "mocked"
+        mock_term = 1
+        mock_year = 1512
+
+        resp = Requester.request_sks(mock_npm, mock_term, mock_year, mock_client_id, mock_token)
+        self.assertEqual("mocked", resp["mocked"])
+
+    def test_request_sks_on_invalid(self):
+        self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
+
+        mock_npm = "mocked"
+        mock_token = "mocked"
+        mock_client_id = "mocked"
+        mock_term = 1
+        mock_year = 1512
+
+        with self.assertRaises(ValueError) as context:
+            Requester.request_sks(mock_npm, mock_term, mock_year, mock_client_id, mock_token)
+
+        self.assertTrue("mocked" in str(context.exception))
+
+    def test_request_md_on_valid(self):
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+
+        mock_npm = "mocked"
+        mock_access_token = "mocked"
+        mock_client_id = "mocked"
+
+        resp = Requester.request_mahasiswa_data(mock_npm, mock_client_id, mock_access_token)
+        self.assertEqual("mocked", resp["mocked"])
+
+    def test_request_md_on_invalid(self):
+        self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
+
+        mock_npm = "mocked"
+        mock_access_token = "mocked"
+        mock_client_id = "mocked"
+
+        with self.assertRaises(ValueError) as context:
+            Requester.request_mahasiswa_data(mock_npm, mock_client_id, mock_access_token)
+
+        self.assertTrue("mocked" in str(context.exception))
+
     def test_request_data_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
 
@@ -26,7 +74,7 @@ class RequesterTest(TestCase):
         mock_access_token = "mocked"
         mock_client_id = "mocked"
 
-        resp = Requester.request_academic_data(mock_npm, mock_access_token, mock_client_id)
+        resp = Requester.request_academic_data(mock_npm, mock_client_id, mock_access_token)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_request_data_on_invalid(self):
@@ -36,8 +84,8 @@ class RequesterTest(TestCase):
         mock_access_token = "mocked"
         mock_client_id = "mocked"
 
-        with self.assertRaises(Exception) as context:
-            Requester.request_academic_data(mock_npm, mock_access_token, mock_client_id)
+        with self.assertRaises(ValueError) as context:
+            Requester.request_academic_data(mock_npm, mock_client_id, mock_access_token)
 
         self.assertTrue("mocked" in str(context.exception))
 
@@ -89,10 +137,10 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(ValueError) as context:
             self.generator.verify_user(mock_access_token)
 
-        self.assertTrue("mocked" in str(context.exception))
+        self.assertEqual("Token not detected", str(context.exception))
 
     def test_get_data_user_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
