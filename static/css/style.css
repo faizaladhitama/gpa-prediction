@@ -1,0 +1,35 @@
+@font-face {
+    font-family: Montserrat-Regular;
+    src: url("../fonts/Montserrat-Regular.ttf");
+}
+
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url("../fonts/Montserrat-Bold.ttf");
+}
+
+@media screen and (max-width: 768px) {
+	.footer {
+		position: relative !important;
+		bottom: 0 !important;
+		width: 100%;
+		font-size: 11px;
+		text-align: center
+	}
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+body {
+	background-color: #DFDFDE;
+	font-family: 'Montserrat-Regular';
+}
+
+.messages {
+	margin-top:3%;
+	font-family: 'Montserrat-Bold';
+}
