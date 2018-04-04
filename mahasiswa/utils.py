@@ -73,7 +73,7 @@ def get_semester():
     pass
 
 def get_evaluation_status():
-  pass
+    pass
 
 def get_total_credits():
-  pass
+    pass
