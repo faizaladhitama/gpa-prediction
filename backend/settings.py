@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import platform
+import sys
 
 import dj_database_url
 
@@ -115,6 +117,14 @@ DATABASES = {
     }
 }
 
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'test.sqlite3',
+        'TEST_NAME': 'test_db.sqlite3',
+    }
+    TEMPLATE_DEBUG = False
+
 # If Using Heroku Environemnt, then Use Database Setting on Heroku
 if PRODUCTION:
     DATABASES['default'] = dj_database_url.config()
@@ -137,6 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -157,3 +168,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+if platform.system() == "Windows":
+    CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
+else:
+    CHROME_PATH = "./chromedriver"
