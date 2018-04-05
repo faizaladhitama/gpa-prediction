@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.test import TestCase
 
-from mahasiswa.utils import get_term, get_context_mahasiswa
+from mahasiswa.utils import get_term, get_context_mahasiswa, get_evaluation_detail_message
 
 
 class URLTest(TestCase):
@@ -30,7 +30,7 @@ class MockRequest:
         self.session = session
 
 
-class UnitTest(TestCase):
+class TermTest(TestCase):
     def test_term_1(self):
         now = datetime(2018, 4, 1)
         self.assertEqual(get_term(now), "2017/2018 - 2")
@@ -43,6 +43,8 @@ class UnitTest(TestCase):
         now = datetime(2018, 7, 1)
         self.assertEqual(get_term(now), "2017/2018 - 3")
 
+
+class ContextTest(TestCase):
     def test_context_mahasiswa_valid(self):
         session = {
             'user_login': 'dummy',
@@ -63,3 +65,17 @@ class UnitTest(TestCase):
         request = MockRequest()
         context = get_context_mahasiswa(request, get_term(datetime.now()))
         self.assertEqual(context, "'user_login'")
+
+
+class EvaluationTest(TestCase):
+    def test_detail_valid_all(self):
+        self.assertEqual(None, get_evaluation_detail_message("S1", 2))
+
+    def test_detail_valid_semester_only(self):
+        self.assertEqual(None, get_evaluation_detail_message("S1", -1))
+
+    def test_detail_valid_ip_only(self):
+        self.assertEqual(None, get_evaluation_detail_message("S-teh", 2))
+
+    def test_detail_invalid_all(self):
+        self.assertEqual(None, get_evaluation_detail_message("S-teh", -1))
