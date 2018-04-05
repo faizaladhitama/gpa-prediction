@@ -25,41 +25,83 @@ def get_context_mahasiswa(request, term_str):
     except AttributeError as excp:
         return str(excp)
 
-def get_evaluation_detail_message(message):
-    """
-    sumber = "Keputusan Rektor Universitas Indonesia"
-    "Nomor: 478/SK/R/UI/2004 tentang Evaluasi "
-    "Keberhasilan Studi Mahasiswa Universitas "
-    "Indonesia Pasal 11"
-    """
-    putus_akademik = {
-        'IP': 'Apabila pada evaluasi akhir '
-              'masa studi tidak memperoleh indeks '
-              'prestasi minimal 2,0 (dua koma nol) '
-              'dari beban studi yang dipersyaratkan '
-              'dengan nilai terendah C.',
-        'SKS' :{
-            '2': 'Apabila pada evaluasi 2 (dua) '
-                 'semester pertama tidak memperoleh '
-                 'indeks prestasi minimal 2,0 (dua koma '
-                 'nol) dari sekurang-kurangnya 24 (dua '
-                 'puluh empat) SKS terbaik;',
-            '4': 'Apabila pada evaluasi 4 (empat) '
-                 'semester pertama tidak memperoleh indeks '
-                 'prestasi minimal 2,0 (dua koma nol) dari '
-                 'sekurang-kurangnya 48 (empat puluh delapan) '
-                 'SKS terbaik;',
-            '8': 'Apabila pada evaluasi 2 (dua) '
-                 'semester pertama tidak memperoleh indeks '
-                 'prestasi minimal 2,0 (dua koma nol) dari '
-                 'sekurang-kurangnya 24 (dua puluh empat) '
-                 'SKS terbaik;'
-            }
+
+def get_evaluation_detail_message(jenjang, semester):
+    source = "Keputusan Rektor Universitas Indonesia\
+            Nomor: 478/SK/R/UI/2004 tentang Evaluasi\
+            Keberhasilan Studi Mahasiswa Universitas\
+            Indonesia Pasal 11"
+    putus_studi = {
+        'S1': {
+            '2': 'Apabila pada evaluasi 2 (dua) semester pertama \
+                 tidak memperoleh indeks prestasi minimal 2,0 \
+                 (dua koma nol) dari sekurang-kurangnya 24 \
+                 (dua puluh empat) SKS terbaik',
+            '4': 'Apabila pada evaluasi 4 (dua) semester pertama \
+                 tidak memperoleh indeks prestasi minimal 2,0 \
+                 (dua koma nol) dari sekurang-kurangnya 48 \
+                 (dua puluh empat) SKS terbaik',
+            '8': 'Apabila pada evaluasi 2 (dua) semester pertama \
+                 tidak memperoleh indeks prestasi minimal 2,0 \
+                 (dua koma nol) dari sekurang-kurangnya 96 \
+                 (dua puluh empat) SKS terbaik',
+            '12': 'Apabila pada evaluasi akhir masa studi \
+                 tidak memperoleh indeks prestasi minimal 2,0 \
+                 (dua koma nol) dari beban studi yang dipersyaratkan \
+                 dengan nilai terendah C'
+        },
+        'S2': {
+            '2': 'Apabila pada evaluasi 2 (dua) semester pertama \
+                    tidak memperoleh indeks prestasi minimal 2,75 \
+                    (dua koma tujuh puluh lima) dari sekurang-kurangnya 18 \
+                    (delapan belas) SKS terbaik',
+            '4': 'Apabila pada evaluasi akhir masa studi \
+                tidak memperoleh indeks prestasi minimal 2,75 \
+                (dua koma tujuh puluh lima) dari beban studi yang dipersyaratkan \
+                dengan nilai terendah C'
+        },
+        'S3_S2': {
+            '2': 'Apabila pada evaluasi 2 (dua) semester pertama \
+                     tidak memperoleh indeks prestasi minimal 2,75 \
+                     (dua koma tujuh puluh lima) dari jumlah SKS minimal \
+                     yang dipersyaratkan',
+            '4': 'Apabila pada evaluasi 4 (dua) semester pertama \
+                    tidak berhasil lulus ujian kualifikasi  dan usulan \
+                    penelitannya tidak memperoleh persetujuan panitia  \
+                    penilai usulan penelitian untuk disertasi',
+            '6': 'Apabila pada evaluasi 6 (enam) semester pertama \
+                     tidak berhasil lulus ujian usulan penelitian dengan indeks prestasi minimal 2,75 \
+                     (dua koma tujuh puluh lima) untuk semua mata kuliah yang dipersyaratkan',
+            '10': 'Apabila pada evaluasi akhir masa studi (sepuluh semester)\
+                     tidak memenuhi persyaratan untuk mengikuti ujian akhir pendidikan\
+                     (ujian promosi doktor berupa penilaian terhadap disertasi)\
+                      dengan indeks prestasi kumulatif dari beban studi \
+                      yang dipersyaratkan minimal 2,75 (dua koma tujuh puluh lima)'
+        },
+        'S3_S1': {
+            '4': 'Apabila pada evaluasi 4 (empat) semester pertama \
+                     tidak memperoleh indeks prestasi minimal 2,75 \
+                     (dua koma tujuh puluh lima) dari jumlah SKS minimal \
+                     yang dipersyaratkan program studi',
+            '5': 'Apabila pada evaluasi 5 (lima) semester pertama \
+                    tidak berhasil lulus ujian kualifikasi  dan usulan \
+                    penelitannya tidak memperoleh persetujuan panitia  \
+                    penilai usulan penelitian untuk disertasi',
+            '8': 'Apabila pada evaluasi 8 (delapan) semester pertama \
+                     tidak berhasil lulus ujian usulan penelitian dengan indeks prestasi minimal 2,75 \
+                     (dua koma tujuh puluh lima) untuk semua mata kuliah yang dipersyaratkan',
+            '10': 'Apabila pada evaluasi akhir masa studi (sepuluh semester)\
+                     tidak memenuhi persyaratan untuk mengikuti ujian akhir pendidikan\
+                     (ujian promosi doktor berupa penilaian terhadap disertasi)\
+                      dengan indeks prestasi kumulatif dari beban studi \
+                      yang dipersyaratkan minimal 2,75 (dua koma tujuh puluh lima)'
+        }
     }
-    if "IP" in message:
-        return putus_akademik['IP']
-    else:
-        return None
+    try:
+        return {"source": source, "detail": putus_studi[jenjang][semester]}
+    except KeyError:
+        return "Wrong jenjang and semester"
+
 
 def get_semester():
     """
@@ -72,8 +114,10 @@ def get_semester():
     """
     pass
 
+
 def get_evaluation_status():
     pass
+
 
 def get_total_credits():
     pass
