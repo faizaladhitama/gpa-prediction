@@ -1,10 +1,19 @@
 #!/usr/bin/env python
 import os
 import sys
-import dotenv
+from os.path import join, dirname
+import warnings
+
+from dotenv import load_dotenv
 
 if __name__ == "__main__":
-    dotenv.load_dotenv(".env")
+    dotenv_path = join(dirname(__file__), '.env')
+    with warnings.catch_warnings():
+        warnings.filterwarnings('error')
+        try:
+            load_dotenv(dotenv_path)
+        except Warning:
+            pass
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
     try:
         from django.core.management import execute_from_command_line
