@@ -5,13 +5,6 @@ stages:
 TestBackend:
   image: python:3.6
   stage: test
-  #Postgres CI
-  #services:
-  #  - postgres:latest
-  #variables:
-  #  POSTGRES_DB: prima
-  #  POSTGRES_USER: usagistudio
-  #  POSTGRES_PASSWORD: pplc7
   before_script:
     #Reference : Lab PPW Odd Semester 2017/2018
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -24,6 +17,7 @@ TestBackend:
     - apt-get install -y xvfb
     - wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
     - unzip chromedriver_linux64.zip
+    - ./setup.sh
     - python manage.py collectstatic --no-input
     - python manage.py runserver 8000 &
   when: on_success
@@ -42,8 +36,8 @@ DeploymentProduction:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-    - dpl --provider=heroku --app=prima-pplc7 --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+    - dpl --provider=heroku --app=prima-pplc7 --api-key=$API_KEY
+    - export HEROKU_API_KEY=$API_KEY
     - heroku run bash --app prima-pplc7 deployment.sh
   environment:
     name: production
@@ -58,8 +52,8 @@ DeploymentStaging:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-    - dpl --provider=heroku --app=prima-sit-uat --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+    - dpl --provider=heroku --app=prima-sit-uat --api-key=$API_KEY
+    - export HEROKU_API_KEY=$API_KEY
     - heroku run bash --app prima-sit-uat deployment.sh
   environment:
     name: staging
@@ -75,8 +69,8 @@ DeploymentCobacoba:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-    - dpl --provider=heroku --app=prima-cobacoba --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+    - dpl --provider=heroku --app=prima-cobacoba --api-key=$API_KEY
+    - export HEROKU_API_KEY=$API_KEY
     - heroku run bash --app prima-cobacoba deployment.sh
   environment:
     name: coba-coba
