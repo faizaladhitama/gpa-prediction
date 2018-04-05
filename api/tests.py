@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as wait
+from api.apps import give_verdict
 
 
 class SeleniumTestCase(LiveServerTestCase):
@@ -120,3 +121,16 @@ class ExternalAPITest(TestCase):
                                     {'username': 'molo', 'password': 'mola', 'connection': False},
                                     follow=True)
         self.assertEqual(response.status_code, 200)
+
+class EvaluasiTest(TestCase):
+    def test_rumus_lolos(self):
+        hasil = give_verdict(48, 48, 19, 3.3)
+        self.assertEqual(hasil, "Lolos")
+
+    def test_rumus_lolos_hti(self):
+        hasil = give_verdict(48, 40, 19, 3.3)
+        self.assertEqual(hasil, "Hati Hati")
+
+    def test_rumus_lolos_neg(self):
+        hasil = give_verdict(48, 10, 19, 2.3)
+        self.assertEqual(hasil, "Tidak Lolos")

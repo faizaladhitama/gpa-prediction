@@ -128,7 +128,7 @@
 <p id="t7" class="stm run hide_run">        <span class="nam">generator</span> <span class="op">=</span> <span class="nam">AuthGenerator</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t8" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t9" class="stm run hide_run">        <span class="nam">client_id</span> <span class="op">=</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">CLIENT_ID</span><span class="strut">&nbsp;</span></p>
-<p id="t10" class="stm run hide_run">        <span class="nam">token</span> <span class="op">=</span> <span class="nam">generator</span><span class="op">.</span><span class="nam">get_access_token</span><span class="op">(</span><span class="nam">username</span><span class="op">,</span> <span class="nam">password</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t10" class="stm run hide_run">        <span class="nam">token</span> <span class="op">=</span> <span class="nam">generator</span><span class="op">.</span><span class="nam">get_access_token</span><span class="op">(</span><span class="nam">username</span><span class="op">,</span> <span class="nam">password</span><span class="op">,</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">AUTH_HASH</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t11" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t12" class="stm run hide_run">        <span class="key">if</span> <span class="nam">generator</span><span class="op">.</span><span class="nam">verify_user</span><span class="op">(</span><span class="nam">token</span><span class="op">,</span> <span class="nam">client_id</span><span class="op">)</span><span class="op">[</span><span class="str">'username'</span><span class="op">]</span> <span class="op">==</span> <span class="nam">username</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t13" class="stm run hide_run">            <span class="nam">res</span> <span class="op">=</span> <span class="nam">Requester</span><span class="op">.</span><span class="nam">request_academic_data</span><span class="op">(</span><span class="nam">npm</span><span class="op">,</span> <span class="nam">client_id</span><span class="op">,</span> <span class="nam">token</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -178,7 +178,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.3.4</a>,
-            created at 2018-04-04 23:33
+            created at 2018-04-05 08:31
         </p>
     </div>
 </div>
