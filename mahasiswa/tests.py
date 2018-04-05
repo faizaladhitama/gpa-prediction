@@ -53,7 +53,7 @@ class ContextTest(TestCase):
         }
         request = MockRequest(session)
         context = get_context_mahasiswa(request, get_term(datetime.now()))
-        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio', \
+        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio',
                                    'user': 'dummy', 'id': 'dummy', 'role': 'dummy'})
 
     def test_context_invalid_request(self):
@@ -69,13 +69,29 @@ class ContextTest(TestCase):
 
 class EvaluationTest(TestCase):
     def test_detail_valid_all(self):
-        self.assertEqual(None, get_evaluation_detail_message("S1", 2))
+        detail_message = get_evaluation_detail_message("S1", 2)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
 
     def test_detail_valid_semester_only(self):
-        self.assertEqual(None, get_evaluation_detail_message("S1", -1))
+        detail_message = get_evaluation_detail_message("S1", -1)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
 
     def test_detail_valid_ip_only(self):
-        self.assertEqual(None, get_evaluation_detail_message("S-teh", 2))
+        detail_message = get_evaluation_detail_message("S-teh", 2)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
 
     def test_detail_invalid_all(self):
-        self.assertEqual(None, get_evaluation_detail_message("S-teh", -1))
+        detail_message = get_evaluation_detail_message("S-teh", -1)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
