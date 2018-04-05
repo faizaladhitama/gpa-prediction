@@ -32,14 +32,6 @@ class Requester:
             raise ValueError(err_msg)
         return response.json()
 
-class SKSCollecetor:
-    def __init__(self, npm, client_id):
-        self.sks = []
-
-    def get_generation(self, npm, client_id, token):
-        data = Requester.request_academic_data(npm, client_id, token)
-        return data['program'][0]['angkatan']
-
 class AuthGenerator:
     def __init__(self):
         self.api_mahasiswa = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/"
