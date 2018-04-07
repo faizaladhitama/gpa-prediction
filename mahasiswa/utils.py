@@ -1,10 +1,13 @@
-def get_term(datetime):
-    year = datetime.year
+from datetime import datetime
+
+
+def get_term(now):
+    year = now.year
     term = 1
-    if datetime.month < 8:
-        year = datetime.year - 1
+    if now.month < 8:
+        year = now.year - 1
         term = 3
-        if datetime.month > 2 and datetime.month < 7:
+        if now.month > 2 and now.month < 7:
             term = 2
     term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     return term_str
@@ -103,21 +106,33 @@ def get_evaluation_detail_message(jenjang, semester):
         return "Wrong jenjang and semester"
 
 
-def get_semester():
-    """
-    term_str = get_term()
-    kode_identitas = request.session['kode_identitas']
-    angkatan = int(kode_identitas[2:])
-    year = int(term_str[5:-4])
-    term = int(term_str[-1:])
-    return
-    """
-    pass
+def get_semester(angkatan, term):
+    tahun = (datetime.now()).year
+    if(term > 3 or term < 1):
+        return "Wrong term"
+    else:
+        semester = tahun-angkatan
+        if term % 2 == 0 or term == 3:
+            semester = semester*2
+        else:
+            semester = (semester*2)-1
+        return semester
 
+def get_angkatan(kode_identitas):
+    tahun = (datetime.now()).year
+    angkatan = 0
+    try:
+        kode_identitas = kode_identitas[:2]
+        if int(kode_identitas[:1]) == 0:
+            angkatan = int((str(tahun)[:3])+kode_identitas[1:2])
+        else:
+            angkatan = int((str(tahun)[:2])+kode_identitas)
+        return angkatan
+    except ValueError:
+        return "Wrong kode identitas"
 
 def get_evaluation_status():
     pass
-
 
 def get_total_credits():
     pass

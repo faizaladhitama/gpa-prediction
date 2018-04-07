@@ -2,7 +2,9 @@ from datetime import datetime
 
 from django.test import TestCase
 
-from mahasiswa.utils import get_term, get_context_mahasiswa, get_evaluation_detail_message
+from mahasiswa.utils import get_term, get_context_mahasiswa, \
+    get_evaluation_detail_message, get_semester, \
+    get_angkatan
 
 
 class URLTest(TestCase):
@@ -95,3 +97,30 @@ class EvaluationTest(TestCase):
         detail = detail_message['detail']
         self.assertEqual(None, source)
         self.assertEqual(None, detail)
+
+
+class SemesterTest(TestCase):
+    def test_semester_2_term(self):
+        semester = get_semester(2015, 2)
+        self.assertEqual(6, semester)
+
+    def test_semester_1_term(self):
+        semester = get_semester(2015, 1)
+        self.assertEqual(6, semester)
+
+    def test_semester_3_term(self):
+        semester = get_semester(2015, 3)
+        self.assertEqual(6, semester)
+
+    def test_term_invalid(self):
+        semester = get_semester(2015, 4)
+        self.assertEqual("Wrong term", semester)
+
+class AngkatanTest(TestCase):
+    def test_angkatan_valid(self):
+        angkatan = get_angkatan("15066989162")
+        self.assertEqual(2015, angkatan)
+
+    def test_angkatan_invalid(self):
+        angkatan = get_angkatan("-1506689162")
+        self.assertEqual("Wrong kode identitas", angkatan)
