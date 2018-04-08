@@ -99,7 +99,11 @@ class URLTest(TestCase):
 
     def test_landing_invalid(self):
         response = self.client.get('', follow=True)
-        self.assertEqual(response.status_code, 401)    
+        self.assertEqual(response.status_code, 401)
+
+    def test_landing_invalid(self):
+        response = self.client.get('', follow=True)
+        self.assertEqual(response.status_code, 404) 
 
 
 class UserTest(TestCase):
