@@ -101,20 +101,25 @@ class EvaluationTest(TestCase):
 
 class SemesterTest(TestCase):
     def test_semester_2_term(self):
-        semester = get_semester(2015, 2)
+        semester = get_semester("15066989162", 2)
         self.assertEqual(6, semester)
 
     def test_semester_1_term(self):
-        semester = get_semester(2015, 1)
+        semester = get_semester("15066989162", 1)
         self.assertEqual(6, semester)
 
     def test_semester_3_term(self):
-        semester = get_semester(2015, 3)
+        semester = get_semester("15066989162", 3)
         self.assertEqual(6, semester)
 
     def test_term_invalid(self):
-        semester = get_semester(2015, 4)
+        semester = get_semester("15066989162", 4)
         self.assertEqual("Wrong term", semester)
+
+    def kode_identitas_invalid(self):
+        semester = get_semester("-15066989162", 4)
+        self.assertEqual("Wrong kode identitas", semester)
+
 
 class AngkatanTest(TestCase):
     def test_angkatan_valid(self):

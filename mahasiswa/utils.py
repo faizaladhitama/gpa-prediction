@@ -106,17 +106,22 @@ def get_evaluation_detail_message(jenjang, semester):
         return "Wrong jenjang and semester"
 
 
-def get_semester(angkatan, term):
-    tahun = (datetime.now()).year
-    if(term > 3 or term < 1):
-        return "Wrong term"
-    else:
-        semester = tahun-angkatan
-        if term % 2 == 0 or term == 3:
-            semester = semester*2
+def get_semester(kode_identitas, term):
+    try:
+        tahun = (datetime.now()).year
+        angkatan = get_angkatan(kode_identitas)
+        if(term > 3 or term < 1):
+            return "Wrong term"
         else:
-            semester = (semester*2)-1
-        return semester
+            semester = tahun-angkatan
+            if term % 2 == 0 or term == 3:
+                semester = semester*2
+            else:
+                semester = (semester*2)-1
+            return semester
+    except ValueError:
+        return "Wrong kode identitas"
+
 
 def get_angkatan(kode_identitas):
     tahun = (datetime.now()).year
