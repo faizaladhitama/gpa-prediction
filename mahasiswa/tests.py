@@ -129,3 +129,9 @@ class AngkatanTest(TestCase):
     def test_angkatan_invalid(self):
         angkatan = get_angkatan("-1506689162")
         self.assertEqual("Wrong kode identitas", angkatan)
+
+
+class EvaluationStatusTest(TestCase):
+    def test_evaluation_status_lolos(self):
+        status = get_evaluation_status("1506688879", 2, 48)
+        self.assertEqual(status, "lolos")
