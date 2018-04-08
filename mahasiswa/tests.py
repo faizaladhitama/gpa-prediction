@@ -145,13 +145,15 @@ class EvaluationStatusTest(TestCase):
         self.assertEqual(status, "tidak-lolos")
 
     def test_evaluation_status_hati_hati(self):
-        status = get_evaluation_status("1506688879", 3, 40)
+        status = get_evaluation_status("1506688879", 3, 36)
         self.assertEqual(status, "hati-hati")
 
     def test_evaluation_status_hati_hati_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 40)
+        status = get_evaluation_status("1506688879", 3, 36)
         self.assertEqual(status, "lolos")
 
     def test_evaluation_status_hati_hati_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 40)
+        status = get_evaluation_status("1506688879", 3, 36)
         self.assertEqual(status, "tidak-lolos")
+
+
