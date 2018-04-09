@@ -94,9 +94,17 @@ class URLTest(TestCase):
         response = self.client.get('/index', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_landing(self):
+    def test_landing_valid(self):
         response = self.client.get('', follow=True)
         self.assertEqual(response.status_code, 200)
+
+    def test_landing_invalid(self):
+        response = self.client.get('', follow=True)
+        self.assertEqual(response.status_code, 401)
+
+    def test_landing_invalid(self):
+        response = self.client.get('', follow=True)
+        self.assertEqual(response.status_code, 404) 
 
 
 class UserTest(TestCase):
