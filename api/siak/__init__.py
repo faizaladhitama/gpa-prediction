@@ -49,3 +49,23 @@ def get_data_user(access_token, npm):
         return str(exception)
 
 def get_sks(access_token, npm):
+    try:
+        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+
+        tot_sks = 0
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1, 4):
+                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                for course in range(len(res)):
+                    if res[course]['kelas'] != None:
+                        tot_sks = tot_sks + res[course]['kelas']['nm_mk_cl']['jml_sks']
+
+        return tot_sks, None
+    except ValueError as exception:
+        return None, str(exception)
+    except requests.ConnectionError as exception:
+        return None, str(exception)
