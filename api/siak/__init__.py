@@ -1,5 +1,6 @@
 import os
 import requests
+import datetime
 from api.siak.utils import AuthGenerator, Requester
 
 def get_academic_record(npm, username, password):
@@ -46,3 +47,5 @@ def get_data_user(access_token, npm):
         return str(exception)
     except requests.ConnectionError as exception:
         return str(exception)
+
+def get_sks(access_token, npm):
