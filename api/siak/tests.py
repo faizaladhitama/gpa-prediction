@@ -336,3 +336,14 @@ class SiakTest(TestCase):
 
         self.assertIsNone(resp)
         self.assertEqual("connection refused", err)
+
+    def test_get_sks_on_val_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = ValueError("mocked error")
+
+        resp, err = get_sks(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("mocked error", err)
+
