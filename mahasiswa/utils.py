@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from api.apps import give_verdict
 
 def get_term(now):
     year = now.year
@@ -28,6 +28,11 @@ def get_context_mahasiswa(request, term_str):
     except AttributeError as excp:
         return str(excp)
 
+
+def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip=3.0):
+    sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
+    status = give_verdict(12*term, sks_lulusm, sks_diambil, ip)
+    return status
 
 def get_evaluation_detail_message(jenjang, semester):
     source = "Keputusan Rektor Universitas Indonesia\
