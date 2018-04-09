@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
-    get_angkatan
+    get_angkatan, get_evaluation_status
 
 
 class URLTest(TestCase):
