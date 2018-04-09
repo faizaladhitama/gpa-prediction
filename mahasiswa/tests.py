@@ -133,37 +133,37 @@ class AngkatanTest(TestCase):
 
 class EvaluationStatusTest(TestCase):
     def test_evaluation_status_lolos(self):
-        status = get_evaluation_status("1506688879", 3, 48)
+        status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "lolos")
 
     def test_evaluation_status_lolos_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 48)
+        status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "hati-hati")
 
     def test_evaluation_status_lolos_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 48)
+        status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "tidak lolos")
 
     def test_evaluation_status_hati_hati(self):
-        status = get_evaluation_status("1506688879", 3, 38)
+        status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "hati-hati")
 
     def test_evaluation_status_hati_hati_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 38)
+        status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "lolos")
 
     def test_evaluation_status_hati_hati_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 38)
+        status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "tidak lolos")
 
     def test_evaluation_status_tidak_lolos(self):
-        status = get_evaluation_status("1506688879", 3, 25)
+        status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "tidak lolos")
 
     def test_evaluation_status_tidak_lolos_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 25)
+        status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "lolos")
 
     def test_evaluation_status_tidak_lolos_invalid(self):
-        status = get_evaluation_status("1506688879", 3, 25)
+        status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "hati-hati")
