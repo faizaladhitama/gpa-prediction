@@ -101,6 +101,7 @@ def get_evaluation_detail_message(jenjang, semester):
         }
     }
     try:
+        semester = str(semester)
         return {"source": source, "detail": putus_studi[jenjang][semester]}
     except KeyError:
         return "Wrong jenjang and semester"
