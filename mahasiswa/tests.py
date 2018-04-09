@@ -134,36 +134,36 @@ class AngkatanTest(TestCase):
 class EvaluationStatusTest(TestCase):
     def test_evaluation_status_lolos(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "hati-hati")
+        self.assertEqual(status, "Hati-Hati")
 
     def test_evaluation_status_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "tidak lolos")
+        self.assertEqual(status, "Tidak Lolos")
 
     def test_evaluation_status_hati_hati(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "hati-hati")
+        self.assertEqual(status, "Hati-Hati")
 
     def test_evaluation_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "tidak lolos")
+        self.assertEqual(status, "Tidak Lolos")
 
     def test_evaluation_status_tidak_lolos(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "tidak lolos")
+        self.assertEqual(status, "Tidak Lolos")
 
     def test_evaluation_status_tidak_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_tidak_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "hati-hati")
+        self.assertEqual(status, "Hati-Hati")

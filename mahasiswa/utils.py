@@ -31,7 +31,7 @@ def get_context_mahasiswa(request, term_str):
 
 def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip=3.0):
     sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
-    status = give_verdict(12*term, sks_lulusm, sks_diambil, ip)
+    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip)
     return status
 
 def get_evaluation_detail_message(jenjang, semester):

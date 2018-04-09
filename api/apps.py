@@ -11,5 +11,5 @@ def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
     if(ip_aman and sks_lulus >= sks_minimal):
         status = "Lolos"
     elif(ip_aman and sks_lulus < sks_minimal and sks_kemungkinan >= sks_minimal):
-        status = "Hati Hati"
+        status = "Hati-Hati"
     return status
