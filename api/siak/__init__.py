@@ -1,6 +1,6 @@
 import os
-import requests
 import datetime
+import requests
 from api.siak.utils import AuthGenerator, Requester
 
 def get_academic_record(npm, username, password):
@@ -60,9 +60,9 @@ def get_sks(access_token, npm):
         for year in range(int(angkatan), now.year + 1):
             for term in range(1, 4):
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
-                for course in range(len(res)):
-                    if res[course]['kelas'] != None:
-                        tot_sks = tot_sks + res[course]['kelas']['nm_mk_cl']['jml_sks']
+                for course in res:
+                    if course['kelas'] != None:
+                        tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
 
         return tot_sks, None
     except ValueError as exception:

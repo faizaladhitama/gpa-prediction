@@ -317,8 +317,8 @@ class SiakTest(TestCase):
     def test_get_sks_on_valid(self):
         mocked_token = "mocked"
 
-        self.mocked_req_data.return_value = {'program': [ { 'angkatan': 2015 } ] }
-        
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
         mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
         self.mocked_req_sks.return_value = mocked_sks
 
@@ -346,4 +346,3 @@ class SiakTest(TestCase):
 
         self.assertIsNone(resp)
         self.assertEqual("mocked error", err)
-
