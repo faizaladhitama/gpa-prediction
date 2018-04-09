@@ -30,6 +30,10 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip=3.0):
+    if(term == 5 or term == 6): #semester 5 dan 6 tidak ada evaluasi
+        term = 8
+    elif(term % 2 > 0):
+        term = term+1 #evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
     status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip)
     return status
@@ -106,9 +110,10 @@ def get_evaluation_detail_message(jenjang, semester):
         }
     }
     try:
+        semester = str(semester)
         return {"source": source, "detail": putus_studi[jenjang][semester]}
     except KeyError:
-        return "Wrong jenjang and semester"
+        return "Wrong degree and semester"
 
 
 def get_semester(kode_identitas, term):

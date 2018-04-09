@@ -138,7 +138,7 @@ class EvaluasiTest(TestCase):
 
     def test_rumus_lolos_hati_hati(self):
         hasil = give_verdict(48, 40, 19, 3.3)
-        self.assertEqual(hasil, "Hati Hati")
+        self.assertEqual(hasil, "Hati-Hati")
 
     def test_rumus_lolos_negatif(self):
         hasil = give_verdict(48, 10, 19, 2.3)
