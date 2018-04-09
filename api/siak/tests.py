@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 import requests
 from requests.models import Response
 from django.test import TestCase
-from api.siak import get_academic_record, get_access_token, verify_user, get_data_user
+from api.siak import get_academic_record, get_access_token, verify_user, get_data_user, get_sks
 from api.siak.utils import AuthGenerator, Requester
 
 
@@ -171,18 +171,24 @@ class SiakTest(TestCase):
         mocked_verify = patch('api.siak.utils.AuthGenerator.verify_user')
         mocked_get_data = patch('api.siak.utils.AuthGenerator.get_data_user')
         mocked_requester = patch('api.siak.utils.Requester.request_academic_data')
+        mocked_req_sks = patch('api.siak.utils.Requester.request_sks')
+        mocked_req_data = patch('api.siak.utils.Requester.request_mahasiswa_data')
 
         self.mocked_generator = mocked_generator.start()
         self.mocked_verify = mocked_verify.start()
         self.mocked_get_token = mocked_get_token.start()
         self.mocked_get_data = mocked_get_data.start()
         self.mocked_requester = mocked_requester.start()
+        self.mocked_req_sks = mocked_req_sks.start()
+        self.mocked_req_data = mocked_req_data.start()
 
         self.addCleanup(mocked_generator.stop)
         self.addCleanup(mocked_requester.stop)
         self.addCleanup(mocked_verify.stop)
         self.addCleanup(mocked_get_token.stop)
         self.addCleanup(mocked_get_data.stop)
+        self.addCleanup(mocked_req_sks.stop)
+        self.addCleanup(mocked_req_data.stop)
 
         self.mock_npm = "mocked"
         self.mock_username = "kafuu.chino"
@@ -307,3 +313,36 @@ class SiakTest(TestCase):
         resp = get_data_user(mocked_token, self.mock_npm)
 
         self.assertEqual("connection refused", resp)
+
+    def test_get_sks_on_valid(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual(3, resp)
+
+    def test_get_sks_on_conn_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_sks(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_sks_on_val_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = ValueError("mocked error")
+
+        resp, err = get_sks(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("mocked error", err)
