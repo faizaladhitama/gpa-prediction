@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
-    get_angkatan
+    get_angkatan, get_evaluation_status
 
 
 class URLTest(TestCase):
@@ -70,33 +70,33 @@ class ContextTest(TestCase):
 
 
 class EvaluationTest(TestCase):
-    def setUp(self):
-        self.true_source = "Keputusan Rektor Universitas Indonesia\
-            Nomor: 478/SK/R/UI/2004 tentang Evaluasi\
-            Keberhasilan Studi Mahasiswa Universitas\
-            Indonesia Pasal 11"
-
     def test_detail_valid_all(self):
         detail_message = get_evaluation_detail_message("S1", 2)
         source = detail_message['source']
         detail = detail_message['detail']
-        self.assertEqual(self.true_source, source)
-        self.assertEqual('Apabila pada evaluasi 2 (dua) semester pertama \
-                 tidak memperoleh indeks prestasi minimal 2,0 \
-                 (dua koma nol) dari sekurang-kurangnya 24 \
-                 (dua puluh empat) SKS terbaik', detail)
-
-    def test_detail_valid_degree_only(self):
-        detail_message = get_evaluation_detail_message("S1", -1)
-        self.assertEqual("Wrong degree and semester", detail_message)
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
 
     def test_detail_valid_semester_only(self):
+        detail_message = get_evaluation_detail_message("S1", -1)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
+
+    def test_detail_valid_ip_only(self):
         detail_message = get_evaluation_detail_message("S-teh", 2)
-        self.assertEqual("Wrong degree and semester", detail_message)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
 
     def test_detail_invalid_all(self):
         detail_message = get_evaluation_detail_message("S-teh", -1)
-        self.assertEqual("Wrong degree and semester", detail_message)
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual(None, source)
+        self.assertEqual(None, detail)
 
 
 class SemesterTest(TestCase):
@@ -134,36 +134,36 @@ class AngkatanTest(TestCase):
 class EvaluationStatusTest(TestCase):
     def test_evaluation_status_lolos(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "hati-hati")
+        self.assertEqual(status, "Hati-Hati")
 
     def test_evaluation_status_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "tidak lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_hati_hati(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "hati-hati")
+        self.assertEqual(status, "Hati-Hati")
 
     def test_evaluation_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "tidak lolos")
+        self.assertEqual(status, "Hati-Hati")
 
     def test_evaluation_status_tidak_lolos(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "tidak lolos")
+        self.assertEqual(status, "Tidak Lolos")
 
     def test_evaluation_status_tidak_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "lolos")
+        self.assertEqual(status, "Lolos")
 
     def test_evaluation_status_tidak_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "hati-hati")
+        self.assertEqual(status, "Tidak Lolos")

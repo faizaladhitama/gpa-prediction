@@ -11,11 +11,8 @@
   </li>
 </ul>
 <div class="tab-content mx-auto" id="myTabContent2">
-  <div class=" eval-content tab-pane fade show active" id="peraturanAkademik" role="tabpanel" aria-labelledby="peraturan-tab">
-    {% include 'mahasiswa/prediktor-evaluasi-akademik.tpl' %}  
+  <div class=" eval-content tab-pane fade show active" id="peraturanAkademik" role="tabpanel" aria-labelledby="peraturan-tab"> 
   </div>
   <div class="tab-pane fade mx-auto" id="rekam" role="tabpanel" aria-labelledby="rekam-tab">
-    {% include 'search-bar.tpl' %}
-    {% include 'mahasiswa/prediktor-matkul.tpl' %}
   </div>
 </div>
