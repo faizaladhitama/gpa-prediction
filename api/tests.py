@@ -123,7 +123,8 @@ class ExternalAPITest(TestCase):
 
 class ViewProfileMahasiswa(SeleniumTestCase):
     def test_profile_mahasiswa_is_exist(self):
-        pass
+        response = Client().get('/mahasiswa/profile', follow=True)
+        self.assertEqual(response.status_code, 200)
 
     def test_view_profile_mahasiswa(self):
         pass
