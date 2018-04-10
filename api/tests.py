@@ -120,3 +120,10 @@ class ExternalAPITest(TestCase):
                                     {'username': 'molo', 'password': 'mola', 'connection': False},
                                     follow=True)
         self.assertEqual(response.status_code, 200)
+
+class ViewProfileMahasiswa(SeleniumTestCase):
+    def test_profile_mahasiswa_is_exist(self):
+        pass
+
+    def test_view_profile_mahasiswa(self):
+        pass
