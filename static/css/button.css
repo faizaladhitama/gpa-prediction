@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url("../fonts/Montserrat-Bold.ttf");
+}
+
 .btn3d {
 	position: relative;
 	top: -6px;
@@ -9,8 +14,10 @@
 	margin-right: 2px;
 	border-radius: 50%;
 	width: 350px;
- height: 350px;
+	height: 350px;
 	font-size: 60px;
+	font-family: Montserrat-Bold;
+	text-transform: uppercase;
 }
 
 .btn3d:active:focus,

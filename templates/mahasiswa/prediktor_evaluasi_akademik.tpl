@@ -3,7 +3,7 @@
 <div class="container">
 		<div class="row ">
 			<div class="col prediktor-body" id="prediktor-eval-button">
-				<button type="button" class="btn btn-success btn-lg btn3d">LULUS</button>
+				<button type="button" class="btn btn-success btn-lg btn3d">lolos</button>
 			</div>
 		</div>
 
