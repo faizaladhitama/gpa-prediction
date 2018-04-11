@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.core.exceptions import ObjectDoesNotExist
 from api.models import MahasiswaSIAK
 
 class ApiConfig(AppConfig):
@@ -16,8 +17,9 @@ def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
 
 def save_status(npm, status):
     try:
-        mahasiswa = MahasiswaSIAK.objects.get(npm = npm)
+        mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
         mahasiswa.status_evaluasi = status
         mahasiswa.save()
-    except Exception as e:
-        return e.__str__()
+        return ""
+    except ObjectDoesNotExist as exception:
+        return exception.__str__()

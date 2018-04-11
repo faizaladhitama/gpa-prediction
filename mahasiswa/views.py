@@ -2,8 +2,8 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from mahasiswa.utils import get_term, get_context_mahasiswa, get_semester
-from api.apps import give_verdict
+from mahasiswa.utils import get_term, get_context_mahasiswa
+#from api.apps import give_verdict
 
 # Create your views here.
 def index(request):

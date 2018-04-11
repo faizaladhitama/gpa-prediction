@@ -1,5 +1,5 @@
 from datetime import datetime
-from api.apps import give_verdict
+from api.apps import give_verdict, save_status
 
 def get_term(now):
     year = now.year
@@ -29,13 +29,14 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
 
 
-def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip=3.0):
+def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
     if(term == 5 or term == 6): #semester 5 dan 6 tidak ada evaluasi
         term = 8
-    elif(term % 2 > 0):
+    elif term % 2 > 0:
         term = term+1 #evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
-    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip)
+    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_now)
+    save_status(npm, status)
     return status
 
 def get_evaluation_detail_message(jenjang, semester):
@@ -146,5 +147,5 @@ def get_angkatan(kode_identitas):
     except ValueError:
         return "Wrong kode identitas"
 
-def get_total_credits(npm, term, year):
-    return 0
+def get_total_credits():
+    pass

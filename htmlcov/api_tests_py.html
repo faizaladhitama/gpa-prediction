@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for api/tests.py: 97%</title>
+    <title>Coverage for api/tests.py: 100%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,15 +24,15 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>api/tests.py</b> :
-            <span class="pc_cov">97%</span>
+            <span class="pc_cov">100%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
             62 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">60 run</span>
-            <span class="mis shortkey_m button_toggle_mis">2 missing</span>
+            <span class="run hide_run shortkey_r button_toggle_run">62 run</span>
+            <span class="mis shortkey_m button_toggle_mis">0 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -179,14 +179,14 @@
 <p id="n110" class="stm run hide_run"><a href="#n110">110</a></p>
 <p id="n111" class="stm run hide_run"><a href="#n111">111</a></p>
 <p id="n112" class="pln"><a href="#n112">112</a></p>
-<p id="n113" class="stm mis"><a href="#n113">113</a></p>
+<p id="n113" class="stm run hide_run"><a href="#n113">113</a></p>
 <p id="n114" class="pln"><a href="#n114">114</a></p>
 <p id="n115" class="pln"><a href="#n115">115</a></p>
 <p id="n116" class="stm run hide_run"><a href="#n116">116</a></p>
 <p id="n117" class="stm run hide_run"><a href="#n117">117</a></p>
 <p id="n118" class="stm run hide_run"><a href="#n118">118</a></p>
 <p id="n119" class="pln"><a href="#n119">119</a></p>
-<p id="n120" class="stm mis"><a href="#n120">120</a></p>
+<p id="n120" class="stm run hide_run"><a href="#n120">120</a></p>
 <p id="n121" class="pln"><a href="#n121">121</a></p>
 <p id="n122" class="stm run hide_run"><a href="#n122">122</a></p>
 <p id="n123" class="stm run hide_run"><a href="#n123">123</a></p>
@@ -232,9 +232,9 @@
             </td>
             <td class="text">
 <p id="t1" class="stm run hide_run"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">test</span> <span class="key">import</span> <span class="nam">TestCase</span><span class="strut">&nbsp;</span></p>
-<p id="t2" class="stm run hide_run"><span class="key">from</span> <span class="nam">api</span><span class="op">.</span><span class="nam">apps</span> <span class="key">import</span> <span class="nam">ApiConfig</span><span class="op">,</span> <span class="nam">give_verdict</span><span class="op">,</span> <span class="nam">save_status</span><span class="strut">&nbsp;</span></p>
+<p id="t2" class="stm run hide_run"><span class="key">from</span> <span class="nam">api</span><span class="op">.</span><span class="nam">apps</span> <span class="key">import</span> <span class="nam">give_verdict</span><span class="op">,</span> <span class="nam">save_status</span><span class="strut">&nbsp;</span></p>
 <p id="t3" class="stm run hide_run"><span class="key">from</span> <span class="nam">api</span><span class="op">.</span><span class="nam">models</span> <span class="key">import</span> <span class="nam">MahasiswaSIAK</span><span class="strut">&nbsp;</span></p>
-<p id="t4" class="stm run hide_run"><span class="key">from</span> <span class="nam">api</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">utils</span> <span class="key">import</span> <span class="nam">create_dosen</span><span class="op">,</span> <span class="nam">create_mahasiswa_siak</span><span class="strut">&nbsp;</span></p>
+<p id="t4" class="stm run hide_run"><span class="key">from</span> <span class="nam">api</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">utils</span> <span class="key">import</span> <span class="nam">create_mahasiswa_siak</span><span class="strut">&nbsp;</span></p>
 <p id="t5" class="pln"><span class="com"># from django.conf import settings</span><span class="strut">&nbsp;</span></p>
 <p id="t6" class="pln"><span class="com"># from django.test import Client</span><span class="strut">&nbsp;</span></p>
 <p id="t7" class="pln"><span class="com"># from django.test import LiveServerTestCase</span><span class="strut">&nbsp;</span></p>
@@ -343,14 +343,14 @@
 <p id="t110" class="stm run hide_run">    <span class="key">def</span> <span class="nam">test_auth_login_negative</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t111" class="stm run hide_run">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">post</span><span class="op">(</span><span class="str">'/auth-login'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t112" class="pln">                                    <span class="op">{</span><span class="str">'username'</span><span class="op">:</span> <span class="str">'molo'</span><span class="op">,</span> <span class="str">'password'</span><span class="op">:</span> <span class="str">'mola'</span><span class="op">}</span><span class="op">,</span> <span class="nam">follow</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t113" class="stm mis">        <span class="nam">self</span><span class="op">.</span><span class="nam">assertEqual</span><span class="op">(</span><span class="nam">response</span><span class="op">.</span><span class="nam">status_code</span><span class="op">,</span> <span class="num">200</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t113" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">assertEqual</span><span class="op">(</span><span class="nam">response</span><span class="op">.</span><span class="nam">status_code</span><span class="op">,</span> <span class="num">200</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t114" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t115" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t116" class="stm run hide_run"><span class="key">class</span> <span class="nam">ExternalAPITest</span><span class="op">(</span><span class="nam">TestCase</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t117" class="stm run hide_run">    <span class="key">def</span> <span class="nam">test_ui_server_up</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t118" class="stm run hide_run">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">post</span><span class="op">(</span><span class="str">'/auth-login'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t119" class="pln">                                    <span class="op">{</span><span class="str">'username'</span><span class="op">:</span> <span class="str">'molo'</span><span class="op">,</span> <span class="str">'password'</span><span class="op">:</span> <span class="str">'mola'</span><span class="op">}</span><span class="op">,</span> <span class="nam">follow</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t120" class="stm mis">        <span class="nam">self</span><span class="op">.</span><span class="nam">assertEqual</span><span class="op">(</span><span class="nam">response</span><span class="op">.</span><span class="nam">status_code</span><span class="op">,</span> <span class="num">200</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t120" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">assertEqual</span><span class="op">(</span><span class="nam">response</span><span class="op">.</span><span class="nam">status_code</span><span class="op">,</span> <span class="num">200</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t121" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t122" class="stm run hide_run">    <span class="key">def</span> <span class="nam">test_ui_server_down</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t123" class="stm run hide_run">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">post</span><span class="op">(</span><span class="str">'/auth-login'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
@@ -388,7 +388,7 @@
 <p id="t155" class="stm run hide_run">        <span class="nam">flag</span> <span class="op">=</span> <span class="nam">MahasiswaSIAK</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="nam">npm</span><span class="op">=</span><span class="nam">npm</span><span class="op">)</span><span class="op">.</span><span class="nam">status_evaluasi</span><span class="strut">&nbsp;</span></p>
 <p id="t156" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">assertEqual</span><span class="op">(</span><span class="nam">flag</span><span class="op">,</span> <span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t157" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t158" class="stm run hide_run">    <span class="key">def</span> <span class="nam">test_save_status_notFound</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t158" class="stm run hide_run">    <span class="key">def</span> <span class="nam">test_save_status_not_found</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t159" class="stm run hide_run">        <span class="nam">hasil</span> <span class="op">=</span> <span class="nam">save_status</span><span class="op">(</span><span class="str">'6969696969'</span><span class="op">,</span> <span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t160" class="stm run hide_run">        <span class="nam">expected</span> <span class="op">=</span> <span class="str">'MahasiswaSIAK matching query does not exist.'</span><span class="strut">&nbsp;</span></p>
 <p id="t161" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">assertEqual</span><span class="op">(</span><span class="nam">expected</span><span class="op">,</span> <span class="nam">hasil</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -402,7 +402,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.3.4</a>,
-            created at 2018-04-11 15:36
+            created at 2018-04-11 15:44
         </p>
     </div>
 </div>

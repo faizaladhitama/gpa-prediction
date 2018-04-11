@@ -31,7 +31,7 @@ def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa J
     ma_new.nip_pa = Dosen.objects.get(nip=nip_pa)
     ma_new.save()
 
-def create_mahasiswa_siak(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa Jenjang", nip_pa=""):
+def create_mahasiswa_siak(npm, nama="nama_def", prodi="no Prodi", program="no Jenjang", nip_pa=""):
     if Dosen.objects.filter(nip=nip_pa).count() < 1:
         if nip_pa == "":
             nip_pa = "1234567890" #default dosen

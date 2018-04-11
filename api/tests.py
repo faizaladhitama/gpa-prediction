@@ -1,7 +1,7 @@
 from django.test import TestCase
-from api.apps import ApiConfig, give_verdict, save_status
+from api.apps import give_verdict, save_status
 from api.models import MahasiswaSIAK
-from api.db.utils import create_dosen, create_mahasiswa_siak
+from api.db.utils import create_mahasiswa_siak
 # from django.conf import settings
 # from django.test import Client
 # from django.test import LiveServerTestCase
@@ -155,7 +155,7 @@ class EvaluasiTest(TestCase):
         flag = MahasiswaSIAK.objects.get(npm=npm).status_evaluasi
         self.assertEqual(flag, False)
 
-    def test_save_status_notFound(self):
+    def test_save_status_not_found(self):
         hasil = save_status('6969696969', False)
         expected = 'MahasiswaSIAK matching query does not exist.'
         self.assertEqual(expected, hasil)
