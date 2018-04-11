@@ -106,7 +106,7 @@ class SemesterTest(TestCase):
 
     def test_semester_2_tua_term(self):
         semester = get_semester("08066989162", 2)
-        self.assertEqual(6, semester)
+        self.assertEqual(0, semester)
 
     def test_semester_1_term(self):
         semester = get_semester("15066989162", 1)
@@ -140,9 +140,9 @@ class EvaluationStatusTest(TestCase):
         status = get_evaluation_status(3, 48, 18)
         self.assertEqual(status, "Lolos")
 
-    def test_eval_status_tua_lolos(self):
+    def test_eval_status_tua_failed(self):
         status = get_evaluation_status(5, 48, 18)
-        self.assertEqual(status, "Lolos")
+        self.assertEqual(status, "Tidak Lolos")
 
     def test_eval_warning_invalid(self):
         status = get_evaluation_status(3, 48, 18)
