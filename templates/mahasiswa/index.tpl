@@ -5,5 +5,6 @@
 			<h6 class="messages">{{message}}</h6>
 		{% endfor %}
 	</h6>
+	{% include 'mahasiswa/prediktor.tpl' %}
 	{% include 'mahasiswa/detail-akademik-modal.tpl' %}
 {% endblock %}
