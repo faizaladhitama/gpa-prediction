@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-
+from api.models import Mahasiswa
 
 class ApiConfig(AppConfig):
     name = 'api'
@@ -13,3 +13,8 @@ def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
     elif(ip_aman and sks_lulus < sks_minimal and sks_kemungkinan >= sks_minimal):
         status = "Hati-Hati"
     return status
+
+def save_status(npm, status):
+    mahasiswa = Mahasiswa.objects.get(npm = npm)
+    mahasiswa.status_evaluasi = status
+    mahasiswa.save()
