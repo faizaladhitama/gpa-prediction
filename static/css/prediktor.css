@@ -12,9 +12,10 @@ h1 {
 	font-family: 'Montserrat-Bold';
 }
 
-h3 {
+.matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
+	margin-left: 30%;
 }
 
 #mytabs {

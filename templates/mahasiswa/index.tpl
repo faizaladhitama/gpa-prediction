@@ -6,4 +6,5 @@
 		{% endfor %}
 	</h6>
 	{% include 'mahasiswa/predictor-tabs.tpl' %}
+	{% include 'mahasiswa/detail-akademik-modal.tpl' %}
 {% endblock %}
