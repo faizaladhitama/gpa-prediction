@@ -12,7 +12,7 @@ h5 {
     background-color: #81d4fa;
 }
 
-.nav-link:focus, .nav-link:hover {
+.nav-link:focus {
 	background-color: #81d4fa;
 }
 
