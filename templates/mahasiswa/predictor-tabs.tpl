@@ -12,7 +12,7 @@
 </ul>
 <div class="tab-content mx-auto" id="myTabContent">
   <div class=" eval-content tab-pane fade show active" id="evaluasi" role="tabpanel" aria-labelledby="evaluas-tab">
-    {% include 'mahasiswa/prediktor-evaluasi-akademik.tpl' %}  
+    {% include 'mahasiswa/prediktor_evaluasi_akademik.tpl' %}  
   </div>
   <div class="tab-pane fade mx-auto" id="matkul" role="tabpanel" aria-labelledby="matkul-tab">
     {% include 'mahasiswa/prediktor-matkul.tpl' %}
