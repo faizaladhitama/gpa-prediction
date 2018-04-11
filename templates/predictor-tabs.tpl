@@ -15,7 +15,6 @@
     {% include 'mahasiswa/prediktor-evaluasi-akademik.tpl' %}  
   </div>
   <div class="tab-pane fade mx-auto" id="matkul" role="tabpanel" aria-labelledby="matkul-tab">
-    {% include 'search-bar.tpl' %}
     {% include 'mahasiswa/prediktor-matkul.tpl' %}
   </div>
 </div>
