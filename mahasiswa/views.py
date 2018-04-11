@@ -4,21 +4,14 @@ from django.shortcuts import render
 
 from mahasiswa.utils import get_term, get_context_mahasiswa, get_semester
 from api.apps import give_verdict
+
 # Create your views here.
 def index(request):
     now = datetime.now()
     term_str = get_term(now)
     try:
         context = get_context_mahasiswa(request, term_str)
-        semester = get_semester(context['id'], int(term_str))
-        ip = 4.0
-        if semester == 6:
-            message = "Selamat anda lolos"
-        else:
-            batas_sks = (semester/2) * 24
-        sks_diperoleh = 48
-        sks_diambil = 21
-        evaluasi_akademik()
+        # evaluasi_akademik()
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
@@ -34,4 +27,10 @@ def rekomendasi(request):
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
 
 def evaluasi_akademik():
+    # now = datetime.now()
+    # term_str = get_term(now)
+    # semester = get_semester(context['id'], int(term_str))
+    # sks_diperoleh = 48
+    # sks_diambil = 20
+    # ip = 4.0
     pass
