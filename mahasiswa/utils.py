@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from api.apps import give_verdict
+
 
 def get_term(now):
     year = now.year
@@ -29,14 +31,15 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
 
 
-def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip=3.0):
-    if(term == 5 or term == 6): #semester 5 dan 6 tidak ada evaluasi
+def get_evaluation_status(term, sks_lulus, sks_diambil, index_prestasi=3.0):
+    if term == 5 or term == 6:  # semester 5 dan 6 tidak ada evaluasi
         term = 8
-    elif(term % 2 > 0):
-        term = term+1 #evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
-    sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
-    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip)
+    elif term % 2 > 0:
+        term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
+    sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
+    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, index_prestasi)
     return status
+
 
 def get_evaluation_detail_message(jenjang, semester):
     source = "Keputusan Rektor Universitas Indonesia\
@@ -117,34 +120,32 @@ def get_evaluation_detail_message(jenjang, semester):
 
 
 def get_semester(kode_identitas, term):
-    try:
-        tahun = (datetime.now()).year
-        angkatan = get_angkatan(kode_identitas)
-        if(term > 3 or term < 1):
-            return "Wrong term"
+    tahun = (datetime.now()).year
+    angkatan = get_angkatan(kode_identitas)
+    if angkatan == "Wrong kode identitas":
+        return angkatan
+    if (term > 3 or term < 1):
+        return "Wrong term"
+    else:
+        semester = tahun - angkatan
+        if term % 2 == 0 or term == 3:
+            semester = semester * 2
         else:
-            semester = tahun-angkatan
-            if term % 2 == 0 or term == 3:
-                semester = semester*2
-            else:
-                semester = (semester*2)-1
-            return semester
-    except ValueError:
-        return "Wrong kode identitas"
+            semester = (semester * 2) - 1
+        return semester
 
 
 def get_angkatan(kode_identitas):
     tahun = (datetime.now()).year
-    angkatan = 0
     try:
         kode_identitas = kode_identitas[:2]
         if int(kode_identitas[:1]) == 0:
-            angkatan = int((str(tahun)[:3])+kode_identitas[1:2])
+            angkatan = int((str(tahun)[:3]) + kode_identitas[1:2])
         else:
-            angkatan = int((str(tahun)[:2])+kode_identitas)
+            angkatan = int((str(tahun)[:2]) + kode_identitas)
         return angkatan
     except ValueError:
         return "Wrong kode identitas"
 
-def get_total_credits(npm, term, year):
-    return 0
+# def get_total_credits(npm, term, year):
+#    return 0

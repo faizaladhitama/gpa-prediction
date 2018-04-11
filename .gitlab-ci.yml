@@ -17,6 +17,7 @@ TestBackend:
     - apt-get install -y xvfb
     - wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
     - unzip chromedriver_linux64.zip
+    - chmod +x ./setup.sh
     - ./setup.sh
     - python manage.py collectstatic --no-input
     - python manage.py runserver 8000 &
