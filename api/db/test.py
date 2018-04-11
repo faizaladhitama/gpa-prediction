@@ -28,10 +28,10 @@ class UtilsTest(TestCase):
         mock_npm = "mocked"
         mock_username = "sonoko.nogi"
         mock_password = "12345"
-        a = get_siak_data(mock_npm, mock_username, mock_password)
+        hasil = get_siak_data(mock_npm, mock_username, mock_password)
 
         expected = "Wrong username or password, input: sonoko.nogi, 12345"
-        self.assertEqual(expected, str(context.exception))
+        self.assertEqual(expected, hasil)
 
     def test_parse_siak(self):
         self.mocked_get_siak_data.return_value = "mocked"
