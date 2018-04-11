@@ -106,7 +106,7 @@ class SemesterTest(TestCase):
 
     def test_semester_1_term(self):
         semester = get_semester("15066989162", 1)
-        self.assertEqual(6, semester)
+        self.assertEqual(5, semester)
 
     def test_semester_3_term(self):
         semester = get_semester("15066989162", 3)
@@ -132,38 +132,38 @@ class AngkatanTest(TestCase):
 
 
 class EvaluationStatusTest(TestCase):
-    def test_evaluation_status_lolos(self):
+    def test_eval_status_lolos(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "Lolos")
 
-    def test_evaluation_status_lolos_invalid(self):
+    def test_eval_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "Hati-Hati")
 
-    def test_evaluation_status_lolos_invalid(self):
+    def test_eval_status_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "Lolos")
 
-    def test_evaluation_status_hati_hati(self):
+    def test_eval_status_hati_hati(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "Hati-Hati")
 
-    def test_evaluation_status_hati_hati_invalid(self):
+    def test_eval_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "Lolos")
 
-    def test_evaluation_status_hati_hati_invalid(self):
+    def test_eval_status_hati_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "Hati-Hati")
 
-    def test_evaluation_status_tidak_lolos(self):
+    def test_eval_status_tidak_lolos(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "Tidak Lolos")
 
-    def test_evaluation_status_tidak_lolos_invalid(self):
+    def test_eval_status_tidak_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "Lolos")
 
-    def test_evaluation_status_tidak_lolos_invalid(self):
+    def test_eval_status_tidak_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "Tidak Lolos")
