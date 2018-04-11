@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from api.models import Mahasiswa
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
 
 class ApiConfig(AppConfig):
     name = 'api'
@@ -15,6 +15,9 @@ def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
     return status
 
 def save_status(npm, status):
-    mahasiswa = Mahasiswa.objects.get(npm = npm)
-    mahasiswa.status_evaluasi = status
-    mahasiswa.save()
+    try:
+        mahasiswa = Mahasiswa.objects.get(npm = npm)
+        mahasiswa.status_evaluasi = status
+        mahasiswa.save()
+    except:
+        print("Exceptions Happened at save_status") 

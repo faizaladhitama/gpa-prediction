@@ -118,7 +118,6 @@ DATABASES = {
     }
 }
 
-<<<<<<< HEAD
 if 'test' in sys.argv:
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -127,8 +126,6 @@ if 'test' in sys.argv:
     }
     TEMPLATE_DEBUG = False
 
-=======
->>>>>>> a2be2693d4b60d75bbf8816613ce9cb0607d6b80
 # If Using Heroku Environemnt, then Use Database Setting on Heroku
 if PRODUCTION:
     DATABASES['default'] = dj_database_url.config()
