@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
+from api.models import MahasiswaSIAK
 
 class ApiConfig(AppConfig):
     name = 'api'
@@ -7,7 +7,7 @@ class ApiConfig(AppConfig):
 def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
     status = "Tidak Lolos"
     sks_kemungkinan = sks_lulus + sks_diambil
-    ip_aman = ip_sekarang >= 2
+    ip_aman = ip_sekarang >= 2.0
     if(ip_aman and sks_lulus >= sks_minimal):
         status = "Lolos"
     elif(ip_aman and sks_lulus < sks_minimal and sks_kemungkinan >= sks_minimal):
@@ -16,8 +16,8 @@ def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
 
 def save_status(npm, status):
     try:
-        mahasiswa = Mahasiswa.objects.get(npm = npm)
+        mahasiswa = MahasiswaSIAK.objects.get(npm = npm)
         mahasiswa.status_evaluasi = status
         mahasiswa.save()
-    except:
-        print("Exceptions Happened at save_status") 
+    except Exception as e:
+        return e.__str__()

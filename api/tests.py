@@ -1,5 +1,7 @@
 from django.test import TestCase
-from api.apps import give_verdict
+from api.apps import give_verdict, save_status
+from api.models import MahasiswaSIAK
+from api.db.utils import create_dosen, create_mahasiswa
 # from django.conf import settings
 # from django.test import Client
 # from django.test import LiveServerTestCase
@@ -143,3 +145,23 @@ class EvaluasiTest(TestCase):
     def test_rumus_lolos_negatif(self):
         hasil = give_verdict(48, 10, 19, 2.3)
         self.assertEqual(hasil, "Tidak Lolos")
+
+    def test_save_status(self):
+        npm = '1506111222'
+        create_mahasiswa(npm)
+        save_status(npm, True)
+        flag = MahasiswaSIAK.objects.get(npm=npm).status_evaluasi
+        self.assertEqual(flag, True)
+
+    def test_save_status_false(self):
+        npm = '1506333444'
+        create_mahasiswa(npm)
+        save_status(npm, False)
+        flag = MahasiswaSIAK.objects.get(npm=npm).status_evaluasi
+        self.assertEqual(flag, False)
+
+
+    def test_save_status_notFound(self):
+        hasil = save_status('6969696969', False)
+        expected = 'MahasiswaSIAK matching query does not exist.'
+        self.assertEqual(expected, hasil)
