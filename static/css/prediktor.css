@@ -15,7 +15,7 @@ h1 {
 .matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
-	margin-left: 30%;
+	margin-left: 40%;
 }
 
 #mytabs {
@@ -44,16 +44,20 @@ h1 {
 	margin-left: 20%;
 }
 
+.prediktor-title-matkul {
+	margin-left: 30%;
+}
+
 .prediktor-body {
 	margin-top: 70px;
 }
 
 #result-button {
-	margin-left: -10%;
+	margin-left: 20%;
 }
 
 .prediktor-message {
-	margin-left: 30%;
+	margin-left: 25%;
 	margin-top: 30px;
 }
 
@@ -63,5 +67,10 @@ h1 {
 }
 
 #prediktor-eval-button {
-	margin-left: 35%;
+	margin-left: 30%;
+}
+
+#table-matkul-prasyarat {
+	margin-left: 50%;
+	margin-top: 15%;
 }
