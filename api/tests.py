@@ -123,8 +123,43 @@ class ExternalAPITest(TestCase):
 
 class ViewProfileMahasiswa(SeleniumTestCase):
     def test_profile_mahasiswa_is_exist(self):
-        response = Client().get('/mahasiswa/profile', follow=True)
+        response = self.client.get('/mahasiswa/profile', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_view_profile_mahasiswa(self):
-        pass
+        nama = self.browser.find_element_by_css_selector('#profile-mahasiswa-nama')\
+        .is_displayed()
+        self.assertTrue(nama, True)
+
+        angkatan = self.browser.find_element_by_css_selector('#profile-mahasiswa-angkatan')\
+        .is_displayed()
+        self.assertTrue(angkatan, True)
+
+        prodi = self.browser.find_element_by_css_selector('#profile-mahasiswa-prodi')\
+        .is_displayed()
+        self.assertTrue(prodi, True)
+
+        pem_akademik = self.browser.find_element_by_css_selector('#profile-mahasiswa-pa')\
+        .is_displayed()
+        self.assertTrue(pem_akademik, True)
+
+        status = self.browser.find_element_by_css_selector('#profile-mahasiswa-status')\
+        .is_displayed()
+        status = self.assertTrue(status, True)
+
+        sks_lulus = self.browser.find_element_by_css_selector('#profile-mahasiswa-sks-lulus')\
+        .is_displayed()
+        self.assertTrue(sks_lulus, True)
+
+        mutu = self.browser.find_element_by_css_selector('#profile-mahasiswa-mutu')\
+        .is_displayed()
+        self.assertTrue(mutu, True)
+
+        ipk = self.browser.find_element_by_css_selector('#profile-mahasiswa-ipk')\
+        .is_displayed()
+        self.assertTrue(ipk, True)
+
+        sks_diperoleh = self.browser.\
+        find_element_by_css_selector('#profile-mahasiswa-sks-diperoleh').is_displayed()
+        self.assertTrue(sks_diperoleh, True)
+        
