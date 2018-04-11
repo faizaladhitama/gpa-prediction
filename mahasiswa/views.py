@@ -2,8 +2,8 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from mahasiswa.utils import get_term, get_context_mahasiswa, get_semester
-from api.apps import give_verdict
+from mahasiswa.utils import get_term, get_context_mahasiswa
+
 
 # Create your views here.
 def index(request):
@@ -25,6 +25,7 @@ def profile(request):
 def rekomendasi(request):
     context = {'name': 'mahasiswa'}
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
+
 
 def evaluasi_akademik():
     # now = datetime.now()
