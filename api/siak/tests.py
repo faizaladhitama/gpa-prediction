@@ -1,3 +1,4 @@
+import datetime
 from unittest.mock import Mock, patch
 import requests
 from requests.models import Response
@@ -322,10 +323,12 @@ class SiakTest(TestCase):
         mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
         self.mocked_req_sks.return_value = mocked_sks
 
+        now = datetime.datetime.now()
+
         resp, err = get_sks(mocked_token, self.mock_npm)
 
         self.assertIsNone(err)
-        self.assertEqual(3, resp)
+        self.assertEqual(3 * (now.year + 1 - 2015) * 3, resp)
 
     def test_get_sks_on_conn_error(self):
         mocked_token = "mocked"
