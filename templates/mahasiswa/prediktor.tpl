@@ -4,7 +4,7 @@
 </ul>
 <div class="tab-content nav-item">
   <div id="evaluasi-akademik" class="tab-pane fade in active">
-    {% include 'mahasiswa/prediktor-evaluasi-akademik.tpl' %}
+    {% include 'mahasiswa/prediktor_evaluasi_akademik.tpl' %}
   </div>
   <div id="kelulusan-matkul" class="tab-pane fade">
 	{% include 'mahasiswa/prediktor-matkul.tpl' %}
