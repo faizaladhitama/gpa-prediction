@@ -3,8 +3,7 @@
 <div class="container">
 		<div class="row ">
 			<div class="col prediktor-body" id="prediktor-eval-button">
-				{% load static %} 
-				<img src= "{% static "assets/greenButton.png" %}">
+				<button type="button" class="btn btn-success btn-lg btn3d">LULUS</button>
 			</div>
 		</div>
 
