@@ -1,6 +1,6 @@
 from random import randint
 from api.siak import get_academic_record
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK
 
 def get_siak_data(npm, username, password):
     #kalo buat semuanya paling ITF , yang kita cuma bisa ambil 6 aja
@@ -28,6 +28,18 @@ def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa J
         create_dosen(nip=nip_pa, is_pa=True)
 
     ma_new = Mahasiswa(npm=npm, nama=nama, study_program=prodi, educational_program=program)
+    ma_new.nip_pa = Dosen.objects.get(nip=nip_pa)
+    ma_new.save()
+
+def create_mahasiswa_siak(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa Jenjang", nip_pa=""):
+    if Dosen.objects.filter(nip=nip_pa).count() < 1:
+        if nip_pa == "":
+            nip_pa = "1234567890" #default dosen
+        #else:
+        create_dosen(nip=nip_pa, is_pa=True)
+
+    ma_new = MahasiswaSIAK(npm=npm, nama=nama, study_program=prodi, educational_program=program)
+    ma_new.status_evaluasi = False
     ma_new.nip_pa = Dosen.objects.get(nip=nip_pa)
     ma_new.save()
 
