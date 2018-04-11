@@ -40,7 +40,7 @@ h3 {
 }
 
 .prediktor-title {
-	margin-left: -15%;
+	margin-left: 20%;
 }
 
 .prediktor-body {
@@ -52,7 +52,7 @@ h3 {
 }
 
 .prediktor-message {
-	margin-left: -10%;
+	margin-left: 30%;
 	margin-top: 30px;
 }
 
@@ -62,5 +62,5 @@ h3 {
 }
 
 #prediktor-eval-button {
-	margin-left: 70px;
+	margin-left: 35%;
 }

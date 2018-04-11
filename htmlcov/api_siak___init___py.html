@@ -224,7 +224,7 @@
 <p id="t73" class="stm run hide_run"><span class="key">def</span> <span class="nam">get_jenjang</span><span class="op">(</span><span class="nam">access_token</span><span class="op">,</span> <span class="nam">npm</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t74" class="stm run hide_run">    <span class="nam">res</span><span class="op">,</span> <span class="nam">err</span> <span class="op">=</span> <span class="nam">get_data_user</span><span class="op">(</span><span class="nam">access_token</span><span class="op">,</span> <span class="nam">npm</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t75" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t76" class="stm run hide_run">    <span class="key">if</span> <span class="nam">err</span> <span class="op">==</span> <span class="key">None</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t76" class="stm run hide_run">    <span class="key">if</span> <span class="nam">err</span> <span class="key">is</span> <span class="key">None</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t77" class="stm run hide_run">        <span class="key">return</span> <span class="nam">res</span><span class="op">[</span><span class="str">'program'</span><span class="op">]</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">[</span><span class="str">'nm_prg'</span><span class="op">]</span><span class="op">,</span> <span class="key">None</span><span class="strut">&nbsp;</span></p>
 <p id="t78" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t79" class="stm run hide_run">        <span class="key">return</span> <span class="key">None</span><span class="op">,</span> <span class="nam">err</span><span class="strut">&nbsp;</span></p>
@@ -238,7 +238,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.3.4</a>,
-            created at 2018-04-11 16:09
+            created at 2018-04-11 16:24
         </p>
     </div>
 </div>
