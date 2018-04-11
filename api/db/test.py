@@ -28,9 +28,7 @@ class UtilsTest(TestCase):
         mock_npm = "mocked"
         mock_username = "sonoko.nogi"
         mock_password = "12345"
-
-        with self.assertRaises(Exception) as context:
-            get_siak_data(mock_npm, mock_username, mock_password)
+        a = get_siak_data(mock_npm, mock_username, mock_password)
 
         expected = "Wrong username or password, input: sonoko.nogi, 12345"
         self.assertEqual(expected, str(context.exception))
