@@ -10,7 +10,7 @@ class Mahasiswa(Civitas):
     nip_pa = models.ForeignKey('Dosen', on_delete=models.CASCADE)
 
 class MahasiswaSIAK(Mahasiswa):
-    status_evaluasi = models.BooleanField()
+    status_evaluasi = models.TextField()
 
 class MahasiswaSSO(Mahasiswa):
     ldap_cn = models.TextField(max_length=100, blank=True)
@@ -18,9 +18,9 @@ class MahasiswaSSO(Mahasiswa):
     faculty = models.TextField(max_length=100, blank=True)
 
 class MataKuliah(models.Model):
-
     kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
     nip_pengajar = models.IntegerField()
+    sks = models.IntegerField()
     nama_matkul = models.CharField(max_length=40)
     prodi = models.CharField(max_length=30)
     tingkatKerjasama = models.IntegerField(0)

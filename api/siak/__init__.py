@@ -42,11 +42,11 @@ def verify_user(access_token):
 def get_data_user(access_token, npm):
     try:
         generator = AuthGenerator()
-        return generator.get_data_user(access_token, npm, os.environ['CLIENT_ID'])
+        return generator.get_data_user(access_token, npm, os.environ['CLIENT_ID']), None
     except ValueError as exception:
-        return str(exception)
+        return None, str(exception)
     except requests.ConnectionError as exception:
-        return str(exception)
+        return None, str(exception)
 
 def get_sks(access_token, npm):
     try:
@@ -69,3 +69,51 @@ def get_sks(access_token, npm):
         return None, str(exception)
     except requests.ConnectionError as exception:
         return None, str(exception)
+
+def get_all_sks_term(access_token, npm):
+    try:
+        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+
+        sks_map = {}
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1, 4):
+                tot_sks = 0
+                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                for course in res:
+                    if course['kelas'] != None:
+                        tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+
+                sks_map[term] = tot_sks
+
+        return sks_map, None
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)
+
+def get_sks_term(access_token, npm, year, term):
+    try:
+        res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+        tot_sks = 0
+
+        for course in res:
+            if course['kelas'] != None:
+                tot_sks = tot_sks + course['kelas']['nm_mk_ck']['jml_sks']
+
+        return tot_sks, None
+    except ValueError as exception:
+        return 0, str(exception)
+    except requests.ConnectionError as exception:
+        return 0, str(exception)
+
+def get_jenjang(access_token, npm):
+    res, err = get_data_user(access_token, npm)
+
+    if err is None:
+        return res['program'][0]['nm_prg'], None
+    else:
+        return None, err

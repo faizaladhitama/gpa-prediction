@@ -3,7 +3,9 @@ from unittest.mock import Mock, patch
 import requests
 from requests.models import Response
 from django.test import TestCase
-from api.siak import get_academic_record, get_access_token, verify_user, get_data_user, get_sks
+from api.siak import get_academic_record, get_access_token, \
+    verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
+    get_sks_term
 from api.siak.utils import AuthGenerator, Requester
 
 
@@ -291,8 +293,9 @@ class SiakTest(TestCase):
         self.mocked_generator.return_value = None
         self.mocked_get_data.return_value = {"mocked":"mocked"}
 
-        resp = get_data_user(mocked_token, self.mock_npm)
+        resp, err = get_data_user(mocked_token, self.mock_npm)
 
+        self.assertIsNone(err)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_get_data_on_value_error(self):
@@ -301,9 +304,10 @@ class SiakTest(TestCase):
         self.mocked_generator.return_value = None
         self.mocked_get_data.side_effect = ValueError("mocked error")
 
-        resp = get_data_user(mocked_token, self.mock_npm)
+        resp, err = get_data_user(mocked_token, self.mock_npm)
 
-        self.assertEqual("mocked error", resp)
+        self.assertIsNone(resp)
+        self.assertEqual("mocked error", err)
 
     def test_get_data_on_conn_error(self):
         mocked_token = "mocked"
@@ -311,9 +315,10 @@ class SiakTest(TestCase):
         self.mocked_generator.return_value = None
         self.mocked_get_data.side_effect = requests.ConnectionError("connection refused")
 
-        resp = get_data_user(mocked_token, self.mock_npm)
+        resp, err = get_data_user(mocked_token, self.mock_npm)
 
-        self.assertEqual("connection refused", resp)
+        self.assertIsNone(resp)
+        self.assertEqual("connection refused", err)
 
     def test_get_sks_on_valid(self):
         mocked_token = "mocked"
@@ -349,3 +354,84 @@ class SiakTest(TestCase):
 
         self.assertIsNone(resp)
         self.assertEqual("mocked error", err)
+
+    @patch('api.siak.get_data_user')
+    def test_get_jenjang_on_valid(self, mocked_get_data):
+        mocked_token = "mocked"
+        mocked_get_data.return_value = ({"program": [{"nm_prg": "S1 Regular"}]}, None)
+
+        program, err = get_jenjang(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual("S1 Regular", program)
+
+    @patch('api.siak.get_data_user')
+    def test_get_jenjang_on_invalid(self, mocked_get_data):
+        mocked_token = "mocked"
+        mocked_get_data.return_value = (None, "mocked error")
+
+        program, err = get_jenjang(mocked_token, self.mock_npm)
+
+        self.assertIsNone(program)
+        self.assertEqual("mocked error", err)
+
+    def test_get_all_sks_term_on_valid(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual({1: 3, 2: 3, 3: 3}, resp)
+
+    def test_get_all_sks_on_conn_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_all_sks_on_val_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = ValueError("mocked error")
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("mocked error", err)
+
+    def test_get_sks_term_on_valid(self):
+        mocked_token = "mocked"
+        mocked_sks = [{'kelas':{'nm_mk_ck': {'jml_sks': 3}}}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertIsNone(err)
+        self.assertEqual(3, resp)
+
+    def test_get_sks_term_on_conn_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_sks_term_on_val_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = ValueError("connection refused")
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)

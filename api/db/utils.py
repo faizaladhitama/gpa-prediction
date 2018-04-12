@@ -47,9 +47,9 @@ def create_dosen(nip, nama="namadef", is_pa=False):
     do_new = Dosen(nama=nama, nip=nip, is_pa=is_pa)
     do_new.save()
 
-def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tingkat_kerjasama=1):
+def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tkt_krjsama=1, sks=3):
     matkul = MataKuliah(kode_matkul=kode_matkul, nip_pengajar=nip, nama_matkul=nama, prodi=prodi,
-                        tingkatKerjasama=tingkat_kerjasama)
+                        tingkatKerjasama=tkt_krjsama, sks=sks)
     matkul.save()
 
 def create_mock_data_mahasiswa():
