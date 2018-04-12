@@ -70,6 +70,10 @@ def get_sks(access_token, npm):
     except requests.ConnectionError as exception:
         return None, str(exception)
 
+def get_all_sks_term(access_token, npm):
+
+def get_sks_term(access_token, npm, year, term):
+
 def get_jenjang(access_token, npm):
     res, err = get_data_user(access_token, npm)
 
