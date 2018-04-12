@@ -147,5 +147,6 @@ def get_angkatan(kode_identitas):
     except ValueError:
         return "Wrong kode identitas"
 
+
 # def get_total_credits(npm, term, year):
 #    return 0

@@ -2,13 +2,16 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from mahasiswa.utils import get_term, get_context_mahasiswa
+from mahasiswa.utils import get_term, get_context_mahasiswa,\
+    get_evaluation_detail_message
 
 
 # Create your views here.
 def index(request):
     now = datetime.now()
     term_str = get_term(now)
+
+    get_evaluation_detail_message(jenjang, int(term_str[-1:]))
     try:
         context = get_context_mahasiswa(request, term_str)
         # evaluasi_akademik()

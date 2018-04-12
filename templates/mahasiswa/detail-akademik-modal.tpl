@@ -1,5 +1,4 @@
 <div class="container">
-  <h2>Detail Evaluasi Akademik</h2>
   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#detailAkademik">
     Lihat Selengkapnya
   </button>
