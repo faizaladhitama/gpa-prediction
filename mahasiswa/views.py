@@ -27,11 +27,11 @@ def rekomendasi(request):
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
 
 
-def evaluasi_akademik():
+#def evaluasi_akademik():
     # now = datetime.now()
     # term_str = get_term(now)
     # semester = get_semester(context['id'], int(term_str))
     # sks_diperoleh = 48
     # sks_diambil = 20
     # ip = 4.0
-    pass
+    # pass
