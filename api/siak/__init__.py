@@ -42,11 +42,11 @@ def verify_user(access_token):
 def get_data_user(access_token, npm):
     try:
         generator = AuthGenerator()
-        return generator.get_data_user(access_token, npm, os.environ['CLIENT_ID'])
+        return generator.get_data_user(access_token, npm, os.environ['CLIENT_ID']), None
     except ValueError as exception:
-        return str(exception)
+        return None, str(exception)
     except requests.ConnectionError as exception:
-        return str(exception)
+        return None, str(exception)
 
 def get_sks(access_token, npm):
     try:
@@ -69,3 +69,11 @@ def get_sks(access_token, npm):
         return None, str(exception)
     except requests.ConnectionError as exception:
         return None, str(exception)
+
+def get_jenjang(access_token, npm):
+    res, err = get_data_user(access_token, npm)
+
+    if err is None:
+        return res['program'][0]['nm_prg'], None
+    else:
+        return None, err
