@@ -2,6 +2,8 @@ from datetime import datetime
 
 from api.apps import give_verdict
 
+from api.siak import get_jenjang
+
 
 def get_term(now):
     year = now.year
@@ -135,6 +137,14 @@ def get_semester(kode_identitas, term):
         return semester
 
 
+def split_jenjang_and_jalur(str_jenjang):
+    jenjang_array = str_jenjang.split(" ")
+    if len(jenjang_array) != 2:
+        return "Error Split Jenjang and Jalur"
+    else:
+        return jenjang_array[0]
+
+
 def get_angkatan(kode_identitas):
     tahun = (datetime.now()).year
     try:
@@ -148,5 +158,23 @@ def get_angkatan(kode_identitas):
         return "Wrong kode identitas"
 
 
-# def get_total_credits(npm, term, year):
-#    return 0
+def get_index_mahasiswa_context(request, context, term_str):
+    try:
+        if context['id'] == 'admin':
+            return context
+        else:
+            jenjang_str, err = get_jenjang(request.session['access_token'],
+                                           context['id'])
+            if err is not None:
+                return None
+            else:
+                jenjang = split_jenjang_and_jalur(jenjang_str)
+                evaluation_message = get_evaluation_detail_message(
+                    jenjang, int(term_str[-1:]))
+                detail_evaluation = {'detail': evaluation_message}
+                context.update(detail_evaluation)
+                return context
+    except KeyError as excp:
+        return str(excp)
+    except AttributeError as excp:
+        return str(excp)

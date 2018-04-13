@@ -72,7 +72,6 @@ def get_sks(access_token, npm):
 
 def get_jenjang(access_token, npm):
     res, err = get_data_user(access_token, npm)
-
     if err is None:
         return res['program'][0]['nm_prg'], None
     else:
