@@ -11,8 +11,13 @@
   </li>
 </ul>
 <div class="tab-content mx-auto" id="myTabContent2">
-  <div class=" eval-content tab-pane fade show active" id="peraturanAkademik" role="tabpanel" aria-labelledby="peraturan-tab"> 
+  <div class=" eval-content tab-pane fade show active" id="peraturanAkademik" role="tabpanel" aria-labelledby="peraturan-tab">
+          <h3>Peraturan Evaluasi Akademik</h3><br>
+          <h5>{{detail}}</h5><br>
+          <h7>Sumber</h7><br>
+          <h10>{{source}}</h10>
   </div>
-  <div class="tab-pane fade mx-auto" id="rekam" role="tabpanel" aria-labelledby="rekam-tab">
+  <div class="tab-pane fade mx-auto" id="rekamAkademik" role="tabpanel" aria-labelledby="rekam-tab">
+         <h3>Not Ready Chart</h3>
   </div>
 </div>

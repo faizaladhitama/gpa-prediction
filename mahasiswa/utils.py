@@ -168,20 +168,21 @@ def get_angkatan(kode_identitas):
 
 def get_index_mahasiswa_context(request, context, term_str):
     try:
-        if context['id'] == 'admin':
-            return context
+        jenjang_str, err = get_jenjang(request.session['access_token'],
+                                       context['id'])
+        if err is not None:
+            return None
         else:
-            jenjang_str, err = get_jenjang(request.session['access_token'],
-                                           context['id'])
-            if err is not None:
-                return None
-            else:
-                jenjang = split_jenjang_and_jalur(jenjang_str)
+            jenjang = split_jenjang_and_jalur(jenjang_str)
+            semester = get_semester(context['id'], int(term_str[-1:]))
+            if jenjang == 'S1' and semester != 6:
                 evaluation_message = get_evaluation_detail_message(
-                    jenjang, int(term_str[-1:]))
-                detail_evaluation = {'detail': evaluation_message}
-                context.update(detail_evaluation)
-                return context
+                jenjang, semester)
+            else :
+                evaluation_message = {"source": '-', "detail":
+                    '-'}
+            context.update(evaluation_message)
+            return context
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
