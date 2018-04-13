@@ -3,7 +3,7 @@
 <div class="container">
 		<div class="row prediktor-body">
 			<div class="col-xs-4" id="result-button">
-				<button type="button" class="btn btn-warning btn-lg btn3d">hati-hati</button>
+				{{ status_button }}
 			</div>
 			<div class="col-xs-8"> 
 				<div class="table-responsive" id="table-matkul-prasyarat">
