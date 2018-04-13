@@ -29,6 +29,18 @@ class SeleniumTestCase(LiveServerTestCase):
         cls.browser.quit()
         super(SeleniumTestCase, cls).tearDown(cls)
 
+class PrediktorEvaluasiAkademikTest(SeleniumTestCase):
+    """docstring for PrediktorEvaluasiAkademikTest"""
+    def test_prediktor_url_is_exist(self):
+        response = Client().get('', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_prediktor_evaluasi_akademik_valid(self):
+        pass
+
+    def test_prediktor_evaluasi_akademik_invalid(self):
+        pass
+
 
 class LandingPageTest(SeleniumTestCase):
     def test_landing_url_is_exist(self):
