@@ -4,7 +4,8 @@ from django.test import TestCase
 
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
-    get_angkatan, get_evaluation_status
+    get_angkatan, get_evaluation_status, \
+    split_jenjang_and_jalur, get_index_mahasiswa_context
 
 
 class URLTest(TestCase):
@@ -136,30 +137,64 @@ class AngkatanTest(TestCase):
 
 
 class EvaluationStatusTest(TestCase):
-    def test_eval_status_lolos(self):
-        status = get_evaluation_status(3, 48, 18)
+    def test_status_lolos(self):
+        status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "Lolos")
 
-    def test_eval_status_tua_failed(self):
-        status = get_evaluation_status(5, 48, 18)
-        self.assertEqual(status, "Tidak Lolos")
-
-    def test_eval_warning_invalid(self):
-        status = get_evaluation_status(3, 48, 18)
+    def test_status_lolos_invalid(self):
+        status = get_evaluation_status("1506688879", 3, 48, 18)
         self.assertEqual(status, "Lolos")
 
-    def test_eval_status_lolos_invalid(self):
-        status = get_evaluation_status(3, 48, 18)
-        self.assertEqual(status, "Lolos")
-
-    def test_eval_status_hati_hati(self):
-        status = get_evaluation_status(3, 36, 12)
+    def test_status_hati(self):
+        status = get_evaluation_status("1506688879", 3, 36, 12)
         self.assertEqual(status, "Hati-Hati")
 
-    def test_eval_status_tidak_lolos(self):
-        status = get_evaluation_status(3, 25, 12)
+    def test_status_hati_invalid(self):
+        status = get_evaluation_status("1506688879", 3, 36, 12)
+        self.assertEqual(status, "Hati-Hati")
+
+    def test_status_fail(self):
+        status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "Tidak Lolos")
 
-    def test_eval_status_failed_invalid(self):
-        status = get_evaluation_status(3, 25, 12)
+    def test_status_fail_invalid(self):
+        status = get_evaluation_status("1506688879", 3, 25, 12)
         self.assertEqual(status, "Tidak Lolos")
+
+
+class SplitJenjangJalurTest(TestCase):
+    def test_split_jenjangjalur_success(self):
+        jenjang = split_jenjang_and_jalur("S1 Regular")
+        self.assertEqual(jenjang, "S1")
+
+    def test_split_error(self):
+        jenjang = split_jenjang_and_jalur("S-teh Manis Cihuy")
+        self.assertEqual(jenjang, "Error Split Jenjang and Jalur")
+
+class GetIndexMahasiswaContext(TestCase):
+    def test_context_index_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
+                             'access_token': 'lalala'}
+        request = MockRequest(context_mahasiswa)
+        context = get_index_mahasiswa_context(request, context_mahasiswa,
+                                              context_mahasiswa['term'][-1:])
+        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                                   'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
+                                   'detail': 'dummy'})
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        term = get_term(datetime.now())
+        context = get_index_mahasiswa_context(request,
+                                              context_mahasiswa, term[-1:])
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = None
+        term = get_term(datetime.now())
+        context = get_index_mahasiswa_context(request,
+                                              context_mahasiswa, term[-1:])
+        self.assertEqual(context, "'access_token'")

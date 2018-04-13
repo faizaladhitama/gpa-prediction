@@ -1,7 +1,5 @@
-from django.conf import settings
-from django.test import Client
-from django.test import LiveServerTestCase
 from django.test import TestCase
+<<<<<<< HEAD
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -88,7 +86,6 @@ class LandingPageTest(SeleniumTestCase):
         self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
                       self.browser.page_source)
 
-
 class URLTest(TestCase):
     def test_login(self):
         response = self.client.get('/login', follow=True)
@@ -137,6 +134,9 @@ class ExternalAPITest(TestCase):
 
 
 class EvaluasiTest(TestCase):
+    def test_api_config(self):
+        # = ApiConfig('api', 'api.apps')
+        self.assertEqual(True, True)
     def test_rumus_lolos(self):
         hasil = give_verdict(48, 48, 19, 3.3)
         self.assertEqual(hasil, "Lolos")
@@ -148,3 +148,22 @@ class EvaluasiTest(TestCase):
     def test_rumus_lolos_negatif(self):
         hasil = give_verdict(48, 10, 19, 2.3)
         self.assertEqual(hasil, "Tidak Lolos")
+
+    def test_save_status(self):
+        npm = '1506111222'
+        create_mahasiswa_siak(npm)
+        save_status(npm, 'Lolos')
+        flag = MahasiswaSIAK.objects.get(npm=npm).status_evaluasi
+        self.assertEqual(flag, 'Lolos')
+
+    def test_save_status_false(self):
+        npm = '1506333444'
+        create_mahasiswa_siak(npm)
+        save_status(npm, 'Tidak Lolos')
+        flag = MahasiswaSIAK.objects.get(npm=npm).status_evaluasi
+        self.assertEqual(flag, 'Tidak Lolos')
+
+    def test_save_status_not_found(self):
+        hasil = save_status('6969696969', False)
+        expected = 'MahasiswaSIAK matching query does not exist.'
+        self.assertEqual(expected, hasil)
