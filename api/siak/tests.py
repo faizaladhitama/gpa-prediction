@@ -4,7 +4,8 @@ import requests
 from requests.models import Response
 from django.test import TestCase
 from api.siak import get_academic_record, get_access_token, \
-    verify_user, get_data_user, get_sks, get_jenjang
+    verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
+    get_sks_term
 from api.siak.utils import AuthGenerator, Requester
 
 
@@ -373,3 +374,64 @@ class SiakTest(TestCase):
 
         self.assertIsNone(program)
         self.assertEqual("mocked error", err)
+
+    def test_get_all_sks_term_on_valid(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual({1: 3, 2: 3, 3: 3}, resp)
+
+    def test_get_all_sks_on_conn_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_all_sks_on_val_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = ValueError("mocked error")
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("mocked error", err)
+
+    def test_get_sks_term_on_valid(self):
+        mocked_token = "mocked"
+        mocked_sks = [{'kelas':{'nm_mk_ck': {'jml_sks': 3}}}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertIsNone(err)
+        self.assertEqual(3, resp)
+
+    def test_get_sks_term_on_conn_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_sks_term_on_val_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = ValueError("connection refused")
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)

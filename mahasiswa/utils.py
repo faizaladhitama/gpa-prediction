@@ -1,10 +1,15 @@
 from datetime import datetime
+<<<<<<< HEAD
 
 from api.apps import give_verdict
 
 from api.siak import get_jenjang
 
 
+=======
+from api.apps import give_verdict, save_status
+from api.siak import get_access_token, get_sks
+>>>>>>> 78f2284c9399c75ecf9eb4f7e5aef0bf4c310500
 def get_term(now):
     year = now.year
     term = 1
@@ -33,13 +38,23 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
 
 
-def get_evaluation_status(term, sks_lulus, sks_diambil, index_prestasi=3.0):
-    if term == 5 or term == 6:  # semester 5 dan 6 tidak ada evaluasi
+def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
+    if(term == 5 or term == 6): #semester 5 dan 6 tidak ada evaluasi
         term = 8
     elif term % 2 > 0:
-        term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
-    sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
-    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, index_prestasi)
+        term = term+1 #evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
+    sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
+    status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_now)
+    save_status(npm, status)
+    return status
+
+def request_evaluation_status(npm, username, password, term):
+    token = get_access_token(username, password)
+    sks_lulus = get_sks(token, npm)[0]
+    sks_diambil = 18
+    ip_now = 3.0 #diitung ntr
+    status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
+    save_status(npm, status)
     return status
 
 
