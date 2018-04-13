@@ -27,8 +27,6 @@ def profile(request):
 def rekomendasi(request):
     context = {'name': 'mahasiswa'}
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
-<<<<<<< HEAD
-=======
 
 
 #def evaluasi_akademik():
@@ -39,4 +37,3 @@ def rekomendasi(request):
     # sks_diambil = 20
     # ip = 4.0
     # pass
->>>>>>> 78f2284c9399c75ecf9eb4f7e5aef0bf4c310500

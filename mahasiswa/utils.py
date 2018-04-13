@@ -1,15 +1,8 @@
 from datetime import datetime
-<<<<<<< HEAD
 
-from api.apps import give_verdict
-
-from api.siak import get_jenjang
-
-
-=======
+from api.siak import get_jenjang, get_access_token, get_sks
 from api.apps import give_verdict, save_status
-from api.siak import get_access_token, get_sks
->>>>>>> 78f2284c9399c75ecf9eb4f7e5aef0bf4c310500
+
 def get_term(now):
     year = now.year
     term = 1
