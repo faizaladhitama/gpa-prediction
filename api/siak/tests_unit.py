@@ -1,8 +1,9 @@
 import datetime
 from unittest.mock import Mock, patch
+
 import requests
-from requests.models import Response
 from django.test import TestCase
+
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
     get_sks_term
@@ -10,10 +11,11 @@ from api.siak.utils import AuthGenerator, Requester
 
 
 def create_mocked_response(status_code, data):
-    mocked_response = Mock(spec=Response)
+    mocked_response = Mock(spec=requests.Response)
     mocked_response.status_code = status_code
     mocked_response.json.return_value = data
     return mocked_response
+
 
 class RequesterTest(TestCase):
     def setUp(self):
@@ -23,7 +25,7 @@ class RequesterTest(TestCase):
         self.addCleanup(mocked_get.stop)
 
     def test_request_sks_on_valid(self):
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
 
         mock_npm = "mocked"
         mock_token = "mocked"
@@ -35,7 +37,7 @@ class RequesterTest(TestCase):
         self.assertEqual("mocked", resp["mocked"])
 
     def test_request_sks_on_invalid(self):
-        self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
         mock_npm = "mocked"
         mock_token = "mocked"
@@ -49,7 +51,7 @@ class RequesterTest(TestCase):
         self.assertTrue("mocked" in str(context.exception))
 
     def test_request_md_on_valid(self):
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
 
         mock_npm = "mocked"
         mock_access_token = "mocked"
@@ -59,7 +61,7 @@ class RequesterTest(TestCase):
         self.assertEqual("mocked", resp["mocked"])
 
     def test_request_md_on_invalid(self):
-        self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
         mock_npm = "mocked"
         mock_access_token = "mocked"
@@ -71,7 +73,7 @@ class RequesterTest(TestCase):
         self.assertTrue("mocked" in str(context.exception))
 
     def test_request_data_on_valid(self):
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
 
         mock_npm = "mocked"
         mock_access_token = "mocked"
@@ -81,7 +83,7 @@ class RequesterTest(TestCase):
         self.assertEqual("mocked", resp["mocked"])
 
     def test_request_data_on_invalid(self):
-        self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
         mock_npm = "mocked"
         mock_access_token = "mocked"
@@ -91,6 +93,7 @@ class RequesterTest(TestCase):
             Requester.request_academic_data(mock_npm, mock_client_id, mock_access_token)
 
         self.assertTrue("mocked" in str(context.exception))
+
 
 class AuthGeneratorTest(TestCase):
     def setUp(self):
@@ -126,7 +129,7 @@ class AuthGeneratorTest(TestCase):
         self.assertTrue('mocked' in str(context.exception))
 
     def test_verify_user_on_valid(self):
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
 
         mock_access_token = "mocked"
         mock_client_id = "mocked"
@@ -146,7 +149,7 @@ class AuthGeneratorTest(TestCase):
         self.assertEqual("Token not detected", str(context.exception))
 
     def test_get_data_user_on_valid(self):
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
@@ -166,6 +169,7 @@ class AuthGeneratorTest(TestCase):
             self.generator.get_data_user(mock_access_token, mock_npm, mock_client_id)
 
         self.assertTrue('mocked' in str(context.exception))
+
 
 class SiakTest(TestCase):
     def setUp(self):
@@ -199,7 +203,7 @@ class SiakTest(TestCase):
 
     def test_get_record_on_valid(self):
         self.mocked_generator.return_value = None
-        self.mocked_verify.return_value = {"username":"kafuu.chino"}
+        self.mocked_verify.return_value = {"username": "kafuu.chino"}
         self.mocked_requester.return_value = "mocked"
         self.mocked_get_token.return_value = 1
 
@@ -209,7 +213,7 @@ class SiakTest(TestCase):
 
     def test_get_record_on_invalid(self):
         self.mocked_generator.return_value = None
-        self.mocked_verify.return_value = {"username":"mocked"}
+        self.mocked_verify.return_value = {"username": "mocked"}
         self.mocked_requester.return_value = "mocked"
         self.mocked_get_token.return_value = 1
 
@@ -257,7 +261,7 @@ class SiakTest(TestCase):
         self.assertEqual("connection refused", resp)
 
     def test_verify_user_on_valid(self):
-        mocked_data = {"username":"kafuu.chino"}
+        mocked_data = {"username": "kafuu.chino"}
         mocked_token = "mocked"
 
         self.mocked_generator.return_value = None
@@ -291,7 +295,7 @@ class SiakTest(TestCase):
         mocked_token = "mocked"
 
         self.mocked_generator.return_value = None
-        self.mocked_get_data.return_value = {"mocked":"mocked"}
+        self.mocked_get_data.return_value = {"mocked": "mocked"}
 
         resp, err = get_data_user(mocked_token, self.mock_npm)
 
@@ -325,7 +329,7 @@ class SiakTest(TestCase):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}}]
         self.mocked_req_sks.return_value = mocked_sks
 
         now = datetime.datetime.now()
@@ -380,7 +384,7 @@ class SiakTest(TestCase):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas':{'nm_mk_cl': {'jml_sks': 3}}}]
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_all_sks_term(mocked_token, self.mock_npm)
@@ -410,7 +414,7 @@ class SiakTest(TestCase):
 
     def test_get_sks_term_on_valid(self):
         mocked_token = "mocked"
-        mocked_sks = [{'kelas':{'nm_mk_ck': {'jml_sks': 3}}}]
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
