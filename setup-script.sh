@@ -2,14 +2,17 @@
 #frontend
 if [[ $1 == "faiz97" || $1 == "sarahdfxo" || $1 == "tinna.fauziah" ]]
 then
-	echo -e "\nRunning frontend test ....\n"
-	coverage run --include='api/*','dosen/*','mahasiswa/*','sekre/*' manage.py test api.tests_selenium --failfast
-	echo -e "\nFrontend test done ....\n"
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
 fi
-#backend
-echo -e "\nRunning backend test ....\n"
-coverage run --include='api/*','dosen/*','mahasiswa/*','sekre/*' --append manage.py test api.tests_backend dosen.tests_backend mahasiswa.tests_backend sekre.tests_backend --failfast
-echo -e "\nBackend test done ....\n"
-echo -e "\nGenerate coverage report ....\n"
-coverage report
-coverage html
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+apt-get update -qq && apt-get install -y -qq unzip
+if [[ $1 == "faiz97" || $1 == "sarahdfxo" || $1 == "tinna.fauziah" ]]
+then
+    apt-get install -y google-chrome-stable
+    apt-get install -y xvfb
+    wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+fi
