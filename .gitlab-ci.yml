@@ -5,7 +5,7 @@ variables:
   SECRET_KEY : '0cqmq9_8hn^&i7zk3)w9*1cs8+ecb=)-#q38%zulc848wo_!1n'
   API_KEY: "8f426b0d-9ca8-47b3-990c-d1fda1e82b10"
 
-TestBackend:
+DjangoTest:
   image: python:3.6
   stage: test
   variables:
@@ -13,23 +13,14 @@ TestBackend:
     AUTH_HASH: "Basic WDN6TmtGbWVwa2RBNDdBU05NRFpSWDNaOWdxU1UxTHd5d3U1V2VwRzpCRVFXQW43RDl6a2k3NEZ0bkNpWVhIRk50Ymg3eXlNWmFuNnlvMU1uaUdSVWNGWnhkQnBobUU5TUxuVHZiTTEzM1dsUnBwTHJoTXBkYktqTjBxcU9OaHlTNGl2Z0doczB0OVhlQ3M0Ym1JeUJLMldwbnZYTXE4VU5yTEFEMDNZeA=="
   before_script:
     #Reference : Lab PPW Odd Semester 2017/2018
-    #- wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-    #- echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
-    - pip install -r requirements.txt
-    - python manage.py makemigrations
-    - python manage.py migrate
-    - apt-get update -qq && apt-get install -y -qq unzip
-    - apt-get install -y google-chrome-stable
-    - apt-get install -y xvfb
-    - wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
-    - unzip chromedriver_linux64.zip
+    - chmod +x ./setup-script.sh
+    - ./setup-script.sh $GITLAB_USER_LOGIN
     - python manage.py collectstatic --no-input
     - python manage.py runserver 8000 &
   when: on_success
   script:
-    - pylint --load-plugins pylint_django api/ backend/ dosen/ mahasiswa/ pa/ sekre/ --reports=y
-    - coverage run --include='api/*','mahasiswa/*','dosen/*','pa/*','sekre/*' manage.py test
-    - coverage report
+    - ./django-lint.sh
+    - ./django-test.sh $GITLAB_USER_LOGIN
   coverage: '/\d+\%\s*$/'
 
 DeploymentProduction:

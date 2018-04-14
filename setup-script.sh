@@ -3,7 +3,7 @@
 if [[ $1 == "faiz97" || $1 == "sarahdfxo" || $1 == "tinna.fauziah" ]]
 then
 	echo -e "\nRunning frontend test ....\n"
-	coverage run --include='api/*','dosen/*','mahasiswa/*','sekre/*' manage.py test api.tests_selenium --failfast 
+	coverage run --include='api/*','dosen/*','mahasiswa/*','sekre/*' manage.py test api.tests_selenium --failfast
 	echo -e "\nFrontend test done ....\n"
 fi
 #backend
