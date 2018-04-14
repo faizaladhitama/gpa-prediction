@@ -22,6 +22,7 @@ def index(request):
         username = context_mahasiswa['user']
         password = 'aa'
         sks_seharusnya = 12*term
+        context.update({'sks_seharusnya' : sks_seharusnya})
         sks_kurang = sks_seharusnya - get_all_sks_term(token, npm)
         context.update({'sks_kurang' : sks_kurang})
         status = request_evaluation_status(npm, username, password, term)
