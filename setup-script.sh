@@ -1,4 +1,3 @@
-#!/bin/sh
 #frontend
 if [[ $1 == "faiz97" || $1 == "sarahdfxo" || $1 == "tinna.fauziah" ]]
 then
