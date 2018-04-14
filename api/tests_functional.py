@@ -34,10 +34,10 @@ class PrediktorEvaluasiAkademikTest(SeleniumTestCase):
         response = Client().get('', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_prediktor_evaluasi_akademik_valid(self):
+    def test_predik_eval_valid(self):
         pass
 
-    def test_prediktor_evaluasi_akademik_invalid(self):
+    def test_predik_eval_invalid(self):
         pass
 
 
