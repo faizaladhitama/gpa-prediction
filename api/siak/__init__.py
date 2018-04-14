@@ -7,7 +7,7 @@ from api.siak.utils import AuthGenerator, Requester
 
 
 def cek_huruf_lulus(huruf):
-    if "C-" == huruf:
+    if huruf == "C-":
         return False
     elif "A" in huruf or "B" in huruf or "C" in huruf:
         return True
@@ -162,8 +162,8 @@ def get_ip_term(access_token, npm, year, term):
             if course['kelas'] != None:
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
                 mutu += course['kelas']['nm_mk_cl']['jml_sks'] * huruf_to_angka(course['nilai'])
-        ip = round(mutu / tot_sks * 100)/100.00
-        return ip, None
+        ip_mahasiswa = round(mutu / tot_sks * 100)/100.00
+        return ip_mahasiswa, None
     except ValueError as exception:
         return 0, str(exception)
     except requests.ConnectionError as exception:

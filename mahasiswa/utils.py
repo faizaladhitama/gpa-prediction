@@ -126,7 +126,7 @@ def get_evaluation_detail_message(jenjang, semester):
         semester = str(semester)
         return {"source": source, "detail": putus_studi[jenjang][semester]}
     except KeyError:
-        return "Wrong degree and semester"
+        return {"source": '-', "detail": '-'}
 
 
 def get_semester(kode_identitas, term):
@@ -175,12 +175,8 @@ def get_index_mahasiswa_context(request, context, term_str):
         else:
             jenjang = split_jenjang_and_jalur(jenjang_str)
             semester = get_semester(context['id'], int(term_str[-1:]))
-            if jenjang == 'S1' and semester != 6:
-                evaluation_message = get_evaluation_detail_message(
+            evaluation_message = get_evaluation_detail_message(
                 jenjang, semester)
-            else :
-                evaluation_message = {"source": '-', "detail":
-                    '-'}
             context.update(evaluation_message)
             return context
     except KeyError as excp:
