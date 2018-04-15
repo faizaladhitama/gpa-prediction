@@ -182,7 +182,7 @@ class SplitJenjangJalurTest(TestCase):
 
 
 class GetIndexMahasiswaContext(TestCase):
-    """
+
     def test_context_index_valid(self):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
@@ -192,7 +192,7 @@ class GetIndexMahasiswaContext(TestCase):
         self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio',
                                    'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
                                    'source': 'dummy', 'detail': 'dummy'})
-    """
+
 
     def test_context_invalid_request(self):
         request = None

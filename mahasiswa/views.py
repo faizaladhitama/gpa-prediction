@@ -1,7 +1,9 @@
 from datetime import datetime
+from traceback import print_exc
 from django.shortcuts import render
-from mahasiswa.utils import request_evaluation_status, get_semester, get_term, get_context_mahasiswa, get_index_mahasiswa_context
-from api.siak import get_all_sks_term
+from mahasiswa.utils import request_evaluation_status, get_semester, \
+    get_term, get_context_mahasiswa, get_index_mahasiswa_context
+from api.siak import get_sks
 
 
 # Create your views here.
@@ -15,16 +17,25 @@ def index(request):
         npm = request.session['kode_identitas']
         username = context_mahasiswa['user']
         password = 'aa'
-        sks_seharusnya = 12*term
+        term = int(term_str[-1:])
+        semester = get_semester(npm, term)
+        if semester != 6:
+            sks_seharusnya = 12*semester
+        else:
+            sks_seharusnya = 96
         context.update({'sks_seharusnya' : sks_seharusnya})
-        sks_kurang = sks_seharusnya - get_all_sks_term(token, npm)
+        all_sks, err = get_sks(request.session['access_token'], npm)
+        if err is not None:
+            print(err)
+        print(str(all_sks))
+        sks_kurang = sks_seharusnya - all_sks
         context.update({'sks_kurang' : sks_kurang})
         status = request_evaluation_status(npm, username, password, term)
         context.update({'status' : status})
-        semester = get_semester(npm, term_str)
         context.update({'semester' : semester})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
+        print_exc()
         return render(request, 'landing_page.tpl', {})
 
 
