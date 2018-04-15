@@ -41,8 +41,7 @@ def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
     save_status(npm, status)
     return status
 
-def request_evaluation_status(npm, username, password, term):
-    token = get_access_token(username, password)
+def request_evaluation_status(npm, token, term):
     sks_lulus = get_sks(token, npm)[0]
     sks_diambil = 18
     ip_now = 3.0 #diitung ntr
