@@ -123,43 +123,45 @@ class ExternalAPITest(TestCase):
 
 class ViewProfileMahasiswa(SeleniumTestCase):
     def test_profile_mahasiswa_is_exist(self):
-        response = self.client.get('/mahasiswa/profile', follow=True)
+        response = Client().get('/mahasiswa/profile', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_view_profile_mahasiswa(self):
+        self.browser.get('http://127.0.0.1:8000/mahasiswa/profile')
+
         nama = self.browser.find_element_by_css_selector('#profile-mahasiswa-nama')\
         .is_displayed()
-        self.assertTrue(nama, True)
+        self.assertTrue(nama)
 
         angkatan = self.browser.find_element_by_css_selector('#profile-mahasiswa-angkatan')\
         .is_displayed()
-        self.assertTrue(angkatan, True)
+        self.assertTrue(angkatan)
 
         prodi = self.browser.find_element_by_css_selector('#profile-mahasiswa-prodi')\
         .is_displayed()
-        self.assertTrue(prodi, True)
+        self.assertTrue(prodi)
 
         pem_akademik = self.browser.find_element_by_css_selector('#profile-mahasiswa-pa')\
         .is_displayed()
-        self.assertTrue(pem_akademik, True)
+        self.assertTrue(pem_akademik)
 
         status = self.browser.find_element_by_css_selector('#profile-mahasiswa-status')\
         .is_displayed()
-        status = self.assertTrue(status, True)
+        self.assertTrue(status)
 
         sks_lulus = self.browser.find_element_by_css_selector('#profile-mahasiswa-sks-lulus')\
         .is_displayed()
-        self.assertTrue(sks_lulus, True)
+        self.assertTrue(sks_lulus)
 
         mutu = self.browser.find_element_by_css_selector('#profile-mahasiswa-mutu')\
         .is_displayed()
-        self.assertTrue(mutu, True)
+        self.assertTrue(mutu)
 
         ipk = self.browser.find_element_by_css_selector('#profile-mahasiswa-ipk')\
         .is_displayed()
-        self.assertTrue(ipk, True)
+        self.assertTrue(ipk)
 
         sks_diperoleh = self.browser.\
         find_element_by_css_selector('#profile-mahasiswa-sks-diperoleh').is_displayed()
-        self.assertTrue(sks_diperoleh, True)
+        self.assertTrue(sks_diperoleh)
         
