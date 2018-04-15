@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from api.siak import get_jenjang, get_access_token, get_sks
+from api.siak import get_jenjang, get_sks
 from api.apps import give_verdict, save_status
 
 def get_term(now):
