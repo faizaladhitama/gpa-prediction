@@ -113,6 +113,7 @@ def get_all_sks_term(access_token, npm):
         sks_map = {}
 
         for year in range(int(angkatan), now.year + 1):
+            sks_terms = []
             for term in range(1, 4):
                 tot_sks = 0
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
@@ -120,8 +121,8 @@ def get_all_sks_term(access_token, npm):
                     if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
 
-                sks_map[term] = tot_sks
-
+                sks_terms.append(tot_sks)
+            sks_map[year] = sks_terms
         return sks_map, None
     except ValueError as exception:
         return {}, str(exception)

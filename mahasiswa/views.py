@@ -16,7 +16,6 @@ def index(request):
                                               term_str)
         npm = request.session['kode_identitas']
         username = context_mahasiswa['user']
-        password = 'aa'
         term = int(term_str[-1:])
         semester = get_semester(npm, term)
         if semester != 6:
@@ -30,7 +29,7 @@ def index(request):
         print(str(all_sks))
         sks_kurang = sks_seharusnya - all_sks
         context.update({'sks_kurang' : sks_kurang})
-        status = request_evaluation_status(npm, username, password, term)
+        status = request_evaluation_status(npm, username, term)
         context.update({'status' : status})
         context.update({'semester' : semester})
         return render(request, 'mahasiswa/index.tpl', context)
