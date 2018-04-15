@@ -12,4 +12,12 @@
 				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">lolos</span> evaluasi akademik semester 2!<p>
 			</div>
 		</div>
+
+		<div class="row ">
+			<div class="col">
+				<button type="button" class="btn btn-link" data-toggle="modal" data-target="#detailAkademik">
+				Lihat Selengkapnya
+				</button>
+			</div>
+		</div>
 </div>

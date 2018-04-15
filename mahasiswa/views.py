@@ -1,9 +1,13 @@
 from datetime import datetime
 from traceback import print_exc
 from django.shortcuts import render
+"""
 from mahasiswa.utils import request_evaluation_status, get_semester, \
     get_term, get_context_mahasiswa, get_index_mahasiswa_context
-from api.siak import get_sks
+"""
+from mahasiswa.utils import get_semester, \
+    get_term, get_context_mahasiswa, get_index_mahasiswa_context
+from api.siak import get_sks, get_all_sks_term
 
 
 # Create your views here.
@@ -29,9 +33,11 @@ def index(request):
         print(str(all_sks))
         sks_kurang = sks_seharusnya - all_sks
         context.update({'sks_kurang' : sks_kurang})
-        status = request_evaluation_status(npm, username, term)
-        context.update({'status' : status})
+        #status = request_evaluation_status(npm, username, password, semester)
+        #context.update({'status' : status})
         context.update({'semester' : semester})
+        all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
+        context.update({'sks_term' : all_sks_term})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
         print_exc()
