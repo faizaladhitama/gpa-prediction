@@ -1,9 +1,5 @@
-<div class="container">
-  <button type="button" class="btn btn-link" data-toggle="modal" data-target="#detailAkademik">
-    Lihat Selengkapnya
-  </button>
   <div class="modal fade" id="detailAkademik">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">Detail Akademik Mahasiswa</h4>
@@ -17,5 +13,3 @@
       </div>
     </div>
   </div>
-
-</div>

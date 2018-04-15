@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs mt-5 mx-5" id="myTab" role="tablist">
+<ul class="nav nav-tabs mx-5" id="myTab" role="tablist">
   <li class="nav-item tab-head">
     <a class="nav-link active text-center" id="evaluasi-tab" data-toggle="tab" href="#peraturanAkademik" role="tab" aria-controls="peraturanAkademik" aria-selected="true"><h5>
         Peraturan <br> Akademik</h5>
@@ -18,6 +18,6 @@
           <h10>{{source}}</h10>
   </div>
   <div class="tab-pane fade mx-auto" id="rekamAkademik" role="tabpanel" aria-labelledby="rekam-tab">
-         <h3>Not Ready Chart</h3>
+         {% include 'mahasiswa/sks-term-table.tpl' %}
   </div>
 </div>
