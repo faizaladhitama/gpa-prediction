@@ -21,6 +21,7 @@ def index(request):
         npm = context_mahasiswa['id']
         username = context_mahasiswa['user']
         term = int(term_str[-1:])
+        sks_seharusnya = 0
         semester = get_semester(npm, term)
         if semester != 6:
             sks_seharusnya = 12*semester
