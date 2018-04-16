@@ -1,1 +1,5 @@
-<h1>This is {{name}}/profile page</h1>
+{% extends 'mahasiswa/base-mahasiswa.tpl' %}
+
+{% block contentPage %}
+<h1>Profile mahasiswa</h1>
+{% endblock %}
