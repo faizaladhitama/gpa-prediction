@@ -17,8 +17,13 @@ def index(request):
 
 
 def profile(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/profile.tpl', context)
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context = get_context_mahasiswa(request, term_str)
+        return render(request, 'mahasiswa/profile.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
 
 
 def rekomendasi(request):
