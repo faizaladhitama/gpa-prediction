@@ -19,7 +19,6 @@ def index(request):
         context = get_index_mahasiswa_context(request, context_mahasiswa,
                                               term_str)
         npm = context_mahasiswa['id']
-        username = context_mahasiswa['user']
         term = int(term_str[-1:])
         semester = get_semester(npm, term)
         if semester != 6:
@@ -33,8 +32,8 @@ def index(request):
         if username != "admin":
             sks_kurang = sks_seharusnya - all_sks
             context.update({'sks_kurang' : sks_kurang})
-            #status = request_evaluation_status(npm, username, password, semester)
-            #context.update({'status' : status})
+            status = request_evaluation_status(npm, token, semester)
+            context.update({'status' : status})
             context.update({'semester' : semester})
             all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
             context.update({'sks_term' : all_sks_term})
