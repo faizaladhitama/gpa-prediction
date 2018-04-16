@@ -19,6 +19,7 @@ def index(request):
         context = get_index_mahasiswa_context(request, context_mahasiswa,
                                               term_str)
         npm = context_mahasiswa['id']
+        username = context_mahasiswa['user']
         term = int(term_str[-1:])
         semester = get_semester(npm, term)
         if semester != 6:

@@ -3,7 +3,13 @@
 <div class="container">
 		<div class="row ">
 			<div class="col prediktor-body" id="prediktor-eval-button">
-				<button type="button" class="btn btn-success btn-lg btn3d">lolos</button>
+				{% if status == 'lolos' %}
+    				<button type="button" class="btn btn-success btn-lg btn3d">lolos</button>
+				{% elif status == 'hati-hati' %}
+    				<button type="button" class="btn btn-warning btn-lg btn3d">hati-hati</button>
+				{% else %}
+    				<button type="button" class="btn btn-success btn-lg btn3d">tidak <br>lolos</button>
+				{% endif %}
 			</div>
 		</div>
 
