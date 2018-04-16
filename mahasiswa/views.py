@@ -1,10 +1,11 @@
 from datetime import datetime
 from traceback import print_exc
+
 from django.shortcuts import render
-"""
-from mahasiswa.utils import request_evaluation_status, get_semester, \
-    get_term, get_context_mahasiswa, get_index_mahasiswa_context
-"""
+
+# from mahasiswa.utils import request_evaluation_status, get_semester, \
+#     get_term, get_context_mahasiswa, get_index_mahasiswa_context
+
 from mahasiswa.utils import get_semester, \
     get_term, get_context_mahasiswa, get_index_mahasiswa_context
 from api.siak import get_sks, get_all_sks_term
@@ -23,21 +24,21 @@ def index(request):
         term = int(term_str[-1:])
         semester = get_semester(npm, term)
         if semester != 6:
-            sks_seharusnya = 12*semester
+            sks_seharusnya = 12 * semester
         else:
             sks_seharusnya = 96
-        context.update({'sks_seharusnya' : sks_seharusnya})
+        context.update({'sks_seharusnya': sks_seharusnya})
         all_sks, err = get_sks(request.session['access_token'], npm)
         if err is not None and username != "admin":
             print(err)
         if username != "admin":
             sks_kurang = sks_seharusnya - all_sks
-            context.update({'sks_kurang' : sks_kurang})
-            #status = request_evaluation_status(npm, username, password, semester)
-            #context.update({'status' : status})
-            context.update({'semester' : semester})
+            context.update({'sks_kurang': sks_kurang})
+            # status = request_evaluation_status(npm, username, password, semester)
+            # context.update({'status' : status})
+            context.update({'semester': semester})
             all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
-            context.update({'sks_term' : all_sks_term})
+            context.update({'sks_term': all_sks_term})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
         print_exc()
