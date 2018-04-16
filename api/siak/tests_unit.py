@@ -445,10 +445,11 @@ class SiakTest(TestCase):
         mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         self.mocked_req_sks.return_value = mocked_sks
 
-        resp, err = get_ip_term(mocked_token, self.mock_npm, 1997, 3)
+        resp, err = get_ip_term(mocked_token, self.mock_npm, 2015, 2)
 
         self.assertIsNone(err)
-        self.assertEqual(3, resp)
+        self.assertEqual(2.7, resp)
+
 
     def test_get_ip_term_on_conn_error(self):
         mocked_token = "mocked"
