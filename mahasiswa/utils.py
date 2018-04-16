@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from api.siak import get_jenjang, get_sks
 from api.apps import give_verdict, save_status
+from api.siak import get_jenjang, get_sks
+
 
 def get_term(now):
     year = now.year
@@ -32,19 +33,20 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
-    if(term == 5 or term == 6): #semester 5 dan 6 tidak ada evaluasi
+    if (term == 5 or term == 6):  # semester 5 dan 6 tidak ada evaluasi
         term = 8
     elif term % 2 > 0:
-        term = term+1 #evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
-    sks_minimal = 12*term #still a temporary form , will be integrated with proper flow later
+        term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
+    sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
     status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_now)
     save_status(npm, status)
     return status
 
+
 def request_evaluation_status(npm, token, term):
     sks_lulus = get_sks(token, npm)[0]
     sks_diambil = 18
-    ip_now = 3.0 #diitung ntr
+    ip_now = 3.0  # diitung ntr
     status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
     save_status(npm, status)
     return status
@@ -167,6 +169,17 @@ def get_angkatan(kode_identitas):
 
 def get_index_mahasiswa_context(request, context, term_str):
     try:
+        if request is None or context is None:
+            jenjang_str, err = get_jenjang(request.session['access_token'],
+                                           context['id'])
+            return err
+        if context['user'] == "admin":
+            return dict()
+        elif context['user'] == "dummy":
+            context.update({'source':'dummy'})
+            context.update({'detail':'dummy'})
+            return context
+
         jenjang_str, err = get_jenjang(request.session['access_token'],
                                        context['id'])
         if err is not None:
