@@ -6,7 +6,7 @@ from django.test import TestCase
 
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
-    get_sks_term
+    get_sks_term, get_ip_term
 from api.siak.utils import AuthGenerator, Requester
 
 
@@ -436,6 +436,35 @@ class SiakTest(TestCase):
         self.mocked_req_sks.side_effect = ValueError("connection refused")
 
         resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_ip_term_on_valid(self):
+        mocked_token = "mocked"
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_ip_term(mocked_token, self.mock_npm, 2015, 2)
+
+        self.assertIsNone(err)
+        self.assertEqual(2.7, resp)
+
+
+    def test_get_ip_term_on_conn_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_ip_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_ip_term_on_val_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = ValueError("connection refused")
+
+        resp, err = get_ip_term(mocked_token, self.mock_npm, 1997, 3)
 
         self.assertEqual(0, resp)
         self.assertEqual("connection refused", err)
