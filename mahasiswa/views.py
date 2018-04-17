@@ -6,7 +6,7 @@ from mahasiswa.utils import request_evaluation_status, get_semester, \
     get_term, get_context_mahasiswa, get_index_mahasiswa_context
 """
 from mahasiswa.utils import get_semester, \
-    get_term, get_context_mahasiswa, get_index_mahasiswa_context
+    get_term, get_context_mahasiswa, get_index_mahasiswa_context, request_evaluation_status
 from api.siak import get_sks, get_all_sks_term
 
 
@@ -34,7 +34,7 @@ def index(request):
         if username != "admin":
             sks_kurang = sks_seharusnya - all_sks
             context.update({'sks_kurang' : sks_kurang})
-            status = request_evaluation_status(npm, token, semester)
+            status = request_evaluation_status(npm, request.session['access_token'], semester)
             context.update({'status' : status})
             context.update({'semester' : semester})
             all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
