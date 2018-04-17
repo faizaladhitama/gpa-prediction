@@ -1,11 +1,13 @@
+from collections import OrderedDict
 from datetime import datetime
 
+from unittest.mock import patch
 from django.test import TestCase
-
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
-    split_jenjang_and_jalur, get_index_mahasiswa_context
+    split_jenjang_and_jalur, get_index_mahasiswa_context, \
+    convert_dict_for_sks_term
 
 
 # Need mockup for request session
@@ -30,6 +32,8 @@ class MockRequest:
     def __init__(self, session=None):
         if session is None:
             session = {}
+        else:
+            session.update({'access_token': 'dummy'})
         self.session = session
 
 
@@ -183,15 +187,20 @@ class SplitJenjangJalurTest(TestCase):
 
 class GetIndexMahasiswaContext(TestCase):
 
-    def test_context_index_valid(self):
+    @patch('api.siak.get_data_user')
+    def test_context_index_valid(self, mocked_get_data):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
         request = MockRequest(context_mahasiswa)
+        mocked_get_data.return_value = ({"program": [{"nm_prg": "S1 Regular"}]}, None)
         context = get_index_mahasiswa_context(request, context_mahasiswa,
                                               context_mahasiswa['term'][-1:])
-        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                                   'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
-                                   'source': 'dummy', 'detail': 'dummy'})
+        self.assertEqual(context, {'term': '2017/2018 - 2', 'access_token': 'dummy',
+                                   'team': 'usagi studio', 'user': 'dummy',
+                                   'id': 'dummy', 'role': 'dummy', 'sks_term': None,
+                                   'source': '-',
+                                   'detail': '-'
+                                  })
 
 
     def test_context_invalid_request(self):
@@ -204,8 +213,23 @@ class GetIndexMahasiswaContext(TestCase):
 
     def test_context_invalid_session(self):
         request = MockRequest()
-        context_mahasiswa = None
         term = get_term(datetime.now())
+        context_mahasiswa = get_context_mahasiswa(request, term)
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa, term[-1:])
         self.assertEqual(context, "'access_token'")
+
+@patch('api.siak.utils.Requester.request_sks')
+class ConvertDictForSksTerm(TestCase):
+
+    def test_sks_convert_valid(self, mocked_get_data):
+        expected_order = OrderedDict([('2018 - 3', 0), ('2018 - 2', 0), ('2018 - 1', 0),
+                                      ('2017 - 3', 0), ('2017 - 2', 0), ('2017 - 1', 0),
+                                      ('2016 - 3', 3), ('2016 - 2', 19), ('2016 - 1', 18),
+                                      ('2015 - 3', 0), ('2015 - 2', 14), ('2015 - 1', 20)])
+        mocked_npm = '1506689162'
+        mocked_token = 'dummy'
+        mocked_get_data.return_value = {2015: [20, 14, 0], 2016: [18, 19, 3],
+                                        2017: [0, 0, 0], 2018: [0, 0, 0]}
+        order = convert_dict_for_sks_term(mocked_token, mocked_npm)
+        self.assertEqual(order, expected_order)

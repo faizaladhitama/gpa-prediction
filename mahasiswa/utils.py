@@ -1,6 +1,7 @@
+from collections import OrderedDict
 from datetime import datetime
 
-from api.siak import get_jenjang, get_sks
+from api.siak import get_jenjang, get_sks, get_all_sks_term
 from api.apps import give_verdict, save_status
 
 def get_term(now):
@@ -137,11 +138,13 @@ def get_semester(kode_identitas, term):
         return "Wrong term"
     else:
         semester = tahun - angkatan
-        if term % 2 == 0 or term == 3:
+        if term == 2 or term == 3:
             semester = semester * 2
         else:
             semester = (semester * 2) - 1
-        return semester
+    if semester > 12:
+        semester = 0
+    return semester
 
 
 def split_jenjang_and_jalur(str_jenjang):
@@ -170,15 +173,34 @@ def get_index_mahasiswa_context(request, context, term_str):
         jenjang_str, err = get_jenjang(request.session['access_token'],
                                        context['id'])
         if err is not None:
-            return None
+            return err
         else:
             jenjang = split_jenjang_and_jalur(jenjang_str)
             semester = get_semester(context['id'], int(term_str[-1:]))
             evaluation_message = get_evaluation_detail_message(
                 jenjang, semester)
+            all_sks_term = convert_dict_for_sks_term(
+                request.session['access_token'], context['id'])
+            context.update({'sks_term': all_sks_term})
             context.update(evaluation_message)
+            print(context)
             return context
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
         return str(excp)
+
+
+def convert_dict_for_sks_term(token, npm):
+    sks_in_term = OrderedDict()
+    all_sks_term, err = get_all_sks_term(token, npm)
+    if err is not None:
+        return err
+    for k, value in sorted(all_sks_term.items(), reverse=True):
+        i = 3
+        for val in reversed(value):
+            new_key = str(k) + ' - ' + str(i)
+            sks_in_term[new_key] = val
+            i = i-1
+    print(sks_in_term)
+    return sks_in_term
