@@ -49,7 +49,7 @@ class AuthGenerator:
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
-            raise ValueError("Wrong username or password, input: {}, {}".format(username, password))
+            raise ValueError("Wrong username or password")
 
         return response.json()["access_token"]
 
