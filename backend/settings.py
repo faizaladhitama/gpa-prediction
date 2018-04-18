@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'mahasiswa',
     'sekre',
     'pa',
+    'django_nvd3',
+    'djangobower',
 ]
 
 MIDDLEWARE = [
@@ -172,3 +174,19 @@ if platform.system() == "Windows":
     CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
 else:
     CHROME_PATH = "./chromedriver"
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
+
+BOWER_INSTALLED_APPS = (
+    'd3#3.3.13',
+    'nvd3#1.7.1',
+)
+

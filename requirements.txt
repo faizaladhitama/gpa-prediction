@@ -8,6 +8,7 @@ django-dotenv==1.4.1
 django-filter==1.1.0
 django-lint==2.0.4
 django_heroku==0.3.1
+django-nvd3==0.9.7
 django-webpack-loader==0.4.1
 djangorestframework==3.7.7
 flake8==3.3.0
@@ -39,6 +40,7 @@ pytest-cov==2.4.0
 pytest-mock==1.6.0
 python-dateutil==2.6.1
 python-dotenv==0.6.4
+python-nvd3==0.15.0
 selenium==3.10.0
 six==1.10.0
 whitenoise==3.3.0
