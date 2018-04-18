@@ -172,7 +172,7 @@ def get_angkatan(kode_identitas):
 
 def get_index_mahasiswa_context(request, context, term_str):
     try:
-        if request is None or context is None:
+        if request.session == {} or context is None:
             jenjang_str, err = get_jenjang(request.session['access_token'],
                                            context['id'])
             return err
@@ -215,5 +215,4 @@ def convert_dict_for_sks_term(token, npm):
             new_key = str(k) + ' - ' + str(i)
             sks_in_term[new_key] = val
             i = i-1
-    print(sks_in_term)
     return sks_in_term
