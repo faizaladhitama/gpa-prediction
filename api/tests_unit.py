@@ -85,5 +85,6 @@ class EvaluasiTest(TestCase):
 
     def test_save_status_not_found(self):
         hasil = save_status('6969696969', False)
-        expected = 'MahasiswaSIAK matching query does not exist.'
+        expected_mes = 'MahasiswaSIAK matching query does not exist.'
+        expected = None, expected_mes
         self.assertEqual(expected, hasil)

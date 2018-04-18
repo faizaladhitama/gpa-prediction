@@ -20,6 +20,6 @@ def save_status(npm, status):
         mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
         mahasiswa.status_evaluasi = status
         mahasiswa.save()
-        return ""
+        return status
     except ObjectDoesNotExist as exception:
-        return exception.__str__()
+        return None, str(exception)
