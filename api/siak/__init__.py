@@ -27,6 +27,7 @@ def huruf_to_angka(huruf):
         'C-': 1.70,
         'D': 1.00,
         'E': 0.00,
+        'N': 0.00
     }
     return bobot[huruf]
 
@@ -169,3 +170,35 @@ def get_ip_term(access_token, npm, year, term):
         return 0, str(exception)
     except requests.ConnectionError as exception:
         return 0, str(exception)
+
+def get_all_ip_term(access_token, npm):
+    try:
+        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+
+        ip_map = {}
+
+        for year in range(int(angkatan), now.year + 1):
+            ip_terms = []
+            for term in range(1, 4):
+                tot_sks = 0
+                mutu = 0.00
+                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                for course in res:
+                    if course['kelas'] != None:
+                        tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+                        mutu += course['kelas']['nm_mk_cl']['jml_sks'] * \
+                                huruf_to_angka(course['nilai'])
+                if mutu == 0 and tot_sks == 0:
+                    ip_mahasiswa = 0
+                else:
+                    ip_mahasiswa = round(mutu / tot_sks * 100) / 100.00
+                ip_terms.append(ip_mahasiswa)
+            ip_map[year] = ip_terms
+        return ip_map, None
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)
