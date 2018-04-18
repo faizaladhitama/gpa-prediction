@@ -9,39 +9,39 @@
         <tbody>
             <tr>
                 <th scope="row">NPM</th>
-                <td></td>
+                <td>1506722853</td>
             </tr>
             <tr>
                 <th scope="row">Angkatan</th>
-                <td></td>
+                <td>2015</td>
             </tr>
             <tr>
                 <th scope="row">Program Studi</th>
-                <td></td>
+                <td>Ilmu Komputer, S1 Reguler</td>
             </tr>
             <tr>
                 <th scope="row">Pembimbing Akademis</th>
-                <td></td>
+                <td>19839409832 - Nama PA</td>
             </tr>
             <tr>
                 <th scope="row">Status Akademis</th>
-                <td></td>
+                <td>Aktif</td>
             </tr>
             <tr>
                 <th scope="row">Total SKS Lulus</th>
-                <td></td>
+                <td>82</td>
             </tr>
             <tr>
                 <th scope="row">Total Mutu</th>
-                <td></td>
+                <td>258.80</td>
             </tr>
             <tr>
                 <th scope="row">IPK</th>
-                <td></td>
+                <td>3.16</td>
             </tr>
             <tr>
                 <th scope="row">SKS Diperoleh</th>
-                <td></td>
+                <td>82</td>
             </tr>
         </tbody>
     </table>
