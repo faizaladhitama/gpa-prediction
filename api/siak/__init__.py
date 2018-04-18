@@ -171,6 +171,7 @@ def get_ip_term(access_token, npm, year, term):
     except requests.ConnectionError as exception:
         return 0, str(exception)
 
+
 def get_all_ip_term(access_token, npm):
     try:
         data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)

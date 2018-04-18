@@ -202,7 +202,6 @@ class GetIndexMahasiswaContext(TestCase):
                                    'detail': 'dummy'
                                   })
 
-
     def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
@@ -230,11 +229,6 @@ class ConvertDictForSksTerm(TestCase):
                                       ('2015 - 3', 3), ('2015 - 2', 3), ('2015 - 1', 3)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
-        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
-        mocked_req_sks.return_value = mocked_sks
-
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)

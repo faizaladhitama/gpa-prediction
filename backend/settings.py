@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_nvd3',
     'api',
     'dosen',
     'mahasiswa',
@@ -162,7 +163,14 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
+BOWER_PATH = '/usr/local/bin/bower'
 STATIC_URL = '/static/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
@@ -173,3 +181,5 @@ if platform.system() == "Windows":
     CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
 else:
     CHROME_PATH = "./chromedriver"
+
+
