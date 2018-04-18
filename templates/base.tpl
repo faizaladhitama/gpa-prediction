@@ -35,11 +35,6 @@
 
 {% load static %}
 <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
-{% load nvd3_tags %}
-    {% load_chart charttype chartdata "linechart_container" %}
-
-{% block customized_js%}
-{% endblock %}
 
 <footer class="footer">
     Usagi Studio - 2018
