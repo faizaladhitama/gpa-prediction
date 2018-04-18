@@ -91,3 +91,8 @@ h7 {
 .btn-link{
 	margin-left: 39%
 }
+
+#linechart_container{
+	width : 80%;
+	height : 80%;
+}

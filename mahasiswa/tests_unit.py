@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from django.test import TestCase
 
-from api.siak.tests_unit import MockSiak
+#from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
@@ -216,7 +216,7 @@ class GetIndexMahasiswaContext(TestCase):
         context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa, term[-1:])
-        self.assertEqual(context, "'user'")
+        self.assertEqual(context, "'access_token'")
 
 
 
@@ -240,10 +240,10 @@ class ConvertDictForIPTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict([('2018 - 3', 2.7), ('2018 - 2', 2.7), ('2018 - 1', 2.7),
-                                      ('2017 - 3', 2.7), ('2017 - 2', 2.7), ('2017 - 1', 2.7),
-                                      ('2016 - 3', 2.7), ('2016 - 2', 2.7), ('2016 - 1', 2.7),
-                                      ('2015 - 3', 2.7), ('2015 - 2', 2.7), ('2015 - 1', 2.7)])
+        expected_order = OrderedDict([('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
+                                      ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
+                                      ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
+                                      ('2018 - 1', 2.7), ('2018 - 2', 2.7), ('2018 - 3', 2.7)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
@@ -256,19 +256,19 @@ class GraphIPData(TestCase):
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
         expected_data = {
-            'charttype': "lineChart",
-            'chartdata': {'x': ['2018 - 3', '2018 - 2', '2018 - 1',
-                                '2017 - 3', '2017 - 2', '2017 - 1',
-                                '2016 - 3', '2016 - 2', '2016 - 1',
-                                '2015 - 3', '2015 - 2', '2015 - 1',
-                                ],
+            'charttype': "discreteBarChart",
+            'chartdata': {'x': ['2015 - 1', '2015 - 2', '2015 - 3',
+                                '2016 - 1', '2016 - 2', '2016 - 3',
+                                '2017 - 1', '2017 - 2', '2017 - 3',
+                                '2018 - 1', '2018 - 2', '2018 - 3',
+                               ],
                           'name1': 'IP',
-                          'y1': [2.7,2.7,2.7,
+                          'y1': [2.7, 2.7, 2.7,
                                  2.7, 2.7, 2.7,
                                  2.7, 2.7, 2.7,
                                  2.7, 2.7, 2.7,
-                                 ],
-                          }
+                                ],
+                         }
         }
         mocked_npm = '1506689162'
         mocked_token = 'dummy'

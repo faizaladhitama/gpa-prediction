@@ -224,12 +224,12 @@ def convert_dict_for_ip_term(token, npm):
     all_ip_term, err = get_all_ip_term(token, npm)
     if err is not None:
         return err
-    for k, value in sorted(all_ip_term.items(), reverse=True):
-        i = 3
-        for val in reversed(value):
+    for k, value in sorted(all_ip_term.items()):
+        i = 1
+        for val in value:
             new_key = str(k) + ' - ' + str(i)
             ip_in_term[new_key] = val
-            i = i-1
+            i = i + 1
     return ip_in_term
 
 
@@ -239,16 +239,15 @@ def create_graph_ip(token, npm):
     """
     all_ip_term = convert_dict_for_ip_term(token,
                                            npm)
-    print(all_ip_term)
     xdata = []
     ydata = []
     for key, value in all_ip_term.items():
         xdata.append(key)
         ydata.append(value)
     chartdata = {'x': xdata,
-                 'name1': 'IP', 'y1': ydata,
-                 }
-    charttype = "lineChart"
+                 'name1': 'IP', 'y1': ydata
+                }
+    charttype = "discreteBarChart"
     data = {
         'charttype': charttype,
         'chartdata': chartdata

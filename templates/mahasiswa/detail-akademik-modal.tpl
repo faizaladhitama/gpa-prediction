@@ -7,7 +7,6 @@
         </div>
       <div class="modal-body">
         {% include 'mahasiswa/detail-akademik-tab.tpl' %}
-        {% include_container "linechart_container" 400 600 %}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

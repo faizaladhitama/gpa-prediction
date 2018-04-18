@@ -19,5 +19,9 @@
   </div>
   <div class="tab-pane fade mx-auto" id="rekamAkademik" role="tabpanel" aria-labelledby="rekam-tab">
          {% include 'mahasiswa/sks-term-table.tpl' %}
+         <div class="col-xs-8">
+         <h3> Riwayat IP</h3>
+         {% include_container "linechart_container" 400 700 %}
+         </div>
   </div>
 </div>

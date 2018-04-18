@@ -2,9 +2,11 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from mahasiswa.utils import get_semester, \
-    get_term, get_context_mahasiswa, get_index_mahasiswa_context, request_evaluation_status
-from api.siak import get_sks, get_all_sks_term
+from mahasiswa.utils import get_term, get_context_mahasiswa, \
+    get_index_mahasiswa_context
+#get_semester
+#request_evaluation_status
+#from api.siak import get_sks, get_all_sks_term
 
 
 # Create your views here.
@@ -15,15 +17,15 @@ def index(request):
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_index_mahasiswa_context(request, context_mahasiswa,
                                               term_str)
-        npm = context_mahasiswa['id']
-        username = context_mahasiswa['user']
-        term = int(term_str[-1:])
-        sks_seharusnya = 0
-        semester = get_semester(npm, term)
-        if semester != 6:
-            sks_seharusnya = 12 * semester
+        #npm = context_mahasiswa['id']
+        #username = context_mahasiswa['user']
+        #term = int(term_str[-1:])
+        #sks_seharusnya = 0
+        #semester = get_semester(npm, term)
+        #if semester != 6:
+            #sks_seharusnya = 12 * semester
         #else:
-            sks_seharusnya = 96
+            #sks_seharusnya = 96
         #context.update({'sks_seharusnya': sks_seharusnya})
         #all_sks, err = get_sks(request.session['access_token'], npm)
         #if err is not None and username != "admin":
