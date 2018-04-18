@@ -30,7 +30,7 @@ class UtilsTest(TestCase):
         mock_password = "12345"
         hasil = get_siak_data(mock_npm, mock_username, mock_password)
 
-        expected = "Wrong username or password, input: sonoko.nogi, 12345"
+        expected = "Wrong username or password"
         self.assertEqual(expected, hasil)
 
     def test_parse_siak(self):
