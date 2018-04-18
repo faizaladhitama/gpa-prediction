@@ -171,7 +171,7 @@ class AuthGeneratorTest(TestCase):
         self.assertTrue('mocked' in str(context.exception))
 
 
-class SiakTest(TestCase):
+class MockSiak(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
@@ -200,7 +200,10 @@ class SiakTest(TestCase):
         self.mock_npm = "mocked"
         self.mock_username = "kafuu.chino"
         self.mock_password = "1"
+        self.mock_token = 'mocked'
 
+
+class SiakTest(MockSiak):
     def test_get_record_on_valid(self):
         self.mocked_generator.return_value = None
         self.mocked_verify.return_value = {"username": "kafuu.chino"}

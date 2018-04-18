@@ -1,8 +1,10 @@
 from collections import OrderedDict
 from datetime import datetime
-
 from unittest.mock import patch
+
 from django.test import TestCase
+
+from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
@@ -186,7 +188,6 @@ class SplitJenjangJalurTest(TestCase):
 
 
 class GetIndexMahasiswaContext(TestCase):
-
     @patch('api.siak.get_data_user')
     def test_context_index_valid(self, mocked_get_data):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
@@ -201,7 +202,6 @@ class GetIndexMahasiswaContext(TestCase):
                                    'source': 'dummy',
                                    'detail': 'dummy'
                                   })
-
     def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
@@ -217,6 +217,7 @@ class GetIndexMahasiswaContext(TestCase):
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa, term[-1:])
         self.assertEqual(context, "'user'")
+
 
 
 class ConvertDictForSksTerm(TestCase):

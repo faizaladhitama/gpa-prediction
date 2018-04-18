@@ -38,7 +38,6 @@ def index(request):
             #context.update({'sks_term': all_sks_term})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
-        #print_exc()
         return render(request, 'landing_page.tpl', {})
 
 
