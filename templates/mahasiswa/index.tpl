@@ -7,9 +7,6 @@
 	</h6>
 	{% include 'mahasiswa/predictor-tabs.tpl' %}
 	{% include 'mahasiswa/detail-akademik-modal.tpl' %}
-{% endblock %}
 {% load nvd3_tags %}
     {% load_chart charttype chartdata "linechart_container" %}
-
-{% block customized_js%}
 {% endblock %}
