@@ -23,6 +23,8 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
+{% load nvd3_tags %}
+    {% load_chart charttype chartdata "linechart_container"}
 {% block customized_css%}
 {% endblock %}
 

@@ -7,7 +7,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
-    convert_dict_for_sks_term
+    convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip
 
 
 # Need mockup for request session
@@ -213,10 +213,10 @@ class GetIndexMahasiswaContext(TestCase):
     def test_context_invalid_session(self):
         request = MockRequest()
         term = get_term(datetime.now())
-        context_mahasiswa = get_context_mahasiswa(request, term)
+        context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa, term[-1:])
-        self.assertEqual(context, "'access_token'")
+        self.assertEqual(context, "'user'")
 
 
 class ConvertDictForSksTerm(TestCase):
@@ -233,3 +233,45 @@ class ConvertDictForSksTerm(TestCase):
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
+
+
+class ConvertDictForIPTerm(TestCase):
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
+        expected_order = OrderedDict([('2018 - 3', 2.7), ('2018 - 2', 2.7), ('2018 - 1', 2.7),
+                                      ('2017 - 3', 2.7), ('2017 - 2', 2.7), ('2017 - 1', 2.7),
+                                      ('2016 - 3', 2.7), ('2016 - 2', 2.7), ('2016 - 1', 2.7),
+                                      ('2015 - 3', 2.7), ('2015 - 2', 2.7), ('2015 - 1', 2.7)])
+        mocked_npm = '1506689162'
+        mocked_token = 'dummy'
+        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        order = convert_dict_for_ip_term(mocked_token, mocked_npm)
+        self.assertEqual(order, expected_order)
+
+class GraphIPData(TestCase):
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
+        expected_data = {
+            'charttype': "lineChart",
+            'chartdata': {'x': ['2018 - 3', '2018 - 2', '2018 - 1',
+                                '2017 - 3', '2017 - 2', '2017 - 1',
+                                '2016 - 3', '2016 - 2', '2016 - 1',
+                                '2015 - 3', '2015 - 2', '2015 - 1',
+                                ],
+                          'name1': 'IP',
+                          'y1': [2.7,2.7,2.7,
+                                 2.7, 2.7, 2.7,
+                                 2.7, 2.7, 2.7,
+                                 2.7, 2.7, 2.7,
+                                 ],
+                          }
+        }
+        mocked_npm = '1506689162'
+        mocked_token = 'dummy'
+        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        data = create_graph_ip(mocked_token, mocked_npm)
+        self.assertEqual(data, expected_data)

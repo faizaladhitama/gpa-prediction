@@ -2,7 +2,8 @@ from collections import OrderedDict
 from datetime import datetime
 
 from api.apps import give_verdict, save_status
-from api.siak import get_jenjang, get_sks, get_all_sks_term
+from api.siak import get_jenjang, get_sks, get_all_sks_term, \
+    get_all_ip_term
 
 
 def get_term(now):
@@ -192,8 +193,10 @@ def get_index_mahasiswa_context(request, context, term_str):
                 jenjang, semester)
             all_sks_term = convert_dict_for_sks_term(
                 request.session['access_token'], context['id'])
+            data_ip_term = create_graph_ip(request.session['access_token'], context['id'])
             context.update({'sks_term': all_sks_term})
             context.update(evaluation_message)
+            context.update(data_ip_term)
             print(context)
             return context
     except KeyError as excp:
@@ -215,3 +218,40 @@ def convert_dict_for_sks_term(token, npm):
             i = i-1
     print(sks_in_term)
     return sks_in_term
+
+
+def convert_dict_for_ip_term(token, npm):
+    ip_in_term = OrderedDict()
+    all_ip_term, err = get_all_ip_term(token, npm)
+    if err is not None:
+        return err
+    for k, value in sorted(all_ip_term.items(), reverse=True):
+        i = 3
+        for val in reversed(value):
+            new_key = str(k) + ' - ' + str(i)
+            ip_in_term[new_key] = val
+            i = i-1
+    return ip_in_term
+
+
+def create_graph_ip(token, npm):
+    """
+    lineChart page
+    """
+    all_ip_term = convert_dict_for_ip_term(token,
+                                           npm)
+    print(all_ip_term)
+    xdata = []
+    ydata = []
+    for key, value in all_ip_term.items():
+        xdata.append(key)
+        ydata.append(value)
+    chartdata = {'x': xdata,
+                 'name1': 'IP', 'y1': ydata,
+                 }
+    charttype = "lineChart"
+    data = {
+        'charttype': charttype,
+        'chartdata': chartdata
+    }
+    return data
