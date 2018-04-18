@@ -176,9 +176,7 @@ def get_index_mahasiswa_context(request, context, term_str):
             jenjang_str, err = get_jenjang(request.session['access_token'],
                                            context['id'])
             return err
-        if context['user'] == "admin":
-            return dict()
-        elif context['user'] == "dummy":
+        if context['user'] == "dummy":
             context.update({'source': 'dummy'})
             context.update({'detail': 'dummy'})
             return context

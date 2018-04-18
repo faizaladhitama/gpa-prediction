@@ -22,23 +22,23 @@ def index(request):
         semester = get_semester(npm, term)
         if semester != 6:
             sks_seharusnya = 12 * semester
-        else:
+        #else:
             sks_seharusnya = 96
-        context.update({'sks_seharusnya': sks_seharusnya})
-        all_sks, err = get_sks(request.session['access_token'], npm)
-        if err is not None and username != "admin":
-            print(err)
-        if username != "admin":
-            sks_kurang = sks_seharusnya - all_sks
-            context.update({'sks_kurang' : sks_kurang})
-            status = request_evaluation_status(npm, request.session['access_token'], semester)
-            context.update({'status' : status})
-            context.update({'semester' : semester})
-            all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
-            context.update({'sks_term': all_sks_term})
+        #context.update({'sks_seharusnya': sks_seharusnya})
+        #all_sks, err = get_sks(request.session['access_token'], npm)
+        #if err is not None and username != "admin":
+        #    print(err)
+        #if username != "admin":
+            #sks_kurang = sks_seharusnya - all_sks
+            #context.update({'sks_kurang' : sks_kurang})
+            #status = request_evaluation_status(npm, request.session['access_token'], semester)
+            #context.update({'status' : status})
+            #context.update({'semester' : semester})
+            #all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
+            #context.update({'sks_term': all_sks_term})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
-        print_exc()
+        #print_exc()
         return render(request, 'landing_page.tpl', {})
 
 

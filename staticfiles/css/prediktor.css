@@ -1,0 +1,93 @@
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url("../fonts/Montserrat-Bold.ttf");
+}
+
+@font-face {
+    font-family: Montserrat-SemiBold;
+    src: url("../fonts/Montserrat-SemiBold.ttf");
+}
+
+h1 {
+	font-family: 'Montserrat-Bold';
+}
+
+h3 {
+	font-family: 'Montserrat-Bold';
+	margin-top: 5%;
+}
+
+h7 {
+	font-family: 'Montserrat-Bold';
+}
+
+.matkul-to-predict {
+	font-family: 'Montserrat-SemiBold';
+	color: #09A8DD;
+	margin-left: 40%;
+}
+
+#mytabs {
+	margin-top: 50px;
+	margin-left: 30px;
+}
+
+.prediktor-tab {
+	width: 50%;
+	border-bottom: 1px solid #424242;
+	border-radius: 4px 4px 0 0;
+	background-color: yellow;
+	font-size: 20px;
+}
+
+.prediktor-tab>li>a:hover {
+	background-color: red;
+	text-decoration: none;
+}
+
+.tab-content {
+	margin-left: 35%;
+}
+
+.prediktor-title {
+	margin-left: 20%;
+}
+
+.prediktor-title-matkul {
+	margin-left: 30%;
+}
+
+.prediktor-body {
+	margin-top: 70px;
+}
+
+#result-button {
+	margin-left: 20%;
+}
+
+.prediktor-message {
+	margin-left: 25%;
+	margin-top: 30px;
+}
+
+.verdict {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+#prediktor-eval-button {
+	margin-left: 30%;
+}
+
+#table-matkul-prasyarat {
+	margin-left: 50%;
+	margin-top: 15%;
+}
+
+#sks-term-table {
+	margin-top: 5%;
+}
+
+.btn-link{
+	margin-left: 39%
+}

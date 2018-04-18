@@ -197,9 +197,9 @@ class GetIndexMahasiswaContext(TestCase):
                                               context_mahasiswa['term'][-1:])
         self.assertEqual(context, {'term': '2017/2018 - 2', 'access_token': 'dummy',
                                    'team': 'usagi studio', 'user': 'dummy',
-                                   'id': 'dummy', 'role': 'dummy', 'sks_term': None,
-                                   'source': '-',
-                                   'detail': '-'
+                                   'id': 'dummy', 'role': 'dummy',
+                                   'source': 'dummy',
+                                   'detail': 'dummy'
                                   })
 
 
@@ -219,17 +219,23 @@ class GetIndexMahasiswaContext(TestCase):
                                               context_mahasiswa, term[-1:])
         self.assertEqual(context, "'access_token'")
 
-@patch('api.siak.utils.Requester.request_sks')
-class ConvertDictForSksTerm(TestCase):
 
-    def test_sks_convert_valid(self, mocked_get_data):
-        expected_order = OrderedDict([('2018 - 3', 0), ('2018 - 2', 0), ('2018 - 1', 0),
-                                      ('2017 - 3', 0), ('2017 - 2', 0), ('2017 - 1', 0),
-                                      ('2016 - 3', 3), ('2016 - 2', 19), ('2016 - 1', 18),
-                                      ('2015 - 3', 0), ('2015 - 2', 14), ('2015 - 1', 20)])
+class ConvertDictForSksTerm(TestCase):
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
+        expected_order = OrderedDict([('2018 - 3', 3), ('2018 - 2', 3), ('2018 - 1', 3),
+                                      ('2017 - 3', 3), ('2017 - 2', 3), ('2017 - 1', 3),
+                                      ('2016 - 3', 3), ('2016 - 2', 3), ('2016 - 1', 3),
+                                      ('2015 - 3', 3), ('2015 - 2', 3), ('2015 - 1', 3)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
-        mocked_get_data.return_value = {2015: [20, 14, 0], 2016: [18, 19, 3],
-                                        2017: [0, 0, 0], 2018: [0, 0, 0]}
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        mocked_req_sks.return_value = mocked_sks
+
+        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
