@@ -18,7 +18,7 @@ class SeleniumTestCase(LiveServerTestCase):
         chrome_options.add_argument('--headless')
         chrome_options.add_argument("window-size=1200,640")
         chrome_options.add_argument('disable-gpu')
-        print(settings.CHROME_PATH)
+        settings.CHROME_PATH = '/usr/bin/chromedriver'
         cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
         super(SeleniumTestCase, cls).setUp(cls)
 
