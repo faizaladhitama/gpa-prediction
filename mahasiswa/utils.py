@@ -2,7 +2,7 @@ from collections import OrderedDict
 from datetime import datetime
 
 from api.apps import give_verdict, save_status
-from api.siak import get_jenjang, get_sks, get_all_sks_term, \
+from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term
 
 
@@ -35,9 +35,7 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
-    if (term == 5 or term == 6):  # semester 5 dan 6 tidak ada evaluasi
-        term = 8
-    elif term % 2 > 0:
+    if term % 2 > 0:
         term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
     status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_now)
@@ -45,13 +43,13 @@ def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
     return status
 
 
-def request_evaluation_status(npm, token, term):
-    sks_lulus = get_sks(token, npm)[0]
-    sks_diambil = 18
-    ip_now = 3.0  # diitung ntr
-    status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
-    save_status(npm, status)
-    return status
+# def request_evaluation_status(npm, token, term):
+#     sks_lulus = get_sks(token, npm)[0]
+#     sks_diambil = 18
+#     ip_now = 3.0  # diitung ntr
+#     status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
+#     save_status(npm, status)
+#     return status
 
 
 def get_evaluation_detail_message(jenjang, semester):
@@ -145,8 +143,8 @@ def get_semester(kode_identitas, term):
             semester = semester * 2
         else:
             semester = (semester * 2) - 1
-    if semester > 12:
-        semester = 0
+    # if semester > 12:
+    #    semester = 0
     return semester
 
 
@@ -171,34 +169,18 @@ def get_angkatan(kode_identitas):
         return "Wrong kode identitas"
 
 
-def get_index_mahasiswa_context(request, context, term_str):
+def get_index_mahasiswa_context(request, context):
     try:
         if request.session == {} or context is None:
-            jenjang_str, err = get_jenjang(request.session['access_token'],
-                                           context['id'])
-            return err
-        if context['user'] == "dummy":
+            return get_jenjang(request.session['access_token'], context['id'])
+        elif context['user'] == "dummy":
             context.update({'source': 'dummy'})
             context.update({'detail': 'dummy'})
-            return context
-
-        jenjang_str, err = get_jenjang(request.session['access_token'],
-                                       context['id'])
-        if err is not None:
-            return err
+            return context, None
         else:
-            jenjang = split_jenjang_and_jalur(jenjang_str)
-            semester = get_semester(context['id'], int(term_str[-1:]))
-            evaluation_message = get_evaluation_detail_message(
-                jenjang, semester)
-            all_sks_term = convert_dict_for_sks_term(
-                request.session['access_token'], context['id'])
-            data_ip_term = create_graph_ip(request.session['access_token'], context['id'])
-            context.update({'sks_term': all_sks_term})
-            context.update(evaluation_message)
-            context.update(data_ip_term)
-            print(context)
-            return context
+            jenjang_str, err = get_jenjang(request.session['access_token'],
+                                           context['id'])
+            return jenjang_str, err
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
@@ -208,48 +190,45 @@ def get_index_mahasiswa_context(request, context, term_str):
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
     all_sks_term, err = get_all_sks_term(token, npm)
-    if err is not None:
-        return err
+    # if err is not None:
+    #    return err
     for k, value in sorted(all_sks_term.items(), reverse=True):
         i = 3
         for val in reversed(value):
             new_key = str(k) + ' - ' + str(i)
             sks_in_term[new_key] = val
-            i = i-1
-    return sks_in_term
+            i = i - 1
+    return sks_in_term, err
 
 
 def convert_dict_for_ip_term(token, npm):
     ip_in_term = OrderedDict()
     all_ip_term, err = get_all_ip_term(token, npm)
-    if err is not None:
-        return err
+    # if err is not None:
+    #    return err
     for k, value in sorted(all_ip_term.items()):
         i = 1
         for val in value:
             new_key = str(k) + ' - ' + str(i)
             ip_in_term[new_key] = val
             i = i + 1
-    return ip_in_term
+    return ip_in_term, err
 
 
 def create_graph_ip(token, npm):
     """
     lineChart page
     """
-    all_ip_term = convert_dict_for_ip_term(token,
-                                           npm)
+    all_ip_term, err = convert_dict_for_ip_term(token, npm)
     xdata = []
     ydata = []
     for key, value in all_ip_term.items():
         xdata.append(key)
         ydata.append(value)
-    chartdata = {'x': xdata,
-                 'name1': 'IP', 'y1': ydata
-                }
+    chartdata = {'x': xdata, 'name1': 'IP', 'y1': ydata}
     charttype = "discreteBarChart"
     data = {
         'charttype': charttype,
         'chartdata': chartdata
     }
-    return data
+    return data, err

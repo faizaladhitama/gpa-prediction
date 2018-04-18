@@ -174,32 +174,53 @@ class AuthGeneratorTest(TestCase):
 class MockSiak(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
+
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
+
         mocked_verify = patch('api.siak.utils.AuthGenerator.verify_user')
+
         mocked_get_data = patch('api.siak.utils.AuthGenerator.get_data_user')
+
         mocked_requester = patch('api.siak.utils.Requester.request_academic_data')
+
         mocked_req_sks = patch('api.siak.utils.Requester.request_sks')
+
         mocked_req_data = patch('api.siak.utils.Requester.request_mahasiswa_data')
 
         self.mocked_generator = mocked_generator.start()
+
         self.mocked_verify = mocked_verify.start()
+
         self.mocked_get_token = mocked_get_token.start()
+
         self.mocked_get_data = mocked_get_data.start()
+
         self.mocked_requester = mocked_requester.start()
+
         self.mocked_req_sks = mocked_req_sks.start()
+
         self.mocked_req_data = mocked_req_data.start()
 
         self.addCleanup(mocked_generator.stop)
+
         self.addCleanup(mocked_requester.stop)
+
         self.addCleanup(mocked_verify.stop)
+
         self.addCleanup(mocked_get_token.stop)
+
         self.addCleanup(mocked_get_data.stop)
+
         self.addCleanup(mocked_req_sks.stop)
+
         self.addCleanup(mocked_req_data.stop)
 
         self.mock_npm = "mocked"
+
         self.mock_username = "kafuu.chino"
+
         self.mock_password = "1"
+
         self.mock_token = 'mocked'
 
 
@@ -424,6 +445,22 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(3, resp)
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'C-'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertIsNone(err)
+        self.assertEqual(0, resp)
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'N'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertIsNone(err)
+        self.assertEqual(0, resp)
 
     def test_get_sks_term_on_conn_error(self):
         mocked_token = "mocked"

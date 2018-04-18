@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from django.test import TestCase
 
-#from api.siak.tests_unit import MockSiak
+# from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
@@ -12,23 +12,19 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip
 
 
-# Need mockup for request session
-# class URLTest(TestCase):
-#    def test_homepage(self):
-#        response = self.client.get('/mahasiswa/', follow=True)
-#        self.assertEqual(response.status_code, 200)
-#
-#    def test_rekomendasi(self):
-#        response = self.client.get('/mahasiswa/rekomendasi', follow=True)
-#        self.assertEqual(response.status_code, 200)
-#
-#    def test_profile(self):
-#        response = self.client.get('/mahasiswa/profile', follow=True)
-#        self.assertEqual(response.status_code, 200)
-#
-#    def test_prediktor_evaluasi(self):
-#        response = self.client.get('/mahasiswa/prediktor_evaluasi', follow=True)
-#        self.assertEqual(response.status_code, 404)
+class URLTest(TestCase):
+    def test_homepage(self):
+        response = self.client.get('/mahasiswa/', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_rekomendasi(self):
+        response = self.client.get('/mahasiswa/rekomendasi', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_profile(self):
+        response = self.client.get('/mahasiswa/profile', follow=True)
+        self.assertEqual(response.status_code, 200)
+
 
 class MockRequest:
     def __init__(self, session=None):
@@ -194,30 +190,27 @@ class GetIndexMahasiswaContext(TestCase):
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
         request = MockRequest(context_mahasiswa)
         mocked_get_data.return_value = ({"program": [{"nm_prg": "S1 Regular"}]}, None)
-        context = get_index_mahasiswa_context(request, context_mahasiswa,
-                                              context_mahasiswa['term'][-1:])
+        context, err = get_index_mahasiswa_context(request, context_mahasiswa)
+
+        self.assertEqual(err, None)
         self.assertEqual(context, {'term': '2017/2018 - 2', 'access_token': 'dummy',
                                    'team': 'usagi studio', 'user': 'dummy',
                                    'id': 'dummy', 'role': 'dummy',
-                                   'source': 'dummy',
-                                   'detail': 'dummy'
-                                  })
+                                   'source': 'dummy', 'detail': 'dummy'})
+
     def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
-        term = get_term(datetime.now())
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa, term[-1:])
+                                              context_mahasiswa)
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
         request = MockRequest()
-        term = get_term(datetime.now())
         context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa, term[-1:])
+                                              context_mahasiswa)
         self.assertEqual(context, "'access_token'")
-
 
 
 class ConvertDictForSksTerm(TestCase):
@@ -232,7 +225,8 @@ class ConvertDictForSksTerm(TestCase):
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        order = convert_dict_for_sks_term(mocked_token, mocked_npm)
+        order, err = convert_dict_for_sks_term(mocked_token, mocked_npm)
+        self.assertEqual(err, None)
         self.assertEqual(order, expected_order)
 
 
@@ -248,8 +242,10 @@ class ConvertDictForIPTerm(TestCase):
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        order = convert_dict_for_ip_term(mocked_token, mocked_npm)
+        order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
+        self.assertEqual(err, None)
         self.assertEqual(order, expected_order)
+
 
 class GraphIPData(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
@@ -260,19 +256,17 @@ class GraphIPData(TestCase):
             'chartdata': {'x': ['2015 - 1', '2015 - 2', '2015 - 3',
                                 '2016 - 1', '2016 - 2', '2016 - 3',
                                 '2017 - 1', '2017 - 2', '2017 - 3',
-                                '2018 - 1', '2018 - 2', '2018 - 3',
-                               ],
+                                '2018 - 1', '2018 - 2', '2018 - 3', ],
                           'name1': 'IP',
                           'y1': [2.7, 2.7, 2.7,
                                  2.7, 2.7, 2.7,
                                  2.7, 2.7, 2.7,
-                                 2.7, 2.7, 2.7,
-                                ],
-                         }
+                                 2.7, 2.7, 2.7, ]}
         }
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        data = create_graph_ip(mocked_token, mocked_npm)
+        data, err = create_graph_ip(mocked_token, mocked_npm)
+        self.assertEqual(err, None)
         self.assertEqual(data, expected_data)
