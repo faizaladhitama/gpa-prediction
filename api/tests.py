@@ -131,37 +131,55 @@ class ViewProfileMahasiswa(SeleniumTestCase):
 
         nama = self.browser.find_element_by_css_selector('#profile-mahasiswa-nama')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(nama)
 
         angkatan = self.browser.find_element_by_css_selector('#profile-mahasiswa-angkatan')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(angkatan)
 
         prodi = self.browser.find_element_by_css_selector('#profile-mahasiswa-prodi')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(prodi)
 
         pem_akademik = self.browser.find_element_by_css_selector('#profile-mahasiswa-pa')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(pem_akademik)
 
         status = self.browser.find_element_by_css_selector('#profile-mahasiswa-status')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(status)
 
         sks_lulus = self.browser.find_element_by_css_selector('#profile-mahasiswa-sks-lulus')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(sks_lulus)
 
         mutu = self.browser.find_element_by_css_selector('#profile-mahasiswa-mutu')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(mutu)
 
         ipk = self.browser.find_element_by_css_selector('#profile-mahasiswa-ipk')\
         .is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(ipk)
 
         sks_diperoleh = self.browser.\
         find_element_by_css_selector('#profile-mahasiswa-sks-diperoleh').is_displayed()
+        self.browser.maximize_window()
+        self.browser.implicitly_wait(20)
         self.assertTrue(sks_diperoleh)
         
