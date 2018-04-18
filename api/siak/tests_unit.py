@@ -126,7 +126,7 @@ class AuthGeneratorTest(TestCase):
         with self.assertRaises(Exception) as context:
             self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
 
-        self.assertTrue('mocked' in str(context.exception))
+        self.assertTrue('Wrong username or password' in str(context.exception))
 
     def test_verify_user_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
