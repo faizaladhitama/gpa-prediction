@@ -39,7 +39,7 @@
                 <th scope="row">IPK</th>
                 <td>3.16</td>
             </tr>
-            <tr id="profile-mahasiswa-"sks-diperoleh>
+            <tr id="profile-mahasiswa-sks-diperoleh">
                 <th scope="row">SKS Diperoleh</th>
                 <td>82</td>
             </tr>
