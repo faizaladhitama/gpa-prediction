@@ -9,7 +9,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
-    convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip
+    convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip, request_evaluation_status
 
 
 class URLTest(TestCase):
@@ -254,7 +254,7 @@ class ConvertDictForIPTerm(TestCase):
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
-        self.assertEqual(err, None)
+        self.assertEqual(err, "connection refused")
         self.assertEqual(order, expected_order)
 
     @patch('api.siak.utils.Requester.request_sks')
@@ -292,3 +292,17 @@ class GraphIPData(TestCase):
         data, err = create_graph_ip(mocked_token, mocked_npm)
         self.assertEqual(err, None)
         self.assertEqual(data, expected_data)
+
+class RequestStatusTest(TestCase):
+    def setUp(self):
+        self.mocked_npm = "1506730000"
+        self.mocked_token = "token"
+        self.mocked_term = "mocked"
+
+    def test_valid(self):
+        status = request_evaluation_status(self.mocked_npm,self.mocked_token,self.mocked_term)
+        self.assertEqual(status)
+
+    def test_invalid(self):
+        status = request_evaluation_status("asdadsa","12321313","term")
+        self.assertEqual(status)
