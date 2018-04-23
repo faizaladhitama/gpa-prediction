@@ -257,6 +257,17 @@ class ConvertDictForIPTerm(TestCase):
         self.assertEqual(err, None)
         self.assertEqual(order, expected_order)
 
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_sks_convert_invalid(self, mocked_req_data, mocked_req_sks):
+        mocked_npm = '1506689162'
+        mocked_token = 'dummy'
+        mocked_req_sks.side_effect = ValueError("connection refused")
+        mocked_req_data.side_effect = ValueError("connection refused")
+        order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
+        self.assertEqual(err, True)
+        self.assertEqual(order, None)
+
 
 class GraphIPData(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
