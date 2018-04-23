@@ -3,7 +3,7 @@ from datetime import datetime
 
 from api.apps import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
-    get_all_ip_term
+    get_all_ip_term, get_sks
 
 
 def get_term(now):
@@ -43,13 +43,13 @@ def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
     return status
 
 
-# def request_evaluation_status(npm, token, term):
-#     sks_lulus = get_sks(token, npm)[0]
-#     sks_diambil = 18
-#     ip_now = 3.0  # diitung ntr
-#     status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
-#     save_status(npm, status)
-#     return status
+def request_evaluation_status(npm, token, term):
+    sks_lulus = get_sks(token, npm)[0]
+    sks_diambil = 18
+    ip_now = 3.0  # diitung ntr
+    status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
+    save_status(npm, status)
+    return status
 
 
 def get_evaluation_detail_message(jenjang, semester):
@@ -143,8 +143,8 @@ def get_semester(kode_identitas, term):
             semester = semester * 2
         else:
             semester = (semester * 2) - 1
-    # if semester > 12:
-    #    semester = 0
+    if semester > 12:
+        semester = 0
     return semester
 
 
@@ -180,7 +180,8 @@ def get_index_mahasiswa_context(request, context):
         else:
             jenjang_str, err = get_jenjang(request.session['access_token'],
                                            context['id'])
-            return jenjang_str, err
+            context.update({'jenjang':jenjang_str})
+            return context, None
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
@@ -190,8 +191,8 @@ def get_index_mahasiswa_context(request, context):
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
     all_sks_term, err = get_all_sks_term(token, npm)
-    # if err is not None:
-    #    return err
+    if err is not None:
+        return err
     for k, value in sorted(all_sks_term.items(), reverse=True):
         i = 3
         for val in reversed(value):
@@ -204,8 +205,8 @@ def convert_dict_for_sks_term(token, npm):
 def convert_dict_for_ip_term(token, npm):
     ip_in_term = OrderedDict()
     all_ip_term, err = get_all_ip_term(token, npm)
-    # if err is not None:
-    #    return err
+    if err is not None:
+        return err
     for k, value in sorted(all_ip_term.items()):
         i = 1
         for val in value:
