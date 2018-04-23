@@ -21,9 +21,7 @@ class UtilsTest(TestCase):
         self.addCleanup(self.mocked_parse_siak_data.stop)
         self.addCleanup(self.mocked_get_academic_record.stop)
 
-    @patch('api.siak.get_academic_record')
-    def test_get_siak_data(self, *args):
-        args = args
+    def test_get_siak_data(self):
         self.mocked_get_academic_record.return_value = "mocked-record"
         mock_npm = "mocked"
         mock_username = "sonoko.nogi"
