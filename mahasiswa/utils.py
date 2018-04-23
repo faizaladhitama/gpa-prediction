@@ -171,9 +171,7 @@ def get_angkatan(kode_identitas):
 
 def get_index_mahasiswa_context(request, context):
     try:
-        if request.session == {} or context is None:
-            return get_jenjang(request.session['access_token'], context['id'])
-        elif context['user'] == "dummy":
+        if context is not None and context['user'] == "dummy":
             context.update({'source': 'dummy'})
             context.update({'detail': 'dummy'})
             return context, None
@@ -181,7 +179,7 @@ def get_index_mahasiswa_context(request, context):
             jenjang_str, err = get_jenjang(request.session['access_token'],
                                            context['id'])
             context.update({'jenjang':jenjang_str})
-            return context, None
+            return context, err
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
@@ -192,28 +190,28 @@ def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
     all_sks_term, err = get_all_sks_term(token, npm)
     if err is not None:
-        return err
+        return None, err
     for k, value in sorted(all_sks_term.items(), reverse=True):
         i = 3
         for val in reversed(value):
             new_key = str(k) + ' - ' + str(i)
             sks_in_term[new_key] = val
             i = i - 1
-    return sks_in_term, err
+    return sks_in_term, None
 
 
 def convert_dict_for_ip_term(token, npm):
     ip_in_term = OrderedDict()
     all_ip_term, err = get_all_ip_term(token, npm)
     if err is not None:
-        return err
+        return None, err
     for k, value in sorted(all_ip_term.items()):
         i = 1
         for val in value:
             new_key = str(k) + ' - ' + str(i)
             ip_in_term[new_key] = val
             i = i + 1
-    return ip_in_term, err
+    return ip_in_term, None
 
 
 def create_graph_ip(token, npm):
