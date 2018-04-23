@@ -210,7 +210,7 @@ class GetIndexMahasiswaContext(TestCase):
         context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
-        self.assertEqual(context, "'access_token'")
+        self.assertEqual(context, "'user'")
 
 
 class ConvertDictForSksTerm(TestCase):
@@ -228,6 +228,17 @@ class ConvertDictForSksTerm(TestCase):
         order, err = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(err, None)
         self.assertEqual(order, expected_order)
+
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_sks_convert_invalid(self, mocked_req_data, mocked_req_sks):
+        mocked_npm = '1506689162'
+        mocked_token = 'dummy'
+        mocked_req_sks.side_effect = ValueError("connection refused")
+        mocked_req_data.side_effect = ValueError("connection refused")
+        order, err = convert_dict_for_sks_term(mocked_token, mocked_npm)
+        self.assertEqual(err, "connection refused")
+        self.assertEqual(order, None)
 
 
 class ConvertDictForIPTerm(TestCase):
