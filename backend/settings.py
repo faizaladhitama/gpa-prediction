@@ -183,7 +183,7 @@ STATICFILES_FINDERS = (
     'djangobower.finders.BowerFinder',
 )
 
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, '/static/components')
 
 BOWER_INSTALLED_APPS = (
     'd3#3.3.13',

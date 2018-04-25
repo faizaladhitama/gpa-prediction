@@ -1,9 +1,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}Prediksi Kinerja Mahasiswa{% endblock %}</title>
 {% load static %}
-<link media="all" href="{% static 'nvd3/src/nv.d3.css' %}" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src='{% static 'd3/d3.min.js' %}'></script>
-<script type="text/javascript" src='{% static 'nvd3/nv.d3.js' %}'></script>
+<link media="all" href="{% static 'components/nvd3/src/nv.d3.css' %}" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="{% static 'components/d3/d3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'components/nvd3/nv.d3.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">

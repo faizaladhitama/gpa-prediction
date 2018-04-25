@@ -3,10 +3,9 @@ from datetime import datetime
 
 from django.shortcuts import render
 
+from api.siak import get_sks, get_all_sks_term
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_semester, request_evaluation_status
-
-from api.siak import get_sks, get_all_sks_term
 
 
 # Create your views here.
