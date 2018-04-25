@@ -8,5 +8,5 @@
 	{% include 'mahasiswa/predictor-tabs.tpl' %}
 	{% include 'mahasiswa/detail-akademik-modal.tpl' %}
 {% load nvd3_tags %}
-    {% load_chart charttype chartdata "linechart_container" %}
+    {% load_chart charttype chartdata "discretebarchart_container" %}
 {% endblock %}

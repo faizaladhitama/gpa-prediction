@@ -21,7 +21,7 @@
          {% include 'mahasiswa/sks-term-table.tpl' %}
          <div class="col-xs-8">
          <h3> Riwayat IP</h3>
-         {% include_container "linechart_container" 400 700 %}
+         {% include_container "discretebarchart_container" 400 700 %}
          </div>
   </div>
 </div>

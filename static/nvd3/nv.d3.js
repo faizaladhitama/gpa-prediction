@@ -3831,9 +3831,9 @@ nv.models.discreteBar = function() {
         , y = d3.scale.linear()
         , getX = function(d) { return d.x }
         , getY = function(d) { return d.y }
-        , forceY = [0] // 0 is forced by default.. this makes sense for the majority of bar graphs... user can always do chart.forceY([]) to remove
+        , forceY = [0.00] // 0 is forced by default.. this makes sense for the majority of bar graphs... user can always do chart.forceY([]) to remove
         , color = nv.utils.defaultColor()
-        , showValues = false
+        , showValues = true
         , valueFormat = d3.format(',.2f')
         , xDomain
         , yDomain
@@ -3983,7 +3983,6 @@ nv.models.discreteBar = function() {
             } else {
                 bars.selectAll('text').remove();
             }
-
             bars
                 .attr('class', function(d,i) { return getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive' })
                 .style('fill', function(d,i) { return d.color || color(d,i) })
@@ -4084,7 +4083,7 @@ nv.models.discreteBarChart = function() {
         , height = null
         , color = nv.utils.getColor()
         , showXAxis = true
-        , showYAxis = true
+        , showYAxis = false
         , rightAlignYAxis = false
         , staggerLabels = false
         , x
@@ -4101,19 +4100,20 @@ nv.models.discreteBarChart = function() {
     ;
     yAxis
         .orient((rightAlignYAxis) ? 'right' : 'left')
-        .tickFormat(d3.format(',.1f'))
+        .tickFormat(function(d) {
+        return d3.format(",.2f")(d);
+        })
     ;
 
     tooltip
         .duration(0)
         .headerEnabled(false)
         .valueFormatter(function(d, i) {
-            return yAxis.tickFormat()(d, i);
+            return d3.format(",.2f")(d);
         })
         .keyFormatter(function(d, i) {
             return xAxis.tickFormat()(d, i);
         });
-
     //============================================================
     // Private Variables
     //------------------------------------------------------------
@@ -8295,7 +8295,6 @@ nv.models.multiBarChart = function() {
                     .scale(y)
                     ._ticks( nv.utils.calcTicksY(availableHeight/36, data) )
                     .tickSize( -availableWidth, 0);
-
                 g.select('.nv-y.nv-axis')
                     .call(yAxis);
             }

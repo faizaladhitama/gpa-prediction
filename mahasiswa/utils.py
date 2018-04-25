@@ -63,14 +63,14 @@ def get_evaluation_detail_message(jenjang, semester):
                  tidak memperoleh indeks prestasi minimal 2,0 \
                  (dua koma nol) dari sekurang-kurangnya 24 \
                  (dua puluh empat) SKS terbaik',
-            '4': 'Apabila pada evaluasi 4 (dua) semester pertama \
+            '4': 'Apabila pada evaluasi 4 (empat) semester pertama \
                  tidak memperoleh indeks prestasi minimal 2,0 \
                  (dua koma nol) dari sekurang-kurangnya 48 \
-                 (dua puluh empat) SKS terbaik',
-            '8': 'Apabila pada evaluasi 2 (dua) semester pertama \
+                 (empat puluh delapan) SKS terbaik',
+            '8': 'Apabila pada evaluasi 8 (delapan) semester pertama \
                  tidak memperoleh indeks prestasi minimal 2,0 \
                  (dua koma nol) dari sekurang-kurangnya 96 \
-                 (dua puluh empat) SKS terbaik',
+                 (sembilan puluh enam) SKS terbaik',
             '12': 'Apabila pada evaluasi akhir masa studi \
                  tidak memperoleh indeks prestasi minimal 2,0 \
                  (dua koma nol) dari beban studi yang dipersyaratkan \
@@ -145,6 +145,8 @@ def get_semester(kode_identitas, term):
             semester = (semester * 2) - 1
     if semester > 12:
         semester = 0
+    elif semester == 6:
+        semester = 8
     return semester
 
 
@@ -176,10 +178,19 @@ def get_index_mahasiswa_context(request, context):
             context.update({'detail': 'dummy'})
             return context, None
         else:
-            jenjang_str, err = get_jenjang(request.session['access_token'],
-                                           context['id'])
-            context.update({'jenjang':jenjang_str})
-            return context, err
+            term = int(context['term'][-1:])
+            token, npm = request.session['access_token'], context['id']
+            jenjang_str, err = get_jenjang(token,npm)
+            jenjang = split_jenjang_and_jalur(jenjang_str)
+            sks_term = convert_dict_for_sks_term(token, npm)
+            graph_ip = create_graph_ip(token, npm)
+            semester = get_semester(npm, term)
+            detail_evaluasi = get_evaluation_detail_message(jenjang, semester)
+            context.update({'jenjang': jenjang_str})
+            context.update({'sks_term': sks_term})
+            context.update(detail_evaluasi)
+            context.update(graph_ip)
+            return context
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
@@ -197,7 +208,7 @@ def convert_dict_for_sks_term(token, npm):
             new_key = str(k) + ' - ' + str(i)
             sks_in_term[new_key] = val
             i = i - 1
-    return sks_in_term, None
+    return sks_in_term
 
 
 def convert_dict_for_ip_term(token, npm):
@@ -211,23 +222,25 @@ def convert_dict_for_ip_term(token, npm):
             new_key = str(k) + ' - ' + str(i)
             ip_in_term[new_key] = val
             i = i + 1
-    return ip_in_term, None
+    return ip_in_term
 
 
 def create_graph_ip(token, npm):
     """
-    lineChart page
+    discretebarchart page
     """
-    all_ip_term, err = convert_dict_for_ip_term(token, npm)
     xdata = []
     ydata = []
+    all_ip_term = convert_dict_for_ip_term(token, npm)
     for key, value in all_ip_term.items():
         xdata.append(key)
         ydata.append(value)
-    chartdata = {'x': xdata, 'name1': 'IP', 'y1': ydata}
+    chartdata = {
+        'x': xdata, 'name1': '', 'y1': ydata,
+    }
     charttype = "discreteBarChart"
     data = {
         'charttype': charttype,
-        'chartdata': chartdata
+        'chartdata': chartdata,
     }
-    return data, err
+    return data

@@ -1,3 +1,4 @@
+import traceback
 from datetime import datetime
 
 from django.shortcuts import render
@@ -14,7 +15,7 @@ def index(request):
     term_str = get_term(now)
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
-        context, err = get_index_mahasiswa_context(request, context_mahasiswa)
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
         npm = context_mahasiswa['id']
         username = context_mahasiswa['user']
         term = int(term_str[-1:])
@@ -29,12 +30,10 @@ def index(request):
             print(err)
         if username != "admin":
             sks_kurang = sks_seharusnya - all_sks
-            context.update({'sks_kurang' : sks_kurang})
+            context.update({'sks_kurang': sks_kurang})
             status = request_evaluation_status(npm, request.session['access_token'], semester)
-            context.update({'status' : status})
-            context.update({'semester' : semester})
-            all_sks_term, err = get_all_sks_term(request.session['access_token'], npm)
-            context.update({'sks_term': all_sks_term})
+            context.update({'status': status})
+            context.update({'semester': semester})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
