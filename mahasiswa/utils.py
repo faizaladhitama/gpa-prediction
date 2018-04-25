@@ -179,20 +179,21 @@ def get_index_mahasiswa_context(request, context):
         if context is not None and context['user'] == "dummy":
             context.update({'source': 'dummy'})
             context.update({'detail': 'dummy'})
-            return context, None
+            return context
         else:
             term = int(context['term'][-1:])
             token, npm = request.session['access_token'], context['id']
-            jenjang_str, err = get_jenjang(token,npm)
-            jenjang = split_jenjang_and_jalur(jenjang_str)
-            sks_term = convert_dict_for_sks_term(token, npm)
-            graph_ip = create_graph_ip(token, npm)
-            semester = get_semester(npm, term)
-            detail_evaluasi = get_evaluation_detail_message(jenjang, semester)
-            context.update({'jenjang': jenjang_str})
-            context.update({'sks_term': sks_term})
-            context.update(detail_evaluasi)
-            context.update(graph_ip)
+            jenjang_str, err = get_jenjang(token, npm)
+            if err is None:
+                jenjang = split_jenjang_and_jalur(jenjang_str)
+                sks_term = convert_dict_for_sks_term(token, npm)
+                graph_ip = create_graph_ip(token, npm)
+                semester = get_semester(npm, term)
+                detail_evaluasi = get_evaluation_detail_message(jenjang, semester)
+                context.update({'jenjang': jenjang_str})
+                context.update({'sks_term': sks_term})
+                context.update(detail_evaluasi)
+                context.update(graph_ip)
             return context
     except KeyError as excp:
         return str(excp)
@@ -204,7 +205,7 @@ def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
     all_sks_term, err = get_all_sks_term(token, npm)
     if err is not None:
-        return None, err
+        return None
     for k, value in sorted(all_sks_term.items(), reverse=True):
         i = 3
         for val in reversed(value):
@@ -218,7 +219,7 @@ def convert_dict_for_ip_term(token, npm):
     ip_in_term = OrderedDict()
     all_ip_term, err = get_all_ip_term(token, npm)
     if err is not None:
-        return None, err
+        return None
     for k, value in sorted(all_ip_term.items()):
         i = 1
         for val in value:
@@ -239,7 +240,7 @@ def create_graph_ip(token, npm):
         xdata.append(key)
         ydata.append(value)
     chartdata = {
-        'x': xdata, 'name1': '', 'y1': ydata,
+        'x': xdata, 'name1': 'IP', 'y1': ydata,
     }
     charttype = "discreteBarChart"
     data = {
