@@ -137,10 +137,10 @@ def get_semester(kode_identitas, term):
     angkatan = get_angkatan(kode_identitas)
     if angkatan == "Wrong kode identitas":
         return angkatan
-    if (term > 3 or term < 1):
+    if term > 3 or term < 1:
         return "Wrong term"
     else:
-        semester = (tahun - angkatan) * 2
+        semester = (tahun - angkatan)*2
     if semester > 12:
         semester = 0
     elif semester == 6:
@@ -176,8 +176,8 @@ def get_index_mahasiswa_context(request, context):
             context.update({'detail': 'dummy'})
             return context
         else:
-            term = int(context['term'][-1:])
             token, npm = request.session['access_token'], context['id']
+            term = int(context['term'][-1:])
             jenjang_str, err = get_jenjang(token, npm)
             if err is None:
                 jenjang = split_jenjang_and_jalur(jenjang_str)

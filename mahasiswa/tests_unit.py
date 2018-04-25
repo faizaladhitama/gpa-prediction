@@ -123,7 +123,7 @@ class SemesterTest(TestCase):
 
     def test_semester_1_term(self):
         semester = get_semester("15066989162", 1)
-        self.assertEqual(5, semester)
+        self.assertEqual(8, semester)
 
     def test_semester_3_term(self):
         semester = get_semester("15066989162", 3)
@@ -197,11 +197,14 @@ class GetIndexMahasiswaContext(TestCase):
                                    'id': 'dummy', 'role': 'dummy',
                                    'source': 'dummy', 'detail': 'dummy'})
 
-    def test_context_invalid_request(self):
+    @patch('api.siak.get_data_user')
+    def test_context_invalid_request(self, mocked_get_data):
         request = None
         context_mahasiswa = None
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
+        mocked_get_data.side_effect = AttributeError("'NoneType' object has "
+                                                     "no attribute 'session'")
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
