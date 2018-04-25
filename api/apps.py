@@ -13,7 +13,7 @@ def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
         status = "Lolos"
     elif(ip_aman and sks_lulus < sks_minimal and sks_kemungkinan >= sks_minimal):
         status = "Hati-Hati"
-    return status
+    return status.lower()
 
 def save_status(npm, status):
     try:
