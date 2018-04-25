@@ -47,9 +47,12 @@ def request_evaluation_status(npm, token, term):
     sks_lulus = get_sks(token, npm)[0]
     sks_diambil = 18
     ip_now = 3.0  # diitung ntr
-    status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
-    save_status(npm, status)
-    return status
+    try:
+        status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
+        save_status(npm, status)
+        return status
+    except TypeError:
+        return "Argument salah"
 
 
 def get_evaluation_detail_message(jenjang, semester):
@@ -178,7 +181,7 @@ def get_index_mahasiswa_context(request, context):
         else:
             jenjang_str, err = get_jenjang(request.session['access_token'],
                                            context['id'])
-            context.update({'jenjang':jenjang_str})
+            context.update({'jenjang': jenjang_str})
             return context, err
     except KeyError as excp:
         return str(excp)
