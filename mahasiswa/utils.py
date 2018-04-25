@@ -34,12 +34,11 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
 
 
-def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
+def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0):
     if term % 2 > 0:
         term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
     status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_now)
-    save_status(npm, status)
     return status
 
 
@@ -48,7 +47,7 @@ def request_evaluation_status(npm, token, term):
     sks_diambil = 18
     ip_now = 3.0  # diitung ntr
     try:
-        status = get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now)
+        status = get_evaluation_status(term, sks_lulus, sks_diambil, ip_now)
         save_status(npm, status)
         return status
     except TypeError:
@@ -141,11 +140,7 @@ def get_semester(kode_identitas, term):
     if (term > 3 or term < 1):
         return "Wrong term"
     else:
-        semester = tahun - angkatan
-        if term == 2 or term == 3:
-            semester = semester * 2
-        else:
-            semester = (semester * 2) - 1
+        semester = (tahun - angkatan) * 2
     if semester > 12:
         semester = 0
     elif semester == 6:
