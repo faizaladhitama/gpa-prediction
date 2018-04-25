@@ -39,7 +39,6 @@ def get_evaluation_status(npm, term, sks_lulus, sks_diambil, ip_now=3.0):
         term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
     status = give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_now)
-    save_status(npm, status)
     return status
 
 
