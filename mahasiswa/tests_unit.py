@@ -3,6 +3,7 @@ from datetime import datetime
 from unittest.mock import patch
 
 from django.test import TestCase
+from django.urls import reverse
 
 # from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
@@ -254,7 +255,7 @@ class ConvertDictForIPTerm(TestCase):
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
-        self.assertEqual(err, "connection refused")
+        self.assertEqual(err, None)
         self.assertEqual(order, expected_order)
 
     @patch('api.siak.utils.Requester.request_sks')
@@ -265,7 +266,7 @@ class ConvertDictForIPTerm(TestCase):
         mocked_req_sks.side_effect = ValueError("connection refused")
         mocked_req_data.side_effect = ValueError("connection refused")
         order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
-        self.assertEqual(err, True)
+        self.assertEqual(err, "connection refused")
         self.assertEqual(order, None)
 
 
@@ -293,16 +294,33 @@ class GraphIPData(TestCase):
         self.assertEqual(err, None)
         self.assertEqual(data, expected_data)
 
+
 class RequestStatusTest(TestCase):
     def setUp(self):
         self.mocked_npm = "1506730000"
         self.mocked_token = "token"
-        self.mocked_term = "mocked"
+        self.mocked_term = "2016/2017 - 2"
 
-    def test_valid(self):
-        status = request_evaluation_status(self.mocked_npm,self.mocked_token,self.mocked_term)
-        self.assertEqual(status)
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_invalid(self, mocked_req_data, mocked_req_sks):
+        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
+        self.assertEqual(status, "Argument salah")
 
-    def test_invalid(self):
-        status = request_evaluation_status("asdadsa","12321313","term")
-        self.assertEqual(status)
+
+class ViewTest(TestCase):
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_index(self, mocked_req_sks, mocked_req_data):
+        session = self.client.session
+        session["kode_identitas"] = "dummy"
+        session["user_login"] = "dummy"
+        session["role"] = "dummy"
+        session["access_token"] = "dummy"
+        session.save()
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        response = self.client.get(reverse('mahasiswa:index'))
+        self.assertEqual(response.status_code, 300)
