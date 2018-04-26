@@ -329,4 +329,4 @@ class ViewTest(TestCase):
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         response = self.client.get(reverse('mahasiswa:index'))
-        self.assertEqual(response.status_code, 300)
+        self.assertEqual(response.status_code, 200)
