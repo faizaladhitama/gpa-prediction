@@ -2,9 +2,9 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from api.siak import get_sks
+from api.siak import get_sks, get_jenjang, get_data_user
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
-    get_index_mahasiswa_context, get_semester, request_evaluation_status
+     get_index_mahasiswa_context, get_semester, request_evaluation_status
 
 
 # Create your views here.
@@ -21,10 +21,9 @@ def index(request):
 def profile(request):
     now = datetime.now()
     term_str = get_term(now)
-    data_mahasiswa = dict()
     try:
         context = get_context_mahasiswa(request, term_str)
-        data_mahasiswa['npm'] = context['id']
+        # mahasiswa = get_data_user(request.session['access_token'], npm)
          
         return render(request, 'mahasiswa/profile.tpl', context)
     except TypeError:
