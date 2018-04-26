@@ -151,27 +151,27 @@ class AngkatanTest(TestCase):
 class EvaluationStatusTest(TestCase):
     def test_status_lolos(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "Lolos")
+        self.assertEqual(status, "Lolos".lower())
 
     def test_status_lolos_invalid(self):
         status = get_evaluation_status("1506688879", 3, 48, 18)
-        self.assertEqual(status, "Lolos")
+        self.assertEqual(status, "Lolos".lower())
 
     def test_status_hati(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "Hati-Hati")
+        self.assertEqual(status, "Hati-Hati".lower())
 
     def test_status_hati_invalid(self):
         status = get_evaluation_status("1506688879", 3, 36, 12)
-        self.assertEqual(status, "Hati-Hati")
+        self.assertEqual(status, "Hati-Hati".lower())
 
     def test_status_fail(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "Tidak Lolos")
+        self.assertEqual(status, "Tidak Lolos".lower())
 
     def test_status_fail_invalid(self):
         status = get_evaluation_status("1506688879", 3, 25, 12)
-        self.assertEqual(status, "Tidak Lolos")
+        self.assertEqual(status, "Tidak Lolos".lower())
 
 
 class SplitJenjangJalurTest(TestCase):
