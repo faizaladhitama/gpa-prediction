@@ -59,15 +59,15 @@ class EvaluasiTest(TestCase):
 
     def test_rumus_lolos(self):
         hasil = give_verdict(48, 48, 19, 3.3)
-        self.assertEqual(hasil, "Lolos")
+        self.assertEqual(hasil, "lolos")
 
     def test_rumus_lolos_hati_hati(self):
         hasil = give_verdict(48, 40, 19, 3.3)
-        self.assertEqual(hasil, "Hati-Hati")
+        self.assertEqual(hasil, "hati-hati")
 
     def test_rumus_lolos_negatif(self):
         hasil = give_verdict(48, 10, 19, 2.3)
-        self.assertEqual(hasil, "Tidak Lolos")
+        self.assertEqual(hasil, "tidak lolos")
 
     def test_save_status(self):
         npm = '1506111222'
