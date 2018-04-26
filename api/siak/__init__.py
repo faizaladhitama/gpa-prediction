@@ -192,7 +192,7 @@ def get_all_ip_term(access_token, npm):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
                         mutu += course['kelas']['nm_mk_cl']['jml_sks'] * \
                                 huruf_to_angka(course['nilai'])
-                if(tot_sks != 0):
+                if tot_sks != 0:
                     ip_mahasiswa = round(mutu / tot_sks * 100) / 100.00
                 else:
                     ip_mahasiswa = 0.00

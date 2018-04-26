@@ -115,7 +115,7 @@ class EvaluationTest(TestCase):
 class SemesterTest(TestCase):
     def test_semester_2_term(self):
         semester = get_semester("15066989162", 2)
-        self.assertEqual(6, semester)
+        self.assertEqual(8, semester)
 
     def test_semester_2_tua_term(self):
         semester = get_semester("08066989162", 2)
@@ -123,11 +123,11 @@ class SemesterTest(TestCase):
 
     def test_semester_1_term(self):
         semester = get_semester("15066989162", 1)
-        self.assertEqual(5, semester)
+        self.assertEqual(8, semester)
 
     def test_semester_3_term(self):
         semester = get_semester("15066989162", 3)
-        self.assertEqual(6, semester)
+        self.assertEqual(8, semester)
 
     def test_term_invalid(self):
         semester = get_semester("15066989162", 4)
@@ -191,19 +191,20 @@ class GetIndexMahasiswaContext(TestCase):
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
         request = MockRequest(context_mahasiswa)
         mocked_get_data.return_value = ({"program": [{"nm_prg": "S1 Regular"}]}, None)
-        context, err = get_index_mahasiswa_context(request, context_mahasiswa)
-
-        self.assertEqual(err, None)
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertEqual(context, {'term': '2017/2018 - 2', 'access_token': 'dummy',
                                    'team': 'usagi studio', 'user': 'dummy',
                                    'id': 'dummy', 'role': 'dummy',
                                    'source': 'dummy', 'detail': 'dummy'})
 
-    def test_context_invalid_request(self):
+    @patch('api.siak.get_data_user')
+    def test_context_invalid_request(self, mocked_get_data):
         request = None
         context_mahasiswa = None
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
+        mocked_get_data.side_effect = AttributeError("'NoneType' object has "
+                                                     "no attribute 'session'")
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
@@ -226,8 +227,7 @@ class ConvertDictForSksTerm(TestCase):
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        order, err = convert_dict_for_sks_term(mocked_token, mocked_npm)
-        self.assertEqual(err, None)
+        order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
 
     @patch('api.siak.utils.Requester.request_sks')
@@ -237,15 +237,14 @@ class ConvertDictForSksTerm(TestCase):
         mocked_token = 'dummy'
         mocked_req_sks.side_effect = ValueError("connection refused")
         mocked_req_data.side_effect = ValueError("connection refused")
-        order, err = convert_dict_for_sks_term(mocked_token, mocked_npm)
-        self.assertEqual(err, "connection refused")
+        order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, None)
 
 
 class ConvertDictForIPTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
-    def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
+    def test_ip_convert_valid(self, mocked_req_data, mocked_req_sks):
         expected_order = OrderedDict([('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
                                       ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
                                       ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
@@ -254,26 +253,24 @@ class ConvertDictForIPTerm(TestCase):
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
-        self.assertEqual(err, None)
+        order = convert_dict_for_ip_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
 
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
-    def test_sks_convert_invalid(self, mocked_req_data, mocked_req_sks):
+    def test_ip_convert_invalid(self, mocked_req_data, mocked_req_sks):
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         mocked_req_sks.side_effect = ValueError("connection refused")
         mocked_req_data.side_effect = ValueError("connection refused")
-        order, err = convert_dict_for_ip_term(mocked_token, mocked_npm)
-        self.assertEqual(err, "connection refused")
+        order = convert_dict_for_ip_term(mocked_token, mocked_npm)
         self.assertEqual(order, None)
 
 
 class GraphIPData(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
-    def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
+    def test_ip_data_valid(self, mocked_req_data, mocked_req_sks):
         expected_data = {
             'charttype': "discreteBarChart",
             'chartdata': {'x': ['2015 - 1', '2015 - 2', '2015 - 3',
@@ -290,8 +287,7 @@ class GraphIPData(TestCase):
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        data, err = create_graph_ip(mocked_token, mocked_npm)
-        self.assertEqual(err, None)
+        data = create_graph_ip(mocked_token, mocked_npm)
         self.assertEqual(data, expected_data)
 
 
@@ -300,6 +296,16 @@ class RequestStatusTest(TestCase):
         self.mocked_npm = "1506730000"
         self.mocked_token = "token"
         self.mocked_term = "2016/2017 - 2"
+
+    @patch('api.siak.get_sks')
+    @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
+    @patch('mahasiswa.utils.save_status', return_value=True)
+    def test_valid(self, mocked_get_sks, mocked_get_eval, mocked_save):
+        mocked_get_sks.return_value = 70
+        mocked_get_eval.return_value = "lolos"
+        mocked_save.return_value = True
+        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
+        self.assertEqual(status, "lolos")
 
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
