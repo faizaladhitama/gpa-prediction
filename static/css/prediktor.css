@@ -51,6 +51,7 @@ h7 {
 
 .prediktor-title {
 	margin-left: 20%;
+	margin-top: 2%;
 }
 
 .prediktor-title-matkul {
@@ -58,7 +59,7 @@ h7 {
 }
 
 .prediktor-body {
-	margin-top: 70px;
+	margin-top: 30px;
 }
 
 #result-button {

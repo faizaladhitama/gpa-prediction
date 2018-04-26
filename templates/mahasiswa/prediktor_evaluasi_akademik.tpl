@@ -15,6 +15,7 @@
 
 		<div class="row ">
 			<div class="col">
+				all sks= {{all_sks}}
 				{% if status == 'lolos' %}
 					<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status}}</span> evaluasi akademik semester {{semester}}!</p>
 

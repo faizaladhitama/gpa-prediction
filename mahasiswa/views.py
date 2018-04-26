@@ -24,6 +24,7 @@ def index(request):
             sks_seharusnya = 96
         context.update({'sks_seharusnya': sks_seharusnya})
         all_sks, err = get_sks(request.session['access_token'], npm)
+        context.update({'all_sks' : all_sks})
         if err is not None and username != "admin":
             print(err)
         if username != "admin":
