@@ -353,7 +353,7 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}}]
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}]
         self.mocked_req_sks.return_value = mocked_sks
 
         now = datetime.datetime.now()
