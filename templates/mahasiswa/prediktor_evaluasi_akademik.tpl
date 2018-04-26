@@ -19,11 +19,11 @@
 					<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status}}</span> evaluasi akademik semester {{semester}}!</p>
 
 				{% elif status == 'hati-hati' %}
-					<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status}}</span> untuk  evaluasi akademik semester {{semester}}!</p> <p>Anda kurang {{sks_kurang}} dari {{sks_seharusnya}} untuk lolos evaluasi akademik</p>
+					<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status}}</span> untuk  evaluasi akademik semester {{semester}}!</p> <p class="prediktor-message">Anda kurang {{sks_kurang}} dari {{sks_seharusnya}} untuk lolos evaluasi akademik</p>
 				{% else %}
 					<p class="prediktor-message">Anda terancam <span class ="verdict">{{status}}</span> evaluasi akademik semester {{semester}}!</p>
-					<p>Anda kurang {{sks_kurang}} dari {{sks_seharusnya}} untuk lolos evaluasi akademik</p>
-					<p> Harap diskusikan dengan PA anda untuk solusi yang terbaik</p>
+					<p class="prediktor-message">Anda kurang {{sks_kurang}} dari {{sks_seharusnya}} untuk lolos evaluasi akademik</p>
+					<p class="prediktor-message"> Harap diskusikan dengan PA anda untuk solusi yang terbaik</p>
 				{% endif %}
 			</div>
 		</div>
