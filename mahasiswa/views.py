@@ -22,7 +22,8 @@ def profile(request):
     data_mahasiswa = dict()
     try:
         context = get_context_mahasiswa(request, term_str)
-        data_mahasiswa['npm'] = context['id'] 
+        data_mahasiswa['npm'] = context['id']
+         
         return render(request, 'mahasiswa/profile.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
