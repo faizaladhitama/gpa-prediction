@@ -3,7 +3,8 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from api.siak import get_sks, get_jenjang, get_data_user, get_all_sks_term
+from api.siak import get_sks, get_jenjang, get_data_user, get_all_sks_term, get_total_mutu,\
+get_all_ip_term
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
      get_index_mahasiswa_context, get_semester, request_evaluation_status
 
@@ -37,6 +38,9 @@ def profile(request):
             for sks in value:
                 total_sks_dpo = total_sks_dpo + sks
 
+        total_mutu = get_total_mutu(request.session['access_token'], npm)[0]
+        print(total_mutu)
+
         data_mahasiswa = {}
         data_mahasiswa['nama'] = mahasiswa[0]['nama'].lower().title()
         data_mahasiswa['npm'] = mahasiswa[0]['npm']
@@ -45,12 +49,10 @@ def profile(request):
         [last_term]['nm_org'] + ", " + mahasiswa[0]['program'][0]['nm_prg']
         data_mahasiswa['status'] = mahasiswa[0]['program'][last_term]['nm_status']
         data_mahasiswa['sks_lulus'] = get_sks(request.session['access_token'], npm)[0]
-        # data_mahasiswa['mutu'] =
+        data_mahasiswa['mutu'] = str(round(total_mutu,2))
         # data_mahasiswa['ipk'] =
         data_mahasiswa['sks_diperoleh'] = total_sks_dpo
         context.update({'data_mahasiswa': data_mahasiswa})
-        # print(mahasiswa)
-        print(data_mahasiswa) 
          
         return render(request, 'mahasiswa/profile.tpl', context)
     except TypeError:
