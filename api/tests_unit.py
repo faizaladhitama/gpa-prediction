@@ -33,6 +33,11 @@ class UserTest(TestCase):
                                     {'username': 'admin', 'password': 'admin'}, follow=True)
         self.assertEqual(response.status_code, 200)
 
+    def test_auth_login_dosen(self):
+        response = self.client.post('/auth-login',
+                                    {'username': 'dosen', 'password': 'dosen'}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
     def test_auth_login_negative(self):
         response = self.client.post('/auth-login',
                                     {'username': 'molo', 'password': 'mola'}, follow=True)
