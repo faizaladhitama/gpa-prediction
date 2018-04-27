@@ -185,8 +185,8 @@ def get_index_mahasiswa_context(request, context):
                 graph_ip = create_graph_ip(token, npm)
                 semester = get_semester(npm, term)
                 detail_evaluasi = get_evaluation_detail_message(jenjang, semester)
-                context.update({'jenjang': jenjang_str, 'sks_term': sks_term},
-                               detail_evaluasi, graph_ip)
+                context.update({'jenjang': jenjang_str, 'sks_term': sks_term})
+                context = {**context, **detail_evaluasi, **graph_ip}
             return context
     except KeyError as excp:
         return str(excp)

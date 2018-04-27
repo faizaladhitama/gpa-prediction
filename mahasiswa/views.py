@@ -1,3 +1,4 @@
+import traceback
 from datetime import datetime
 
 from django.shortcuts import render
@@ -35,6 +36,7 @@ def index(request):
             context.update({'semester': semester})
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
+        traceback.print_exc()
         return render(request, 'landing_page.tpl', {})
 
 
