@@ -411,7 +411,7 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
         course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
         course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
         mocked_sks = [course1, course2, course3]
