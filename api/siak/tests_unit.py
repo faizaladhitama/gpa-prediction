@@ -420,7 +420,7 @@ class SiakTest(MockSiak):
         resp, err = get_all_sks_term(mocked_token, self.mock_npm)
 
         self.assertIsNone(err)
-        self.assertEqual({2015: [4, 4, 4], 2016: [4, 4, 4], 2017: [4, 4, 4], 2018: [4, 4, 4]}, resp)
+        self.assertEqual({2015: [4, 0, 0], 2016: [0, 0, 0], 2017: [0, 0, 0], 2018: [0, 0, 0]}, resp)
 
     def test_get_all_sks_on_conn_error(self):
         mocked_token = "mocked"
