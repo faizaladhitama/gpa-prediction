@@ -64,5 +64,5 @@ class AuthGenerator:
         parameters = {"access_token": access_token, "client_id": client_id}
         response = requests.get(self.api_mahasiswa + npm, params=parameters)
         if response.status_code == 403:
-            raise ValueError("Can't find user with npm :{}".format(npm))
+            raise ValueError("Forbidden :{}".format(npm))
         return response.json()

@@ -18,10 +18,14 @@
           <h10>{{source}}</h10>
   </div>
   <div class="tab-pane fade mx-auto" id="rekamAkademik" role="tabpanel" aria-labelledby="rekam-tab">
+         <h3>Total SKS Diperoleh</h3>
+         <h5>{{all_sks}} SKS</h5>
+         <h3>SKS yang Diambil Semester ini</h3>
+         <h5>{{sks_term}} SKS</h5>
          {% include 'mahasiswa/sks-term-table.tpl' %}
          <div class="col-xs-8">
-         <h3> Riwayat IP</h3>
-         {% include_container "discretebarchart_container" 400 700 %}
+           <h3> Riwayat IP</h3>
+           {% include_container "discretebarchart_container" 400 700 %}
          </div>
   </div>
 </div>

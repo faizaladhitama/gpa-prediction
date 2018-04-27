@@ -10,7 +10,9 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
-    convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip, request_evaluation_status
+    convert_dict_for_sks_term, convert_dict_for_ip_term, \
+    create_graph_ip, request_evaluation_status, \
+    get_sks_seharusnya, get_sks_kurang
 
 
 class URLTest(TestCase):
@@ -219,13 +221,15 @@ class ConvertDictForSksTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict([('2018 - 3', 3), ('2018 - 2', 3), ('2018 - 1', 3),
-                                      ('2017 - 3', 3), ('2017 - 2', 3), ('2017 - 1', 3),
-                                      ('2016 - 3', 3), ('2016 - 2', 3), ('2016 - 1', 3),
-                                      ('2015 - 3', 3), ('2015 - 2', 3), ('2015 - 1', 3)])
+        expected_order = OrderedDict(
+            [('2018 - 3', 0), ('2018 - 2', 0), ('2018 - 1', 0),
+             ('2017 - 3', 0), ('2017 - 2', 0), ('2017 - 1', 0),
+             ('2016 - 3', 0), ('2016 - 2', 0), ('2016 - 1', 0),
+             ('2015 - 3', 0), ('2015 - 2', 0), ('2015 - 1', 3)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
-        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk':'UIGE600042'}
+        mocked_req_sks.return_value = [course]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
@@ -330,3 +334,27 @@ class ViewTest(TestCase):
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         response = self.client.get(reverse('mahasiswa:index'))
         self.assertEqual(response.status_code, 200)
+
+
+class SksSeharusnya(TestCase):
+    def test_semester_genap(self):
+        sks_seharusnya = get_sks_seharusnya(2)
+        self.assertEqual(sks_seharusnya, 24)
+
+    def test_semester_6(self):
+        sks_seharusnya = get_sks_seharusnya(6)
+        self.assertEqual(sks_seharusnya, 96)
+
+    def test_invalid_semester(self):
+        sks_seharusnya = get_sks_seharusnya(None)
+        self.assertEqual(sks_seharusnya, "semester bermasalah")
+
+
+class SksKurang(TestCase):
+    def test_sks_kurang_valid(self):
+        sks_kurang = get_sks_kurang(24, 12)
+        self.assertEqual(sks_kurang, 12)
+
+    def test_invalid_sks_seharusnya(self):
+        sks_kurang = get_sks_kurang(None, None)
+        self.assertEqual(sks_kurang, "sks seharusnya atau sks diperoleh bermasalah")

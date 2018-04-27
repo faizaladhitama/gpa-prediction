@@ -353,7 +353,10 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}]
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
         self.mocked_req_sks.return_value = mocked_sks
 
         now = datetime.datetime.now()
@@ -361,7 +364,7 @@ class SiakTest(MockSiak):
         resp, err = get_sks(mocked_token, self.mock_npm)
 
         self.assertIsNone(err)
-        self.assertEqual(3 * (now.year + 1 - 2015) * 3, resp)
+        self.assertEqual(4 * (now.year + 1 - 2015) * 3, resp)
 
     def test_get_sks_on_conn_error(self):
         mocked_token = "mocked"
@@ -408,13 +411,16 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_all_sks_term(mocked_token, self.mock_npm)
 
         self.assertIsNone(err)
-        self.assertEqual({2015: [3, 3, 3], 2016: [3, 3, 3], 2017: [3, 3, 3], 2018: [3, 3, 3]}, resp)
+        self.assertEqual({2015: [4, 0, 0], 2016: [0, 0, 0], 2017: [0, 0, 0], 2018: [0, 0, 0]}, resp)
 
     def test_get_all_sks_on_conn_error(self):
         mocked_token = "mocked"
@@ -445,6 +451,22 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(3, resp)
+
+        mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk':'UIGE600001'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertIsNone(err)
+        self.assertEqual(0, resp)
+
+        mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk':'UIGE600040'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertIsNone(err)
+        self.assertEqual(1, resp)
 
         mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'C-'}]
         self.mocked_req_sks.return_value = mocked_sks

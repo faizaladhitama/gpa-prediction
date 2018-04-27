@@ -14,9 +14,16 @@
 				<img id="logo" src= "{% static "assets/logo_persegi.png" %}">
 			</div>
 			<div class="col-sm-4">
-				{% for message in messages %}
-				<h3 class="messages">{{message}}</h3>
-				{% endfor %}
+				<div>
+					{% for message in messages %}
+						<div class="alert alert-success h6">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			   					<span aria-hidden="true">&times;</span>
+			  				</button>
+							{{message}}
+						</div>
+					{% endfor %}
+				</div>
 				<form class="login-form" action="{% url 'api:auth-login' %}" method="POST">                
                 {% csrf_token %}
 					<div class="form-group">
