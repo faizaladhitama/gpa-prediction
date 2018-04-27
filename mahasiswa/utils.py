@@ -248,7 +248,7 @@ def create_graph_ip(token, npm):
 
 
 def get_sks_seharusnya(semester):
-    if isinstance(semester) is int:
+    if isinstance(semester, int):
         if semester != 6:
             sks_seharusnya = 12 * semester
             return sks_seharusnya
