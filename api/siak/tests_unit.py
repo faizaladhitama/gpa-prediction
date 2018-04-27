@@ -411,7 +411,7 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
         course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
         course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
         mocked_sks = [course1, course2, course3]
@@ -420,7 +420,7 @@ class SiakTest(MockSiak):
         resp, err = get_all_sks_term(mocked_token, self.mock_npm)
 
         self.assertIsNone(err)
-        self.assertEqual({2015: [4, 4, 4], 2016: [4, 4, 4], 2017: [4, 4, 4], 2018: [4, 4, 4]}, resp)
+        self.assertEqual({2015: [4, 0, 0], 2016: [0, 0, 0], 2017: [0, 0, 0], 2018: [0, 0, 0]}, resp)
 
     def test_get_all_sks_on_conn_error(self):
         mocked_token = "mocked"
