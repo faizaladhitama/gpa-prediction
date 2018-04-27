@@ -141,9 +141,7 @@ def get_semester(kode_identitas, term):
         return "Wrong term"
     else:
         semester = (tahun - angkatan)*2
-    if semester > 12:
-        semester = 0
-    elif semester == 6:
+    if semester == 6:
         semester = 8
     return semester
 
@@ -250,17 +248,14 @@ def create_graph_ip(token, npm):
 
 
 def get_sks_seharusnya(semester):
-    try:
-        if type(semester) is int:
-            if semester != 6:
-                sks_seharusnya = 12 * semester
-                return sks_seharusnya
-            else:
-                sks_seharusnya = 96
-                return sks_seharusnya
+    if isinstance(semester) is int:
+        if semester != 6:
+            sks_seharusnya = 12 * semester
+            return sks_seharusnya
         else:
-            return "semester bermasalah"
-    except TypeError:
+            sks_seharusnya = 96
+            return sks_seharusnya
+    else:
         return "semester bermasalah"
 
 
