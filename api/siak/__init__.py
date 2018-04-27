@@ -31,6 +31,33 @@ def huruf_to_angka(huruf):
     }
     return bobot[huruf]
 
+def cek_mpkos(code):
+    code_matkul = [
+        'UIGE600040',
+        'UIGE600041',
+        'UIGE600042',
+        'UIGE600043',
+        'UIGE600045',
+        'UIGE600047',
+        'UIGE600048',
+        'UIGE600020',
+        'UIGE600021',
+        'UIGE600022',
+        'UIGE600023',
+        'UIGE600025',
+        'UIGE600024',
+        'UIGE600026',
+        'UIGE600027',
+        'UIGE600028',
+        'UIGE600029',
+        'UIGE600030',
+    ]
+
+    if code in code_matkul:
+        return 1
+    else:
+        return 0
+
 
 def get_academic_record(npm, username, password):
     try:
@@ -96,6 +123,8 @@ def get_sks(access_token, npm):
                 for course in res:
                     if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+                    elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
+                        tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
 
         return tot_sks, None
     except ValueError as exception:
@@ -120,15 +149,15 @@ def get_all_sks_term(access_token, npm):
                 tot_sks = 0
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
-                    if course['kelas'] != None and \
-                            course['kelas']['nm_mk_cl']['kd_mk'] in taken_course:
+                    if course['kd_mk'] in taken_course:
                         continue
 
                     elif course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-                        taken_course.append(course['kelas']['nm_mk_cl']['kd_mk'])
-
-
+                        taken_course.append(course['kd_mk'])
+                    elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
+                        tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
+                        taken_course.append(course['kd_mk'])
                 sks_terms.append(tot_sks)
             sks_map[year] = sks_terms
         return sks_map, None
@@ -146,6 +175,9 @@ def get_sks_term(access_token, npm, year, term):
         for course in res:
             if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+            elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
+                tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
+
         return tot_sks, None
     except ValueError as exception:
         return 0, str(exception)

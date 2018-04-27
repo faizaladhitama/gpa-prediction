@@ -6,6 +6,7 @@ from django.shortcuts import render
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context
 
+
 # Create your views here.
 def index(request):
     now = datetime.now()

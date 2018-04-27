@@ -221,13 +221,15 @@ class ConvertDictForSksTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict([('2018 - 3', 3), ('2018 - 2', 3), ('2018 - 1', 3),
-                                      ('2017 - 3', 3), ('2017 - 2', 3), ('2017 - 1', 3),
-                                      ('2016 - 3', 3), ('2016 - 2', 3), ('2016 - 1', 3),
-                                      ('2015 - 3', 3), ('2015 - 2', 3), ('2015 - 1', 3)])
+        expected_order = OrderedDict(
+            [('2018 - 3', 0), ('2018 - 2', 0), ('2018 - 1', 0),
+             ('2017 - 3', 0), ('2017 - 2', 0), ('2017 - 1', 0),
+             ('2016 - 3', 0), ('2016 - 2', 0), ('2016 - 1', 0),
+             ('2015 - 3', 0), ('2015 - 2', 0), ('2015 - 1', 3)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
-        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk':'UIGE600042'}
+        mocked_req_sks.return_value = [course]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
