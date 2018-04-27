@@ -37,7 +37,7 @@
             </tr>
             <tr id="profile-mahasiswa-ipk" class="table-primary">
                 <th scope="row">IPK</th>
-                <td>3.16</td>
+                <td>{{data_mahasiswa.ipk}}</td>
             </tr>
             <tr id="profile-mahasiswa-sks-diperoleh" class="table-light">
                 <th scope="row">SKS Diperoleh</th>
