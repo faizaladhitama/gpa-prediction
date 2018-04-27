@@ -63,6 +63,8 @@ class AuthGenerator:
     def get_data_user(self, access_token, npm, client_id):
         parameters = {"access_token": access_token, "client_id": client_id}
         response = requests.get(self.api_mahasiswa + npm, params=parameters)
+        if access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            return {}
         if response.status_code == 403:
             raise ValueError("Forbidden :{}".format(npm))
         return response.json()

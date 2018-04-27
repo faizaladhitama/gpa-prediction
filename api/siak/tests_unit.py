@@ -530,6 +530,19 @@ class SiakTest(MockSiak):
         self.assertEqual(0, resp)
         self.assertEqual("connection refused", err)
 
+    def test_all_ip_term_valid_0(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 0}}, 'nilai': 'N'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_all_ip_term(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual({2015: [0, 0, 0], 2016: [0, 0, 0],
+                          2017: [0, 0, 0], 2018: [0, 0, 0]}, resp)
+
     def test_all_ip_term_on_valid(self):
         mocked_token = "mocked"
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
