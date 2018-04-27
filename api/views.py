@@ -35,8 +35,14 @@ def auth_login(request):
             request.session['access_token'] = access_token
             request.session['kode_identitas'] = kode_identitas
             request.session['role'] = role
-            # messages.success(request, "Anda berhasil login " + username)
-            return HttpResponseRedirect(reverse('mahasiswa:index'))
+            if role == 'admin' or role == 'mahasiswa':
+                messages.success(request, "Anda berhasil login " + username)
+                return HttpResponseRedirect(reverse('mahasiswa:index'))
+            else:
+                messages.error(request, "Mohon maaf, \n"
+                                        "aplikasi untuk role " + role
+                               + " belum tersedia")
+                return HttpResponseRedirect(reverse('api:landing'))
         except KeyError:
             messages.error(request, "Username atau password salah")
             return HttpResponseRedirect(reverse('api:landing'))
@@ -47,7 +53,7 @@ def auth_login(request):
 def auth_logout(request):
     print("#==> auth logout")
     request.session.flush()  # menghapus semua session\
-    # messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
+    messages.info(request, "Anda berhasil logout.")
     return HttpResponseRedirect(reverse('api:landing'))
 
 

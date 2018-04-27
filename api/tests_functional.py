@@ -129,5 +129,5 @@ class LandingPageTest(SeleniumTestCase):
         print(self.browser.find_element_by_css_selector('#navbar-dropdown'))
         self.browser.find_element_by_css_selector('#navbar-dropdown').click()
         self.browser.find_element_by_css_selector('#logout-button').click()
-        self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
+        self.assertIn("Anda berhasil logout.",
                       self.browser.page_source)
