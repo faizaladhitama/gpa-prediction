@@ -21,7 +21,7 @@
          <h3>Total SKS Diperoleh</h3>
          <h5>{{all_sks}} SKS</h5>
          <h3>SKS yang Diambil Semester ini</h3>
-         <h5>SKS</h5>
+         <h5>{{sks_term}} SKS</h5>
          {% include 'mahasiswa/sks-term-table.tpl' %}
          <div class="col-xs-8">
            <h3> Riwayat IP</h3>
