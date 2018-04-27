@@ -10,7 +10,9 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester, \
     get_angkatan, get_evaluation_status, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
-    convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip, request_evaluation_status
+    convert_dict_for_sks_term, convert_dict_for_ip_term, \
+    create_graph_ip, request_evaluation_status, \
+    get_sks_seharusnya, get_sks_kurang
 
 
 class URLTest(TestCase):
@@ -330,3 +332,27 @@ class ViewTest(TestCase):
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         response = self.client.get(reverse('mahasiswa:index'))
         self.assertEqual(response.status_code, 200)
+
+
+class SksSeharusnya(TestCase):
+    def test_semester_genap(self):
+        sks_seharusnya = get_sks_seharusnya(2)
+        self.assertEqual(sks_seharusnya, 24)
+
+    def test_semester_6(self):
+        sks_seharusnya = get_sks_seharusnya(6)
+        self.assertEqual(sks_seharusnya, 96)
+
+    def test_invalid_semester(self):
+        sks_seharusnya = get_sks_seharusnya(None)
+        self.assertEqual(sks_seharusnya, "semester bermasalah")
+
+
+class SksKurang(TestCase):
+    def test_sks_kurang_valid(self):
+        sks_kurang = get_sks_kurang(24, 12)
+        self.assertEqual(sks_kurang, 12)
+
+    def test_invalid_sks_seharusnya(self):
+        sks_kurang = get_sks_kurang(None, None)
+        self.assertEqual(sks_kurang, "sks seharusnya atau sks diperoleh bermasalah")

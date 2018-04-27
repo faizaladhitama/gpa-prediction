@@ -120,7 +120,8 @@ def get_all_sks_term(access_token, npm):
                 tot_sks = 0
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
-                    if course['kelas'] != None and course['kelas']['nm_mk_cl']['kd_mk'] in taken_course:
+                    if course['kelas'] != None and \
+                            course['kelas']['nm_mk_cl']['kd_mk'] in taken_course:
                         continue
 
                     elif course['kelas'] != None and cek_huruf_lulus(course['nilai']):
