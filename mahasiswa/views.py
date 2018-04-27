@@ -14,7 +14,7 @@ def index(request):
     term_str = get_term(now)
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
-        context = get_index_mahasiswa_context(request, context_mahasiswa) 
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
         npm = context_mahasiswa['id']
         username = context_mahasiswa['user']
         term = int(term_str[-1:])
