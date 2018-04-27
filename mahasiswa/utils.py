@@ -187,7 +187,7 @@ def get_index_mahasiswa_context(request, context):
                 sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
                 status = request_evaluation_status(npm, request.session['access_token'], semester)
                 context.update({'jenjang': jenjang_str, 'sks_term': sks_term,
-                                'sks_seharusnya': sks_seharusnya,
+                                'sks_seharusnya': sks_seharusnya, 'semester': semester,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status})
                 context = {**context, **detail_evaluasi, **graph_ip}
