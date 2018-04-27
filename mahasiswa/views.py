@@ -3,10 +3,9 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from api.siak import get_sks, get_jenjang, get_data_user, get_all_sks_term, get_total_mutu,\
-get_all_ip_term
+from api.siak import get_sks, get_data_user, get_all_sks_term, get_total_mutu
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
-     get_index_mahasiswa_context, get_semester, request_evaluation_status
+     get_index_mahasiswa_context
 
 
 # Create your views here.
@@ -34,7 +33,7 @@ def profile(request):
         data_sks_dpo = get_all_sks_term(request.session['access_token'], npm)[0]
         total_sks_dpo = 0
 
-        for key, value in data_sks_dpo.items():
+        for _, value in data_sks_dpo.items():
             for sks in value:
                 total_sks_dpo = total_sks_dpo + sks
 
@@ -49,7 +48,7 @@ def profile(request):
         [last_term]['nm_org'] + ", " + mahasiswa[0]['program'][0]['nm_prg']
         data_mahasiswa['status'] = mahasiswa[0]['program'][last_term]['nm_status']
         data_mahasiswa['sks_lulus'] = get_sks(request.session['access_token'], npm)[0]
-        data_mahasiswa['mutu'] = str(round(total_mutu,2))
+        data_mahasiswa['mutu'] = str(round(total_mutu, 2))
         data_mahasiswa['ipk'] = str(round(ipk, 2))
         data_mahasiswa['sks_diperoleh'] = total_sks_dpo
         context.update({'data_mahasiswa': data_mahasiswa})

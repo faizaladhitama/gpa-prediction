@@ -2,8 +2,8 @@ from collections import OrderedDict
 from datetime import datetime
 
 from api.apps import give_verdict, save_status
-from api.siak import get_jenjang, get_all_sks_term, \
-    get_all_ip_term, get_sks, get_data_user
+from api.siak import get_all_sks_term, get_jenjang,\
+    get_all_ip_term, get_sks
 
 
 def get_term(now):
@@ -32,7 +32,7 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
-        
+
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0):
     if term % 2 > 0:
