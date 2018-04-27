@@ -35,7 +35,7 @@ def auth_login(request):
             request.session['access_token'] = access_token
             request.session['kode_identitas'] = kode_identitas
             request.session['role'] = role
-            messages.success(request, "Anda berhasil login " + username)
+            # messages.success(request, "Anda berhasil login " + username)
             return HttpResponseRedirect(reverse('mahasiswa:index'))
         except KeyError:
             messages.error(request, "Username atau password salah")
@@ -47,7 +47,7 @@ def auth_login(request):
 def auth_logout(request):
     print("#==> auth logout")
     request.session.flush()  # menghapus semua session\
-    messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
+    # messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
     return HttpResponseRedirect(reverse('api:landing'))
 
 
