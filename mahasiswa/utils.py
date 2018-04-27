@@ -172,8 +172,7 @@ def get_angkatan(kode_identitas):
 def get_index_mahasiswa_context(request, context):
     try:
         if context is not None and context['user'] == "dummy":
-            context.update({'source': 'dummy'})
-            context.update({'detail': 'dummy'})
+            context.update({'source': 'dummy', 'detail': 'dummy'})
             return context
         else:
             token, npm = request.session['access_token'], context['id']
@@ -185,7 +184,14 @@ def get_index_mahasiswa_context(request, context):
                 graph_ip = create_graph_ip(token, npm)
                 semester = get_semester(npm, term)
                 detail_evaluasi = get_evaluation_detail_message(jenjang, semester)
-                context.update({'jenjang': jenjang_str, 'sks_term': sks_term})
+                sks_seharusnya = get_sks_seharusnya(semester)
+                all_sks, err = get_sks(request.session['access_token'], npm)
+                sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+                status = request_evaluation_status(npm, request.session['access_token'], semester)
+                context.update({'jenjang': jenjang_str, 'sks_term': sks_term,
+                                'sks_seharusnya': sks_seharusnya,
+                                'sks_kurang': sks_kurang, 'all_sks': all_sks,
+                                'status': status})
                 context = {**context, **detail_evaluasi, **graph_ip}
             return context
     except KeyError as excp:
@@ -241,3 +247,26 @@ def create_graph_ip(token, npm):
         'chartdata': chartdata,
     }
     return data
+
+
+def get_sks_seharusnya(semester):
+    try:
+        if type(semester) is int:
+            if semester != 6:
+                sks_seharusnya = 12 * semester
+                return sks_seharusnya
+            else:
+                sks_seharusnya = 96
+                return sks_seharusnya
+        else:
+            return "semester bermasalah"
+    except TypeError:
+        return "semester bermasalah"
+
+
+def get_sks_kurang(sks_seharusnya, all_sks):
+    try:
+        sks_kurang = sks_seharusnya - all_sks
+        return sks_kurang
+    except TypeError:
+        return "sks seharusnya atau sks diperoleh bermasalah"
