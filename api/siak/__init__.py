@@ -242,3 +242,27 @@ def get_all_ip_term(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+
+def get_total_mutu(access_token, npm):
+    try:
+        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+
+        mutu = 0.00
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1, 4):
+                tot_sks = 0
+                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                for course in res:
+                    if course['kelas'] != None:
+                        tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+                        mutu += course['kelas']['nm_mk_cl']['jml_sks'] * \
+                                huruf_to_angka(course['nilai'])
+        return mutu, None
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)
