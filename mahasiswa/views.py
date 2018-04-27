@@ -47,6 +47,13 @@ def profile(request):
         mahasiswa = get_data_user(request.session['access_token'], npm)
         last_term = len(mahasiswa[0]['program'])-1
 
+        data_sks_dpo = get_all_sks_term(request.session['access_token'], npm)[0]
+        total_sks_dpo = 0
+
+        for key, value in data_sks_dpo.items():
+            for sks in value:
+                total_sks_dpo = total_sks_dpo + sks
+
         data_mahasiswa = {}
         data_mahasiswa['nama'] = mahasiswa[0]['nama'].lower().title()
         data_mahasiswa['npm'] = mahasiswa[0]['npm']
@@ -57,9 +64,9 @@ def profile(request):
         data_mahasiswa['sks_lulus'] = get_sks(request.session['access_token'], npm)[0]
         # data_mahasiswa['mutu'] =
         # data_mahasiswa['ipk'] =
-        data_mahasiswa['sks_diperoleh'] = get_all_sks_term(request.session['access_token'], npm)[0]
+        data_mahasiswa['sks_diperoleh'] = total_sks_dpo
         context.update({'data_mahasiswa': data_mahasiswa})
-        print(mahasiswa)
+        # print(mahasiswa)
         print(data_mahasiswa) 
          
         return render(request, 'mahasiswa/profile.tpl', context)
