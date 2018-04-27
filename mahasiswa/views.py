@@ -39,7 +39,7 @@ def profile(request):
                 total_sks_dpo = total_sks_dpo + sks
 
         total_mutu = get_total_mutu(request.session['access_token'], npm)[0]
-        print(total_mutu)
+        ipk = total_mutu/total_sks_dpo
 
         data_mahasiswa = {}
         data_mahasiswa['nama'] = mahasiswa[0]['nama'].lower().title()
@@ -50,10 +50,10 @@ def profile(request):
         data_mahasiswa['status'] = mahasiswa[0]['program'][last_term]['nm_status']
         data_mahasiswa['sks_lulus'] = get_sks(request.session['access_token'], npm)[0]
         data_mahasiswa['mutu'] = str(round(total_mutu,2))
-        # data_mahasiswa['ipk'] =
+        data_mahasiswa['ipk'] = str(round(ipk, 2))
         data_mahasiswa['sks_diperoleh'] = total_sks_dpo
         context.update({'data_mahasiswa': data_mahasiswa})
-         
+
         return render(request, 'mahasiswa/profile.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
