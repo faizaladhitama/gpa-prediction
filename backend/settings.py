@@ -24,7 +24,7 @@ PRODUCTION = os.environ.get('DATABASE_URL') != None
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0cqmq9_8hn^&i7zk3)w9*1cs8+ecb=)-#q38%zulc848wo_!1n'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'mahasiswa',
     'sekre',
     'pa',
+    'django_nvd3',
+    'djangobower',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +149,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -173,3 +174,18 @@ if platform.system() == "Windows":
     CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
 else:
     CHROME_PATH = "./chromedriver"
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, '/static/components')
+
+BOWER_INSTALLED_APPS = (
+    'd3#3.3.13',
+    'nvd3#1.7.1',
+)

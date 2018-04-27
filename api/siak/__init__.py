@@ -94,7 +94,7 @@ def get_sks(access_token, npm):
             for term in range(1, 4):
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
-                    if course['kelas'] != None:
+                    if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
 
         return tot_sks, None

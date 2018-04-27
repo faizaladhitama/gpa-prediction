@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.test import Client
 from django.test import LiveServerTestCase
-from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -26,6 +25,48 @@ class SeleniumTestCase(LiveServerTestCase):
     def tearDown(cls):
         cls.browser.quit()
         super(SeleniumTestCase, cls).tearDown(cls)
+
+
+class PrediktorEvaluasiAkademikTest(SeleniumTestCase):
+    """docstring for PrediktorEvaluasiAkademikTest"""
+
+    def test_prediktor_url_is_exist(self):
+        response = Client().get('', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_prediktor_evaluasi_tab_valid(self):
+        self.browser.get('http://127.0.0.1:8000/')
+        self.browser.find_element_by_css_selector('#username').send_keys('admin')
+        self.browser.find_element_by_css_selector('#password').send_keys('admin')
+        self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        self.browser.find_element_by_css_selector('#tab-prediktor-evaluasi-akademik').click()
+        prediktor_title = self.browser.find_element_by_css_selector('.prediktor-title').is_displayed()
+        self.assertTrue(prediktor_title)
+        prediktor_eval_button = self.browser.find_element_by_css_selector('#prediktor-eval-button').is_displayed()
+        self.assertTrue(prediktor_eval_button)
+        prediktor_eval_msg = self.browser.find_element_by_css_selector('.prediktor-message').is_displayed()
+        self.assertTrue(prediktor_eval_msg)
+
+    def test_prediktor_matkul_valid(self):
+        # self.browser.get('http://127.0.0.1:8000/')
+        # self.browser.find_element_by_css_selector('#username').send_keys('admin')
+        # self.browser.find_element_by_css_selector('#password').send_keys('admin')
+        # self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+        # self.browser.find_element_by_css_selector('#tab-prediktor-matkul').click()
+        # prediktor_title = self.browser.find_element_by_css_selector('.prediktor-title-matkul').is_displayed()
+        # self.assertTrue(prediktor_title)
+        # matkul_to_predict = self.browser.find_element_by_css_selector('.matkul-to-predict').is_displayed()
+        # self.assertTrue(matkul_to_predict)
+        # prediktor_matkul_button = self.browser.find_element_by_css_selector('#result-button').is_displayed()
+        # self.assertTrue(prediktor_matkul_button)
+        # table_matkul_prasyarat = self.browser.find_element_by_css_selector('#table-matkul-prasyarat').is_displayed()
+        # self.assertTrue(table_matkul_prasyarat)
+        # prediktor_eval_msg = self.browser.find_element_by_css_selector('.prediktor-message').is_displayed()
+        # self.assertTrue(prediktor_eval_msg)
+        pass
+
+    def test_predik_eval_invalid(self):
+        pass
 
 
 class LandingPageTest(SeleniumTestCase):
@@ -73,99 +114,3 @@ class LandingPageTest(SeleniumTestCase):
         self.browser.find_element_by_css_selector('#logout-button').click()
         self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
                       self.browser.page_source)
-
-
-class URLTest(TestCase):
-    def test_login(self):
-        response = self.client.get('/login', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_logout(self):
-        response = self.client.get('/logout', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_auth_login(self):
-        response = self.client.get('/auth-login', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_index(self):
-        response = self.client.get('/index', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_landing(self):
-        response = self.client.get('', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-
-class UserTest(TestCase):
-    def test_auth_login_positive(self):
-        response = self.client.post('/auth-login',
-                                    {'username': 'admin', 'password': 'admin'}, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_auth_login_negative(self):
-        response = self.client.post('/auth-login',
-                                    {'username': 'molo', 'password': 'mola'}, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-
-class ExternalAPITest(TestCase):
-    def test_ui_server_up(self):
-        response = self.client.post('/auth-login',
-                                    {'username': 'molo', 'password': 'mola'}, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_ui_server_down(self):
-        response = self.client.post('/auth-login',
-                                    {'username': 'molo', 'password': 'mola', 'connection': False},
-                                    follow=True)
-        self.assertEqual(response.status_code, 200)
-
-class ViewProfileMahasiswa(SeleniumTestCase):
-    def test_profile_mahasiswa_is_exist(self):
-        response = Client().get('/mahasiswa/profile', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    # def test_view_profile_mahasiswa(self):
-    #     self.browser.get('http://127.0.0.1:8000/')
-    #     self.browser.find_element_by_css_selector('#username').send_keys('')
-    #     self.browser.find_element_by_css_selector('#password').send_keys('')
-    #     self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
-    #     self.browser.get('http://127.0.0.1:8000/mahasiswa/profile')
-
-    #     nama = self.browser.find_element_by_css_selector('#profile-mahasiswa-nama')\
-    #     .is_displayed()
-    #     self.assertTrue(nama)
-
-    #     angkatan = self.browser.find_element_by_css_selector('#profile-mahasiswa-angkatan')\
-    #     .is_displayed()
-    #     self.assertTrue(angkatan)
-
-    #     prodi = self.browser.find_element_by_css_selector('#profile-mahasiswa-prodi')\
-    #     .is_displayed()
-    #     self.assertTrue(prodi)
-
-    #     pem_akademik = self.browser.find_element_by_css_selector('#profile-mahasiswa-pa')\
-    #     .is_displayed()
-    #     self.assertTrue(pem_akademik)
-
-    #     status = self.browser.find_element_by_css_selector('#profile-mahasiswa-status')\
-    #     .is_displayed()
-    #     self.assertTrue(status)
-
-    #     sks_lulus = self.browser.find_element_by_css_selector('#profile-mahasiswa-sks-lulus')\
-    #     .is_displayed()
-    #     self.assertTrue(sks_lulus)
-
-    #     mutu = self.browser.find_element_by_css_selector('#profile-mahasiswa-mutu')\
-    #     .is_displayed()
-    #     self.assertTrue(mutu)
-
-    #     ipk = self.browser.find_element_by_css_selector('#profile-mahasiswa-ipk')\
-    #     .is_displayed()
-    #     self.assertTrue(ipk)
-
-    #     sks_diperoleh = self.browser\
-    #     .find_element_by_css_selector('#profile-mahasiswa-sks-diperoleh').is_displayed()
-    #     self.assertTrue(sks_diperoleh)
-        
