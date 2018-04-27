@@ -353,7 +353,10 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}, {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}, {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}]
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
         self.mocked_req_sks.return_value = mocked_sks
 
         now = datetime.datetime.now()
@@ -408,7 +411,10 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}, {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}, {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}]
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_all_sks_term(mocked_token, self.mock_npm)

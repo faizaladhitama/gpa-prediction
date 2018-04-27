@@ -123,7 +123,7 @@ def get_sks(access_token, npm):
                 for course in res:
                     if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-                    elif course['kelas'] == None:
+                    elif course['kelas'] is None:
                         tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
 
         return tot_sks, None
@@ -149,16 +149,15 @@ def get_all_sks_term(access_token, npm):
                 tot_sks = 0
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
-                    if course['kelas'] != None and course['kelas']['nm_mk_cl']['kd_mk'] in taken_course:
+                    if course['kelas'] != None and course['kd_mk'] in taken_course:
                         continue
 
                     elif course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-                        taken_course.append(course['kelas']['nm_mk_cl']['kd_mk'])
-                    elif course['kelas'] == None:
+                        taken_course.append(course['kd_mk'])
+                    elif course['kelas'] is None:
                         tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
-                        taken_course.append(course['kelas']['nm_mk_cl']['kd_mk'])
-                    
+                        taken_course.append(course['kd_mk'])
                 sks_terms.append(tot_sks)
             sks_map[year] = sks_terms
         return sks_map, None
@@ -176,8 +175,8 @@ def get_sks_term(access_token, npm, year, term):
         for course in res:
             if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-            elif course['kelas'] == None:
-                        tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
+            elif course['kelas'] is None:
+                tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
 
         return tot_sks, None
     except ValueError as exception:
