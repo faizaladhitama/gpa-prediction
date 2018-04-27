@@ -225,7 +225,8 @@ class ConvertDictForSksTerm(TestCase):
                                       ('2015 - 3', 3), ('2015 - 2', 3), ('2015 - 1', 3)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
-        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk':'UIGE600042'}]
+        course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk':'UIGE600042'}
+        mocked_req_sks.return_value = [course]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
