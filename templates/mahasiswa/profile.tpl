@@ -33,7 +33,7 @@
             </tr>
             <tr id="profile-mahasiswa-mutu" class="table-light">
                 <th scope="row">Total Mutu</th>
-                <td>258.80</td>
+                <td>{{data_mahasiswa.mutu}}</td>
             </tr>
             <tr id="profile-mahasiswa-ipk" class="table-primary">
                 <th scope="row">IPK</th>
