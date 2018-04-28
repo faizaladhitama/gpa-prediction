@@ -1,11 +1,11 @@
-from django.conf import settings
-from django.test import Client
-from django.test import LiveServerTestCase
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait as wait
+# from django.conf import settings
+# from django.test import Client
+# from django.test import LiveServerTestCase
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait as wait
 
 
 # class SeleniumTestCase(LiveServerTestCase):
@@ -52,8 +52,9 @@ from selenium.webdriver.support.ui import WebDriverWait as wait
         #     self.browser.find_element_by_css_selector('.prediktor-message').is_displayed()
         # self.assertTrue(prediktor_eval_msg)
 
-    def test_prediktor_matkul_valid(self):
-        pass
+
+    # def test_prediktor_matkul_valid(self):
+    #     pass
 
          # self.browser.get('http://127.0.0.1:8000/')
          # self.browser.find_element_by_css_selector
@@ -81,8 +82,8 @@ from selenium.webdriver.support.ui import WebDriverWait as wait
          # self.assertTrue(prediktor_eval_msg)
 
 
-    def test_predik_eval_invalid(self):
-        pass
+    # def test_predik_eval_invalid(self):
+    #     pass
 
 
 # class LandingPageTest(SeleniumTestCase):
