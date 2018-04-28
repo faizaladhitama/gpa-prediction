@@ -23,7 +23,7 @@
           <h4>
           Anda berada pada <strong> semester {{semester_now}} </strong>
           dengan total sks yang anda diperoleh sebanyak <strong>{{all_sks}} sks</strong>.
-          Saat ini anda mengambil <strong> - sks </strong>. Anda membutuhkan <strong>{{sks_kurang}} sks</strong>
+          Anda membutuhkan <strong>{{sks_kurang}} sks</strong>
           untuk dapat lolos evaluasi akademik di <strong> semester {{semsester_evaluation}}</strong>.
           Semangat! Dengan usaha yang maksimal anda pasti bisa lolos evaluasi akademik! :)
           </h4>
