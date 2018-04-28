@@ -14,7 +14,7 @@
         <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
-          <h10 class="role">{{role}}</h10>
+          <h10>{{role}}</h10>
         </a>
         </span>
 	</li>
@@ -29,7 +29,7 @@
     </ul>
   </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light" id ="second-navbar">
+<nav class="navbar navbar-expand-lg" id ="second-navbar">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#underNavbar" aria-controls="underNavbar" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

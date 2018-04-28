@@ -19,17 +19,25 @@
 #second-navbar{
 	background-color: #F4D03F;
 	box-shadow: 0px 6px 7px grey;
-	font-weight: bolder;
+}
+#second-navbar a{
 	color: black;
+	font-weight: bolder;
+}
+#second-navbar a:hover{
+	border-bottom: 3px solid #0091ea;
+}
+#second-navbar a:active{
+	border-bottom: 3px solid #5C5858;
 }
 #first-navbar{
-	background-color: black;
+	background-color: #151B54;
 }
 #user-term-role{
 	color: white;
 	font-weight: bold;
 }
 
-.role::first-letter {
+#user-term-role::first-letter {
 	text-transform: capitalize;
 }
