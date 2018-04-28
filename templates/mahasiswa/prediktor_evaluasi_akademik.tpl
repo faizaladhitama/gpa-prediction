@@ -14,7 +14,7 @@
 		</div>
 
 		<div class="row ">
-			<div class="col">
+			<div class="col msg">
 				{% if status == 'lolos' %}
 					<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status}}</span> evaluasi akademik semester {{semester}}!</p>
 

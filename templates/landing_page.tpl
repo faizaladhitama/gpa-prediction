@@ -34,7 +34,7 @@
 						<label for="password" class="login-label">Password </label>
 						<input type="password" name="password" id="password" class="form-control" onfocus="deleteMessage()">
 					</div>
-				<input type="submit" class="btn btn-outline-warning" id="login-button" value="Log in">
+				<input type="submit" class="btn btn-warning font-weight-bold" id="login-button" value="Log in">
 				</form>
 
 			</div>

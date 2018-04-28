@@ -19,10 +19,17 @@
 #second-navbar{
 	background-color: #F4D03F;
 	box-shadow: 0px 6px 7px grey;
+	font-weight: bolder;
+	color: black;
 }
 #first-navbar{
 	background-color: black;
 }
 #user-term-role{
 	color: white;
+	font-weight: bold;
+}
+
+.role::first-letter {
+	text-transform: capitalize;
 }
