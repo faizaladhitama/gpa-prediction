@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^profile$', views.profile, name='profile'),
     url(r'^rekomendasi$', views.rekomendasi, name='rekomendasi'),
+    url(r'^detail-akademik$', views.detail_akademik, name='detail_akademik')
 ]
