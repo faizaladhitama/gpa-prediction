@@ -153,7 +153,7 @@ def get_semester_now(kode_identitas, term):
         return angkatan
     if term > 3 or term < 1:
         return "Wrong term"
-    elif term % 2 == 0:
+    elif term % 2 == 0 or term == 3:
         semester = (tahun - angkatan) * 2
     else:
         semester = ((tahun - angkatan) * 2)-1
@@ -185,22 +185,15 @@ def get_index_mahasiswa_context(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-        jenjang_str, err = get_jenjang(token, npm)
+        semester = get_semester_evaluation(npm, term)
+        sks_seharusnya = get_sks_seharusnya(semester)
+        all_sks, err = get_sks(request.session['access_token'], npm)
         if err is None:
-            jenjang = split_jenjang_and_jalur(jenjang_str)
-            sks_term = convert_dict_for_sks_term(token, npm)
-            graph_ip = create_graph_ip(token, npm)
-            semester = get_semester_now(npm, term)
-            detail_evaluasi = get_evaluation_detail_message(jenjang, semester)
-            sks_seharusnya = get_sks_seharusnya(semester)
-            all_sks, err = get_sks(request.session['access_token'], npm)
             sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-            status = request_evaluation_status(npm, request.session['access_token'], semester)
-            context.update({'jenjang': jenjang_str, 'sks_term': sks_term,
-                            'sks_seharusnya': sks_seharusnya,
+            status = request_evaluation_status(npm, token, semester)
+            context.update({'sks_seharusnya': sks_seharusnya,
                             'sks_kurang': sks_kurang, 'all_sks': all_sks,
-                            'status': status})
-            context = {**context, **detail_evaluasi, **graph_ip}
+                            'status': status, 'semester': semester})
         return context
     except KeyError as excp:
         return str(excp)
@@ -210,17 +203,44 @@ def get_index_mahasiswa_context(request, context):
         return str(excp)
 
 
+def get_rekam_akademik_index(request, context):
+    try:
+        token, npm = request.session['access_token'], context['id']
+        term = int(context['term'][-1:])
+        jenjang_str, err = get_jenjang(token, npm)
+        if err is None:
+            jenjang = split_jenjang_and_jalur(jenjang_str)
+            sks_term = convert_dict_for_sks_term(token, npm)
+            graph_ip = create_graph_ip(token, npm)
+            semester_now = get_semester_now(npm, term)
+            semester_evaluation = get_semester_evaluation(npm, term)
+            detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation)
+            all_sks, err = get_sks(request.session['access_token'], npm)
+            sks_seharusnya = get_sks_seharusnya(semester_evaluation)
+            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+            context.update({'sks_term': sks_term, 'all_sks': all_sks,
+                            'semester_now': semester_now,
+                            'semester_evaluation': semester_evaluation,
+                            'sks_kurang': sks_kurang})
+            context = {**context, **detail_evaluasi, **graph_ip}
+        return context
+    except KeyError as excp:
+        return str(excp)
+    except AttributeError as excp:
+        return str(excp)
+
+
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
     all_sks_term, err = get_all_sks_term(token, npm)
     if err is not None:
         return None
-    for k, value in sorted(all_sks_term.items(), reverse=True):
-        i = 3
-        for val in reversed(value):
+    for k, value in sorted(all_sks_term.items()):
+        i = 1
+        for val in value:
             new_key = str(k) + ' - ' + str(i)
             sks_in_term[new_key] = val
-            i = i - 1
+            i = i + 1
     return sks_in_term
 
 
