@@ -41,3 +41,12 @@
 #user-term-role::first-letter {
 	text-transform: capitalize;
 }
+
+#role {
+	text-transform: lowercase;
+	display: inline-block;
+}
+
+#role::first-letter {
+	text-transform: capitalize;
+}

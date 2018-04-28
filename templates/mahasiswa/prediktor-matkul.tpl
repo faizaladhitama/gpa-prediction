@@ -42,7 +42,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col">
+			<div class="col text-center">
 				<p class="prediktor-message"> Hati-hati! Anda memiliki kemungkinan  <span class ="verdict">tidak lulus</span> Proyek Perangkat Lunak <p>
 			</div>
 		</div>

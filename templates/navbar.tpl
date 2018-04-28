@@ -14,7 +14,7 @@
         <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{user}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
-          <h10>{{role}}</h10>
+          <h10 id="role">{{role}}</h10>
         </a>
         </span>
 	</li>

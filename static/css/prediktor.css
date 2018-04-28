@@ -25,6 +25,7 @@ h7 {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
 	margin-left: 40%;
+	margin-top: 10px;
 }
 
 #mytabs {
@@ -59,7 +60,7 @@ h7 {
 }
 
 .prediktor-body {
-	margin-top: 30px;
+	margin-top: 5%;
 }
 
 #result-button {
@@ -90,8 +91,4 @@ h7 {
 
 .btn-link{
 	margin-left: 39%
-}
-
-.msg {
-	text-align: center;
 }
