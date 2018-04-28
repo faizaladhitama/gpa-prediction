@@ -1,4 +1,3 @@
-import traceback
 from datetime import datetime
 
 from django.shortcuts import render
@@ -17,7 +16,6 @@ def index(request):
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
-        traceback.print_exc()
         return render(request, 'landing_page.tpl', {})
 
 

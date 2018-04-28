@@ -81,7 +81,6 @@ from selenium.webdriver.support.ui import WebDriverWait as wait
          # self.assertTrue(prediktor_eval_msg)
 
 
-
     def test_predik_eval_invalid(self):
         pass
 

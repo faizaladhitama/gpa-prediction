@@ -14,7 +14,7 @@
 		</div>
 
 		<div class="row ">
-			<div class="col">
+			<div class="col text-center">
 				{% if status == 'lolos' %}
 					<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status}}</span> evaluasi akademik semester {{semester}}!</p>
 
@@ -29,8 +29,8 @@
 		</div>
 
 		<div class="row ">
-			<div class="col">
-				<button type="button" class="btn btn-link" data-toggle="modal" data-target="#detailAkademik">
+			<div class="col ">
+				<button type="button" class="btn btn-link text-center" data-toggle="modal" data-target="#detailAkademik">
 				Lihat Selengkapnya
 				</button>
 			</div>
