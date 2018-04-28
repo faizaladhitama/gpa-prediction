@@ -5,15 +5,14 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 
-# from api.siak.tests_unit import MockSiak
 from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
-    get_evaluation_detail_message, get_semester, \
+    get_evaluation_detail_message, get_semester_evaluation, \
     get_angkatan, get_evaluation_status, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
-    get_sks_seharusnya, get_sks_kurang
+    get_sks_seharusnya, get_sks_kurang, get_semester_now
 
 
 class URLTest(TestCase):
@@ -115,30 +114,52 @@ class EvaluationTest(TestCase):
         self.assertEqual('-', detail)
 
 
-class SemesterTest(TestCase):
+class SemesterEvaluationTest(TestCase):
     def test_semester_2_term(self):
-        semester = get_semester("15066989162", 2)
+        semester = get_semester_evaluation("15066989162", 2)
         self.assertEqual(8, semester)
 
     def test_semester_2_tua_term(self):
-        semester = get_semester("08066989162", 2)
+        semester = get_semester_evaluation("08066989162", 2)
         self.assertEqual(0, semester)
 
     def test_semester_1_term(self):
-        semester = get_semester("15066989162", 1)
+        semester = get_semester_evaluation("15066989162", 1)
         self.assertEqual(8, semester)
 
     def test_semester_3_term(self):
-        semester = get_semester("15066989162", 3)
+        semester = get_semester_evaluation("15066989162", 3)
         self.assertEqual(8, semester)
 
     def test_term_invalid(self):
-        semester = get_semester("15066989162", 4)
+        semester = get_semester_evaluation("15066989162", 4)
         self.assertEqual("Wrong term", semester)
 
     def test_kode_identitas_invalid(self):
-        semester = get_semester("-15066989162", 4)
+        semester = get_semester_evaluation("-15066989162", 4)
         self.assertEqual("Wrong kode identitas", semester)
+
+
+class SemesterNowTest(TestCase):
+    def test_semester_2_term(self):
+        semester = get_semester_now("15066989162", 2)
+        self.assertEqual(6, semester)
+
+    def test_semester_2_tua_term(self):
+        semester = get_semester_now("08066989162", 2)
+        self.assertEqual(0, semester)
+
+    def test_semester_1_term(self):
+        semester = get_semester_now("15066989162", 1)
+        self.assertEqual(5, semester)
+
+    def test_semester_3_term(self):
+        semester = get_semester_now("15066989162", 3)
+        self.assertEqual(6, semester)
+
+    def test_term_invalid(self):
+        semester = get_semester_now("15066989162", 4)
+        self.assertEqual("Wrong term", semester)
 
 
 class AngkatanTest(TestCase):
