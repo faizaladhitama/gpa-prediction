@@ -88,7 +88,7 @@ class EvaluationTest(TestCase):
             Indonesia Pasal 11"
 
     def test_detail_valid_all(self):
-        detail_message = get_evaluation_detail_message("S1", 2)
+        detail_message = get_evaluation_detail_message("S1", 2, "hati-hati")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual(self.true_source, source)
@@ -97,22 +97,29 @@ class EvaluationTest(TestCase):
                  (dua koma nol) dari sekurang-kurangnya 24 \
                  (dua puluh empat) SKS terbaik', detail)
 
+    def test_detail_lolos(self):
+        detail_message = get_evaluation_detail_message("S1", 2, "lolos")
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual('-', source)
+        self.assertEqual('-', detail)
+
     def test_detail_valid_degree_only(self):
-        detail_message = get_evaluation_detail_message("S1", -1)
+        detail_message = get_evaluation_detail_message("S1", -1, "hati-hati")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual('-', source)
         self.assertEqual('-', detail)
 
     def test_detail_valid_semester_only(self):
-        detail_message = get_evaluation_detail_message("S-teh", 2)
+        detail_message = get_evaluation_detail_message("S-teh", 2, "tidak-lolos")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual('-', source)
         self.assertEqual('-', detail)
 
     def test_detail_invalid_all(self):
-        detail_message = get_evaluation_detail_message("S-teh", -1)
+        detail_message = get_evaluation_detail_message("S-teh", -1, "Argument salah")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual('-', source)
