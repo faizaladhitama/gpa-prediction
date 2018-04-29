@@ -35,7 +35,3 @@
 
 {% load static %}
 <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
-
-<footer class="footer text-light text-center mb-3">
-    Usagi Studio - 2018
-</footer>
