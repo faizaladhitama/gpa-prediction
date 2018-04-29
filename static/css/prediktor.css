@@ -93,3 +93,11 @@ h7 {
 body{
     overflow-x:hidden;
 }
+
+.prediktor-button{
+    padding: 8.2rem 1rem;
+}
+
+.prediktor-red-button{
+    padding:4.2rem 4rem;
+}

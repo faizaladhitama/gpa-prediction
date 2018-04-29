@@ -48,9 +48,9 @@
     {% load_chart charttype chartdata "discretebarchart_container" %}
     <div class="row ">
 	    <div class="col ">
-		    <button type="button" class="btn btn-link text-center" data-toggle="modal" href="/mahasiswa/">
+		    <a class="btn btn-link text-center" href="/mahasiswa/">
 		        Kembali ke Prediktor
-		    </button>
+		    </a>
 	    </div>
 	</div>
 {% endblock %}

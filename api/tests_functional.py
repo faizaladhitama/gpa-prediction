@@ -128,7 +128,6 @@ class LandingPageTest(SeleniumTestCase):
         self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
         wait(self.browser, 120).until(EC.url_changes('mahasiswa/'))
         self.browser.find_element_by_css_selector('#first-navbar')
-        self.browser.find_element_by_css_selector('#navbar-brand')
         self.browser.find_element_by_tag_name('img')
         self.browser.find_element_by_tag_name('button')
         self.browser.find_element_by_tag_name('span')
