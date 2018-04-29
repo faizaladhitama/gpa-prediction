@@ -360,6 +360,16 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "lolos")
 
+    @patch('api.siak.get_sks')
+    @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
+    @patch('mahasiswa.utils.save_status', return_value=True)
+    def test_valid_with_sks_param(self, mocked_get_sks, mocked_get_eval, mocked_save):
+        mocked_get_sks.return_value = 70
+        mocked_get_eval.return_value = "lolos"
+        mocked_save.return_value = True
+        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 70)
+        self.assertEqual(status, "lolos")
+
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_invalid(self, mocked_req_data, mocked_req_sks):

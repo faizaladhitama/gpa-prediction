@@ -42,8 +42,9 @@ def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0):
     return status
 
 
-def request_evaluation_status(npm, token, term):
-    sks_lulus = get_sks(token, npm)[0]
+def request_evaluation_status(npm, token, term, sks_lulus=-1):
+    if sks_lulus < 0:
+        sks_lulus = get_sks(token, npm)[0]
     sks_diambil = 18
     ip_now = 3.0  # diitung ntr
     try:
@@ -190,7 +191,7 @@ def get_index_mahasiswa_context(request, context):
         all_sks, err = get_sks(request.session['access_token'], npm)
         if err is None:
             sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-            status = request_evaluation_status(npm, token, semester)
+            status = request_evaluation_status(npm, token, semester, all_sks)
             context.update({'sks_seharusnya': sks_seharusnya,
                             'sks_kurang': sks_kurang, 'all_sks': all_sks,
                             'status': status, 'semester': semester})
