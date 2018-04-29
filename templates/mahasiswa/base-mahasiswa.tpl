@@ -14,4 +14,7 @@
 	{% include 'navbar.tpl' %}
 	{% block contentPage %}
 	{% endblock %}
+	<footer class="footer-copyright text-center" >
+    	© Usagi Studio - 2018
+	</footer>
 {% endblock %}
