@@ -24,14 +24,21 @@
           Anda berada pada <strong> semester {{semester_now}} </strong>
           dengan total sks yang anda diperoleh sebanyak <strong>{{all_sks}} sks</strong>.
           Anda membutuhkan <strong>{{sks_kurang}} sks</strong>
-          untuk dapat lolos evaluasi akademik di <strong> semester {{semsester_evaluation}}</strong>.
+          untuk dapat lolos evaluasi akademik di <strong> semester {{semester_evaluation}}</strong>.
           Semangat! Dengan usaha yang maksimal anda pasti bisa lolos evaluasi akademik! :)
           </h4>
-          {% endif %}
           <h7><strong>Peraturan Evaluasi Akademik</strong></h7><br>
           <h10>{{detail}}</h10><br>
           <h7>Sumber</h7><br>
           <h10>{{source}}</h10>
+          {% else %}
+          <h4>
+          Anda berada pada <strong> semester {{semester_now}} </strong>
+          dengan total sks yang anda diperoleh sebanyak <strong>{{all_sks}} sks</strong>.
+          Anda sudah lolos evaluasi akademik di <strong> semester {{semester_evaluation}}</strong>.
+          Pertahankan! :)
+          </h4>
+          {% endif %}
   </div>
   <div class="tab-pane fade mx-auto content-tab" id="sksTerm" role="tabpanel" aria-labelledby="sks-tab">
          <h3>Total SKS Diperoleh</h3>

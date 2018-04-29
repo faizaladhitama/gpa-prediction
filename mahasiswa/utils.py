@@ -55,7 +55,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1):
         return "Argument salah"
 
 
-def get_evaluation_detail_message(jenjang, semester):
+def get_evaluation_detail_message(jenjang, semester, evaluation_status):
     source = "Keputusan Rektor Universitas Indonesia\
             Nomor: 478/SK/R/UI/2004 tentang Evaluasi\
             Keberhasilan Studi Mahasiswa Universitas\
@@ -128,7 +128,10 @@ def get_evaluation_detail_message(jenjang, semester):
     }
     try:
         semester = str(semester)
-        return {"source": source, "detail": putus_studi[jenjang][semester]}
+        if evaluation_status == "tidak lolos" or evaluation_status == "hati-hati":
+            return {"source": source, "detail": putus_studi[jenjang][semester]}
+        else:
+            return {"source": '-', "detail": '-'}
     except KeyError:
         return {"source": '-', "detail": '-'}
 
@@ -215,7 +218,9 @@ def get_rekam_akademik_index(request, context):
             graph_ip = create_graph_ip(token, npm)
             semester_now = get_semester_now(npm, term)
             semester_evaluation = get_semester_evaluation(npm, term)
-            detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation)
+            status = request_evaluation_status(npm, token, semester_evaluation)
+            detail_evaluasi = get_evaluation_detail_message(jenjang,
+                                                            semester_evaluation, status)
             all_sks, err = get_sks(request.session['access_token'], npm)
             sks_seharusnya = get_sks_seharusnya(semester_evaluation)
             sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
