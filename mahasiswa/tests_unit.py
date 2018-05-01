@@ -12,8 +12,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
-    get_sks_seharusnya, get_sks_kurang, get_semester_now, \
-    get_rekam_akademik_index
+    get_sks_seharusnya, get_sks_kurang, get_semester_now
 
 
 class URLTest(TestCase):
@@ -240,33 +239,6 @@ class GetIndexMahasiswaContext(MockSiak):
         context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
-        self.assertEqual(context, "'access_token'")
-
-
-class GetRekamAkademikContext(MockSiak):
-    def test_context_index_valid(self):
-        self.mocked_generator.return_value = None
-        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
-        request = MockRequest(context_mahasiswa)
-        context = get_rekam_akademik_index(request, context_mahasiswa)
-        self.assertNotEqual(context, None)
-
-    @patch('api.siak.get_data_user')
-    def test_context_invalid_request(self, mocked_get_data):
-        request = None
-        context_mahasiswa = None
-        context = get_rekam_akademik_index(request,
-                                           context_mahasiswa)
-        mocked_get_data.side_effect = AttributeError("'NoneType' object has "
-                                                     "no attribute 'session'")
-        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
-
-    def test_context_invalid_session(self):
-        request = MockRequest()
-        context_mahasiswa = {}
-        context = get_rekam_akademik_index(request,
-                                           context_mahasiswa)
         self.assertEqual(context, "'access_token'")
 
 

@@ -223,6 +223,8 @@ def get_index_mahasiswa_context(request, context):
                             'sks_kurang': sks_kurang, 'all_sks': all_sks,
                             'status': status, 'semester': semester})
         print(time.clock() - start)
+        pool.close()
+        pool.join()
         return context
     except KeyError as excp:
         return str(excp)
@@ -239,27 +241,8 @@ def get_rekam_akademik_index(request, context):
         term = int(context['term'][-1:])
         start = time.clock()
 
-        # Sequential
-        # jenjang_str, err = get_jenjang(token, npm)
-        # if err is None:
-        #     jenjang = split_jenjang_and_jalur(jenjang_str)
-        #     sks_term = convert_dict_for_sks_term(token, npm)
-        #     graph_ip = create_graph_ip(token, npm)
-        #     semester_now = get_semester_now(npm, term)
-        #     semester_evaluation = get_semester_evaluation(npm, term)
-        #     status = request_evaluation_status(npm, token, semester_evaluation)
-        #     detail_evaluasi = get_evaluation_detail_message(jenjang,
-        #                                                     semester_evaluation, status)
-        #     all_sks, err = get_sks(request.session['access_token'], npm)
-        #     sks_seharusnya = get_sks_seharusnya(semester_evaluation)
-        #     sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-        #     context.update({'sks_term': sks_term, 'all_sks': all_sks,
-        #                     'semester_now': semester_now,
-        #                     'semester_evaluation': semester_evaluation,
-        #                     'sks_kurang': sks_kurang})
-        #     context = {**context, **detail_evaluasi, **graph_ip}
-
         jenjang_str, err = pool.apply_async(get_jenjang, args=(token, npm,)).get(timeout=10)
+        print(err)
         if err is None:
             jenjang = pool.apply_async(split_jenjang_and_jalur, args=(jenjang_str,))
             sks_term = pool.apply_async(convert_dict_for_sks_term, args=(token, npm,))
@@ -287,6 +270,8 @@ def get_rekam_akademik_index(request, context):
                             'sks_kurang': sks_kurang.get(timeout=5)})
             context = {**context, **detail_evaluasi.get(timeout=10), **graph_ip.get(timeout=10)}
         print(time.clock() - start)
+        pool.close()
+        pool.join()
         return context
     except KeyError as excp:
         return str(excp)
