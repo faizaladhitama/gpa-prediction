@@ -3,7 +3,7 @@ import os
 
 import requests
 
-from api.siak.utils import AuthGenerator, Requester
+from api.siak.utils import AuthGenerator, Requester, make_sks_req_list
 
 
 def cek_huruf_lulus(huruf):
@@ -30,6 +30,7 @@ def huruf_to_angka(huruf):
         'N': 0.00
     }
     return bobot[huruf]
+
 
 def cek_mpkos(code):
     code_matkul = [
@@ -91,6 +92,8 @@ def verify_user(access_token):
         generator = AuthGenerator()
         if access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             return {"identity_number": 'admin', "role": 'mahasiswa'}
+        elif access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY":
+            return {"identity_number": 'admin', "role": 'dosen'}
         return generator.verify_user(access_token, os.environ['CLIENT_ID'])
     except ValueError as exception:
         return str(exception)
@@ -108,25 +111,43 @@ def get_data_user(access_token, npm):
         return None, str(exception)
 
 
-def get_sks(access_token, npm):
+def get_sks_async(access_token, npm):
     try:
-        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        data = Requester.request_mahasiswa_data(npm, 'X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG', access_token)
         angkatan = data['program'][0]['angkatan']
 
         now = datetime.datetime.now()
-
-        tot_sks = 0
+        urls = []
 
         for year in range(int(angkatan), now.year + 1):
-            for term in range(1, 4):
-                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
-                for course in res:
-                    if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
-                        tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-                    elif course['kelas'] is None:
-                        tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
+            for term in range(1,4):
+                url = Requester.make_sks_req_list(npm, term, year, 'X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG', access_token)
+                urls.append(url)
 
-        return tot_sks, None
+        rs = Requester.async_req_sks(urls, 'count')
+        return sum(rs), None
+    except ValueError as exception:
+        return None, str(exception)
+    except requests.ConnectionError as exception:
+        return None, str(exception)
+
+
+
+def get_sks(access_token, npm):
+    try:
+        data = Requester.request_mahasiswa_data(npm, 'X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG', access_token)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+        urls = []
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1,4):
+                url = Requester.make_sks_req_list(npm, term, year, 'X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG', access_token)
+                urls.append(url)
+
+        rs = Requester.async_req_sks(urls, 'count')
+        return sum(rs), None
     except ValueError as exception:
         return None, str(exception)
     except requests.ConnectionError as exception:
@@ -149,13 +170,13 @@ def get_all_sks_term(access_token, npm):
                 tot_sks = 0
                 res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
-                    if course['kelas'] != None and course['kd_mk'] in taken_course:
+                    crs_not_none = course['kelas'] != None
+                    if course['kd_mk'] in taken_course:
                         continue
-
-                    elif course['kelas'] != None and cek_huruf_lulus(course['nilai']):
+                    elif crs_not_none and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
                         taken_course.append(course['kd_mk'])
-                    elif course['kelas'] is None:
+                    elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
                         tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
                         taken_course.append(course['kd_mk'])
                 sks_terms.append(tot_sks)
@@ -175,7 +196,7 @@ def get_sks_term(access_token, npm, year, term):
         for course in res:
             if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-            elif course['kelas'] is None:
+            elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
                 tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
 
         return tot_sks, None
@@ -203,7 +224,7 @@ def get_ip_term(access_token, npm, year, term):
             if course['kelas'] != None:
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
                 mutu += course['kelas']['nm_mk_cl']['jml_sks'] * huruf_to_angka(course['nilai'])
-        ip_mahasiswa = round(mutu / tot_sks * 100)/100.00
+        ip_mahasiswa = round(mutu / tot_sks * 100) / 100.00
         return ip_mahasiswa, None
     except ValueError as exception:
         return 0, str(exception)

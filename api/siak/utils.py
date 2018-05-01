@@ -1,6 +1,96 @@
 import requests
+from multiprocessing import Process, Pool
+from functools import partial
 
+def make_sks_req_list(npm, term, year, client_id, token):
+    url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/{}/riwayat/{}/{}/?client_id={}&access_token={}".format(npm, year, term, client_id, token)
+    return url
+
+
+def cek_huruf_lulus(huruf):
+    if huruf == "C-":
+        return False
+    elif "A" in huruf or "B" in huruf or "C" in huruf:
+        return True
+    else:
+        return False
+
+
+def huruf_to_angka(huruf):
+    bobot = {
+        'A': 4.00,
+        'A-': 3.70,
+        'B+': 3.30,
+        'B': 3.00,
+        'B-': 2.70,
+        'C+': 2.30,
+        'C': 2.00,
+        'C-': 1.70,
+        'D': 1.00,
+        'E': 0.00,
+        'N': 0.00
+    }
+    return bobot[huruf]
+
+
+def cek_mpkos(code):
+    code_matkul = [
+        'UIGE600040',
+        'UIGE600041',
+        'UIGE600042',
+        'UIGE600043',
+        'UIGE600045',
+        'UIGE600047',
+        'UIGE600048',
+        'UIGE600020',
+        'UIGE600021',
+        'UIGE600022',
+        'UIGE600023',
+        'UIGE600025',
+        'UIGE600024',
+        'UIGE600026',
+        'UIGE600027',
+        'UIGE600028',
+        'UIGE600029',
+        'UIGE600030',
+    ]
+
+    if code in code_matkul:
+        return 1
+    else:
+        return 0
+
+
+def count_sks(json):
+    tot_sks = 0
+    for course in json:
+        if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
+            tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+        elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
+            tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
+    return tot_sks
+
+
+def http_get(processing, url):
+    response = requests.get(url)
+    total = 0
+    json = result.json()
+    while(result.status_code == 403):
+        result = requests.get(url)
+        json = result.json()
+
+    if processing == 'count':
+        return count_sks(json)
+    
 class Requester:
+    @staticmethod
+    def async_req_sks(urls, processing):
+        pool = Pool(processes=5)
+        func = partial(http_get, processing)
+        results = pool.map(func, urls)
+        return results
+
+
     @staticmethod
     def request_academic_data(npm, client_id, token):
         url = "https://api.cs.ui.ac.id/siakngcs/mahasiswa" \
@@ -47,6 +137,8 @@ class AuthGenerator:
         }
         if username == "admin" and password == "admin":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        if username == "dosen" and password == "dosen":
+            return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY"
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password")
