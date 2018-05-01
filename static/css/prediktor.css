@@ -19,12 +19,14 @@ h3 {
 
 h7 {
 	font-family: 'Montserrat-Bold';
+	line-height: 300%;
 }
 
 .matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
 	margin-left: 40%;
+	margin-top: 10px;
 }
 
 #mytabs {
@@ -59,7 +61,7 @@ h7 {
 }
 
 .prediktor-body {
-	margin-top: 30px;
+	margin-top: 5%;
 }
 
 #result-button {
@@ -67,7 +69,6 @@ h7 {
 }
 
 .prediktor-message {
-	margin-left: 25%;
 	margin-top: 30px;
 }
 
@@ -85,10 +86,18 @@ h7 {
 	margin-top: 15%;
 }
 
-#sks-term-table {
-	margin-top: 5%;
-}
-
 .btn-link{
 	margin-left: 39%
+}
+
+body{
+    overflow-x:hidden;
+}
+
+.prediktor-button{
+    padding: 8.2rem 1rem;
+}
+
+.prediktor-red-button{
+    padding:4.2rem 4rem;
 }

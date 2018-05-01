@@ -53,7 +53,7 @@ def auth_login(request):
 def auth_logout(request):
     print("#==> auth logout")
     request.session.flush()  # menghapus semua session\
-    messages.info(request, "Anda berhasil logout. Semua session Anda sudah dihapus")
+    messages.info(request, "Anda berhasil logout.")
     return HttpResponseRedirect(reverse('api:landing'))
 
 

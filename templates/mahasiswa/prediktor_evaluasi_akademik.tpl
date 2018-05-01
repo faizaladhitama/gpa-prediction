@@ -4,17 +4,17 @@
 		<div class="row ">
 			<div class="col prediktor-body" id="prediktor-eval-button">
 				{% if status == 'lolos' %}
-    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">lolos</button>
+    				<a class="btn btn-success btn-lg btn3d prediktor-button" href="/mahasiswa/detail-akademik">lolos</a>
 				{% elif status == 'hati-hati' %}
-    				<button type="button" class="btn btn-warning btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">hati-hati</button>
+    				<a class="btn btn-warning btn-lg btn3d prediktor-button" href="/mahasiswa/detail-akademik">hati-hati</a>
 				{% else %}
-    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">tidak <br>lolos</button>
+    				<a class="btn btn-danger btn-lg btn3d prediktor-red-button" href="/mahasiswa/detail-akademik">tidak<br> lolos</a>
 				{% endif %}
 			</div>
 		</div>
 
 		<div class="row ">
-			<div class="col">
+			<div class="col text-center">
 				{% if status == 'lolos' %}
 					<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status}}</span> evaluasi akademik semester {{semester}}!</p>
 
@@ -29,10 +29,10 @@
 		</div>
 
 		<div class="row ">
-			<div class="col">
-				<button type="button" class="btn btn-link" data-toggle="modal" data-target="#detailAkademik">
+			<div class="col ">
+				<a class="btn btn-link text-center" href="/mahasiswa/detail-akademik">
 				Lihat Selengkapnya
-				</button>
+				</a>
 			</div>
 		</div>
 </div>

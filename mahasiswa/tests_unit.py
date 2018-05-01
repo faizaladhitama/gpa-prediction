@@ -5,12 +5,14 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 
-# from api.siak.tests_unit import MockSiak
+from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
-    get_evaluation_detail_message, get_semester, \
+    get_evaluation_detail_message, get_semester_evaluation, \
     get_angkatan, get_evaluation_status, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
-    convert_dict_for_sks_term, convert_dict_for_ip_term, create_graph_ip, request_evaluation_status
+    convert_dict_for_sks_term, convert_dict_for_ip_term, \
+    create_graph_ip, request_evaluation_status, \
+    get_sks_seharusnya, get_sks_kurang, get_semester_now
 
 
 class URLTest(TestCase):
@@ -24,6 +26,10 @@ class URLTest(TestCase):
 
     def test_profile(self):
         response = self.client.get('/mahasiswa/profile', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_detail_akademik(self):
+        response = self.client.get('/mahasiswa/detail-akademik', follow=True)
         self.assertEqual(response.status_code, 200)
 
 
@@ -81,7 +87,7 @@ class EvaluationTest(TestCase):
             Indonesia Pasal 11"
 
     def test_detail_valid_all(self):
-        detail_message = get_evaluation_detail_message("S1", 2)
+        detail_message = get_evaluation_detail_message("S1", 2, "hati-hati")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual(self.true_source, source)
@@ -90,52 +96,81 @@ class EvaluationTest(TestCase):
                  (dua koma nol) dari sekurang-kurangnya 24 \
                  (dua puluh empat) SKS terbaik', detail)
 
+    def test_detail_lolos(self):
+        detail_message = get_evaluation_detail_message("S1", 2, "lolos")
+        source = detail_message['source']
+        detail = detail_message['detail']
+        self.assertEqual('-', source)
+        self.assertEqual('-', detail)
+
     def test_detail_valid_degree_only(self):
-        detail_message = get_evaluation_detail_message("S1", -1)
+        detail_message = get_evaluation_detail_message("S1", -1, "hati-hati")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual('-', source)
         self.assertEqual('-', detail)
 
     def test_detail_valid_semester_only(self):
-        detail_message = get_evaluation_detail_message("S-teh", 2)
+        detail_message = get_evaluation_detail_message("S-teh", 2, "tidak-lolos")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual('-', source)
         self.assertEqual('-', detail)
 
     def test_detail_invalid_all(self):
-        detail_message = get_evaluation_detail_message("S-teh", -1)
+        detail_message = get_evaluation_detail_message("S-teh", -1, "Argument salah")
         source = detail_message['source']
         detail = detail_message['detail']
         self.assertEqual('-', source)
         self.assertEqual('-', detail)
 
 
-class SemesterTest(TestCase):
+class SemesterEvaluationTest(TestCase):
     def test_semester_2_term(self):
-        semester = get_semester("15066989162", 2)
+        semester = get_semester_evaluation("15066989162", 2)
         self.assertEqual(8, semester)
 
     def test_semester_2_tua_term(self):
-        semester = get_semester("08066989162", 2)
+        semester = get_semester_evaluation("08066989162", 2)
         self.assertEqual(0, semester)
 
     def test_semester_1_term(self):
-        semester = get_semester("15066989162", 1)
+        semester = get_semester_evaluation("15066989162", 1)
         self.assertEqual(8, semester)
 
     def test_semester_3_term(self):
-        semester = get_semester("15066989162", 3)
+        semester = get_semester_evaluation("15066989162", 3)
         self.assertEqual(8, semester)
 
     def test_term_invalid(self):
-        semester = get_semester("15066989162", 4)
+        semester = get_semester_evaluation("15066989162", 4)
         self.assertEqual("Wrong term", semester)
 
     def test_kode_identitas_invalid(self):
-        semester = get_semester("-15066989162", 4)
+        semester = get_semester_evaluation("-15066989162", 4)
         self.assertEqual("Wrong kode identitas", semester)
+
+
+class SemesterNowTest(TestCase):
+    def test_semester_2_term(self):
+        semester = get_semester_now("15066989162", 2)
+        self.assertEqual(6, semester)
+
+    def test_semester_2_tua_term(self):
+        semester = get_semester_now("08066989162", 2)
+        self.assertEqual(0, semester)
+
+    def test_semester_1_term(self):
+        semester = get_semester_now("15066989162", 1)
+        self.assertEqual(5, semester)
+
+    def test_semester_3_term(self):
+        semester = get_semester_now("15066989162", 3)
+        self.assertEqual(6, semester)
+
+    def test_term_invalid(self):
+        semester = get_semester_now("15066989162", 4)
+        self.assertEqual("Wrong term", semester)
 
 
 class AngkatanTest(TestCase):
@@ -184,27 +219,19 @@ class SplitJenjangJalurTest(TestCase):
         self.assertEqual(jenjang, "Error Split Jenjang and Jalur")
 
 
-class GetIndexMahasiswaContext(TestCase):
-    @patch('api.siak.get_data_user')
-    def test_context_index_valid(self, mocked_get_data):
+class GetIndexMahasiswaContext(MockSiak):
+    def test_context_index_valid(self):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        mocked_get_data.return_value = ({"program": [{"nm_prg": "S1 Regular"}]}, None)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
-        self.assertEqual(context, {'term': '2017/2018 - 2', 'access_token': 'dummy',
-                                   'team': 'usagi studio', 'user': 'dummy',
-                                   'id': 'dummy', 'role': 'dummy',
-                                   'source': 'dummy', 'detail': 'dummy'})
+        self.assertNotEqual(context, None)
 
-    @patch('api.siak.get_data_user')
-    def test_context_invalid_request(self, mocked_get_data):
+    def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
-        mocked_get_data.side_effect = AttributeError("'NoneType' object has "
-                                                     "no attribute 'session'")
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
@@ -212,20 +239,22 @@ class GetIndexMahasiswaContext(TestCase):
         context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
-        self.assertEqual(context, "'user'")
+        self.assertEqual(context, "'access_token'")
 
 
 class ConvertDictForSksTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict([('2018 - 3', 3), ('2018 - 2', 3), ('2018 - 1', 3),
-                                      ('2017 - 3', 3), ('2017 - 2', 3), ('2017 - 1', 3),
-                                      ('2016 - 3', 3), ('2016 - 2', 3), ('2016 - 1', 3),
-                                      ('2015 - 3', 3), ('2015 - 2', 3), ('2015 - 1', 3)])
+        expected_order = OrderedDict(
+            [('2015 - 1', 3), ('2015 - 2', 0), ('2015 - 3', 0),
+             ('2016 - 1', 0), ('2016 - 2', 0), ('2016 - 3', 0),
+             ('2017 - 1', 0), ('2017 - 2', 0), ('2017 - 3', 0),
+             ('2018 - 1', 0), ('2018 - 2', 0), ('2018 - 3', 0)])
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
-        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk': 'UIGE600042'}
+        mocked_req_sks.return_value = [course]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
         order = convert_dict_for_sks_term(mocked_token, mocked_npm)
         self.assertEqual(order, expected_order)
@@ -307,6 +336,16 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "lolos")
 
+    @patch('api.siak.get_sks')
+    @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
+    @patch('mahasiswa.utils.save_status', return_value=True)
+    def test_valid_with_sks_param(self, mocked_get_sks, mocked_get_eval, mocked_save):
+        mocked_get_sks.return_value = 70
+        mocked_get_eval.return_value = "lolos"
+        mocked_save.return_value = True
+        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 70)
+        self.assertEqual(status, "lolos")
+
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_invalid(self, mocked_req_data, mocked_req_sks):
@@ -330,3 +369,27 @@ class ViewTest(TestCase):
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         response = self.client.get(reverse('mahasiswa:index'))
         self.assertEqual(response.status_code, 200)
+
+
+class SksSeharusnya(TestCase):
+    def test_semester_genap(self):
+        sks_seharusnya = get_sks_seharusnya(2)
+        self.assertEqual(sks_seharusnya, 24)
+
+    def test_semester_6(self):
+        sks_seharusnya = get_sks_seharusnya(6)
+        self.assertEqual(sks_seharusnya, 96)
+
+    def test_invalid_semester(self):
+        sks_seharusnya = get_sks_seharusnya(None)
+        self.assertEqual(sks_seharusnya, "semester bermasalah")
+
+
+class SksKurang(TestCase):
+    def test_sks_kurang_valid(self):
+        sks_kurang = get_sks_kurang(24, 12)
+        self.assertEqual(sks_kurang, 12)
+
+    def test_invalid_sks_seharusnya(self):
+        sks_kurang = get_sks_kurang(None, None)
+        self.assertEqual(sks_kurang, "sks seharusnya atau sks diperoleh bermasalah")

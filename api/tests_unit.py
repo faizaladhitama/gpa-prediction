@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from api.apps import give_verdict, save_status
+from api.utils import give_verdict, save_status
 from api.db.utils import create_mahasiswa_siak
 from api.models import MahasiswaSIAK
 
@@ -31,6 +31,11 @@ class UserTest(TestCase):
     def test_auth_login_positive(self):
         response = self.client.post('/auth-login',
                                     {'username': 'admin', 'password': 'admin'}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_auth_login_dosen(self):
+        response = self.client.post('/auth-login',
+                                    {'username': 'dosen', 'password': 'dosen'}, follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_auth_login_negative(self):
