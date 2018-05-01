@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from api.apps import give_verdict, save_status
+from api.utils import give_verdict, save_status
 from api.db.utils import create_mahasiswa_siak
 from api.models import MahasiswaSIAK
 

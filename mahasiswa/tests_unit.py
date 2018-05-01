@@ -12,7 +12,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
-    get_sks_seharusnya, get_sks_kurang, get_semester_now,\
+    get_sks_seharusnya, get_sks_kurang, get_semester_now, \
     get_rekam_akademik_index
 
 
@@ -244,14 +244,11 @@ class GetIndexMahasiswaContext(MockSiak):
 
 
 class GetRekamAkademikContext(MockSiak):
-    @patch('api.siak.get_data_user')
-    def test_context_index_valid(self, mocked_get_data):
+    def test_context_index_valid(self):
+        self.mocked_generator.return_value = None
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        mock_jenjang = patch('api.siak.get_jenjang').start()
-        mock_jenjang.return_value = "S1 Reguler", None
-        mocked_get_data.return_value = ({"program": [{"nm_prg": "S1 Regular"}]}, None)
         context = get_rekam_akademik_index(request, context_mahasiswa)
         self.assertNotEqual(context, None)
 

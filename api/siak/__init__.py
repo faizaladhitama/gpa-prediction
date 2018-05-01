@@ -31,6 +31,7 @@ def huruf_to_angka(huruf):
     }
     return bobot[huruf]
 
+
 def cek_mpkos(code):
     code_matkul = [
         'UIGE600040',
@@ -205,7 +206,7 @@ def get_ip_term(access_token, npm, year, term):
             if course['kelas'] != None:
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
                 mutu += course['kelas']['nm_mk_cl']['jml_sks'] * huruf_to_angka(course['nilai'])
-        ip_mahasiswa = round(mutu / tot_sks * 100)/100.00
+        ip_mahasiswa = round(mutu / tot_sks * 100) / 100.00
         return ip_mahasiswa, None
     except ValueError as exception:
         return 0, str(exception)
