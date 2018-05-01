@@ -193,7 +193,7 @@ def get_angkatan(kode_identitas):
 
 def get_index_mahasiswa_context(request, context):
     try:
-        pool = mp.Pool(processes=10)
+        pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
 
@@ -209,22 +209,27 @@ def get_index_mahasiswa_context(request, context):
         #                     'status': status, 'semester': semester})
 
         start = time.clock()
+        # print("a")
         semester = pool.apply_async(get_semester_evaluation, args=(npm, term,)).get(timeout=5)
+        # print("b")
         sks_seharusnya = pool.apply_async(get_sks_seharusnya, args=(semester,)).get(timeout=5)
+        # print("c")
         all_sks, err = pool.apply_async(get_sks,
                                         args=(request.session['access_token'],
                                               npm,)).get(timeout=20)
+        # print("d")
         if err is None:
             sks_kurang = pool.apply_async(get_sks_kurang,
                                           args=(sks_seharusnya, all_sks)).get(timeout=5)
+            # print("e")
             status = pool.apply_async(request_evaluation_status,
                                       args=(npm, token, semester, all_sks)).get(timeout=5)
+            # print("f")
             context.update({'sks_seharusnya': sks_seharusnya,
                             'sks_kurang': sks_kurang, 'all_sks': all_sks,
                             'status': status, 'semester': semester})
+            # print("g")
         print(time.clock() - start)
-        pool.close()
-        pool.join()
         return context
     except KeyError as excp:
         return str(excp)
@@ -236,42 +241,51 @@ def get_index_mahasiswa_context(request, context):
 
 def get_rekam_akademik_index(request, context):
     try:
-        pool = mp.Pool(processes=10)
+        pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
         start = time.clock()
 
         jenjang_str, err = pool.apply_async(get_jenjang, args=(token, npm,)).get(timeout=10)
-        print(err)
+        # print("a")
         if err is None:
             jenjang = pool.apply_async(split_jenjang_and_jalur, args=(jenjang_str,))
             sks_term = pool.apply_async(convert_dict_for_sks_term, args=(token, npm,))
+            # print("c")
             graph_ip = pool.apply_async(create_graph_ip, args=(token, npm,))
+            # print("d")
             semester_now = pool.apply_async(get_semester_now, args=(npm, term,))
+            # print("e")
             semester_evaluation = pool.apply_async(get_semester_evaluation,
                                                    args=(npm, term,))
+            # print("f")
             status = pool.apply_async(request_evaluation_status,
                                       args=(npm, token, semester_evaluation.get(timeout=10),))
+            # print("g")
             detail_evaluasi = pool.apply_async(get_evaluation_detail_message,
                                                args=(jenjang.get(timeout=20),
                                                      semester_evaluation.get(
                                                          timeout=20),
                                                      status.get(timeout=20),))
+            # print("h")
             all_sks, err = pool.apply_async(get_sks,
                                             args=(request.session['access_token'],
                                                   npm,)).get(timeout=20)
+            # print("i")
             sks_seharusnya = pool.apply_async(get_sks_seharusnya,
                                               args=(semester_evaluation.get(timeout=10),))
+            # print("j")
             sks_kurang = pool.apply_async(get_sks_kurang,
                                           args=(sks_seharusnya.get(timeout=10), all_sks))
-            context.update({'sks_term': sks_term.get(timeout=5), 'all_sks': all_sks,
-                            'semester_now': semester_now.get(timeout=5),
-                            'semester_evaluation': semester_evaluation.get(timeout=5),
-                            'sks_kurang': sks_kurang.get(timeout=5)})
-            context = {**context, **detail_evaluasi.get(timeout=10), **graph_ip.get(timeout=10)}
+            # print("k")
+            context.update({'sks_term': sks_term.get(timeout=10), 'all_sks': all_sks,
+                            'semester_now': semester_now.get(timeout=10),
+                            'semester_evaluation': semester_evaluation.get(timeout=10),
+                            'sks_kurang': sks_kurang.get(timeout=10)})
+            # print("l")
+            context = {**context, **detail_evaluasi.get(timeout=20), **graph_ip.get(timeout=20)}
+            # print("m")
         print(time.clock() - start)
-        pool.close()
-        pool.join()
         return context
     except KeyError as excp:
         return str(excp)
