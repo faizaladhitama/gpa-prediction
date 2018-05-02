@@ -603,5 +603,5 @@ class SiakTest(MockSiak):
         resp, err = get_sks_sequential(mocked_token, self.mock_npm)
 
         self.assertEqual({}, resp)
-        self.assertEqual("connection refused", err)     
-   
+        self.assertEqual("connection refused", err)
+        

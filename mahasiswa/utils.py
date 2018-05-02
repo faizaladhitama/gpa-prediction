@@ -271,8 +271,7 @@ def get_rekam_akademik_index(request, context):
                                                args=(jenjang.get(timeout=20),
                                                      semester_evaluation.get(
                                                          timeout=20),
-                                                     status.get(timeout=40),))
-            
+                                                     status.get(timeout=40),))           
             # print("h")
             # all_sks, err = pool.apply_async(get_sks_sequential,
             #                                 args=(request.session['access_token'],
