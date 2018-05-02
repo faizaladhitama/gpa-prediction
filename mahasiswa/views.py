@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from api.siak import get_sks, get_data_user, get_all_sks_term, get_total_mutu
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
-     get_index_mahasiswa_context
+    get_index_mahasiswa_context, get_rekam_akademik_index
 
 
 # Create your views here.
@@ -59,3 +59,14 @@ def profile(request):
 def rekomendasi(request):
     context = {'name': 'mahasiswa'}
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
+
+
+def detail_akademik(request):
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_rekam_akademik_index(request, context_mahasiswa)
+        return render(request, 'mahasiswa/detail-akademik-tab.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})

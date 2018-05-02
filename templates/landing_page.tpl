@@ -41,4 +41,9 @@
 		</div>
 </div>
 
+<footer class="footer-copyright text-white text-center py-5" >
+     © Usagi Studio - 2018
+</footer>
+
 {% endblock %}
+

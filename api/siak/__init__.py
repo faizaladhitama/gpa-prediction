@@ -3,60 +3,8 @@ import os
 
 import requests
 
-from api.siak.utils import AuthGenerator, Requester
-
-
-def cek_huruf_lulus(huruf):
-    if huruf == "C-":
-        return False
-    elif "A" in huruf or "B" in huruf or "C" in huruf:
-        return True
-    else:
-        return False
-
-
-def huruf_to_angka(huruf):
-    bobot = {
-        'A': 4.00,
-        'A-': 3.70,
-        'B+': 3.30,
-        'B': 3.00,
-        'B-': 2.70,
-        'C+': 2.30,
-        'C': 2.00,
-        'C-': 1.70,
-        'D': 1.00,
-        'E': 0.00,
-        'N': 0.00
-    }
-    return bobot[huruf]
-
-def cek_mpkos(code):
-    code_matkul = [
-        'UIGE600040',
-        'UIGE600041',
-        'UIGE600042',
-        'UIGE600043',
-        'UIGE600045',
-        'UIGE600047',
-        'UIGE600048',
-        'UIGE600020',
-        'UIGE600021',
-        'UIGE600022',
-        'UIGE600023',
-        'UIGE600025',
-        'UIGE600024',
-        'UIGE600026',
-        'UIGE600027',
-        'UIGE600028',
-        'UIGE600029',
-        'UIGE600030',
-    ]
-
-    if code in code_matkul:
-        return 1
-    else:
-        return 0
+from api.siak.utils import AuthGenerator, Requester, \
+    make_sks_req_list, cek_huruf_lulus, huruf_to_angka, cek_mpkos
 
 
 def get_academic_record(npm, username, password):
@@ -111,6 +59,27 @@ def get_data_user(access_token, npm):
 
 
 def get_sks(access_token, npm):
+    try:
+        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+        urls = []
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1, 4):
+                url = make_sks_req_list(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                urls.append(url)
+
+        all_sks = Requester.async_req_sks(urls, 'count')
+        return sum(all_sks), None
+    except ValueError as exception:
+        return None, str(exception)
+    except requests.ConnectionError as exception:
+        return None, str(exception)
+
+
+def get_sks_sequential(access_token, npm):
     try:
         data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
         angkatan = data['program'][0]['angkatan']
@@ -205,7 +174,7 @@ def get_ip_term(access_token, npm, year, term):
             if course['kelas'] != None:
                 tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
                 mutu += course['kelas']['nm_mk_cl']['jml_sks'] * huruf_to_angka(course['nilai'])
-        ip_mahasiswa = round(mutu / tot_sks * 100)/100.00
+        ip_mahasiswa = round(mutu / tot_sks * 100) / 100.00
         return ip_mahasiswa, None
     except ValueError as exception:
         return 0, str(exception)
