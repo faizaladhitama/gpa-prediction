@@ -1,4 +1,3 @@
-import datetime
 from unittest.mock import Mock, patch
 
 import requests
@@ -23,6 +22,17 @@ class RequesterTest(TestCase):
 
         self.mocked_get = mocked_get.start()
         self.addCleanup(mocked_get.stop)
+
+
+    def test_async_req_on_valid(self):
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        data = [course1, course2, course3]
+        self.mocked_get.return_value = create_mocked_response(200, data)
+
+        resp = Requester.async_req_sks(['mocked', 'mocked', 'mocked'], 'count')
+        self.assertEqual(3, resp)
 
     def test_request_sks_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
@@ -175,6 +185,8 @@ class MockSiak(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
 
+        mocked_asyc_req = patch('api.siak.utils.Requester.async_req_sks')
+
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
 
         mocked_verify = patch('api.siak.utils.AuthGenerator.verify_user')
@@ -189,6 +201,8 @@ class MockSiak(TestCase):
 
         self.mocked_generator = mocked_generator.start()
 
+        self.mocked_asyc_req = mocked_asyc_req.start()
+
         self.mocked_verify = mocked_verify.start()
 
         self.mocked_get_token = mocked_get_token.start()
@@ -200,6 +214,8 @@ class MockSiak(TestCase):
         self.mocked_req_sks = mocked_req_sks.start()
 
         self.mocked_req_data = mocked_req_data.start()
+
+        self.addCleanup(mocked_asyc_req.stop)
 
         self.addCleanup(mocked_generator.stop)
 
@@ -353,18 +369,13 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
-        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
-        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
-        mocked_sks = [course1, course2, course3]
-        self.mocked_req_sks.return_value = mocked_sks
-
-        now = datetime.datetime.now()
+        mocked_res = [1, 2, 3, 4]
+        self.mocked_asyc_req.return_value = mocked_res
 
         resp, err = get_sks(mocked_token, self.mock_npm)
 
         self.assertIsNone(err)
-        self.assertEqual(4 * (now.year + 1 - 2015) * 3, resp)
+        self.assertEqual(10, resp)
 
     def test_get_sks_on_conn_error(self):
         mocked_token = "mocked"
