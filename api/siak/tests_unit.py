@@ -32,7 +32,7 @@ class RequesterTest(TestCase):
         self.mocked_get.return_value = create_mocked_response(200, data)
 
         resp = Requester.async_req_sks(['mocked', 'mocked', 'mocked'], 'count')
-        expected = [4,4,4]
+        expected = [4, 4, 4]
         self.assertEqual(expected, resp)
 
     def test_request_sks_on_valid(self):
