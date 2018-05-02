@@ -75,12 +75,16 @@ def count_sks(json):
 def http_get(processing, url):
     result = requests.get(url)
     json = result.json()
-    while result.status_code == 403:
+    count = 0
+    while result.status_code == 403 or count < 3:
+        count = count + 1
         result = requests.get(url)
         json = result.json()
 
     if processing == 'count':
         return count_sks(json)
+    else:
+        return 0
 
 class Requester:
     @staticmethod
