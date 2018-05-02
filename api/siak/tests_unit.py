@@ -1,7 +1,7 @@
 from unittest.mock import Mock, patch
 
-import requests
 import datetime
+import requests
 from django.test import TestCase
 
 from api.siak import get_academic_record, get_access_token, \
