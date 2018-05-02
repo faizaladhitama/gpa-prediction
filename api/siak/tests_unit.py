@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
-    get_sks_term, get_ip_term, get_all_ip_term
+    get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential
 from api.siak.utils import AuthGenerator, Requester
 
 
@@ -585,3 +585,13 @@ class SiakTest(MockSiak):
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
+
+    def test_get_sks_on_connf_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+   
