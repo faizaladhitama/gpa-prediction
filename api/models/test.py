@@ -3,6 +3,7 @@ import os.path
 from django.test import TestCase
 
 from api.models.nb_model import NbModel
+from api.models import get_prediction_by_matkul
 
 
 class NbModelTest(TestCase):
@@ -40,3 +41,16 @@ class NbModelTest(TestCase):
         flag1 = self.model.accuracy is not None
         flag2 = self.model.data_frame is not None
         return flag1 and flag2
+
+class PrediktorKelulusanMatkulTest(TestCase):
+    def matkul_not_found(self):
+        self.assertEqual(get_prediction_by_matkul("admin", "SPS"), "not-found")
+
+    def pok_lulus_test(self):
+        self.assertEqual(get_prediction_by_matkul("admin", "POK"), "lulus")
+
+    def pok_hati_hati_test(self):
+        self.assertEqual(get_prediction_by_matkul("CIA", "POK"), "hati-hati")
+
+    def pok_tidak_lulus_test(self):
+        self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")

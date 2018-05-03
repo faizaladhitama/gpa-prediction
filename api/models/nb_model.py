@@ -8,7 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 
 
 class NbModel:
-    def __init__(self, name, columns=[], num_features=[]):
+    def __init__(self, name, columns=None, num_features=None):
         self.course_name = str(name)
         self.columns = columns
         self.num_features = num_features
