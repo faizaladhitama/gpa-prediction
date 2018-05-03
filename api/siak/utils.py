@@ -73,11 +73,12 @@ def count_sks(json):
 
 
 def http_get(processing, url):
-    print(url)
     result = requests.get(url)
     json = result.json()
     count = 0
-    while result.status_code == 403 or count < 5:
+    while result.status_code == 403:
+        if count < 5:
+            break
         count = count + 1
         result = requests.get(url)
         json = result.json()
@@ -92,7 +93,6 @@ class Requester:
         pool = Pool(processes=5)
         func = partial(http_get, processing)
         results = pool.map(func, urls)
-        print(results)
         pool.close()
         pool.join()
         return results

@@ -218,7 +218,6 @@ def get_index_mahasiswa_context(request, context):
         sks_seharusnya = pool.apply_async(get_sks_seharusnya, args=(semester,)).get(timeout=5)
         # print("c")
         all_sks, err = get_sks(request.session['access_token'], npm)
-        print(all_sks)
         # all_sks, err = pool.apply_async(get_sks_sequential,
         #                                 args=(request.session['access_token'],
         #                                       npm,)).get(timeout=20)
