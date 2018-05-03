@@ -78,7 +78,7 @@ def http_get(processing, url):
     count = 0
     while result.status_code == 403:
         if count < 5:
-            break
+            return 0
         count = count + 1
         result = requests.get(url)
         json = result.json()
