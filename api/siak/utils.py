@@ -3,8 +3,8 @@ from functools import partial
 import requests
 
 def make_sks_req_list(npm, term, year, client_id, token):
-    url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/ \
-        {}/riwayat/{}/{}/?client_id={}&access_token={}".format(npm, year, term, client_id, token)
+    base_url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/{}/riwayat".format(npm)
+    url = "{}/{}/{}/?client_id={}&access_token={}".format(base_url, year, term, client_id, token)
     return url
 
 
@@ -73,14 +73,14 @@ def count_sks(json):
 
 
 def http_get(processing, url):
+    print(url)
     result = requests.get(url)
     json = result.json()
     count = 0
-    while result.status_code == 403 or count < 3:
+    while result.status_code == 403 or count < 5:
         count = count + 1
         result = requests.get(url)
         json = result.json()
-
     if processing == 'count':
         return count_sks(json)
     else:
@@ -92,6 +92,7 @@ class Requester:
         pool = Pool(processes=5)
         func = partial(http_get, processing)
         results = pool.map(func, urls)
+        print(results)
         pool.close()
         pool.join()
         return results
