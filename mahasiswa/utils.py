@@ -198,7 +198,7 @@ def get_index_mahasiswa_context(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-        if request.session['user_login'] != 'admin':
+        if 'admin' not in request.session['user_login']:
             pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
             # Sequential
             # semester = get_semester_evaluation(npm, term)
@@ -235,10 +235,20 @@ def get_index_mahasiswa_context(request, context):
                 # print("g")
             print(time.clock() - start)
             return context
-        else:
+        elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
             all_sks = 24
+            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+            status = request_evaluation_status(npm, token, semester, all_sks, 0)
+            context.update({'sks_seharusnya': sks_seharusnya,
+                            'sks_kurang': sks_kurang, 'all_sks': all_sks,
+                            'status': status, 'semester': semester})
+            return context
+        else:
+            semester = 4
+            sks_seharusnya = get_sks_seharusnya(semester)
+            all_sks = 60
             sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
             status = request_evaluation_status(npm, token, semester, all_sks, 0)
             context.update({'sks_seharusnya': sks_seharusnya,
@@ -257,7 +267,7 @@ def get_rekam_akademik_index(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-        if request.session['user_login'] != 'admin':
+        if 'admin' not in request.session['user_login']:
             pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
             start = time.clock()
 
@@ -305,42 +315,67 @@ def get_rekam_akademik_index(request, context):
                 # print("m")
             print(time.clock() - start)
             return context
+        elif request.session['user_login'] == 'admin2':
+            return make_mock_data('green', context, token, npm)
         else:
-            jenjang = 'S1'
-            sks_term = OrderedDict()
-            sks_term['2017 - 1'] = 12
-            sks_term['2017 - 2'] = 6
-            sks_term['2017 - 3'] = 0
-            sks_term['2018 - 1'] = 6
-            sks_term['2018 - 2'] = 0
-            sks_term['2018 - 3'] = 0
-            graph_ip = OrderedDict()
-            graph_ip['2017 - 1'] = 2.5
-            graph_ip['2017 - 2'] = 2.3
-            graph_ip['2017 - 3'] = 0
-            graph_ip['2018 - 1'] = 2
-            graph_ip['2018 - 2'] = 0
-            graph_ip['2018 - 3'] = 0
-            semester_now = 3
-            semester_evaluation = 4
-            status = request_evaluation_status(npm, token, semester_evaluation, 1)
-            detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation, status)
-            all_sks = 24
-            sks_seharusnya = get_sks_seharusnya(semester_evaluation)
-            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-
-            context.update({'sks_term': sks_term, 'all_sks': all_sks,
-                            'semester_now': semester_now,
-                            'semester_evaluation': semester_evaluation,
-                            'sks_kurang': sks_kurang})
-
-            context = {**context, **detail_evaluasi, **graph_ip}
-            return context
+            return make_mock_data('red', context, token, npm)
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
         return str(excp)
 
+def make_mock_data(status, context, token, npm):
+    if status == 'green':
+        jenjang = 'S1'
+        sks_term = OrderedDict()
+        sks_term['2017 - 1'] = 20
+        sks_term['2017 - 2'] = 22
+        sks_term['2017 - 3'] = 0
+        sks_term['2018 - 1'] = 18
+        sks_term['2018 - 2'] = 0
+        sks_term['2018 - 3'] = 0
+        graph_ip = OrderedDict()
+        graph_ip['2017 - 1'] = 3.5
+        graph_ip['2017 - 2'] = 3.3
+        graph_ip['2017 - 3'] = 0
+        graph_ip['2018 - 1'] = 3.4
+        graph_ip['2018 - 2'] = 0
+        graph_ip['2018 - 3'] = 0
+        semester_now = 3
+        semester_evaluation = 4
+        all_sks = 60
+    else:
+        jenjang = 'S1'
+        sks_term = OrderedDict()
+        sks_term['2017 - 1'] = 12
+        sks_term['2017 - 2'] = 6
+        sks_term['2017 - 3'] = 0
+        sks_term['2018 - 1'] = 6
+        sks_term['2018 - 2'] = 0
+        sks_term['2018 - 3'] = 0
+        graph_ip = OrderedDict()
+        graph_ip['2017 - 1'] = 2.5
+        graph_ip['2017 - 2'] = 2.3
+        graph_ip['2017 - 3'] = 0
+        graph_ip['2018 - 1'] = 2
+        graph_ip['2018 - 2'] = 0
+        graph_ip['2018 - 3'] = 0
+        semester_now = 3
+        semester_evaluation = 4
+        all_sks = 24
+
+    status = request_evaluation_status(npm, token, semester_evaluation, all_sks, 0)
+    detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation, status)
+    sks_seharusnya = get_sks_seharusnya(semester_evaluation)
+    sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+
+    context.update({'sks_term': sks_term, 'all_sks': all_sks,
+                    'semester_now': semester_now,
+                    'semester_evaluation': semester_evaluation,
+                    'sks_kurang': sks_kurang})
+
+    context = {**context, **detail_evaluasi, **graph_ip}
+    return context
 
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()

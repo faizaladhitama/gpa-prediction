@@ -146,6 +146,8 @@ class AuthGenerator:
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         if username == "dosen" and password == "dosen":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY"
+        if username == 'admin2' and password == 'admin2':
+            return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYA"
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password")
