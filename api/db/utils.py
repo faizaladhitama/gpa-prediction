@@ -80,7 +80,7 @@ def create_mock_data_dosen(jumlah):
 
 def caching(name, func, args):
     try:
-        if cache.get(name) is not None:
+        if cache.get(name) is None:
             if isinstance(args, tuple):
                 temp = func(*args)
                 if isinstance(temp, dict):
@@ -97,7 +97,7 @@ def caching(name, func, args):
             print("use cache " + name)
         return ret, err
     except (TypeError, ValueError):
-        if cache.get(name) is not None:
+        if cache.get(name) is None:
             if isinstance(args, tuple):
                 ret = func(*args)
             else:
