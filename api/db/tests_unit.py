@@ -1,8 +1,10 @@
 from unittest.mock import patch
+
+import time
 from django.test import TestCase
 
 from api.db.utils import get_siak_data, parse_siak_data, insert_to_db_rekam_jejak, \
-    create_mock_data_mahasiswa, create_mock_data_dosen
+    create_mock_data_mahasiswa, create_mock_data_dosen, caching
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
 
 
@@ -60,3 +62,27 @@ class UtilsTest(TestCase):
         create_mock_data_dosen(5)
         flag = Dosen.objects.filter(nama="nama5").count() > 0
         return flag
+
+class CacheTest(TestCase):
+
+    def lazy(self,count):
+        for i in range(6000):
+            for j in range(6000):
+                count = 0
+        return count
+
+    def test_without_caching(self):
+        start = time.time()
+        res = caching("non_cache",self.lazy,0)
+        end = time.time()-start
+        self.assertEqual(res,0)
+        self.assertGreaterEqual(end,10)
+
+    def test_with_caching(self):
+        caching("cache",self.lazy,0)
+        start = time.time()
+        res = caching("cache", self.lazy, 0)
+        end = time.time()-start
+        self.assertEqual(res,0)
+        self.assertLessEqual(end,0.05)
+
