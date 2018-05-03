@@ -1,12 +1,13 @@
 from unittest.mock import Mock, patch
 
+import datetime
 import requests
 from django.test import TestCase
 
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
-    get_sks_term, get_ip_term, get_all_ip_term
-from api.siak.utils import AuthGenerator, Requester
+    get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential
+from api.siak.utils import AuthGenerator, Requester, http_get
 
 
 def create_mocked_response(status_code, data):
@@ -14,6 +15,32 @@ def create_mocked_response(status_code, data):
     mocked_response.status_code = status_code
     mocked_response.json.return_value = data
     return mocked_response
+
+
+class UtilsTest(TestCase):
+    def setUp(self):
+        mocked_get = patch('requests.get')
+
+        self.mocked_get = mocked_get.start()
+        self.addCleanup(mocked_get.stop)
+
+    def test_httpget_on_valid(self):
+        course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        data = [course]
+        self.mocked_get.return_value = create_mocked_response(200, data)
+
+        count = http_get('count', 'mocked')
+        self.assertEqual(3, count)
+
+        course = {'kelas': None, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        data = [course]
+        self.mocked_get.return_value = create_mocked_response(200, data)
+
+        count = http_get('count', 'mocked')
+        self.assertEqual(1, count)
+
+        count = http_get('other', 'mocked')
+        self.assertEqual(0, count)
 
 
 class RequesterTest(TestCase):
@@ -394,6 +421,45 @@ class SiakTest(MockSiak):
         self.mocked_req_data.side_effect = ValueError("mocked error")
 
         resp, err = get_sks(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("mocked error", err)
+
+    def test_get_sks_seq_on_valid(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        now = datetime.datetime.now()
+
+        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual(4 * (now.year + 1 - 2015) * 3, resp)
+
+
+    def test_get_sks_seq_on_conn_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_sks_seq_on_val_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = ValueError("mocked error")
+
+        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
 
         self.assertIsNone(resp)
         self.assertEqual("mocked error", err)
