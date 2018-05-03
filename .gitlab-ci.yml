@@ -4,6 +4,9 @@ stages:
 variables:
   SECRET_KEY : '0cqmq9_8hn^&i7zk3)w9*1cs8+ecb=)-#q38%zulc848wo_!1n'
   API_KEY: "8f426b0d-9ca8-47b3-990c-d1fda1e82b10"
+  MEMCACHIER_PASSWORD: "D9B0EDFC6D00994AA619C1C4EEC16443"
+  MEMCACHIER_SERVERS: "mc5.dev.ap-northeast-1.ec2.memcachier.com:11211"
+  MEMCACHIER_USERNAME: "6EF336"
 
 DjangoTest:
   image: python:3.6
