@@ -1,4 +1,6 @@
+import os.path
 import numpy as np
+import pandas as pd
 from api.models.nb_model import NbModel
 
 
@@ -32,11 +34,17 @@ def huruf_converter(huruf):
     }
     return bobot[huruf]
 
-def convert_to_ml_df(kd_mk, prasyarats):
+
+def load_nilai_df():
+	pwd = os.path.dirname(__file__)
+	df = pd.read_csv(pwd+'/nilai.csv', delimiter='\t')
+	return df
+
+def convert_to_ml_df(df, kd_mk, prasyarats):
     count = 0
     hasil = []
-    target_mk = df.loc[df['kd_mk'] == kd_trgt]
-    if(len(target_mk) > 0):
+    target_mk = df.loc[df['kd_mk'] == kd_mk]
+    if(len(target_mk) <= 0):
     	return "target not found", False
     for index, row in target_mk.iterrows():
         entry={}
@@ -44,6 +52,7 @@ def convert_to_ml_df(kd_mk, prasyarats):
         for prasyarat in prasyarats:
             pras = df.loc[(df['kd_mk'] == prasyarat) & (df['npm'] == row['npm'])]
             if(len(pras) > 0):
+                max = 0.0;
                 for val in pras['nilai'].values:
                     idx_pras = 'pras'+str(no_pras)
                     entry[idx_pras] = huruf_converter(val)
@@ -54,3 +63,16 @@ def convert_to_ml_df(kd_mk, prasyarats):
 
     hasil_df = pd.DataFrame(hasil)
     return hasil_df, True
+
+def save_df_csv(df, nama_mk):
+	try:
+		file_name = "data/"+ str(nama_mk)
+		df.to_csv(file_name, sep=',')
+		return "passed", True
+	except Exceptions as e:
+		return e, False
+
+def create_training_data(kd_mk, nama_mk, prasyarats=None):
+	df = load_nilai_df()
+	df_hasil = convert_to_ml_df(df, kd_mk, prasyarats)
+	status = save_df_csv(df_hasil, nama_mk)
