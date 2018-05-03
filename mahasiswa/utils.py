@@ -1,7 +1,6 @@
 import time
 from collections import OrderedDict
 from datetime import datetime
-import multiprocessing as mp
 
 import django
 
@@ -209,7 +208,8 @@ def get_index_mahasiswa_context(request, context):
                                    (request.session['access_token'], npm))
             if err is None:
                 sks_kurang = caching("sks_kurang", get_sks_kurang, (sks_seharusnya, all_sks))
-                status = caching("status", request_evaluation_status, (npm, token, semester, all_sks))
+                status = caching("status",
+                                 request_evaluation_status, (npm, token, semester, all_sks))
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester})
@@ -293,7 +293,6 @@ def get_rekam_akademik_index(request, context):
                                 'sks_kurang': sks_kurang})
                 context = {**context, **detail_evaluasi, **graph_ip}
 
-
             # Parallel
             # pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
             # jenjang_str, err = pool.apply_async(get_jenjang, args=(token, npm,)).get(timeout=10)
@@ -337,6 +336,7 @@ def get_rekam_akademik_index(request, context):
         return str(excp)
     except TypeError as excp:
         return str(excp)
+
 
 def make_mock_data(status, context, token, npm):
     if status == 'green':
@@ -390,6 +390,7 @@ def make_mock_data(status, context, token, npm):
 
     context = {**context, **detail_evaluasi, **graph_ip}
     return context
+
 
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
