@@ -1,6 +1,7 @@
 import time
 from unittest.mock import patch
 
+from django.core.cache import cache
 from django.test import TestCase
 
 from api.db.utils import get_siak_data, parse_siak_data, insert_to_db_rekam_jejak, \
@@ -70,8 +71,11 @@ def lazy(count):
             count = (i + j) * 0
     return count
 
+
 class CacheTest(TestCase):
     def test_without_caching(self):
+        cache.clear()
+        cache.delete('non_cache')
         start = time.time()
         res = caching("non_cache", lazy, 0)
         end = time.time() - start
@@ -79,6 +83,7 @@ class CacheTest(TestCase):
         self.assertGreaterEqual(end, 10)
 
     def test_with_caching(self):
+        cache.clear()
         caching("cache", lazy, 0)
         start = time.time()
         res = caching("cache", lazy, 0)
