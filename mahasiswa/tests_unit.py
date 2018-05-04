@@ -176,6 +176,7 @@ class SemesterNowTest(TestCase):
         semester = get_semester_now("-15066989162", 4)
         self.assertEqual("Wrong kode identitas", semester)
 
+
 """
 class MockGraphTest(TestCase):
     def graph_valid(self):
@@ -198,6 +199,7 @@ class MockGraphTest(TestCase):
         the_graph_ip = mock_graph_ip(graph_ip)
         self.assertEqual(expected_data, the_graph_ip)
 """
+
 
 class AngkatanTest(TestCase):
     def test_angkatan_valid(self):
