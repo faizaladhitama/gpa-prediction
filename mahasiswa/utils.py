@@ -265,6 +265,7 @@ def get_rekam_akademik_index(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
+
         start = time.time()
 
         if 'admin' not in request.session['user_login']:

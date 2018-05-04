@@ -7,6 +7,7 @@ from django.test import TestCase
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential
+
 from api.siak.utils import AuthGenerator, Requester, http_get
 
 
