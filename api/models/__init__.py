@@ -66,13 +66,17 @@ def convert_to_ml_df(df, kd_mk, prasyarats):
 
 def save_df_csv(df, nama_mk):
 	try:
-		file_name = "data/"+ str(nama_mk)
-		df.to_csv(file_name, sep=',')
+		pwd = os.path.dirname(__file__)
+		file_name = pwd+"/data/"+ str(nama_mk)+".csv"
+		df.to_csv(file_name, sep=',', index=False)
 		return "passed", True
-	except Exceptions as e:
+	except Exception as e:
 		return e, False
 
 def create_training_data(kd_mk, nama_mk, prasyarats=None):
 	df = load_nilai_df()
 	df_hasil = convert_to_ml_df(df, kd_mk, prasyarats)
+	if df_hasil[1] == False:
+		return "Error "+df_hasil[0]
+	df_hasil = df_hasil[0].dropna() #cleaning na rows
 	status = save_df_csv(df_hasil, nama_mk)
