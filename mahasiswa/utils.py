@@ -10,7 +10,7 @@ django.setup()
 
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
-    get_all_ip_term, get_sks, get_sks_sequential
+    get_all_ip_term, get_sks, get_sks_sequential, get_data_user
 
 
 def get_term(now):
@@ -206,13 +206,15 @@ def get_index_mahasiswa_context(request, context):
             sks_seharusnya = caching("sks_seharusnya", get_sks_seharusnya, (semester))
             all_sks, err = caching("all_sks", get_sks_sequential,
                                    (request.session['access_token'], npm))
+            mahasiswa = get_data_user(token, npm)
             if err is None:
                 sks_kurang = caching("sks_kurang", get_sks_kurang, (sks_seharusnya, all_sks))
                 status = caching("status",
                                  request_evaluation_status, (npm, token, semester, all_sks))
+                name = mahasiswa[0]['nama'].lower().title()
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
-                                'status': status, 'semester': semester})
+                                'status': status, 'semester': semester, 'name' : name})
 
             # Parallel
             # pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
