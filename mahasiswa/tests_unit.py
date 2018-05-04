@@ -12,7 +12,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
-    get_sks_seharusnya, get_sks_kurang, get_semester_now, mock_graph_ip
+    get_sks_seharusnya, get_sks_kurang, get_semester_now
 
 
 class URLTest(TestCase):
@@ -175,30 +175,6 @@ class SemesterNowTest(TestCase):
     def test_kode_identitas_invalid(self):
         semester = get_semester_now("-15066989162", 4)
         self.assertEqual("Wrong kode identitas", semester)
-
-
-"""
-class MockGraphTest(TestCase):
-    def graph_valid(self):
-        expected_data = {
-            'charttype': "discreteBarChart",
-            'chartdata': {'x': ['2015 - 1', '2015 - 2', '2015 - 3',
-                                '2016 - 1', '2016 - 2', '2016 - 3',
-                                '2017 - 1', '2017 - 2', '2017 - 3',
-                                '2018 - 1', '2018 - 2', '2018 - 3', ],
-                          'name1': 'IP',
-                          'y1': [2.7, 2.7, 2.7,
-                                 2.7, 2.7, 2.7,
-                                 2.7, 2.7, 2.7,
-                                 2.7, 2.7, 2.7, ]}
-        }
-        graph_ip = OrderedDict([('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
-                                ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
-                                ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
-                                ('2018 - 1', 2.7), ('2018 - 2', 2.7), ('2018 - 3', 2.7)])
-        the_graph_ip = mock_graph_ip(graph_ip)
-        self.assertEqual(expected_data, the_graph_ip)
-"""
 
 
 class AngkatanTest(TestCase):
