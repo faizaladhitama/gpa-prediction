@@ -161,20 +161,17 @@ def get_semester_evaluation(kode_identitas, term):
 
 
 def get_semester_now(kode_identitas, term):
-    try:
-        tahun = (datetime.now()).year
-        angkatan = get_angkatan(kode_identitas)
-        if angkatan == "Wrong kode identitas":
-            return angkatan
-        if term > 3 or term < 1:
-            return "Wrong term"
-        elif term % 2 == 0 or term == 3:
-            semester = (tahun - angkatan) * 2
-        else:
-            semester = ((tahun - angkatan) * 2) - 1
-        return semester
-    except ValueError:
+    tahun = (datetime.now()).year
+    angkatan = get_angkatan(kode_identitas)
+    if angkatan == "Wrong kode identitas":
+        return angkatan
+    if term > 3 or term < 1:
         return "Wrong term"
+    elif term % 2 == 0 or term == 3:
+        semester = (tahun - angkatan) * 2
+    else:
+        semester = ((tahun - angkatan) * 2) - 1
+    return semester
 
 
 def split_jenjang_and_jalur(str_jenjang):
