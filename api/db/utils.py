@@ -94,7 +94,7 @@ def caching(name, func, args):
             cache.set(name, (ret, err))
         else:
             ret, err = cache.get(name)
-            print("use cache " + name)
+            print("use cache w err " + name)
         return ret, err
     except (TypeError, ValueError):
         if cache.get(name) is None:

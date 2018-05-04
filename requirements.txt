@@ -10,6 +10,7 @@ django-filter==1.1.0
 django-lint==2.0.4
 django_heroku==0.3.1
 django-nvd3==0.9.7
+django-pylibmc==0.6.1
 django-webpack-loader==0.4.1
 djangorestframework==3.7.7
 flake8==3.3.0
