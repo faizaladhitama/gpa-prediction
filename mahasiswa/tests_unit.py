@@ -172,6 +172,10 @@ class SemesterNowTest(TestCase):
         semester = get_semester_now("15066989162", 4)
         self.assertEqual("Wrong term", semester)
 
+    def test_term_invalid(self):
+        semester = get_semester_now("15066989162", "W")
+        self.assertEqual("Wrong term", semester)
+
 
 class AngkatanTest(TestCase):
     def test_angkatan_valid(self):
