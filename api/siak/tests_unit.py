@@ -32,7 +32,7 @@ class RequesterTest(TestCase):
         self.mocked_get.return_value = create_mocked_response(200, data)
 
         resp = Requester.async_req_sks(['mocked', 'mocked', 'mocked'], 'count')
-        self.assertEqual(3, resp)
+        self.assertEqual(3, len(resp))
 
     def test_request_sks_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
@@ -592,7 +592,7 @@ class SiakTest(MockSiak):
 
         resp, err = get_sks_sequential(mocked_token, self.mock_npm)
 
-        self.assertEqual({}, resp)
+        self.assertEqual(None, resp)
         self.assertEqual("connection refused", err)
 
     def test_get_sks_seq_on_val_error(self):
@@ -602,6 +602,6 @@ class SiakTest(MockSiak):
 
         resp, err = get_sks_sequential(mocked_token, self.mock_npm)
 
-        self.assertEqual({}, resp)
+        self.assertEqual(None, resp)
         self.assertEqual("connection refused", err)
         
