@@ -3,8 +3,8 @@ from functools import partial
 import requests
 
 def make_sks_req_list(npm, term, year, client_id, token):
-    url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/ \
-        {}/riwayat/{}/{}/?client_id={}&access_token={}".format(npm, year, term, client_id, token)
+    base_url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/{}/riwayat".format(npm)
+    url = "{}/{}/{}/?client_id={}&access_token={}".format(base_url, year, term, client_id, token)
     return url
 
 
@@ -75,12 +75,17 @@ def count_sks(json):
 def http_get(processing, url):
     result = requests.get(url)
     json = result.json()
+    count = 0
     while result.status_code == 403:
+        if count < 5:
+            return 0
+        count = count + 1
         result = requests.get(url)
         json = result.json()
-
     if processing == 'count':
         return count_sks(json)
+    else:
+        return 0
 
 class Requester:
     @staticmethod
@@ -141,6 +146,8 @@ class AuthGenerator:
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         if username == "dosen" and password == "dosen":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY"
+        if username == 'admin2' and password == 'admin2':
+            return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYA"
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password")

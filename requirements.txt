@@ -27,6 +27,7 @@ pycparser==2.18
 PyDispatcher==2.0.5
 pyflakes==1.5.0
 PyInstaller==3.3
+pylibmc==1.5.2
 pylint==1.8.2
 pylint_django==0.9.3
 pylint-celery==0.3
