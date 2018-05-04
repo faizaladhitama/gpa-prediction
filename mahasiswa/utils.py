@@ -377,19 +377,34 @@ def make_mock_data(status, context, token, npm):
         semester_now = 3
         semester_evaluation = 4
         all_sks = 24
-
     status = request_evaluation_status(npm, token, semester_evaluation, all_sks, 0)
     detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation, status)
     sks_seharusnya = get_sks_seharusnya(semester_evaluation)
     sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-
+    graph_ip_all = mock_graph_ip(graph_ip)
     context.update({'sks_term': sks_term, 'all_sks': all_sks,
                     'semester_now': semester_now,
                     'semester_evaluation': semester_evaluation,
                     'sks_kurang': sks_kurang})
-
-    context = {**context, **detail_evaluasi, **graph_ip}
+    context = {**context, **detail_evaluasi, **graph_ip_all}
     return context
+
+
+def mock_graph_ip(graph_ip):
+    xdata = []
+    ydata = []
+    for key, value in graph_ip.items():
+        xdata.append(key)
+        ydata.append(value)
+    chartdata = {
+        'x': xdata, 'name1': 'IP', 'y1': ydata,
+    }
+    charttype = "discreteBarChart"
+    graph_ip = {
+        'charttype': charttype,
+        'chartdata': chartdata,
+    }
+    return graph_ip
 
 
 def convert_dict_for_sks_term(token, npm):
