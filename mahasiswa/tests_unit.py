@@ -172,6 +172,10 @@ class SemesterNowTest(TestCase):
         semester = get_semester_now("15066989162", 4)
         self.assertEqual("Wrong term", semester)
 
+    def test_kode_identitas_invalid(self):
+        semester = get_semester_now("-15066989162", 4)
+        self.assertEqual("Wrong kode identitas", semester)
+
 
 class AngkatanTest(TestCase):
     def test_angkatan_valid(self):
@@ -339,12 +343,22 @@ class RequestStatusTest(TestCase):
     @patch('api.siak.get_sks')
     @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
     @patch('mahasiswa.utils.save_status', return_value=True)
-    def test_valid_with_sks_param(self, mocked_get_sks, mocked_get_eval, mocked_save):
+    def test_valid_with_sks(self, mocked_get_sks, mocked_get_eval, mocked_save):
         mocked_get_sks.return_value = 70
         mocked_get_eval.return_value = "lolos"
         mocked_save.return_value = True
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 70)
         self.assertEqual(status, "lolos")
+
+    @patch('api.siak.get_sks')
+    @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
+    @patch('mahasiswa.utils.save_status', return_value=True)
+    def test_valid_negative_with_sks(self, mocked_get_sks, mocked_get_eval, mocked_save):
+        mocked_get_sks.return_value = 30
+        mocked_get_eval.return_value = "tidak lolos"
+        mocked_save.return_value = True
+        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 30)
+        self.assertEqual(status, "tidak lolos")
 
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')

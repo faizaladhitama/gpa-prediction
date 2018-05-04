@@ -1,9 +1,10 @@
-import multiprocessing as mp
 import time
 from collections import OrderedDict
 from datetime import datetime
 
 import django
+
+from api.db.utils import caching
 
 django.setup()
 
@@ -196,45 +197,60 @@ def get_angkatan(kode_identitas):
 
 def get_index_mahasiswa_context(request, context):
     try:
-        pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
+        if 'admin' not in request.session['user_login']:
 
-        # Sequential
-        # semester = get_semester_evaluation(npm, term)
-        # sks_seharusnya = get_sks_seharusnya(semester)
-        # all_sks, err = get_sks(request.session['access_token'], npm)
-        # if err is None:
-        #     sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-        #     status = request_evaluation_status(npm, token, semester, all_sks)
-        #     context.update({'sks_seharusnya': sks_seharusnya,
-        #                     'sks_kurang': sks_kurang, 'all_sks': all_sks,
-        #                     'status': status, 'semester': semester})
+            start = time.time()
+            semester = caching("semester", get_semester_evaluation, (npm, term))
+            sks_seharusnya = caching("sks_seharusnya", get_sks_seharusnya, (semester))
+            all_sks, err = caching("all_sks", get_sks_sequential,
+                                   (request.session['access_token'], npm))
+            if err is None:
+                sks_kurang = caching("sks_kurang", get_sks_kurang, (sks_seharusnya, all_sks))
+                status = caching("status",
+                                 request_evaluation_status, (npm, token, semester, all_sks))
+                context.update({'sks_seharusnya': sks_seharusnya,
+                                'sks_kurang': sks_kurang, 'all_sks': all_sks,
+                                'status': status, 'semester': semester})
 
-        start = time.clock()
-        # print("a")
-        semester = pool.apply_async(get_semester_evaluation, args=(npm, term,)).get(timeout=5)
-        # print("b")
-        sks_seharusnya = pool.apply_async(get_sks_seharusnya, args=(semester,)).get(timeout=5)
-        # print("c")
-        all_sks, err = get_sks(request.session['access_token'], npm)
-        # all_sks, err = pool.apply_async(get_sks_sequential,
-        #                                 args=(request.session['access_token'],
-        #                                       npm,)).get(timeout=20)
-        # print("d")
-        if err is None:
-            sks_kurang = pool.apply_async(get_sks_kurang,
-                                          args=(sks_seharusnya, all_sks)).get(timeout=5)
-            # print("e")
-            status = pool.apply_async(request_evaluation_status,
-                                      args=(npm, token, semester, all_sks, 0)).get(timeout=5)
-            # print("f")
+            # Parallel
+            # pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
+            # start = time.clock()
+            # semester = pool.apply_async(get_semester_evaluation, args=(npm, term,)).get(timeout=5)
+            # sks_seharusnya = pool.apply_async(get_sks_seharusnya, args=(semester,)).get(timeout=5)
+            # all_sks, err = get_sks(request.session['access_token'], npm)
+            # if err is None:
+            #     sks_kurang = pool.apply_async(get_sks_kurang,
+            #                                   args=(sks_seharusnya, all_sks)).get(timeout=5)
+            #     status = pool.apply_async(request_evaluation_status,
+            #                               args=(npm, token, semester, all_sks, 0)).get(timeout=5)
+            #     context.update({'sks_seharusnya': sks_seharusnya,
+            #                     'sks_kurang': sks_kurang, 'all_sks': all_sks,
+            #                     'status': status, 'semester': semester})
+            print(time.clock() - start)
+            return context
+        elif request.session['user_login'] == 'admin':
+            semester = 4
+            sks_seharusnya = get_sks_seharusnya(semester)
+            all_sks = 24
+            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+            status = request_evaluation_status(npm, token, semester, all_sks, 0)
             context.update({'sks_seharusnya': sks_seharusnya,
                             'sks_kurang': sks_kurang, 'all_sks': all_sks,
                             'status': status, 'semester': semester})
-            # print("g")
-        print(time.clock() - start)
-        return context
+            return context
+        else:
+            semester = 4
+            sks_seharusnya = get_sks_seharusnya(semester)
+            all_sks = 60
+            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+            status = request_evaluation_status(npm, token, semester, all_sks, 0)
+            context.update({'sks_seharusnya': sks_seharusnya,
+                            'sks_kurang': sks_kurang, 'all_sks': all_sks,
+                            'status': status, 'semester': semester})
+            return context
+
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
@@ -245,58 +261,151 @@ def get_index_mahasiswa_context(request, context):
 
 def get_rekam_akademik_index(request, context):
     try:
-        pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-        start = time.clock()
 
-        jenjang_str, err = pool.apply_async(get_jenjang, args=(token, npm,)).get(timeout=10)
-        # print("a")
-        if err is None:
-            jenjang = pool.apply_async(split_jenjang_and_jalur, args=(jenjang_str,))
-            sks_term = pool.apply_async(convert_dict_for_sks_term, args=(token, npm,))
-            # print("c")
-            graph_ip = pool.apply_async(create_graph_ip, args=(token, npm,))
-            # print("d")
-            semester_now = pool.apply_async(get_semester_now, args=(npm, term,))
-            # print("e")
-            semester_evaluation = pool.apply_async(get_semester_evaluation,
-                                                   args=(npm, term,))
-            # print("f")
-            status = pool.apply_async(request_evaluation_status,
-                                      args=(npm, token, semester_evaluation.get(timeout=10), 1,))
-            # status = request_evaluation_status(npm, token, semester_evaluation)
-            # print("g")
-            detail_evaluasi = pool.apply_async(get_evaluation_detail_message,
-                                               args=(jenjang.get(timeout=20),
-                                                     semester_evaluation.get(
-                                                         timeout=20),
-                                                     status.get(timeout=40),))
-            # print("h")
-            # all_sks, err = pool.apply_async(get_sks_sequential,
-            #                                 args=(request.session['access_token'],
-            #                                       npm,)).get(timeout=20)
-            all_sks, err = get_sks(request.session['access_token'], npm)
-            # print("i")
-            sks_seharusnya = pool.apply_async(get_sks_seharusnya,
-                                              args=(semester_evaluation.get(timeout=10),))
-            # print("j")
-            sks_kurang = pool.apply_async(get_sks_kurang,
-                                          args=(sks_seharusnya.get(timeout=10), all_sks))
-            # print("k")
-            context.update({'sks_term': sks_term.get(timeout=10), 'all_sks': all_sks,
-                            'semester_now': semester_now.get(timeout=10),
-                            'semester_evaluation': semester_evaluation.get(timeout=10),
-                            'sks_kurang': sks_kurang.get(timeout=10)})
-            # print("l")
-            context = {**context, **detail_evaluasi.get(timeout=20), **graph_ip.get(timeout=20)}
-            # print("m")
-        print(time.clock() - start)
-        return context
+        start = time.time()
+
+        if 'admin' not in request.session['user_login']:
+            jenjang_str, err = caching("jenjang_str", get_jenjang, (token, npm))
+            if err is None:
+                jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str)
+                sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm))
+                graph_ip = create_graph_ip(token, npm)
+                semester_now = caching("semester_now", get_semester_now, (npm, term))
+                semester_evaluation = caching("semester_evaluation",
+                                              get_semester_evaluation, (npm, term))
+                status = caching("status", request_evaluation_status,
+                                 (npm, token, semester_evaluation, 1))
+                detail_evaluasi = caching("detail_evaluasi", get_evaluation_detail_message,
+                                          (jenjang, semester_evaluation, status))
+                all_sks, err = caching("all_sks",
+                                       get_sks_sequential,
+                                       (request.session['access_token'], npm))
+                sks_seharusnya = caching("sks_seharusnya",
+                                         get_sks_seharusnya,
+                                         (semester_evaluation))
+                sks_kurang = caching("sks_kurang",
+                                     get_sks_kurang,
+                                     (sks_seharusnya, all_sks))
+                context.update({'sks_term': sks_term, 'all_sks': all_sks,
+                                'semester_now': semester_now,
+                                'semester_evaluation': semester_evaluation,
+                                'sks_kurang': sks_kurang})
+                context = {**context, **detail_evaluasi, **graph_ip}
+
+            # Parallel
+            # pool = mp.Pool(processes=mp.cpu_count() * 2, maxtasksperchild=2)
+            # jenjang_str, err = pool.apply_async(get_jenjang, args=(token, npm,)).get(timeout=10)
+            # if err is None:
+            #     jenjang = pool.apply_async(split_jenjang_and_jalur, args=(jenjang_str,))
+            #     sks_term = pool.apply_async(convert_dict_for_sks_term, args=(token, npm,))
+            #     graph_ip = pool.apply_async(create_graph_ip, args=(token, npm,))
+            #     semester_now = pool.apply_async(get_semester_now, args=(npm, term,))
+            #     semester_evaluation = pool.apply_async(get_semester_evaluation,
+            #                                            args=(npm, term,))
+            #     status = pool.apply_async(request_evaluation_status,
+            #                               args=(npm,
+            #                                     token,
+            #                                     semester_evaluation.get(timeout=9), 1,))
+            #     detail_evaluasi = pool.apply_async(get_evaluation_detail_message,
+            #                                        args=(jenjang.get(timeout=20),
+            #                                              semester_evaluation.get(
+            #                                                  timeout=20),
+            #                                              status.get(timeout=40),))
+            #
+            #     all_sks, err = get_sks(request.session['access_token'], npm)
+            #     sks_seharusnya = pool.apply_async(get_sks_seharusnya,
+            #                                       args=(semester_evaluation.get(timeout=10),))
+            #     sks_kurang = pool.apply_async(get_sks_kurang,
+            #                                   args=(sks_seharusnya.get(timeout=10), all_sks))
+            #     context.update({'sks_term': sks_term.get(timeout=10), 'all_sks': all_sks,
+            #                     'semester_now': semester_now.get(timeout=10),
+            #                     'semester_evaluation': semester_evaluation.get(timeout=10),
+            #                     'sks_kurang': sks_kurang.get(timeout=10)})
+            #     context = {**context,
+            #                **detail_evaluasi.get(timeout=20), **graph_ip.get(timeout=20)}
+            print(time.clock() - start)
+            return context
+        elif request.session['user_login'] == 'admin2':
+            return make_mock_data('green', context, token, npm)
+        else:
+            return make_mock_data('red', context, token, npm)
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
         return str(excp)
+    except TypeError as excp:
+        return str(excp)
+
+
+def make_mock_data(status, context, token, npm):
+    if status == 'green':
+        jenjang = 'S1'
+        sks_term = OrderedDict()
+        sks_term['2017 - 1'] = 20
+        sks_term['2017 - 2'] = 22
+        sks_term['2017 - 3'] = 0
+        sks_term['2018 - 1'] = 18
+        sks_term['2018 - 2'] = 0
+        sks_term['2018 - 3'] = 0
+        graph_ip = OrderedDict()
+        graph_ip['2017 - 1'] = 3.5
+        graph_ip['2017 - 2'] = 3.3
+        graph_ip['2017 - 3'] = 0
+        graph_ip['2018 - 1'] = 3.4
+        graph_ip['2018 - 2'] = 0
+        graph_ip['2018 - 3'] = 0
+        semester_now = 3
+        semester_evaluation = 4
+        all_sks = 60
+    else:
+        jenjang = 'S1'
+        sks_term = OrderedDict()
+        sks_term['2017 - 1'] = 12
+        sks_term['2017 - 2'] = 6
+        sks_term['2017 - 3'] = 0
+        sks_term['2018 - 1'] = 6
+        sks_term['2018 - 2'] = 0
+        sks_term['2018 - 3'] = 0
+        graph_ip = OrderedDict()
+        graph_ip['2017 - 1'] = 2.5
+        graph_ip['2017 - 2'] = 2.3
+        graph_ip['2017 - 3'] = 0
+        graph_ip['2018 - 1'] = 2
+        graph_ip['2018 - 2'] = 0
+        graph_ip['2018 - 3'] = 0
+        semester_now = 3
+        semester_evaluation = 4
+        all_sks = 24
+    status = request_evaluation_status(npm, token, semester_evaluation, all_sks, 0)
+    detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation, status)
+    sks_seharusnya = get_sks_seharusnya(semester_evaluation)
+    sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+    graph_ip_all = mock_graph_ip(graph_ip)
+    context.update({'sks_term': sks_term, 'all_sks': all_sks,
+                    'semester_now': semester_now,
+                    'semester_evaluation': semester_evaluation,
+                    'sks_kurang': sks_kurang})
+    context = {**context, **detail_evaluasi, **graph_ip_all}
+    return context
+
+
+def mock_graph_ip(graph_ip):
+    xdata = []
+    ydata = []
+    for key, value in graph_ip.items():
+        xdata.append(key)
+        ydata.append(value)
+    chartdata = {
+        'x': xdata, 'name1': 'IP', 'y1': ydata,
+    }
+    charttype = "discreteBarChart"
+    graph_ip = {
+        'charttype': charttype,
+        'chartdata': chartdata,
+    }
+    return graph_ip
 
 
 def convert_dict_for_sks_term(token, npm):
