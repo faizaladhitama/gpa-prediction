@@ -267,7 +267,7 @@ class MockSiak(TestCase):
         self.mock_password = "1"
 
         self.mock_token = 'mocked'
-        
+
         self.mock_name = "john doe"
 
 
