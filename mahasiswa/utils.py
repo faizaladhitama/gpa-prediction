@@ -331,7 +331,6 @@ def get_rekam_akademik_index(request, context):
             return make_mock_data('green', context, token, npm)
         else:
             return make_mock_data('red', context, token, npm)
-
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:

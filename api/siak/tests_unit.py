@@ -653,23 +653,3 @@ class SiakTest(MockSiak):
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
-
-    def test_get_sks_seq_on_conn_error(self):
-        mocked_token = "mocked"
-        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
-
-        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
-
-        self.assertEqual({}, resp)
-        self.assertEqual("connection refused", err)
-
-    def test_get_sks_seq_on_val_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_req_data.side_effect = ValueError("connection refused")
-
-        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
-
-        self.assertEqual({}, resp)
-        self.assertEqual("connection refused", err)
-        
