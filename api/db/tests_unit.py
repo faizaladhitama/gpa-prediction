@@ -73,9 +73,10 @@ def lazy(count):
 
 
 class CacheTest(TestCase):
-    def test_without_caching(self):
+    def setUp(self):
         cache.clear()
-        cache.delete('non_cache')
+
+    def test_without_caching(self):
         start = time.time()
         res = caching("non_cache", lazy, 0)
         end = time.time() - start
@@ -83,10 +84,9 @@ class CacheTest(TestCase):
         self.assertGreaterEqual(end, 10)
 
     def test_with_caching(self):
-        cache.clear()
         caching("cache", lazy, 0)
         start = time.time()
         res = caching("cache", lazy, 0)
         end = time.time() - start
         self.assertEqual(res, 0)
-        self.assertLessEqual(end, 0.05)
+        self.assertLessEqual(end, 2)

@@ -196,6 +196,7 @@ def get_cache():
         servers = os.environ['MEMCACHIER_SERVERS']
         username = os.environ['MEMCACHIER_USERNAME']
         password = os.environ['MEMCACHIER_PASSWORD']
+        print("use memcached")
         return {
             'default': {
                 'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
@@ -215,15 +216,15 @@ def get_cache():
                         # Keep connection alive
                         'tcp_keepalive': True,
                         # Timeout settings
-                        'connect_timeout': 5000,  # ms
-                        'send_timeout': 750 * 1000,  # us
-                        'receive_timeout': 750 * 1000,  # us
-                        '_poll_timeout': 2000,  # ms
+                        'connect_timeout': 10000,  # ms
+                        'send_timeout': 750 * 10000,  # us
+                        'receive_timeout': 750 * 10000,  # us
+                        '_poll_timeout': 20000,  # ms
                         # Better failover
                         'ketama': True,
-                        'remove_failed': 1,
-                        'retry_timeout': 2,
-                        'dead_timeout': 30,
+                        'remove_failed': 3,
+                        'retry_timeout': 5,
+                        'dead_timeout': 40,
                     }
                 }
             }
