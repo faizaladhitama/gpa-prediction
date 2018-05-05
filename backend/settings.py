@@ -192,49 +192,65 @@ BOWER_INSTALLED_APPS = (
 
 
 def get_cache():
-    try:
-        servers = os.environ['MEMCACHIER_SERVERS']
-        username = os.environ['MEMCACHIER_USERNAME']
-        password = os.environ['MEMCACHIER_PASSWORD']
-        print("use memcached")
-        return {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-                # TIMEOUT is not the connection timeout! It's the default expiration
-                # timeout that should be applied to keys! Setting it to `None`
-                # disables expiration.
-                'TIMEOUT': None,
-                'LOCATION': servers,
-                'OPTIONS': {
-                    'binary': True,
-                    'username': username,
-                    'password': password,
-                    'behaviors': {
-                        # Enable faster IO
-                        'no_block': True,
-                        'tcp_nodelay': True,
-                        # Keep connection alive
-                        'tcp_keepalive': True,
-                        # Timeout settings
-                        'connect_timeout': 10000,  # ms
-                        'send_timeout': 750 * 10000,  # us
-                        'receive_timeout': 750 * 10000,  # us
-                        '_poll_timeout': 20000,  # ms
-                        # Better failover
-                        'ketama': True,
-                        'remove_failed': 3,
-                        'retry_timeout': 5,
-                        'dead_timeout': 40,
-                    }
-                }
-            }
+    # try:
+    #     servers = os.environ['MEMCACHIER_SERVERS']
+    #     username = os.environ['MEMCACHIER_USERNAME']
+    #     password = os.environ['MEMCACHIER_PASSWORD']
+    #     print("use memcached")
+    #     return {
+    #         'default': {
+    #             'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+    #             # TIMEOUT is not the connection timeout! It's the default expiration
+    #             # timeout that should be applied to keys! Setting it to `None`
+    #             # disables expiration.
+    #             'TIMEOUT': None,
+    #             'LOCATION': servers,
+    #             'OPTIONS': {
+    #                 'binary': True,
+    #                 'username': username,
+    #                 'password': password,
+    #                 'behaviors': {
+    #                     # Enable faster IO
+    #                     'no_block': True,
+    #                     'tcp_nodelay': True,
+    #                     # Keep connection alive
+    #                     'tcp_keepalive': True,
+    #                     # Timeout settings
+    #                     'connect_timeout': 10000,  # ms
+    #                     'send_timeout': 750 * 10000,  # us
+    #                     'receive_timeout': 750 * 10000,  # us
+    #                     '_poll_timeout': 20000,  # ms
+    #                     # Better failover
+    #                     'ketama': True,
+    #                     'remove_failed': 3,
+    #                     'retry_timeout': 5,
+    #                     'dead_timeout': 40,
+    #                 }
+    #             }
+    #         }
+    #     }
+    # except KeyError:
+    #     return {
+    #         'default': {
+    #             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+    #         }
+    #     }
+    # Caching in database
+    return {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+            'LOCATION': 'cache_table',
+            'TIMEOUT' : 120
         }
-    except KeyError:
-        return {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
-            }
-        }
+    }
+
+    # Caching in memory
+    # return {
+    #     'default': {
+    #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #         'TIMEOUT': None
+    #     }
+    # }
 
 
 CACHES = get_cache()

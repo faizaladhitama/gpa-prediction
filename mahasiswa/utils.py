@@ -230,7 +230,7 @@ def get_index_mahasiswa_context(request, context):
             #     context.update({'sks_seharusnya': sks_seharusnya,
             #                     'sks_kurang': sks_kurang, 'all_sks': all_sks,
             #                     'status': status, 'semester': semester})
-            print(time.clock() - start)
+            print(time.time() - start)
             return context
         elif request.session['user_login'] == 'admin':
             semester = 4
@@ -327,7 +327,7 @@ def get_rekam_akademik_index(request, context):
             #                     'sks_kurang': sks_kurang.get(timeout=10)})
             #     context = {**context,
             #                **detail_evaluasi.get(timeout=20), **graph_ip.get(timeout=20)}
-            print(time.clock() - start)
+            print(time.time() - start)
             return context
         elif request.session['user_login'] == 'admin2':
             return make_mock_data('green', context, token, npm)
