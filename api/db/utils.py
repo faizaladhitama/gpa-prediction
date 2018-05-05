@@ -78,7 +78,8 @@ def create_mock_data_dosen(jumlah):
         dosen.save()
 
 
-def caching(name, func, args):
+def caching(name, func, args, kode=""):
+    name = kode+"_"+name
     try:
         if cache.get(name) is None:
             if isinstance(args, tuple):
