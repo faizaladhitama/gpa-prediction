@@ -35,6 +35,7 @@ def auth_login(request):
             request.session['access_token'] = access_token
             request.session['kode_identitas'] = kode_identitas
             request.session['role'] = role
+
             if role == 'admin' or role == 'mahasiswa':
                 messages.success(request, "Anda berhasil login " + username)
                 return HttpResponseRedirect(reverse('mahasiswa:index'))

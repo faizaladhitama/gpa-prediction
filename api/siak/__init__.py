@@ -3,6 +3,7 @@ import os
 
 import requests
 
+from api.db.utils import caching
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list, cek_huruf_lulus, huruf_to_angka, cek_mpkos
 
@@ -14,7 +15,8 @@ def get_academic_record(npm, username, password):
         token = generator.get_access_token(username, password, os.environ['AUTH_HASH'])
 
         if generator.verify_user(token, client_id)['username'] == username:
-            res = Requester.request_academic_data(npm, client_id, token)
+            res = caching("req_academic_data",
+                          Requester.request_academic_data, (npm, client_id, token), npm)
             return res
         else:
             return "Failed to verificate token"
@@ -23,6 +25,14 @@ def get_academic_record(npm, username, password):
     except requests.ConnectionError as exception:
         return str(exception)
 
+def get_siak_data(npm, username, password):
+    # kalo buat semuanya paling ITF , yang kita cuma bisa ambil 6 aja
+    return get_academic_record(npm, username, password)
+
+
+def parse_siak_data(npm, username, password):
+    data = get_siak_data(npm, username, password)
+    return data
 
 def get_access_token(username, password):
     try:
@@ -53,37 +63,41 @@ def verify_user(access_token):
 def get_data_user(access_token, npm):
     try:
         generator = AuthGenerator()
-        return generator.get_data_user(access_token, npm, os.environ['CLIENT_ID']), None
+        return caching("get_data_user",
+                       generator.get_data_user, (access_token, npm, os.environ['CLIENT_ID']),
+                       npm), None
     except ValueError as exception:
         return None, str(exception)
     except requests.ConnectionError as exception:
         return None, str(exception)
 
 
-def get_sks(access_token, npm):
-    try:
-        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
-        angkatan = data['program'][0]['angkatan']
+# def get_sks(access_token, npm):
+#     try:
+#         data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+#                        (npm, os.environ['CLIENT_ID'], access_token), npm)
+#         angkatan = data['program'][0]['angkatan']
 
-        now = datetime.datetime.now()
-        urls = []
+#         now = datetime.datetime.now()
+#         urls = []
 
-        for year in range(int(angkatan), now.year + 1):
-            for term in range(1, 4):
-                url = make_sks_req_list(npm, term, year, os.environ['CLIENT_ID'], access_token)
-                urls.append(url)
+#         for year in range(int(angkatan), now.year + 1):
+#             for term in range(1, 4):
+#                 url = make_sks_req_list(npm, term, year, os.environ['CLIENT_ID'], access_token)
+#                 urls.append(url)
 
-        all_sks = Requester.async_req_sks(urls, 'count')
-        return sum(all_sks), None
-    except ValueError as exception:
-        return None, str(exception)
-    except requests.ConnectionError as exception:
-        return None, str(exception)
+#         all_sks = caching("async_req_sks", Requester.async_req_sks, (urls, 'count'), npm)
+#         return sum(all_sks), None
+#     except ValueError as exception:
+#         return None, str(exception)
+#     except requests.ConnectionError as exception:
+#         return None, str(exception)
 
 
 def get_sks_sequential(access_token, npm):
     try:
-        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+                       (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
         now = datetime.datetime.now()
@@ -109,7 +123,8 @@ def get_sks_sequential(access_token, npm):
 def get_all_sks_term(access_token, npm):
     try:
         taken_course = []
-        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+                       (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
         now = datetime.datetime.now()
@@ -142,7 +157,9 @@ def get_all_sks_term(access_token, npm):
 
 def get_sks_term(access_token, npm, year, term):
     try:
-        res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+        res = caching("req_sks",
+                      Requester.request_sks,
+                      (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
         tot_sks = 0
 
         for course in res:
@@ -159,7 +176,7 @@ def get_sks_term(access_token, npm, year, term):
 
 
 def get_jenjang(access_token, npm):
-    res, err = get_data_user(access_token, npm)
+    res, err = caching("get_user", get_data_user, (access_token, npm), npm)
     if err is None:
         return res['program'][0]['nm_prg'], None
     else:
@@ -168,7 +185,9 @@ def get_jenjang(access_token, npm):
 
 def get_ip_term(access_token, npm, year, term):
     try:
-        res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+        res = caching("req_sks",
+                      Requester.request_sks,
+                      (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
         tot_sks = 0
         mutu = 0.00
 
@@ -186,7 +205,8 @@ def get_ip_term(access_token, npm, year, term):
 
 def get_all_ip_term(access_token, npm):
     try:
-        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+                       (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
         now = datetime.datetime.now()
@@ -216,9 +236,11 @@ def get_all_ip_term(access_token, npm):
     except requests.ConnectionError as exception:
         return {}, str(exception)
 
+
 def get_total_mutu(access_token, npm):
     try:
-        data = Requester.request_mahasiswa_data(npm, os.environ['CLIENT_ID'], access_token)
+        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+                       (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
         now = datetime.datetime.now()
@@ -239,4 +261,3 @@ def get_total_mutu(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
-        
