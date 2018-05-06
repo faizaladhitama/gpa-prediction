@@ -74,6 +74,9 @@ def lazy(count):
             count = (i + j) * 0
     return count
 
+def dict_cache(dict_):
+    return dict_
+
 
 class CacheTest(TestCase):
     def test_without_caching(self):
@@ -90,3 +93,9 @@ class CacheTest(TestCase):
         end = time.time() - start
         self.assertEqual(res, 0)
         self.assertLessEqual(end, 2)
+
+    def test_dict(self):
+        caching("dict_cache", dict_cache, {"a":1, "b":2})
+        dict_ = caching("dict_cache", dict_cache, {"a":1, "b":2})
+        expected = {"a":1, "b":2}
+        self.assertEqual(expected, dict_)
