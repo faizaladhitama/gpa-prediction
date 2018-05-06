@@ -30,7 +30,7 @@
 
 		<div class="row ">
 			<div class="col ">
-				<a class="btn btn-link text-center" href="/mahasiswa/detail-akademik">
+				<a class="btn btn-link text-center" href="/mahasiswa/peraturan-akademik">
 				Lihat Selengkapnya
 				</a>
 			</div>

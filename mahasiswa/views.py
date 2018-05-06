@@ -67,6 +67,14 @@ def detail_akademik(request):
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_rekam_akademik_index(request, context_mahasiswa)
-        return render(request, 'mahasiswa/detail-akademik-tab.tpl', context)
+        # return render(request, 'mahasiswa/detail-akademik-tab.tpl', context)
+        return context
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
+
+def peraturan_akademik(request):
+    try:
+        context = detail_akademik(request)
+        return render(request, 'mahasiswa/peraturan-akademik.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
