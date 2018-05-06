@@ -30,8 +30,11 @@ def profile(request):
         npm = context['id']
 
         token = request.session['access_token'] or ""
-        mahasiswa = caching("get_data_user", get_data_user, (token, npm), npm)
-        last_term = len(mahasiswa[0]['program'])-1
+        mahasiswa, err = caching("get_data_user", get_data_user, (token, npm), npm)
+        if err:
+            raise TypeError
+        # print("Profile mahasiswa", mahasiswa)
+        last_term = len(mahasiswa['program'])-1
         data_sks_dpo = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)[0]
         total_sks_dpo = 0
 
@@ -43,12 +46,12 @@ def profile(request):
                              (request.session['access_token'], npm), npm)[0]
         ipk = total_mutu/total_sks_dpo
         data_mahasiswa = {}
-        data_mahasiswa['nama'] = mahasiswa[0]['nama'].lower().title()
-        data_mahasiswa['npm'] = mahasiswa[0]['npm']
-        data_mahasiswa['angkatan'] = mahasiswa[0]['program'][last_term]['angkatan']
-        data_mahasiswa['prodi'] = mahasiswa[0]['program']\
-            [last_term]['nm_org'] + ", " + mahasiswa[0]['program'][0]['nm_prg']
-        data_mahasiswa['status'] = mahasiswa[0]['program'][last_term]['nm_status']
+        data_mahasiswa['nama'] = mahasiswa['nama'].lower().title()
+        data_mahasiswa['npm'] = mahasiswa['npm']
+        data_mahasiswa['angkatan'] = mahasiswa['program'][last_term]['angkatan']
+        data_mahasiswa['prodi'] = mahasiswa['program']\
+            [last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
+        data_mahasiswa['status'] = mahasiswa['program'][last_term]['nm_status']
         data_mahasiswa['sks_lulus'] = caching("get_sks_sequential", \
             get_sks_sequential, (request.session['access_token'], npm), npm)[0]
         data_mahasiswa['mutu'] = str(round(total_mutu, 2))

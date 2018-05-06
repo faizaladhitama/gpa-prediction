@@ -41,7 +41,7 @@ def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
     if term % 2 > 0:
         term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
-    verdict = caching("verdict", give_verdict,
+    verdict = caching("give_verdict", give_verdict,
                       (sks_minimal, sks_lulus, sks_diambil, ip_now), npm)
     return verdict
 
@@ -49,7 +49,7 @@ def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
 def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
     if sks_lulus < 0:
         if mode == 1:
-            sks_lulus = caching("sks_lulus",
+            sks_lulus = caching("get_sks_sequential",
                                 get_sks_sequential, (token, npm), npm)[0]
         else:
             pass
@@ -57,9 +57,10 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
     sks_diambil = 18
     ip_now = 3.0  # diitung ntr
     try:
-        status = caching("status", get_evaluation_status,
+        status = caching("get_evaluation_status", get_evaluation_status,
                          (term, sks_lulus, sks_diambil, ip_now, npm), npm)
         save_status(npm, status)
+        print("status :", status)
         return status
     except TypeError:
         return "Argument salah"
@@ -141,14 +142,16 @@ def get_evaluation_detail_message(jenjang, semester, evaluation_status):
         if evaluation_status == "tidak lolos" or evaluation_status == "hati-hati":
             return {"source": source, "detail": putus_studi[jenjang][semester]}
         else:
+            print("evaluation_status :", evaluation_status)
             return {"source": '-', "detail": '-'}
-    except KeyError:
+    except KeyError as excp:
+        print(excp)
         return {"source": '-', "detail": '-'}
 
 
 def get_semester_evaluation(kode_identitas, term):
     tahun = (datetime.now()).year
-    angkatan = caching("angkatan", get_angkatan, (kode_identitas), kode_identitas)
+    angkatan = caching("get_angkatan", get_angkatan, (kode_identitas), kode_identitas)
     if angkatan == "Wrong kode identitas":
         return angkatan
     if term > 3 or term < 1:
@@ -162,7 +165,7 @@ def get_semester_evaluation(kode_identitas, term):
 
 def get_semester_now(kode_identitas, term):
     tahun = (datetime.now()).year
-    angkatan = caching("angkatan", get_angkatan, (kode_identitas), kode_identitas)
+    angkatan = caching("get_angkatan", get_angkatan, (kode_identitas), kode_identitas)
     if angkatan == "Wrong kode identitas":
         return angkatan
     if term > 3 or term < 1:
@@ -202,17 +205,25 @@ def get_index_mahasiswa_context(request, context):
         if 'admin' not in request.session['user_login']:
 
             start = time.time()
-            semester = caching("semester", get_semester_evaluation, (npm, term), npm)
-            sks_seharusnya = caching("sks_seharusnya", get_sks_seharusnya, (semester), npm)
-            all_sks, err = caching("all_sks", get_sks_sequential,
+            semester = caching("get_semester_evaluation", get_semester_evaluation, (npm, term), npm)
+            # print("Semester :", semester)
+            sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya, (semester), npm)
+            # print("Sks seharusnya :", sks_seharusnya)
+            all_sks, err = caching("get_sks_sequential", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
-            mahasiswa = caching("mahasiswa", get_data_user,
-                                (token, npm), npm)
-            request.session['name'] = mahasiswa[0]['nama'].lower().title()
+            # print("All sks :", all_sks)
+            mahasiswa, err = caching("get_data_user", get_data_user,
+                                     (token, npm), npm)
+            # print("Mahasiswa :", mahasiswa)
+            request.session['name'] = mahasiswa['nama'].lower().title()
+            # print("All sks err :", err)
             if err is None:
-                sks_kurang = caching("sks_kurang", get_sks_kurang, (sks_seharusnya, all_sks), npm)
-                status = caching("status",
+                sks_kurang = caching("get_sks_kurang",
+                                     get_sks_kurang, (sks_seharusnya, all_sks), npm)
+                print("Sks kurang :", sks_kurang)
+                status = caching("request_evaluation_status",
                                  request_evaluation_status, (npm, token, semester, all_sks), npm)
+                print("Status :", status)
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
@@ -254,30 +265,46 @@ def get_rekam_akademik_index(request, context):
         term = int(context['term'][-1:])
         start = time.time()
         if 'admin' not in request.session['user_login']:
-            jenjang_str, err = caching("jenjang_str", get_jenjang, (token, npm), npm)
-            mahasiswa = caching("mahasiswa", get_data_user,
-                                (token, npm), npm)
-            request.session['name'] = mahasiswa[0]['nama'].lower().title()
+            #print("\nRekam akademik")
+            jenjang_str, err = caching("get_jenjang", get_jenjang, (token, npm), npm)
+            #print("\nJenjang str :", jenjang_str)
+            mahasiswa, err = caching("get_data_user", get_data_user,
+                                     (token, npm), npm)
+            #print("\nMahasiswa :", mahasiswa)
+            request.session['name'] = mahasiswa['nama'].lower().title()
             if err is None:
-                jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
-                sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
-                graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
-                semester_now = caching("semester_now", get_semester_now, (npm, term), npm)
-                semester_evaluation = caching("semester_evaluation",
+                jenjang = caching("split_jenjang_and_jalur",
+                                  split_jenjang_and_jalur, jenjang_str, npm)
+                #print("\nJenjang :", jenjang)
+                sks_term = caching("convert_dict_for_sks_term",
+                                   convert_dict_for_sks_term, (token, npm), npm)
+                #print("\nSks term :", sks_term)
+                graph_ip = caching("create_graph_ip", create_graph_ip, (token, npm), npm)
+                #print("\nGraph ip :", graph_ip)
+                semester_now = caching("get_semester_now", get_semester_now, (npm, term), npm)
+                #print("\nSemester now :", semester_now)
+                semester_evaluation = caching("get_semester_evaluation",
                                               get_semester_evaluation, (npm, term), npm)
-                status = caching("status", request_evaluation_status,
+                #print("\nSemester evaluation :", semester_evaluation)
+                status = caching("request_evaluation_status", request_evaluation_status,
                                  (npm, token, semester_evaluation, 1), npm)
-                detail_evaluasi = caching("detail_evaluasi", get_evaluation_detail_message,
+                #print("\nStatus :", status)
+                detail_evaluasi = caching("get_evaluation_detail_message",
+                                          get_evaluation_detail_message,
                                           (jenjang, semester_evaluation, status), npm)
-                all_sks, err = caching("all_sks",
+                #print("\nDetail :", detail_evaluasi)
+                all_sks, err = caching("get_sks_sequential",
                                        get_sks_sequential,
                                        (request.session['access_token'], npm), npm)
-                sks_seharusnya = caching("sks_seharusnya",
+                #print("\nAll sks :", all_sks)
+                sks_seharusnya = caching("get_sks_seharusnya",
                                          get_sks_seharusnya,
                                          (semester_evaluation), npm)
-                sks_kurang = caching("sks_kurang",
+                #print("\nSks seharusnya :", sks_seharusnya)
+                sks_kurang = caching("get_sks_kurang",
                                      get_sks_kurang,
                                      (sks_seharusnya, all_sks), npm)
+                #print("\nSks kurang :", sks_kurang)
                 context.update({'sks_term': sks_term, 'all_sks': all_sks,
                                 'semester_now': semester_now,
                                 'semester_evaluation': semester_evaluation,
@@ -371,9 +398,10 @@ def mock_graph_ip(graph_ip):
 
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
-    all_sks_term, err = caching("all_sks_term", get_all_sks_term, (token, npm), npm)
+    all_sks_term, err = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)
     if err is not None:
         return None
+    print("Convert dict all_sks")
     for k, value in sorted(all_sks_term.items()):
         i = 1
         for val in value:
@@ -385,7 +413,7 @@ def convert_dict_for_sks_term(token, npm):
 
 def convert_dict_for_ip_term(token, npm):
     ip_in_term = OrderedDict()
-    all_ip_term, err = caching("all_ip_term", get_all_ip_term, (token, npm), npm)
+    all_ip_term, err = caching("get_all_ip_term", get_all_ip_term, (token, npm), npm)
     if err is not None:
         return None
     for k, value in sorted(all_ip_term.items()):
@@ -403,7 +431,7 @@ def create_graph_ip(token, npm):
     """
     xdata = []
     ydata = []
-    all_ip_term = caching("convert_ip_term", convert_dict_for_ip_term, (token, npm), npm)
+    all_ip_term = caching("convert_dict_for_ip_term", convert_dict_for_ip_term, (token, npm), npm)
     for key, value in all_ip_term.items():
         xdata.append(key)
         ydata.append(value)

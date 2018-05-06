@@ -75,6 +75,7 @@ def caching(name, func, args, kode=""):
         if cache.get(name) is None:
             if isinstance(args, tuple):
                 temp = func(*args)
+                #print(name, temp, isinstance(temp))
                 if isinstance(temp, dict):
                     raise TypeError
                 ret, err = temp
