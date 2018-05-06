@@ -14,7 +14,7 @@ def index(request):
     term_str = get_term(now)
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
-        context = caching("index_mahasiswa",
+        context = caching("get_index_mahasiswa_context",
                           get_index_mahasiswa_context, (request, context_mahasiswa),
                           context_mahasiswa['id'])
         return render(request, 'mahasiswa/index.tpl', context)
@@ -30,16 +30,16 @@ def profile(request):
         npm = context['id']
 
         token = request.session['access_token'] or ""
-        mahasiswa = caching("mahasiswa", get_data_user, (token, npm), npm)
+        mahasiswa = caching("get_data_user", get_data_user, (token, npm), npm)
         last_term = len(mahasiswa[0]['program'])-1
-        data_sks_dpo = caching("all_sks_term", get_all_sks_term, (token, npm), npm)[0]
+        data_sks_dpo = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)[0]
         total_sks_dpo = 0
 
         for _, value in data_sks_dpo.items():
             for sks in value:
                 total_sks_dpo = total_sks_dpo + sks
 
-        total_mutu = caching("total_mutu", get_total_mutu,
+        total_mutu = caching("get_total_mutu", get_total_mutu,
                              (request.session['access_token'], npm), npm)[0]
         ipk = total_mutu/total_sks_dpo
         data_mahasiswa = {}
@@ -49,7 +49,7 @@ def profile(request):
         data_mahasiswa['prodi'] = mahasiswa[0]['program']\
             [last_term]['nm_org'] + ", " + mahasiswa[0]['program'][0]['nm_prg']
         data_mahasiswa['status'] = mahasiswa[0]['program'][last_term]['nm_status']
-        data_mahasiswa['sks_lulus'] = caching("all_sks", \
+        data_mahasiswa['sks_lulus'] = caching("get_sks_sequential", \
             get_sks_sequential, (request.session['access_token'], npm), npm)[0]
         data_mahasiswa['mutu'] = str(round(total_mutu, 2))
         data_mahasiswa['ipk'] = str(round(ipk, 2))
@@ -70,8 +70,9 @@ def detail_akademik(request):
     term_str = get_term(now)
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
-        context = get_rekam_akademik_index(request, context_mahasiswa)
-        # return render(request, 'mahasiswa/detail-akademik-tab.tpl', context)
+        context = caching("get_rekam_akademik_index",
+                          get_rekam_akademik_index, (request, context_mahasiswa),
+                          context_mahasiswa['id'])
         return context
     except TypeError:
         return render(request, 'landing_page.tpl', {})
@@ -80,8 +81,5 @@ def peraturan_akademik(request):
     try:
         context = detail_akademik(request)
         return render(request, 'mahasiswa/peraturan-akademik.tpl', context)
-        #context = caching("rekam_akademik_index",
-        #                  get_rekam_akademik_index, (request, context_mahasiswa),
-        #                  context_mahasiswa['id'])
     except TypeError:
         return render(request, 'landing_page.tpl', {})
