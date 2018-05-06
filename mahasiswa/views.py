@@ -83,3 +83,23 @@ def peraturan_akademik(request):
         return render(request, 'mahasiswa/peraturan-akademik.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
+
+def riwayat_ip(request):
+    try:
+        context = detail_akademik(request)
+        return render(request, 'mahasiswa/riwayat-ip.tpl', context)
+        #context = caching("rekam_akademik_index",
+        #                  get_rekam_akademik_index, (request, context_mahasiswa),
+        #                  context_mahasiswa['id'])
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
+
+def riwayat_sks(request):
+    try:
+        context = detail_akademik(request)
+        return render(request, 'mahasiswa/riwayat-sks.tpl', context)
+        #context = caching("rekam_akademik_index",
+        #                  get_rekam_akademik_index, (request, context_mahasiswa),
+        #                  context_mahasiswa['id'])
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
