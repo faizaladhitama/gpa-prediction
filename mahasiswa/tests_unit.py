@@ -32,6 +32,10 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/detail-akademik', follow=True)
         self.assertEqual(response.status_code, 200)
 
+    def test_peraturan_akademik_valid(self):
+        response = self.client.get('/mahasiswa/peraturan-akademik', follow=True)
+        self.assertEqual(response.status_code, 200)
+
 
 class MockRequest:
     def __init__(self, session=None):
