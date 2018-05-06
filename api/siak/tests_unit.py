@@ -4,8 +4,9 @@ import datetime
 import requests
 from django.test import TestCase
 
+from django.core.cache import cache
 from api.siak import get_academic_record, get_access_token, \
-    verify_user, get_data_user, get_sks, get_jenjang, get_all_sks_term, \
+    verify_user, get_data_user, get_jenjang, get_all_sks_term, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential
 
 from api.siak.utils import AuthGenerator, Requester, http_get
@@ -50,18 +51,6 @@ class RequesterTest(TestCase):
 
         self.mocked_get = mocked_get.start()
         self.addCleanup(mocked_get.stop)
-
-
-    # def test_async_req_on_valid(self):
-    #     course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
-    #     course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
-    #     course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
-    #     data = [course1, course2, course3]
-    #     self.mocked_get.return_value = create_mocked_response(200, data)
-    #
-    #     resp = Requester.async_req_sks(['mocked', 'mocked', 'mocked'], 'count')
-    #     expected = [4, 4, 4]
-    #     self.assertEqual(expected, resp)
 
     def test_request_sks_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
@@ -395,39 +384,6 @@ class SiakTest(MockSiak):
         self.assertIsNone(resp)
         self.assertEqual("connection refused", err)
 
-    def test_get_sks_on_valid(self):
-        mocked_token = "mocked"
-
-        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-
-        mocked_res = [1, 2, 3, 4]
-        self.mocked_asyc_req.return_value = mocked_res
-
-        resp, err = get_sks(mocked_token, self.mock_npm)
-
-        self.assertIsNone(err)
-        self.assertEqual(10, resp)
-
-    def test_get_sks_on_conn_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
-
-        resp, err = get_sks(mocked_token, self.mock_npm)
-
-        self.assertIsNone(resp)
-        self.assertEqual("connection refused", err)
-
-    def test_get_sks_on_val_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_req_data.side_effect = ValueError("mocked error")
-
-        resp, err = get_sks(mocked_token, self.mock_npm)
-
-        self.assertIsNone(resp)
-        self.assertEqual("mocked error", err)
-
     def test_get_sks_seq_on_valid(self):
         mocked_token = "mocked"
 
@@ -532,6 +488,7 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(3, resp)
+        cache.clear()
 
         mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk':'UIGE600001'}]
         self.mocked_req_sks.return_value = mocked_sks
@@ -540,6 +497,7 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(0, resp)
+        cache.clear()
 
         mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk':'UIGE600040'}]
         self.mocked_req_sks.return_value = mocked_sks
@@ -548,6 +506,7 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(1, resp)
+        cache.clear()
 
         mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'C-'}]
         self.mocked_req_sks.return_value = mocked_sks
@@ -556,6 +515,7 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(0, resp)
+        cache.clear()
 
         mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'N'}]
         self.mocked_req_sks.return_value = mocked_sks
@@ -564,6 +524,7 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(0, resp)
+        cache.clear()
 
     def test_get_sks_term_on_conn_error(self):
         mocked_token = "mocked"

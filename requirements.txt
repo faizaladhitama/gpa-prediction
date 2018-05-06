@@ -43,6 +43,7 @@ pytest-cov==2.4.0
 pytest-mock==1.6.0
 python-dateutil==2.6.1
 python-dotenv==0.6.4
+python-memcached==1.59
 python-nvd3==0.15.0
 selenium==3.10.0
 six==1.10.0

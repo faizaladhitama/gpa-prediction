@@ -3,17 +3,6 @@ from random import randint
 from django.core.cache import cache
 
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK
-from api.siak import get_academic_record
-
-
-def get_siak_data(npm, username, password):
-    # kalo buat semuanya paling ITF , yang kita cuma bisa ambil 6 aja
-    return get_academic_record(npm, username, password)
-
-
-def parse_siak_data(npm, username, password):
-    data = get_siak_data(npm, username, password)
-    return data
 
 
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
@@ -78,7 +67,8 @@ def create_mock_data_dosen(jumlah):
         dosen.save()
 
 
-def caching(name, func, args):
+def caching(name, func, args, kode=""):
+    name = kode + "_" + name
     try:
         if cache.get(name) is None:
             if isinstance(args, tuple):

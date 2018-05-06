@@ -111,3 +111,6 @@ os
 
 #pycharm
 .idea/
+
+#vscode
+.vscode/
