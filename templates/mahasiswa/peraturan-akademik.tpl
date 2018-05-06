@@ -8,7 +8,7 @@
   </li>
 </ul> -->
 <h3 class="text-center"> Peraturan Akademik</h3>
-<div class="tab-content mx-auto" id="myTabContent2">
+<div class="container mx-auto" id="myTabContent2">
   <div id="peraturanAkademik" role="tabpanel" aria-labelledby="peraturan-tab">
           {% if detail != '-' %}
           <div class="mx-auto my-3 text-center">
@@ -37,5 +37,6 @@
           </h4>
           {% endif %}
   </div>
+  <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3">Kembali ke Prediktor</a>
 </div>
 {% endblock %}

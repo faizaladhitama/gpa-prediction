@@ -6,7 +6,13 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
       <div class="modal-body">
-        {% include 'mahasiswa/detail-akademik-tab.tpl' %}
+<!--         {% include 'mahasiswa/detail-akademik-tab.tpl' %} -->
+        <h5 class="text-center">Tekan tombol di bawah ini untuk melihat detail akademik</h5>
+        <div class="text-center mt-3">
+          <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-right">Peraturan Akademik</a>
+          <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-warning btn-arrow-right">Riwayat SKS</a>
+          <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-success btn-arrow-right">Riwayat IP</a>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
