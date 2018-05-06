@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^profile$', views.profile, name='profile'),
     url(r'^rekomendasi$', views.rekomendasi, name='rekomendasi'),
     url(r'^detail-akademik$', views.detail_akademik, name='detail_akademik'),
-    url(r'^peraturan-akademik$', views.peraturan_akademik, name='peraturan_akademik')
+    url(r'^peraturan-akademik$', views.peraturan_akademik, name='peraturan_akademik'),
+    url(r'^riwayat-ip$', views.riwayat_ip, name='riwayat_ip')
 ]
