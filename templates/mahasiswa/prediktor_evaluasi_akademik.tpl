@@ -29,10 +29,9 @@
 
 		<div class="row ">
 			<div class="col ">
-				<a class="btn btn-link text-center" href="/mahasiswa/peraturan-akademik">
+			<button type="button" class="btn btn-link" data-toggle="modal" data-target="#detailAkademik">
 				Lihat Selengkapnya
-				</a>
+				</button>
 			</div>
 		</div>
-		{% include 'mahasiswa/detail-akademik-modal.tpl' %}
 </div>

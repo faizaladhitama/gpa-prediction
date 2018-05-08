@@ -12,7 +12,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
-    get_sks_seharusnya, get_sks_kurang, get_semester_now
+    get_sks_seharusnya, get_sks_kurang, get_semester_now, \
+    get_riwayat_sks, get_riwayat_ip, get_peraturan
 
 
 class URLTest(TestCase):
@@ -28,8 +29,12 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/profile', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_akademik(self):
-        response = self.client.get('/mahasiswa/detail-akademik', follow=True)
+    def test_riwayat_ip(self):
+        response = self.client.get('/mahasiswa/riwayat-ip', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_riwayat_sks(self):
+        response = self.client.get('/mahasiswa/riwayat-sks', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_peraturan_akademik_valid(self):
@@ -247,6 +252,75 @@ class GetIndexMahasiswaContext(MockSiak):
         context_mahasiswa = {}
         context = get_index_mahasiswa_context(request,
                                               context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
+
+
+class GetPeraturanContext(MockSiak):
+    def test_context_index_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_peraturan(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_peraturan(request,
+                                context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_peraturan(request,
+                                context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
+
+
+class GetIPContext(MockSiak):
+    def test_context_index_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_riwayat_ip(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_riwayat_ip(request,
+                                 context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_riwayat_ip(request,
+                                 context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
+
+
+class GetIndexSKSContext(MockSiak):
+    def test_context_index_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_riwayat_sks(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_riwayat_sks(request,
+                                  context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_riwayat_sks(request,
+                                  context_mahasiswa)
         self.assertEqual(context, "'access_token'")
 
 

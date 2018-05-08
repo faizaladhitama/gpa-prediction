@@ -6,7 +6,9 @@ from api.db.utils import caching
 from api.siak import get_data_user, \
     get_all_sks_term, get_total_mutu, get_sks_sequential
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
-    get_index_mahasiswa_context, get_rekam_akademik_index
+    get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
+    get_peraturan
+import traceback
 
 # Create your views here.
 def index(request):
@@ -19,6 +21,7 @@ def index(request):
                           context_mahasiswa['id'])
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError:
+
         return render(request, 'landing_page.tpl', {})
 
 
@@ -65,23 +68,34 @@ def rekomendasi(request):
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
 
 
-def detail_akademik(request):
+def riwayat_sks(request):
     now = datetime.now()
     term_str = get_term(now)
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
-        context = get_rekam_akademik_index(request, context_mahasiswa)
-        # return render(request, 'mahasiswa/detail-akademik-tab.tpl', context)
-        return context
+        context = get_riwayat_sks(request, context_mahasiswa)
+        return render(request, 'mahasiswa/sks-term-table.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
 
-def peraturan_akademik(request):
+
+def riwayat_ip(request):
+    now = datetime.now()
+    term_str = get_term(now)
     try:
-        context = detail_akademik(request)
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_riwayat_ip(request, context_mahasiswa)
+        return render(request, 'mahasiswa/graph-ip_term.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
+
+
+def peraturan_akademik(request):
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_peraturan(request, context_mahasiswa)
         return render(request, 'mahasiswa/peraturan-akademik.tpl', context)
-        #context = caching("rekam_akademik_index",
-        #                  get_rekam_akademik_index, (request, context_mahasiswa),
-        #                  context_mahasiswa['id'])
     except TypeError:
         return render(request, 'landing_page.tpl', {})

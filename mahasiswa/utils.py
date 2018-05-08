@@ -247,8 +247,8 @@ def get_index_mahasiswa_context(request, context):
     except TypeError as excp:
         return str(excp)
 
-
-def get_rekam_akademik_index(request, context):
+"""
+def get_peraturan(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
@@ -260,15 +260,12 @@ def get_rekam_akademik_index(request, context):
             request.session['name'] = mahasiswa[0]['nama'].lower().title()
             if err is None:
                 jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
-                sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
-                graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
                 semester_now = caching("semester_now", get_semester_now, (npm, term), npm)
                 semester_evaluation = caching("semester_evaluation",
                                               get_semester_evaluation, (npm, term), npm)
                 status = caching("status", request_evaluation_status,
                                  (npm, token, semester_evaluation, 1), npm)
-                detail_evaluasi = caching("detail_evaluasi", get_evaluation_detail_message,
-                                          (jenjang, semester_evaluation, status), npm)
+                detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation, status)
                 all_sks, err = caching("all_sks",
                                        get_sks_sequential,
                                        (request.session['access_token'], npm), npm)
@@ -278,11 +275,11 @@ def get_rekam_akademik_index(request, context):
                 sks_kurang = caching("sks_kurang",
                                      get_sks_kurang,
                                      (sks_seharusnya, all_sks), npm)
-                context.update({'sks_term': sks_term, 'all_sks': all_sks,
+                context.update({'all_sks': all_sks,
                                 'semester_now': semester_now,
                                 'semester_evaluation': semester_evaluation,
-                                'sks_kurang': sks_kurang, 'name' : request.session['name']})
-                context = {**context, **detail_evaluasi, **graph_ip}
+                                'sks_kurang': sks_kurang, 'name': request.session['name']})
+                context = {**context, **detail_evaluasi}
             print(time.time() - start)
             return context
         elif request.session['user_login'] == 'admin2':
@@ -299,6 +296,65 @@ def get_rekam_akademik_index(request, context):
         print(excp)
         return str(excp)
 
+
+def get_riwayat_ip(request, context):
+    try:
+        token, npm = request.session['access_token'], context['id']
+        start = time.time()
+        if 'admin' not in request.session['user_login']:
+            mahasiswa = caching("mahasiswa", get_data_user,
+                                (token, npm), npm)
+            request.session['name'] = mahasiswa[0]['nama'].lower().title()
+            graph_ip = create_graph_ip(token, npm)
+            context.update({'name': request.session['name']})
+            context = {**context, **graph_ip}
+            print(time.time() - start)
+            return context
+        elif request.session['user_login'] == 'admin2':
+            return make_mock_data('green', context, token, npm)
+        else:
+            return make_mock_data('red', context, token, npm)
+    except KeyError as excp:
+        print(excp)
+        return str(excp)
+    except AttributeError as excp:
+        print(excp)
+        return str(excp)
+    except TypeError as excp:
+        print(excp)
+        return str(excp)
+
+
+def get_riwayat_sks(request, context):
+    try:
+        token, npm = request.session['access_token'], context['id']
+        start = time.time()
+        if 'admin' not in request.session['user_login']:
+            mahasiswa = caching("mahasiswa", get_data_user,
+                                (token, npm), npm)
+            request.session['name'] = mahasiswa[0]['nama'].lower().title()
+            sks_term = convert_dict_for_sks_term(token, npm)
+            all_sks, err = caching("all_sks",
+                                   get_sks_sequential,
+                                   (request.session['access_token'], npm), npm)
+            context.update({'sks_term': sks_term, 'all_sks': all_sks,
+                            'name': request.session['name']})
+            print(time.time() - start)
+            return context
+        elif request.session['user_login'] == 'admin2':
+            return make_mock_data('green', context, token, npm)
+        else:
+            return make_mock_data('red', context, token, npm)
+    except KeyError as excp:
+        print(excp)
+        return str(excp)
+    except AttributeError as excp:
+        print(excp)
+        return str(excp)
+    except TypeError as excp:
+        print(excp)
+        return str(excp)
+"""
 
 def make_mock_data(status, context, token, npm):
     if status == 'green':
