@@ -8,9 +8,10 @@ from api.siak import get_data_user, \
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
     get_peraturan
-import traceback
 
 # Create your views here.
+
+
 def index(request):
     now = datetime.now()
     term_str = get_term(now)
@@ -77,7 +78,7 @@ def riwayat_sks(request):
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_riwayat_sks(request, context_mahasiswa)
-        return context
+        return render(request, 'mahasiswa/sks-term-table.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
 

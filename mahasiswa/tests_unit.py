@@ -41,14 +41,6 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/peraturan-akademik', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_riwayat_ip(self):
-        response = self.client.get('/mahasiswa/riwayat-ip', follow=True)
-        self.assertEqual(response.status_code, 200)
-
-    def test_riwayat_sks(self):
-        response = self.client.get('/mahasiswa/riwayat-sks', follow=True)
-        self.assertEqual(response.status_code, 200)
-
 
 class MockRequest:
     def __init__(self, session=None):
