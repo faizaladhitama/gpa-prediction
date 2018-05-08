@@ -1,6 +1,8 @@
 from random import randint
+import json
 
-from django.core.cache import cache
+from django.core.cache import cache, caches
+from django.core.cache.backends.base import InvalidCacheBackendError
 
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK
 
@@ -73,12 +75,13 @@ def caching(name, func, args, kode=""):
         if cache.get(name) is None:
             if isinstance(args, tuple):
                 temp = func(*args)
+                #print(name, temp, isinstance(temp))
                 if isinstance(temp, dict):
                     raise TypeError
                 ret, err = temp
             else:
                 res = func(args)
-                if isinstance(res, str):
+                if isinstance(res, (str, dict)):
                     raise TypeError
                 ret, err = res
             cache.set(name, (ret, err))
@@ -92,8 +95,17 @@ def caching(name, func, args, kode=""):
                 ret = func(*args)
             else:
                 ret = func(args)
-            cache.set(name, ret)
+            if isinstance(ret, dict):
+                cache.set(name, json.dumps(ret))
+            else:
+                cache.set(name, ret)
         else:
-            ret = cache.get(name)
+            try:
+                ret = json.loads(caches[name])
+            except InvalidCacheBackendError:
+                ret = cache.get(name)
             print("use cache " + name)
+        #handle tuple object (dict, _)
+        if isinstance(ret, str) and ret[0] == "{":
+            ret = json.loads(ret)
         return ret

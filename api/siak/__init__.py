@@ -15,7 +15,7 @@ def get_academic_record(npm, username, password):
         token = generator.get_access_token(username, password, os.environ['AUTH_HASH'])
 
         if generator.verify_user(token, client_id)['username'] == username:
-            res = caching("req_academic_data",
+            res = caching("request_academic_data",
                           Requester.request_academic_data, (npm, client_id, token), npm)
             return res
         else:
@@ -96,7 +96,7 @@ def get_data_user(access_token, npm):
 
 def get_sks_sequential(access_token, npm):
     try:
-        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+        data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
                        (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
@@ -123,7 +123,7 @@ def get_sks_sequential(access_token, npm):
 def get_all_sks_term(access_token, npm):
     try:
         taken_course = []
-        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+        data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
                        (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
@@ -135,7 +135,10 @@ def get_all_sks_term(access_token, npm):
             sks_terms = []
             for term in range(1, 4):
                 tot_sks = 0
-                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+                res = caching(key_name, Requester.request_sks,
+                              (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
+                #res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
                     crs_not_none = course['kelas'] != None
                     if course['kd_mk'] in taken_course:
@@ -157,8 +160,8 @@ def get_all_sks_term(access_token, npm):
 
 def get_sks_term(access_token, npm, year, term):
     try:
-        res = caching("req_sks",
-                      Requester.request_sks,
+        key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+        res = caching(key_name, Requester.request_sks,
                       (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
         tot_sks = 0
 
@@ -176,7 +179,7 @@ def get_sks_term(access_token, npm, year, term):
 
 
 def get_jenjang(access_token, npm):
-    res, err = caching("get_user", get_data_user, (access_token, npm), npm)
+    res, err = caching("get_data_user", get_data_user, (access_token, npm), npm)
     if err is None:
         return res['program'][0]['nm_prg'], None
     else:
@@ -185,8 +188,8 @@ def get_jenjang(access_token, npm):
 
 def get_ip_term(access_token, npm, year, term):
     try:
-        res = caching("req_sks",
-                      Requester.request_sks,
+        key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+        res = caching(key_name, Requester.request_sks,
                       (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
         tot_sks = 0
         mutu = 0.00
@@ -205,7 +208,7 @@ def get_ip_term(access_token, npm, year, term):
 
 def get_all_ip_term(access_token, npm):
     try:
-        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+        data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
                        (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
@@ -218,7 +221,10 @@ def get_all_ip_term(access_token, npm):
             for term in range(1, 4):
                 tot_sks = 0
                 mutu = 0.00
-                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+                res = caching(key_name, Requester.request_sks,
+                              (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
+                #res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
                     if course['kelas'] != None:
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
@@ -239,7 +245,7 @@ def get_all_ip_term(access_token, npm):
 
 def get_total_mutu(access_token, npm):
     try:
-        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+        data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
                        (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
 
@@ -250,7 +256,10 @@ def get_total_mutu(access_token, npm):
         for year in range(int(angkatan), now.year + 1):
             for term in range(1, 4):
                 tot_sks = 0
-                res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+                res = caching(key_name, Requester.request_sks,
+                              (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
+                #res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
                     if course['kelas'] != None:
                         tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
