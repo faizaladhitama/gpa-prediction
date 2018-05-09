@@ -18,7 +18,6 @@ class SeleniumTestCase(LiveServerTestCase):
         chrome_options.add_argument('--headless')
         chrome_options.add_argument("window-size=1200,640")
         chrome_options.add_argument('disable-gpu')
-        settings.CHROME_PATH = '/usr/bin/chromedriver'
         cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
         super(SeleniumTestCase, cls).setUp(cls)
 
@@ -168,4 +167,3 @@ class ViewProfileMahasiswa(SeleniumTestCase):
     #     sks_diperoleh = self.browser\
     #     .find_element_by_css_selector('#profile-mahasiswa-sks-diperoleh').is_displayed()
     #     self.assertTrue(sks_diperoleh)
-        

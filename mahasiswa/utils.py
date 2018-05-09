@@ -280,8 +280,8 @@ def get_peraturan(request, context):
             #print("\nSemester evaluation :", semester_evaluation)
             status = caching("request_evaluation_status", request_evaluation_status,
                              (npm, token, semester_evaluation, 1), npm)
-            detail_evaluasi = get_evaluation_detail_message(jenjang,
-                                                            semester_evaluation, status)
+            detail_evaluasi = caching("detail_evaluasi", get_evaluation_detail_message,
+                                      (jenjang, semester_evaluation, status), npm)
             all_sks, err = caching("all_sks", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
             #print("\nAll sks :", all_sks)
@@ -316,7 +316,8 @@ def get_riwayat_ip(request, context):
         mahasiswa = caching("mahasiswa", get_data_user,
                             (token, npm), npm)
         request.session['name'] = mahasiswa[0]['nama'].lower().title()
-        graph_ip = create_graph_ip(token, npm)
+        graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
+
         context.update({'name': request.session['name']})
         context = {**context, **graph_ip}
         print(time.time() - start)
@@ -340,7 +341,7 @@ def get_riwayat_sks(request, context):
         mahasiswa = caching("mahasiswa", get_data_user,
                             (token, npm), npm)
         request.session['name'] = mahasiswa[0]['nama'].lower().title()
-        sks_term = convert_dict_for_sks_term(token, npm)
+        sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
         all_sks, err = caching("all_sks",
                                get_sks_sequential,
                                (request.session['access_token'], npm), npm)
@@ -412,23 +413,21 @@ def get_riwayat_sks(request, context):
 #     return context
 
 
-def mock_graph_ip(graph_ip):
-    xdata = []
-    ydata = []
-    for key, value in graph_ip.items():
-        xdata.append(key)
-        ydata.append(value)
-    chartdata = {
-        'x': xdata, 'name1': 'IP', 'y1': ydata,
-    }
-    charttype = "discreteBarChart"
-    graph_ip = {
-        'charttype': charttype,
-        'chartdata': chartdata,
-    }
-    return graph_ip
-
-
+# def mock_graph_ip(graph_ip):
+#     xdata = []
+#     ydata = []
+#     for key, value in graph_ip.items():
+#         xdata.append(key)
+#         ydata.append(value)
+#     chartdata = {
+#         'x': xdata, 'name1': 'IP', 'y1': ydata,
+#     }
+#     charttype = "discreteBarChart"
+#     graph_ip = {
+#         'charttype': charttype,
+#         'chartdata': chartdata,
+#     }
+#     return graph_ip
 
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
