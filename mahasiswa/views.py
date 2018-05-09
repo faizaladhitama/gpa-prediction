@@ -8,7 +8,6 @@ from api.siak import get_data_user, \
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
     get_peraturan
-
 # Create your views here.
 
 
@@ -56,8 +55,9 @@ def profile(request):
         data_mahasiswa['prodi'] = mahasiswa['program']\
             [last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
         data_mahasiswa['status'] = mahasiswa['program'][last_term]['nm_status']
-        data_mahasiswa['sks_lulus'] = caching("get_sks_sequential", \
-            get_sks_sequential, (request.session['access_token'], npm), npm)[0]
+        data_mahasiswa['sks_lulus'] = caching("get_sks_sequential",
+                                              get_sks_sequential,
+                                              (request.session['access_token'], npm), npm)[0]
         data_mahasiswa['mutu'] = str(round(total_mutu, 2))
         data_mahasiswa['ipk'] = str(round(ipk, 2))
         data_mahasiswa['sks_diperoleh'] = total_sks_dpo

@@ -317,7 +317,6 @@ def get_riwayat_ip(request, context):
                             (token, npm), npm)
         request.session['name'] = mahasiswa[0]['nama'].lower().title()
         graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
-
         context.update({'name': request.session['name']})
         context = {**context, **graph_ip}
         print(time.time() - start)
