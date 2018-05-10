@@ -95,3 +95,23 @@ def create_training_data(kd_mk, nama_mk, prasyarats=None):
 		return "Error "+df_hasil[0]
 	df_hasil = df_hasil[0].dropna() #cleaning na rows
 	status = save_df_csv(df_hasil, nama_mk)
+
+def data_spawner():
+    create_training_data("CSC2601105","MatDas 2",["UIST601110"])
+    create_training_data("CSGE602022","PPW",["CSF1600200"])
+    create_training_data("CSCM601252","POK",["CSC1602500"])
+    create_training_data("CSF1600400","SDA",["CSF1600200"])
+    create_training_data("CSGE602070","BasDat",["CSGE601021"])
+    create_training_data("CSGE603291","MPPI",["UIGE600001","UIGE600002"])
+    create_training_data("CSCM602023","PemLan",["CSGE601021","CSGE602022"])
+    create_training_data("CSGE602055","OS",["CSCM601252"])
+    create_training_data("CSCM603154","JarKom",["CSGE602055"])
+    create_training_data("CSCE604123","PemFung",["CSGE602040"])
+    create_training_data("CSCM603127","SysProg",["CSGE602040","CSGE602055"])
+    create_training_data("CSCE604183","PBK",["CSGE602022"])
+    create_training_data("CSCM603125","RPL",["CSGE601021"])
+    create_training_data("CSCM603130","SC",["CSGE601010","CSGE602013","CSGE602040"])
+    create_training_data("CSCM603234","DSA",["CSGE602013","CSGE602070"])
+    create_training_data("CSCE604243","CIS", ["CSCM603154","CSGE601010","CSGE601011","CSGE602013"])
+    create_training_data("CSCE604129","PemPar", ["CSCM602115","CSGE601021","CSGE602012","CSGE602055"])
+    create_training_data("CSCM603228","PPL", ["CSCM603125","CSGE602070"])
