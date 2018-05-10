@@ -25,6 +25,7 @@ def get_academic_record(npm, username, password):
     except requests.ConnectionError as exception:
         return str(exception)
 
+
 def get_siak_data(npm, username, password):
     # kalo buat semuanya paling ITF , yang kita cuma bisa ambil 6 aja
     return get_academic_record(npm, username, password)
@@ -33,6 +34,7 @@ def get_siak_data(npm, username, password):
 def parse_siak_data(npm, username, password):
     data = get_siak_data(npm, username, password)
     return data
+
 
 def get_access_token(username, password):
     try:

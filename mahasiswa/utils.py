@@ -24,12 +24,22 @@ def get_term(now):
 
 def get_context_mahasiswa(request, term_str):
     try:
+        token = request.session['access_token']
+        npm = request.session['kode_identitas']
+        if request.session['kode_identitas'] != 'admin':
+            mahasiswa, err = caching("get_data_user", get_data_user,
+                                     (token, npm), npm)
+            if err is None:
+                request.session['name'] = mahasiswa['nama'].lower().title()
+        else:
+            request.session['name'] = 'admin'
         context = {
             'term': term_str,
             'team': 'usagi studio',
             'user': request.session['user_login'],
-            'id': request.session['kode_identitas'],
-            'role': request.session['role']
+            'id': npm,
+            'role': request.session['role'],
+            'name': request.session['name']
         }
         return context
     except KeyError as excp:
@@ -216,7 +226,6 @@ def get_index_mahasiswa_context(request, context):
             mahasiswa, err = caching("get_data_user", get_data_user,
                                      (token, npm), npm)
             # print("Mahasiswa :", mahasiswa)
-            request.session['name'] = mahasiswa['nama'].lower().title()
             # print("All sks err :", err)
             if err is None:
                 sks_kurang = caching("get_sks_kurang",
@@ -272,7 +281,6 @@ def get_peraturan(request, context):
         mahasiswa, err = caching("get_data_user", get_data_user,
                                  (token, npm), npm)
         #print("\nMahasiswa :", mahasiswa)
-        request.session['name'] = mahasiswa['nama'].lower().title()
         if err is None:
             jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
             semester_now = caching("semester_now", get_semester_now, (npm, term), npm)
@@ -316,7 +324,6 @@ def get_riwayat_ip(request, context):
         # if 'admin' not in request.session['user_login']:
         mahasiswa = caching("mahasiswa", get_data_user,
                             (token, npm), npm)
-        request.session['name'] = mahasiswa[0]['nama'].lower().title()
         graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
         context.update({'name': request.session['name']})
         context = {**context, **graph_ip}
@@ -340,7 +347,6 @@ def get_riwayat_sks(request, context):
         # if 'admin' not in request.session['user_login']:
         mahasiswa = caching("mahasiswa", get_data_user,
                             (token, npm), npm)
-        request.session['name'] = mahasiswa[0]['nama'].lower().title()
         sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
         all_sks, err = caching("all_sks",
                                get_sks_sequential,
@@ -500,34 +506,33 @@ def get_profile(request, context):
         token = request.session['access_token']
         npm = context['id']
         mahasiswa, err = caching("get_data_user", get_data_user, (token, npm), npm)
-        if err:
-            raise TypeError
-        last_term = len(mahasiswa['program']) - 1
-        data_sks_dpo = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)[0]
-        total_sks_dpo = 0
+        if err is None:
+            last_term = len(mahasiswa['program']) - 1
+            data_sks_dpo = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)[0]
+            total_sks_dpo = 0
 
-        for _, value in data_sks_dpo.items():
-            for sks in value:
-                total_sks_dpo = total_sks_dpo + sks
+            for _, value in data_sks_dpo.items():
+                for sks in value:
+                    total_sks_dpo = total_sks_dpo + sks
 
-        total_mutu = caching("get_total_mutu", get_total_mutu,
-                             (request.session['access_token'], npm), npm)[0]
-        ipk = total_mutu / total_sks_dpo
-        data_mahasiswa = {}
-        data_mahasiswa['nama'] = mahasiswa['nama'].lower().title()
-        data_mahasiswa['npm'] = mahasiswa['npm']
-        data_mahasiswa['angkatan'] = mahasiswa['program'][last_term]['angkatan']
-        data_mahasiswa['prodi'] = mahasiswa['program'] \
-                                      [last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
-        data_mahasiswa['status'] = mahasiswa['program'][last_term]['nm_status']
-        data_mahasiswa['sks_lulus'] = caching("get_sks_sequential",
-                                              get_sks_sequential,
-                                              (request.session['access_token'], npm), npm)[0]
-        data_mahasiswa['mutu'] = str(round(total_mutu, 2))
-        data_mahasiswa['ipk'] = str(round(ipk, 2))
-        data_mahasiswa['sks_diperoleh'] = total_sks_dpo
-        context.update({'data_mahasiswa': data_mahasiswa})
-        return context
+            total_mutu = caching("get_total_mutu", get_total_mutu,
+                                 (request.session['access_token'], npm), npm)[0]
+            ipk = total_mutu / total_sks_dpo
+            data_mahasiswa = {}
+            data_mahasiswa['nama'] = mahasiswa['nama'].lower().title()
+            data_mahasiswa['npm'] = mahasiswa['npm']
+            data_mahasiswa['angkatan'] = mahasiswa['program'][last_term]['angkatan']
+            data_mahasiswa['prodi'] = mahasiswa['program'] \
+                                          [last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
+            data_mahasiswa['status'] = mahasiswa['program'][last_term]['nm_status']
+            data_mahasiswa['sks_lulus'] = caching("get_sks_sequential",
+                                                  get_sks_sequential,
+                                                  (request.session['access_token'], npm), npm)[0]
+            data_mahasiswa['mutu'] = str(round(total_mutu, 2))
+            data_mahasiswa['ipk'] = str(round(ipk, 2))
+            data_mahasiswa['sks_diperoleh'] = total_sks_dpo
+            context.update({'data_mahasiswa': data_mahasiswa})
+            return context
     except KeyError as excp:
         print(excp)
         return str(excp)

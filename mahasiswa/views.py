@@ -3,8 +3,6 @@ from datetime import datetime
 from django.shortcuts import render
 
 from api.db.utils import caching
-from api.siak import get_data_user, \
-    get_all_sks_term, get_sks_sequential
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
     get_peraturan, get_profile

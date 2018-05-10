@@ -66,16 +66,17 @@ class TermTest(TestCase):
 
 
 class ContextTest(TestCase):
-    def test_context_mahasiswa_valid(self):
+    @patch('api.siak.utils.AuthGenerator.get_data_user')
+    def test_context_mahasiswa_valid(self, mocked_get_data):
         session = {
             'user_login': 'dummy',
             'kode_identitas': 'dummy',
             'role': 'dummy'
         }
+        mocked_get_data.return_value = {"mocked": "mocked"}
         request = MockRequest(session)
         context = get_context_mahasiswa(request, get_term(datetime.now()))
-        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                                   'user': 'dummy', 'id': 'dummy', 'role': 'dummy'})
+        self.assertIsNotNone(context)
 
     def test_context_invalid_request(self):
         request = None
@@ -85,7 +86,7 @@ class ContextTest(TestCase):
     def test_context_invalid_session(self):
         request = MockRequest()
         context = get_context_mahasiswa(request, get_term(datetime.now()))
-        self.assertEqual(context, "'user_login'")
+        self.assertEqual(context, "'access_token'")
 
 
 class EvaluationTest(TestCase):
@@ -233,14 +234,9 @@ class SplitJenjangJalurTest(TestCase):
 
 
 class GetIndexMahasiswaContext(MockSiak):
-    @patch('api.siak.utils.AuthGenerator.__init__')
-    @patch('api.siak.utils.AuthGenerator.get_data_user')
-    def test_context_index_valid(self, mocked_generator, mocked_get_data):
+    def test_context_index_valid(self):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
-        mocked_token = "mocked"
-        mocked_generator.return_value = None
-        mocked_get_data.return_value = {"mocked": "mocked"}
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
