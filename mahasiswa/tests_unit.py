@@ -233,9 +233,14 @@ class SplitJenjangJalurTest(TestCase):
 
 
 class GetIndexMahasiswaContext(MockSiak):
-    def test_context_index_valid(self):
+    @patch('api.siak.utils.AuthGenerator.__init__')
+    @patch('api.siak.utils.AuthGenerator.get_data_user')
+    def test_context_index_valid(self, mocked_generator, mocked_get_data):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        mocked_token = "mocked"
+        mocked_generator.return_value = None
+        mocked_get_data.return_value = {"mocked": "mocked"}
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -485,3 +490,24 @@ class SksKurang(TestCase):
     def test_invalid_sks_seharusnya(self):
         sks_kurang = get_sks_kurang(None, None)
         self.assertEqual(sks_kurang, "sks seharusnya atau sks diperoleh bermasalah")
+
+
+class GetProfileContext(MockSiak):
+    def test_context_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_profile(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_profile(request, context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_profile(request, context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
