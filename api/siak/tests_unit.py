@@ -7,9 +7,11 @@ from django.test import TestCase
 from django.core.cache import cache
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_jenjang, get_all_sks_term, \
-    get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential
+    get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential, \
+    get_total_mutu
 
-from api.siak.utils import AuthGenerator, Requester, http_get
+from api.siak.utils import AuthGenerator, Requester, http_get, \
+    make_sks_req_list
 
 
 def create_mocked_response(status_code, data):
@@ -43,6 +45,11 @@ class UtilsTest(TestCase):
 
         count = http_get('other', 'mocked')
         self.assertEqual(0, count)
+
+    def test_url_formatter(self):
+        url = make_sks_req_list("0", 0, 0, "0", "0")
+        self.assertEqual(url, "https://api-dev.cs.ui.ac.id/"+\
+            "siakngcs/mahasiswa/0/riwayat/0/0/?client_id=0&access_token=0")
 
 
 class RequesterTest(TestCase):
@@ -613,6 +620,40 @@ class SiakTest(MockSiak):
         self.mocked_req_data.side_effect = ValueError("connection refused")
 
         resp, err = get_all_ip_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_total_mutu_on_valid(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_total_mutu(mocked_token, self.mock_npm)
+
+        self.assertIsNone(err)
+        self.assertEqual(144.0, resp)
+
+    def test_total_mutu_on_conn_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        self.mocked_req_sks.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_total_mutu(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_total_mutu_on_val_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        self.mocked_req_sks.side_effect = ValueError("connection refused")
+
+        resp, err = get_total_mutu(mocked_token, self.mock_npm)
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
