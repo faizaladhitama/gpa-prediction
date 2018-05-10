@@ -6,7 +6,8 @@ from api.db.utils import caching
 
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
-    get_all_ip_term, get_sks_sequential, get_data_user
+    get_all_ip_term, get_sks_sequential, get_data_user, \
+    get_total_mutu
 
 
 def get_term(now):
@@ -492,3 +493,47 @@ def get_sks_kurang(sks_seharusnya, all_sks):
         return sks_kurang
     except TypeError:
         return "sks seharusnya atau sks diperoleh bermasalah"
+
+
+def get_profile(request, context):
+    try:
+        token = request.session['access_token']
+        npm = context['id']
+        mahasiswa, err = caching("get_data_user", get_data_user, (token, npm), npm)
+        if err:
+            raise TypeError
+        last_term = len(mahasiswa['program']) - 1
+        data_sks_dpo = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)[0]
+        total_sks_dpo = 0
+
+        for _, value in data_sks_dpo.items():
+            for sks in value:
+                total_sks_dpo = total_sks_dpo + sks
+
+        total_mutu = caching("get_total_mutu", get_total_mutu,
+                             (request.session['access_token'], npm), npm)[0]
+        ipk = total_mutu / total_sks_dpo
+        data_mahasiswa = {}
+        data_mahasiswa['nama'] = mahasiswa['nama'].lower().title()
+        data_mahasiswa['npm'] = mahasiswa['npm']
+        data_mahasiswa['angkatan'] = mahasiswa['program'][last_term]['angkatan']
+        data_mahasiswa['prodi'] = mahasiswa['program'] \
+                                      [last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
+        data_mahasiswa['status'] = mahasiswa['program'][last_term]['nm_status']
+        data_mahasiswa['sks_lulus'] = caching("get_sks_sequential",
+                                              get_sks_sequential,
+                                              (request.session['access_token'], npm), npm)[0]
+        data_mahasiswa['mutu'] = str(round(total_mutu, 2))
+        data_mahasiswa['ipk'] = str(round(ipk, 2))
+        data_mahasiswa['sks_diperoleh'] = total_sks_dpo
+        context.update({'data_mahasiswa': data_mahasiswa})
+        return context
+    except KeyError as excp:
+        print(excp)
+        return str(excp)
+    except AttributeError as excp:
+        print(excp)
+        return str(excp)
+    except TypeError as excp:
+        print(excp)
+        return str(excp)

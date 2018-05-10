@@ -13,7 +13,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
-    get_riwayat_sks, get_riwayat_ip, get_peraturan
+    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile
 
 
 class URLTest(TestCase):
