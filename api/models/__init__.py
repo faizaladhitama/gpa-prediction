@@ -34,6 +34,21 @@ def huruf_converter(huruf):
     }
     return bobot[huruf]
 
+def huruf_status_converter(huruf):
+    bobot = {
+        'A': "lulus",
+        'A-': "lulus",
+        'B+': "lulus",
+        'B': "hati hati",
+        'B-': "hati hati",
+        'C+': "hati hati",
+        'C': "hati hati",
+        'C-': "tidak lulus",
+        'D': "tidak lulus",
+        'E': "tidak lulus",
+        'N': "tidak lulus"
+    }
+    return bobot[huruf]
 
 def load_nilai_df():
 	pwd = os.path.dirname(__file__)
@@ -56,7 +71,7 @@ def convert_to_ml_df(df, kd_mk, prasyarats):
                 for val in pras['nilai'].values:
                     idx_pras = 'pras'+str(no_pras)
                     entry[idx_pras] = huruf_converter(val)
-                    entry['nilai'] = huruf_converter(row['nilai'][0])
+                    entry['hasil'] = huruf_status_converter(row['nilai'][0])
                     hasil.append(entry)
                     count += 1
             no_pras += 1
