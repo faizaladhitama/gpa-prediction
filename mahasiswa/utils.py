@@ -223,8 +223,8 @@ def get_index_mahasiswa_context(request, context):
             all_sks, err = caching("get_sks_sequential", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
             # print("All sks :", all_sks)
-            mahasiswa, err = caching("get_data_user", get_data_user,
-                                     (token, npm), npm)
+            # mahasiswa, err = caching("get_data_user", get_data_user,
+            #                         (token, npm), npm)
             # print("Mahasiswa :", mahasiswa)
             # print("All sks err :", err)
             if err is None:
@@ -277,9 +277,9 @@ def get_peraturan(request, context):
         # if 'admin' not in request.session['user_login']:
         #print("\nRekam akademik")
         jenjang_str, err = caching("get_jenjang", get_jenjang, (token, npm), npm)
-        #print("\nJenjang str :", jenjang_str)
-        mahasiswa, err = caching("get_data_user", get_data_user,
-                                 (token, npm), npm)
+        # print("\nJenjang str :", jenjang_str)
+        # mahasiswa, err = caching("get_data_user", get_data_user,
+        #                         (token, npm), npm)
         #print("\nMahasiswa :", mahasiswa)
         if err is None:
             jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
@@ -322,8 +322,8 @@ def get_riwayat_ip(request, context):
         token, npm = request.session['access_token'], context['id']
         start = time.time()
         # if 'admin' not in request.session['user_login']:
-        mahasiswa = caching("mahasiswa", get_data_user,
-                            (token, npm), npm)
+        # mahasiswa = caching("mahasiswa", get_data_user,
+        #                    (token, npm), npm)
         graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
         context.update({'name': request.session['name']})
         context = {**context, **graph_ip}
@@ -345,8 +345,8 @@ def get_riwayat_sks(request, context):
         token, npm = request.session['access_token'], context['id']
         start = time.time()
         # if 'admin' not in request.session['user_login']:
-        mahasiswa = caching("mahasiswa", get_data_user,
-                            (token, npm), npm)
+        # mahasiswa = caching("mahasiswa", get_data_user,
+        #                   (token, npm), npm)
         sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
         all_sks, err = caching("all_sks",
                                get_sks_sequential,
@@ -518,7 +518,8 @@ def get_profile(request, context):
             total_mutu = caching("get_total_mutu", get_total_mutu,
                                  (request.session['access_token'], npm), npm)[0]
             ipk = total_mutu / total_sks_dpo
-            prodi = mahasiswa['program'][last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
+            prodi = mahasiswa['program'][last_term]['nm_org'] + \
+                        ", " + mahasiswa['program'][0]['nm_prg']
             context.update({'angkatan': mahasiswa['program'][last_term]['angkatan'],
                             'prodi': prodi,
                             'status': mahasiswa['program'][last_term]['nm_status'],
@@ -528,8 +529,8 @@ def get_profile(request, context):
                             'mutu': str(round(total_mutu, 2)),
                             'ipk': str(round(ipk, 2)),
                             'sks_diperoleh': total_sks_dpo
-                            })
-            return context
+                           })
+        return context
     except KeyError as excp:
         print(excp)
         return str(excp)

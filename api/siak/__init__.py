@@ -250,9 +250,7 @@ def get_total_mutu(access_token, npm):
         data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
                        (npm, os.environ['CLIENT_ID'], access_token), npm)
         angkatan = data['program'][0]['angkatan']
-
         now = datetime.datetime.now()
-
         mutu = 0.00
 
         for year in range(int(angkatan), now.year + 1):
