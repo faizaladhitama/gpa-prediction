@@ -284,7 +284,8 @@ class GetIPContext(MockSiak):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_riwayat_ip(request, context_mahasiswa)
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
+        context = get_riwayat_ip(request, context)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
@@ -307,7 +308,8 @@ class GetIndexSKSContext(MockSiak):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_riwayat_sks(request, context_mahasiswa)
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
+        context = get_riwayat_sks(request, context)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
