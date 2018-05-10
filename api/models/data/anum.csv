@@ -1,671 +1,1246 @@
-hasil,pras1,pras2
-hati hati,3.3,2.0
-hati hati,3.3,2.0
-hati hati,4.0,3.7
-hati hati,4.0,3.7
-hati hati,4.0,3.7
-hati hati,4.0,3.7
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.0,4.0
-hati hati,3.0,4.0
-hati hati,3.0,4.0
-lulus,4.0,2.7
-lulus,4.0,2.7
-lulus,4.0,2.7
-lulus,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-lulus,2.0,3.3
-lulus,2.0,3.3
-lulus,2.0,3.3
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,3.7,3.3
-hati hati,3.7,3.3
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-lulus,3.7,2.0
-lulus,3.7,2.0
-hati hati,3.7,2.7
-hati hati,3.7,2.7
-lulus,3.3,4.0
-lulus,3.3,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,3.0,4.0
-hati hati,3.0,4.0
-hati hati,3.0,4.0
-hati hati,3.7,3.3
-hati hati,3.7,3.3
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-lulus,2.7,3.3
-lulus,2.7,3.3
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-tidak lulus,2.7,4.0
-tidak lulus,2.7,4.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,3.7,3.3
-hati hati,3.7,3.3
-lulus,3.7,3.3
-lulus,3.7,3.3
-lulus,4.0,3.3
-lulus,4.0,3.3
-lulus,4.0,3.7
-lulus,4.0,3.7
-hati hati,4.0,3.7
-hati hati,4.0,3.7
-hati hati,4.0,3.3
-hati hati,4.0,3.3
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-lulus,2.7,2.0
-lulus,2.7,2.0
-lulus,2.7,2.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,2.7,1.0
-hati hati,2.7,1.0
-lulus,4.0,3.3
-lulus,4.0,3.3
-lulus,2.7,3.7
-lulus,2.7,3.7
-hati hati,3.3,3.3
-hati hati,3.3,3.3
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,3.3,3.3
-hati hati,3.3,3.3
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-lulus,4.0,2.7
-lulus,4.0,2.7
-hati hati,4.0,3.3
-hati hati,4.0,3.3
-tidak lulus,4.0,3.3
-tidak lulus,4.0,3.3
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,4.0,1.0
-hati hati,4.0,1.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-lulus,2.0,3.3
-lulus,2.0,3.3
-tidak lulus,2.7,4.0
-tidak lulus,2.7,4.0
-hati hati,2.3,3.3
-hati hati,2.3,3.3
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,1.0,4.0
-hati hati,1.0,4.0
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-lulus,2.7,2.0
-lulus,2.7,2.0
-lulus,4.0,3.3
-lulus,4.0,3.3
-lulus,3.3,2.0
-lulus,3.3,2.0
-lulus,3.3,2.0
-lulus,3.3,2.0
-lulus,3.7,2.7
-lulus,3.7,2.7
-hati hati,4.0,3.3
-hati hati,4.0,3.3
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.0,2.7
-hati hati,3.0,2.7
-hati hati,3.0,2.7
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-lulus,3.3,2.7
-lulus,3.3,2.7
-lulus,3.3,2.7
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,4.0,3.0
-lulus,4.0,3.0
-lulus,2.0,3.7
-lulus,2.0,3.7
-lulus,4.0,2.0
-lulus,4.0,2.0
-lulus,3.0,2.7
-lulus,3.0,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-lulus,2.0,2.7
-lulus,2.0,2.7
-lulus,3.3,2.0
-lulus,3.3,2.0
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-tidak lulus,2.0,2.7
-tidak lulus,2.0,2.7
-lulus,2.7,3.3
-lulus,2.7,3.3
-lulus,3.3,4.0
-lulus,3.3,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,3.7,4.0
-lulus,3.7,4.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-lulus,3.3,2.0
-lulus,3.3,2.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-lulus,3.7,2.7
-lulus,3.7,2.7
-lulus,3.7,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,3.3,3.3
-hati hati,3.3,3.3
-lulus,4.0,2.7
-lulus,4.0,2.7
-lulus,4.0,2.7
-lulus,3.3,3.7
-lulus,3.3,3.7
-lulus,3.7,2.0
-lulus,3.7,2.0
-lulus,3.7,2.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-lulus,2.7,2.0
-lulus,2.7,2.0
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-lulus,4.0,1.0
-lulus,4.0,1.0
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,2.0,3.3
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-lulus,3.7,2.7
-lulus,3.7,2.7
-lulus,3.7,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,4.0,2.0
-lulus,4.0,2.0
-lulus,4.0,2.0
-lulus,4.0,2.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.7,2.7
-hati hati,3.7,2.7
-hati hati,3.7,2.7
-hati hati,3.3,3.3
-hati hati,3.3,3.3
-hati hati,2.0,3.0
-hati hati,2.0,3.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,3.3,2.0
-hati hati,3.3,2.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-lulus,4.0,3.3
-lulus,4.0,3.3
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-lulus,2.7,2.0
-lulus,2.7,2.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,2.7,3.7
-hati hati,2.7,3.7
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.3
-hati hati,4.0,2.3
-hati hati,4.0,2.3
-lulus,3.0,2.0
-lulus,3.0,2.0
-tidak lulus,3.7,2.7
-tidak lulus,3.7,2.7
-tidak lulus,3.7,2.7
-tidak lulus,3.7,2.7
-hati hati,4.0,1.0
-hati hati,4.0,1.0
-lulus,3.3,3.3
-lulus,3.3,3.3
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.7,3.3
-hati hati,3.7,3.3
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-lulus,3.3,2.0
-lulus,3.3,2.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,3.7,2.7
-hati hati,3.7,2.7
-lulus,2.0,3.7
-lulus,2.0,3.7
-lulus,2.0,2.0
-lulus,2.0,2.0
-hati hati,3.0,3.3
-hati hati,3.0,3.3
-hati hati,3.7,3.7
-hati hati,3.7,3.7
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,3.3,3.3
-hati hati,3.3,3.3
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-lulus,4.0,2.7
-lulus,4.0,2.7
-hati hati,3.3,1.0
-hati hati,3.3,1.0
-hati hati,4.0,3.3
-hati hati,4.0,3.3
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-lulus,3.7,3.0
-lulus,3.7,3.0
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,2.7,3.3
-hati hati,2.7,3.3
-lulus,3.7,3.0
-lulus,3.7,3.0
-hati hati,3.7,2.7
-hati hati,3.7,2.7
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-lulus,2.0,2.0
-lulus,2.0,2.0
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,3.3,1.0
-hati hati,3.3,1.0
-hati hati,3.3,1.0
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-lulus,4.0,2.0
-lulus,4.0,2.0
-lulus,4.0,2.0
-lulus,3.3,3.3
-lulus,3.3,3.3
-hati hati,3.0,2.0
-hati hati,3.0,2.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,2.0
-hati hati,2.7,2.0
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-hati hati,2.7,3.7
-hati hati,2.7,3.7
-hati hati,2.7,3.7
-lulus,2.0,2.7
-lulus,2.0,2.7
-lulus,3.7,2.7
-lulus,3.7,2.7
-lulus,2.7,2.0
-lulus,2.7,2.0
-hati hati,3.0,2.7
-hati hati,3.0,2.7
-hati hati,3.3,2.0
-hati hati,3.3,2.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,2.0,2.0
-lulus,2.0,2.0
-lulus,2.0,2.0
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-lulus,3.3,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-lulus,2.0,4.0
-lulus,2.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-hati hati,3.3,2.0
-hati hati,3.3,2.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-lulus,3.7,3.3
-lulus,3.7,3.3
-lulus,3.7,3.3
-lulus,2.7,3.3
-lulus,2.7,3.3
-hati hati,2.7,3.0
-hati hati,2.7,3.0
-hati hati,3.3,3.7
-hati hati,3.3,3.7
-hati hati,3.7,3.7
-hati hati,3.7,3.7
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,3.7,2.0
-lulus,3.7,2.0
-lulus,1.0,2.7
-lulus,1.0,2.7
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-lulus,2.0,2.3
-lulus,2.0,2.3
-lulus,2.0,3.0
-lulus,2.0,3.0
-lulus,2.0,3.0
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-lulus,4.0,1.0
-lulus,4.0,1.0
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-lulus,2.0,3.3
-lulus,2.0,3.3
-hati hati,2.0,2.7
-hati hati,2.0,2.7
-lulus,4.0,3.3
-lulus,4.0,3.3
-lulus,2.0,4.0
-lulus,2.0,4.0
-lulus,2.0,4.0
-lulus,2.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,4.0,2.7
-lulus,4.0,2.7
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,3.3,2.7
-lulus,3.3,2.7
-lulus,3.7,3.3
-lulus,3.7,3.3
-hati hati,3.3,1.0
-hati hati,3.3,1.0
-hati hati,3.3,2.0
-hati hati,3.3,2.0
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-lulus,2.0,4.0
-lulus,2.0,4.0
-lulus,2.7,2.7
-lulus,2.7,2.7
-lulus,2.0,3.3
-lulus,2.0,3.3
-lulus,2.0,3.3
-lulus,2.0,3.3
-hati hati,3.3,4.0
-hati hati,3.3,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-lulus,1.0,2.7
-lulus,1.0,2.7
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,3.7,2.0
-lulus,3.7,2.0
-lulus,2.7,4.0
-lulus,2.7,4.0
-hati hati,2.7,2.7
-hati hati,2.7,2.7
-lulus,2.3,2.0
-lulus,2.3,2.0
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-hati hati,3.3,2.7
-hati hati,2.7,4.0
-hati hati,2.7,4.0
-lulus,2.0,3.3
-lulus,2.0,3.3
-hati hati,3.7,4.0
-hati hati,3.7,4.0
-lulus,2.7,2.7
-lulus,2.7,2.7
-hati hati,4.0,3.3
-hati hati,4.0,3.3
-hati hati,4.0,3.3
-hati hati,4.0,3.7
-hati hati,4.0,3.7
-hati hati,3.7,4.0
-hati hati,3.7,4.0
-hati hati,4.0,4.0
-hati hati,4.0,4.0
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-hati hati,4.0,2.7
-lulus,2.7,4.0
-lulus,2.7,4.0
-lulus,2.7,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-lulus,3.3,2.7
-lulus,3.3,2.7
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-hati hati,4.0,2.0
-lulus,2.7,2.0
-lulus,2.7,2.0
-hati hati,3.7,3.3
-hati hati,3.7,3.3
-hati hati,3.7,3.3
-lulus,2.0,2.0
-lulus,2.0,2.0
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,3.0,2.0
-lulus,3.0,2.0
-hati hati,2.0,2.0
-hati hati,2.0,2.0
-lulus,2.7,2.7
-lulus,2.7,2.7
-hati hati,3.7,2.0
-hati hati,3.7,2.0
-lulus,3.3,2.7
-lulus,3.3,2.7
-lulus,2.0,2.0
-lulus,2.0,2.0
-lulus,2.7,4.0
-lulus,2.7,4.0
-lulus,3.3,4.0
-lulus,3.3,4.0
-hati hati,4.0,3.0
-hati hati,4.0,3.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-hati hati,2.0,4.0
-lulus,3.3,3.3
-lulus,3.3,3.3
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
-lulus,4.0,4.0
+,pras1,pras2,y
+0,3.0,2.0,hati hati
+1,3.0,2.0,hati hati
+2,4.0,4.0,hati hati
+3,4.0,4.0,hati hati
+4,4.0,4.0,hati hati
+5,4.0,4.0,hati hati
+6,4.0,4.0,hati hati
+7,4.0,4.0,hati hati
+8,3.0,4.0,hati hati
+9,3.0,4.0,hati hati
+10,3.0,4.0,hati hati
+11,4.0,3.0,lulus
+12,4.0,3.0,lulus
+13,4.0,3.0,lulus
+14,4.0,3.0,lulus
+15,4.0,3.0,hati hati
+16,4.0,3.0,hati hati
+17,2.0,2.0,hati hati
+18,2.0,2.0,hati hati
+19,2.0,2.0,hati hati
+20,2.0,3.0,lulus
+21,2.0,3.0,lulus
+22,2.0,3.0,lulus
+23,4.0,4.0,hati hati
+24,4.0,4.0,hati hati
+25,3.0,4.0,hati hati
+26,3.0,4.0,hati hati
+27,3.0,2.0,hati hati
+28,3.0,2.0,hati hati
+29,4.0,3.0,hati hati
+30,4.0,3.0,hati hati
+31,4.0,3.0,hati hati
+32,4.0,3.0,hati hati
+33,4.0,3.0,hati hati
+34,4.0,3.0,hati hati
+35,4.0,2.0,lulus
+36,4.0,2.0,lulus
+37,4.0,3.0,hati hati
+38,4.0,3.0,hati hati
+39,3.0,4.0,lulus
+40,3.0,4.0,lulus
+41,4.0,4.0,hati hati
+42,4.0,4.0,hati hati
+43,4.0,2.0,hati hati
+44,4.0,2.0,hati hati
+45,3.0,2.0,hati hati
+46,3.0,2.0,hati hati
+47,3.0,4.0,hati hati
+48,3.0,4.0,hati hati
+49,3.0,4.0,hati hati
+50,4.0,3.0,hati hati
+51,4.0,3.0,hati hati
+52,4.0,4.0,hati hati
+53,4.0,4.0,hati hati
+54,4.0,4.0,hati hati
+55,4.0,4.0,hati hati
+56,3.0,4.0,hati hati
+57,3.0,4.0,hati hati
+58,3.0,3.0,hati hati
+59,3.0,3.0,hati hati
+60,4.0,3.0,hati hati
+61,4.0,3.0,hati hati
+62,3.0,3.0,hati hati
+63,3.0,3.0,hati hati
+64,2.0,4.0,hati hati
+65,2.0,4.0,hati hati
+66,2.0,4.0,hati hati
+67,2.0,4.0,hati hati
+68,3.0,4.0,hati hati
+69,3.0,4.0,hati hati
+70,3.0,3.0,lulus
+71,3.0,3.0,lulus
+72,3.0,4.0,hati hati
+73,3.0,4.0,hati hati
+74,3.0,4.0,tidak lulus
+75,3.0,4.0,tidak lulus
+76,3.0,2.0,hati hati
+77,3.0,2.0,hati hati
+78,4.0,3.0,hati hati
+79,4.0,3.0,hati hati
+80,4.0,3.0,hati hati
+81,4.0,3.0,hati hati
+82,4.0,3.0,lulus
+83,4.0,3.0,lulus
+84,4.0,3.0,lulus
+85,4.0,3.0,lulus
+86,4.0,4.0,lulus
+87,4.0,4.0,lulus
+88,4.0,4.0,hati hati
+89,4.0,4.0,hati hati
+90,4.0,3.0,hati hati
+91,4.0,3.0,hati hati
+92,3.0,3.0,hati hati
+93,3.0,3.0,hati hati
+94,3.0,3.0,hati hati
+95,3.0,3.0,hati hati
+96,3.0,2.0,lulus
+97,3.0,2.0,lulus
+98,3.0,2.0,lulus
+99,3.0,4.0,hati hati
+100,3.0,4.0,hati hati
+101,4.0,2.0,hati hati
+102,4.0,2.0,hati hati
+103,4.0,2.0,hati hati
+104,4.0,2.0,hati hati
+105,3.0,4.0,hati hati
+106,3.0,4.0,hati hati
+107,3.0,1.0,hati hati
+108,3.0,1.0,hati hati
+109,4.0,3.0,lulus
+110,4.0,3.0,lulus
+111,3.0,4.0,lulus
+112,3.0,4.0,lulus
+113,3.0,3.0,hati hati
+114,3.0,3.0,hati hati
+115,3.0,2.0,hati hati
+116,3.0,2.0,hati hati
+117,3.0,3.0,hati hati
+118,3.0,3.0,hati hati
+119,3.0,3.0,hati hati
+120,3.0,3.0,hati hati
+121,3.0,3.0,hati hati
+122,3.0,3.0,hati hati
+123,4.0,4.0,hati hati
+124,4.0,4.0,hati hati
+125,3.0,2.0,hati hati
+126,3.0,2.0,hati hati
+127,4.0,3.0,lulus
+128,4.0,3.0,lulus
+129,4.0,3.0,hati hati
+130,4.0,3.0,hati hati
+131,4.0,3.0,tidak lulus
+132,4.0,3.0,tidak lulus
+133,4.0,2.0,hati hati
+134,4.0,2.0,hati hati
+135,3.0,3.0,hati hati
+136,3.0,3.0,hati hati
+137,4.0,1.0,hati hati
+138,4.0,1.0,hati hati
+139,3.0,2.0,hati hati
+140,3.0,2.0,hati hati
+141,4.0,2.0,hati hati
+142,4.0,2.0,hati hati
+143,3.0,4.0,hati hati
+144,3.0,4.0,hati hati
+145,2.0,3.0,lulus
+146,2.0,3.0,lulus
+147,3.0,4.0,tidak lulus
+148,3.0,4.0,tidak lulus
+149,2.0,3.0,hati hati
+150,2.0,3.0,hati hati
+151,3.0,3.0,hati hati
+152,3.0,3.0,hati hati
+153,1.0,4.0,hati hati
+154,1.0,4.0,hati hati
+155,4.0,2.0,hati hati
+156,4.0,2.0,hati hati
+157,3.0,2.0,lulus
+158,3.0,2.0,lulus
+159,4.0,3.0,lulus
+160,4.0,3.0,lulus
+161,3.0,2.0,lulus
+162,3.0,2.0,lulus
+163,3.0,2.0,lulus
+164,3.0,2.0,lulus
+165,4.0,3.0,lulus
+166,4.0,3.0,lulus
+167,4.0,3.0,hati hati
+168,4.0,3.0,hati hati
+169,4.0,4.0,hati hati
+170,4.0,4.0,hati hati
+171,3.0,3.0,hati hati
+172,3.0,3.0,hati hati
+173,3.0,3.0,hati hati
+174,3.0,4.0,hati hati
+175,3.0,4.0,hati hati
+176,3.0,3.0,lulus
+177,3.0,3.0,lulus
+178,3.0,3.0,lulus
+179,3.0,3.0,lulus
+180,3.0,3.0,lulus
+181,4.0,3.0,lulus
+182,4.0,3.0,lulus
+183,2.0,4.0,lulus
+184,2.0,4.0,lulus
+185,4.0,2.0,lulus
+186,4.0,2.0,lulus
+187,3.0,3.0,lulus
+188,3.0,3.0,lulus
+189,2.0,2.0,hati hati
+190,2.0,2.0,hati hati
+191,3.0,4.0,hati hati
+192,3.0,4.0,hati hati
+193,3.0,4.0,hati hati
+194,3.0,4.0,hati hati
+195,3.0,3.0,hati hati
+196,3.0,3.0,hati hati
+197,3.0,3.0,hati hati
+198,2.0,3.0,lulus
+199,2.0,3.0,lulus
+200,3.0,2.0,lulus
+201,3.0,2.0,lulus
+202,2.0,3.0,hati hati
+203,2.0,3.0,hati hati
+204,2.0,3.0,hati hati
+205,2.0,3.0,hati hati
+206,2.0,3.0,hati hati
+207,2.0,3.0,hati hati
+208,2.0,3.0,hati hati
+209,2.0,3.0,hati hati
+210,3.0,4.0,hati hati
+211,3.0,4.0,hati hati
+212,4.0,3.0,hati hati
+213,4.0,3.0,hati hati
+214,4.0,2.0,hati hati
+215,4.0,2.0,hati hati
+216,3.0,4.0,hati hati
+217,3.0,4.0,hati hati
+218,3.0,3.0,hati hati
+219,3.0,3.0,hati hati
+220,3.0,3.0,hati hati
+221,3.0,4.0,hati hati
+222,3.0,4.0,hati hati
+223,3.0,4.0,hati hati
+224,2.0,3.0,tidak lulus
+225,2.0,3.0,tidak lulus
+226,3.0,3.0,lulus
+227,3.0,3.0,lulus
+228,3.0,4.0,lulus
+229,3.0,4.0,lulus
+230,4.0,4.0,hati hati
+231,4.0,4.0,hati hati
+232,3.0,4.0,hati hati
+233,3.0,4.0,hati hati
+234,4.0,4.0,lulus
+235,4.0,4.0,lulus
+236,4.0,4.0,lulus
+237,4.0,4.0,lulus
+238,3.0,4.0,hati hati
+239,3.0,4.0,hati hati
+240,3.0,2.0,lulus
+241,3.0,2.0,lulus
+242,3.0,4.0,hati hati
+243,3.0,4.0,hati hati
+244,3.0,4.0,hati hati
+245,3.0,3.0,hati hati
+246,3.0,3.0,hati hati
+247,3.0,4.0,hati hati
+248,3.0,4.0,hati hati
+249,3.0,4.0,hati hati
+250,3.0,4.0,hati hati
+251,3.0,2.0,hati hati
+252,3.0,2.0,hati hati
+253,3.0,4.0,hati hati
+254,3.0,4.0,hati hati
+255,4.0,2.0,hati hati
+256,4.0,2.0,hati hati
+257,4.0,3.0,lulus
+258,4.0,3.0,lulus
+259,4.0,3.0,lulus
+260,4.0,3.0,hati hati
+261,4.0,3.0,hati hati
+262,2.0,2.0,hati hati
+263,2.0,2.0,hati hati
+264,2.0,3.0,hati hati
+265,2.0,3.0,hati hati
+266,3.0,3.0,hati hati
+267,3.0,3.0,hati hati
+268,4.0,3.0,hati hati
+269,4.0,3.0,hati hati
+270,4.0,3.0,hati hati
+271,4.0,3.0,hati hati
+272,3.0,3.0,hati hati
+273,3.0,3.0,hati hati
+274,4.0,3.0,lulus
+275,4.0,3.0,lulus
+276,4.0,3.0,lulus
+277,3.0,4.0,lulus
+278,3.0,4.0,lulus
+279,4.0,2.0,lulus
+280,4.0,2.0,lulus
+281,4.0,2.0,lulus
+282,4.0,4.0,hati hati
+283,4.0,4.0,hati hati
+284,4.0,4.0,hati hati
+285,3.0,2.0,lulus
+286,3.0,2.0,lulus
+287,3.0,3.0,hati hati
+288,3.0,3.0,hati hati
+289,3.0,3.0,hati hati
+290,4.0,1.0,lulus
+291,4.0,1.0,lulus
+292,2.0,3.0,hati hati
+293,2.0,3.0,hati hati
+294,2.0,3.0,hati hati
+295,3.0,4.0,hati hati
+296,3.0,4.0,hati hati
+297,4.0,3.0,lulus
+298,4.0,3.0,lulus
+299,4.0,3.0,lulus
+300,2.0,2.0,hati hati
+301,2.0,2.0,hati hati
+302,2.0,2.0,hati hati
+303,2.0,2.0,hati hati
+304,3.0,3.0,lulus
+305,3.0,3.0,lulus
+306,3.0,3.0,lulus
+307,3.0,3.0,lulus
+308,3.0,3.0,lulus
+309,3.0,3.0,lulus
+310,4.0,2.0,lulus
+311,4.0,2.0,lulus
+312,4.0,2.0,lulus
+313,4.0,2.0,lulus
+314,4.0,4.0,hati hati
+315,4.0,4.0,hati hati
+316,4.0,3.0,hati hati
+317,4.0,3.0,hati hati
+318,4.0,3.0,hati hati
+319,3.0,3.0,hati hati
+320,3.0,3.0,hati hati
+321,2.0,3.0,hati hati
+322,2.0,3.0,hati hati
+323,2.0,4.0,hati hati
+324,2.0,4.0,hati hati
+325,4.0,4.0,lulus
+326,4.0,4.0,lulus
+327,3.0,3.0,hati hati
+328,3.0,3.0,hati hati
+329,4.0,3.0,hati hati
+330,4.0,3.0,hati hati
+331,3.0,2.0,hati hati
+332,3.0,2.0,hati hati
+333,2.0,4.0,hati hati
+334,2.0,4.0,hati hati
+335,3.0,4.0,hati hati
+336,3.0,4.0,hati hati
+337,3.0,4.0,hati hati
+338,3.0,4.0,hati hati
+339,4.0,3.0,lulus
+340,4.0,3.0,lulus
+341,3.0,3.0,hati hati
+342,3.0,3.0,hati hati
+343,2.0,3.0,hati hati
+344,2.0,3.0,hati hati
+345,4.0,4.0,hati hati
+346,4.0,4.0,hati hati
+347,4.0,4.0,hati hati
+348,3.0,2.0,lulus
+349,3.0,2.0,lulus
+350,3.0,4.0,hati hati
+351,3.0,4.0,hati hati
+352,3.0,4.0,hati hati
+353,4.0,4.0,hati hati
+354,4.0,4.0,hati hati
+355,3.0,4.0,hati hati
+356,3.0,4.0,hati hati
+357,4.0,2.0,hati hati
+358,4.0,2.0,hati hati
+359,3.0,3.0,hati hati
+360,3.0,3.0,hati hati
+361,4.0,3.0,hati hati
+362,4.0,3.0,hati hati
+363,4.0,2.0,hati hati
+364,4.0,2.0,hati hati
+365,4.0,2.0,hati hati
+366,3.0,2.0,lulus
+367,3.0,2.0,lulus
+368,4.0,3.0,tidak lulus
+369,4.0,3.0,tidak lulus
+370,4.0,3.0,tidak lulus
+371,4.0,3.0,tidak lulus
+372,4.0,1.0,hati hati
+373,4.0,1.0,hati hati
+374,3.0,3.0,lulus
+375,3.0,3.0,lulus
+376,4.0,4.0,hati hati
+377,4.0,4.0,hati hati
+378,4.0,4.0,hati hati
+379,4.0,3.0,hati hati
+380,4.0,3.0,hati hati
+381,3.0,4.0,hati hati
+382,3.0,4.0,hati hati
+383,3.0,4.0,hati hati
+384,3.0,2.0,lulus
+385,3.0,2.0,lulus
+386,4.0,4.0,hati hati
+387,4.0,4.0,hati hati
+388,4.0,3.0,hati hati
+389,4.0,3.0,hati hati
+390,2.0,4.0,lulus
+391,2.0,4.0,lulus
+392,2.0,2.0,lulus
+393,2.0,2.0,lulus
+394,3.0,3.0,hati hati
+395,3.0,3.0,hati hati
+396,4.0,4.0,hati hati
+397,4.0,4.0,hati hati
+398,2.0,3.0,hati hati
+399,2.0,3.0,hati hati
+400,2.0,2.0,hati hati
+401,2.0,2.0,hati hati
+402,3.0,3.0,hati hati
+403,3.0,3.0,hati hati
+404,3.0,3.0,hati hati
+405,3.0,3.0,hati hati
+406,4.0,3.0,lulus
+407,4.0,3.0,lulus
+408,3.0,1.0,hati hati
+409,3.0,1.0,hati hati
+410,4.0,3.0,hati hati
+411,4.0,3.0,hati hati
+412,4.0,3.0,hati hati
+413,4.0,3.0,hati hati
+414,2.0,2.0,hati hati
+415,2.0,2.0,hati hati
+416,4.0,3.0,lulus
+417,4.0,3.0,lulus
+418,4.0,3.0,hati hati
+419,4.0,3.0,hati hati
+420,3.0,3.0,hati hati
+421,3.0,3.0,hati hati
+422,4.0,3.0,lulus
+423,4.0,3.0,lulus
+424,4.0,3.0,hati hati
+425,4.0,3.0,hati hati
+426,4.0,4.0,hati hati
+427,4.0,4.0,hati hati
+428,4.0,4.0,hati hati
+429,4.0,4.0,hati hati
+430,2.0,2.0,lulus
+431,2.0,2.0,lulus
+432,4.0,2.0,hati hati
+433,4.0,2.0,hati hati
+434,4.0,2.0,hati hati
+435,4.0,2.0,hati hati
+436,4.0,2.0,hati hati
+437,3.0,4.0,hati hati
+438,3.0,4.0,hati hati
+439,3.0,3.0,hati hati
+440,3.0,3.0,hati hati
+441,3.0,3.0,hati hati
+442,2.0,2.0,hati hati
+443,2.0,2.0,hati hati
+444,3.0,1.0,hati hati
+445,3.0,1.0,hati hati
+446,3.0,1.0,hati hati
+447,2.0,3.0,hati hati
+448,2.0,3.0,hati hati
+449,4.0,2.0,lulus
+450,4.0,2.0,lulus
+451,4.0,2.0,lulus
+452,3.0,3.0,lulus
+453,3.0,3.0,lulus
+454,3.0,2.0,hati hati
+455,3.0,2.0,hati hati
+456,3.0,4.0,hati hati
+457,3.0,4.0,hati hati
+458,3.0,4.0,hati hati
+459,3.0,2.0,hati hati
+460,3.0,2.0,hati hati
+461,4.0,3.0,hati hati
+462,4.0,3.0,hati hati
+463,3.0,4.0,hati hati
+464,3.0,4.0,hati hati
+465,3.0,4.0,hati hati
+466,3.0,4.0,lulus
+467,3.0,4.0,lulus
+468,3.0,4.0,lulus
+469,3.0,4.0,hati hati
+470,3.0,4.0,hati hati
+471,3.0,4.0,hati hati
+472,2.0,3.0,lulus
+473,2.0,3.0,lulus
+474,4.0,3.0,lulus
+475,4.0,3.0,lulus
+476,3.0,2.0,lulus
+477,3.0,2.0,lulus
+478,3.0,3.0,hati hati
+479,3.0,3.0,hati hati
+480,3.0,2.0,hati hati
+481,3.0,2.0,hati hati
+482,4.0,4.0,lulus
+483,4.0,4.0,lulus
+484,4.0,4.0,lulus
+485,2.0,2.0,lulus
+486,2.0,2.0,lulus
+487,2.0,2.0,lulus
+488,4.0,3.0,hati hati
+489,4.0,3.0,hati hati
+490,3.0,4.0,lulus
+491,3.0,4.0,lulus
+492,3.0,4.0,lulus
+493,3.0,4.0,lulus
+494,2.0,4.0,lulus
+495,2.0,4.0,lulus
+496,4.0,4.0,lulus
+497,4.0,4.0,lulus
+498,3.0,2.0,hati hati
+499,3.0,2.0,hati hati
+500,4.0,4.0,lulus
+501,4.0,4.0,lulus
+502,2.0,4.0,hati hati
+503,2.0,4.0,hati hati
+504,4.0,3.0,lulus
+505,4.0,3.0,lulus
+506,4.0,3.0,lulus
+507,3.0,3.0,lulus
+508,3.0,3.0,lulus
+509,3.0,3.0,hati hati
+510,3.0,3.0,hati hati
+511,3.0,4.0,hati hati
+512,3.0,4.0,hati hati
+513,4.0,4.0,hati hati
+514,4.0,4.0,hati hati
+515,4.0,4.0,lulus
+516,4.0,4.0,lulus
+517,4.0,2.0,lulus
+518,4.0,2.0,lulus
+519,1.0,3.0,lulus
+520,1.0,3.0,lulus
+521,2.0,3.0,hati hati
+522,2.0,3.0,hati hati
+523,2.0,3.0,hati hati
+524,2.0,3.0,hati hati
+525,3.0,4.0,hati hati
+526,3.0,4.0,hati hati
+527,3.0,4.0,lulus
+528,3.0,4.0,lulus
+529,2.0,3.0,hati hati
+530,2.0,3.0,hati hati
+531,2.0,2.0,lulus
+532,2.0,2.0,lulus
+533,2.0,3.0,lulus
+534,2.0,3.0,lulus
+535,2.0,3.0,lulus
+536,2.0,3.0,hati hati
+537,2.0,3.0,hati hati
+538,4.0,1.0,lulus
+539,4.0,1.0,lulus
+540,2.0,2.0,hati hati
+541,2.0,2.0,hati hati
+542,2.0,3.0,lulus
+543,2.0,3.0,lulus
+544,2.0,3.0,hati hati
+545,2.0,3.0,hati hati
+546,4.0,3.0,lulus
+547,4.0,3.0,lulus
+548,2.0,4.0,lulus
+549,2.0,4.0,lulus
+550,2.0,4.0,lulus
+551,2.0,4.0,lulus
+552,4.0,4.0,lulus
+553,4.0,4.0,lulus
+554,4.0,3.0,lulus
+555,4.0,3.0,lulus
+556,3.0,3.0,lulus
+557,3.0,3.0,lulus
+558,3.0,3.0,lulus
+559,3.0,3.0,lulus
+560,4.0,3.0,lulus
+561,4.0,3.0,lulus
+562,3.0,1.0,hati hati
+563,3.0,1.0,hati hati
+564,3.0,2.0,hati hati
+565,3.0,2.0,hati hati
+566,2.0,2.0,hati hati
+567,2.0,2.0,hati hati
+568,3.0,4.0,hati hati
+569,3.0,4.0,hati hati
+570,2.0,4.0,lulus
+571,2.0,4.0,lulus
+572,3.0,3.0,lulus
+573,3.0,3.0,lulus
+574,2.0,3.0,lulus
+575,2.0,3.0,lulus
+576,2.0,3.0,lulus
+577,2.0,3.0,lulus
+578,3.0,4.0,hati hati
+579,3.0,4.0,hati hati
+580,4.0,4.0,hati hati
+581,4.0,4.0,hati hati
+582,4.0,4.0,hati hati
+583,4.0,4.0,hati hati
+584,4.0,2.0,hati hati
+585,4.0,2.0,hati hati
+586,1.0,3.0,lulus
+587,1.0,3.0,lulus
+588,4.0,4.0,lulus
+589,4.0,4.0,lulus
+590,4.0,2.0,lulus
+591,4.0,2.0,lulus
+592,3.0,4.0,lulus
+593,3.0,4.0,lulus
+594,3.0,3.0,hati hati
+595,3.0,3.0,hati hati
+596,2.0,2.0,lulus
+597,2.0,2.0,lulus
+598,3.0,3.0,hati hati
+599,3.0,3.0,hati hati
+600,3.0,3.0,hati hati
+601,3.0,4.0,hati hati
+602,3.0,4.0,hati hati
+603,2.0,3.0,lulus
+604,2.0,3.0,lulus
+605,4.0,4.0,hati hati
+606,4.0,4.0,hati hati
+607,3.0,3.0,lulus
+608,3.0,3.0,lulus
+609,4.0,3.0,hati hati
+610,4.0,3.0,hati hati
+611,4.0,3.0,hati hati
+612,4.0,4.0,hati hati
+613,4.0,4.0,hati hati
+614,4.0,4.0,hati hati
+615,4.0,4.0,hati hati
+616,4.0,4.0,hati hati
+617,4.0,4.0,hati hati
+618,4.0,3.0,hati hati
+619,4.0,3.0,hati hati
+620,4.0,3.0,hati hati
+621,3.0,4.0,lulus
+622,3.0,4.0,lulus
+623,3.0,4.0,lulus
+624,3.0,4.0,lulus
+625,3.0,4.0,lulus
+626,3.0,3.0,lulus
+627,3.0,3.0,lulus
+628,4.0,2.0,hati hati
+629,4.0,2.0,hati hati
+630,4.0,2.0,hati hati
+631,3.0,2.0,lulus
+632,3.0,2.0,lulus
+633,4.0,3.0,hati hati
+634,4.0,3.0,hati hati
+635,4.0,3.0,hati hati
+636,2.0,2.0,lulus
+637,2.0,2.0,lulus
+638,3.0,3.0,lulus
+639,3.0,3.0,lulus
+640,3.0,2.0,lulus
+641,3.0,2.0,lulus
+642,2.0,2.0,hati hati
+643,2.0,2.0,hati hati
+644,3.0,3.0,lulus
+645,3.0,3.0,lulus
+646,4.0,2.0,hati hati
+647,4.0,2.0,hati hati
+648,3.0,3.0,lulus
+649,3.0,3.0,lulus
+650,2.0,2.0,lulus
+651,2.0,2.0,lulus
+652,3.0,4.0,lulus
+653,3.0,4.0,lulus
+654,3.0,4.0,lulus
+655,3.0,4.0,lulus
+656,4.0,3.0,hati hati
+657,4.0,3.0,hati hati
+658,4.0,4.0,lulus
+659,4.0,4.0,lulus
+660,2.0,4.0,hati hati
+661,2.0,4.0,hati hati
+662,2.0,4.0,hati hati
+663,3.0,3.0,lulus
+664,3.0,3.0,lulus
+665,4.0,4.0,lulus
+666,4.0,4.0,lulus
+667,4.0,4.0,lulus
+668,4.0,4.0,lulus
+669,4.0,4.0,lulus
+670,2.0,3.0,lulus
+671,4.0,2.0,lulus
+672,3.0,3.0,lulus
+673,4.0,3.0,lulus
+674,4.0,3.0,lulus
+675,4.0,2.0,lulus
+676,3.0,2.0,lulus
+677,3.0,2.0,lulus
+678,2.0,4.0,lulus
+679,4.0,4.0,lulus
+680,3.0,4.0,lulus
+681,3.0,3.0,lulus
+682,2.0,3.0,lulus
+683,4.0,4.0,lulus
+684,2.0,4.0,lulus
+685,3.0,4.0,lulus
+686,2.0,3.0,lulus
+687,2.0,2.0,lulus
+688,3.0,2.0,lulus
+689,3.0,3.0,lulus
+690,4.0,4.0,lulus
+691,4.0,3.0,lulus
+692,4.0,4.0,lulus
+693,4.0,3.0,lulus
+694,4.0,2.0,lulus
+695,3.0,4.0,lulus
+696,4.0,2.0,lulus
+697,3.0,4.0,lulus
+698,3.0,3.0,lulus
+699,4.0,2.0,lulus
+700,4.0,3.0,lulus
+701,2.0,3.0,lulus
+702,4.0,2.0,lulus
+703,4.0,3.0,lulus
+704,4.0,3.0,lulus
+705,2.0,2.0,lulus
+706,4.0,4.0,lulus
+707,4.0,4.0,lulus
+708,4.0,3.0,lulus
+709,2.0,4.0,lulus
+710,4.0,4.0,lulus
+711,3.0,4.0,lulus
+712,4.0,4.0,lulus
+713,4.0,4.0,lulus
+714,4.0,3.0,lulus
+715,3.0,4.0,lulus
+716,3.0,4.0,lulus
+717,3.0,3.0,lulus
+718,4.0,3.0,lulus
+719,4.0,3.0,lulus
+720,3.0,3.0,lulus
+721,4.0,2.0,lulus
+722,2.0,2.0,lulus
+723,3.0,2.0,lulus
+724,4.0,1.0,lulus
+725,4.0,3.0,lulus
+726,3.0,3.0,lulus
+727,3.0,2.0,lulus
+728,4.0,4.0,lulus
+729,3.0,3.0,lulus
+730,3.0,3.0,lulus
+731,4.0,2.0,lulus
+732,4.0,4.0,lulus
+733,3.0,2.0,lulus
+734,4.0,3.0,lulus
+735,4.0,3.0,lulus
+736,4.0,1.0,lulus
+737,3.0,3.0,lulus
+738,4.0,1.0,lulus
+739,2.0,3.0,lulus
+740,3.0,3.0,lulus
+741,4.0,4.0,lulus
+742,4.0,3.0,lulus
+743,2.0,4.0,lulus
+744,4.0,3.0,lulus
+745,4.0,3.0,lulus
+746,4.0,4.0,lulus
+747,4.0,3.0,lulus
+748,3.0,2.0,lulus
+749,4.0,3.0,lulus
+750,3.0,2.0,lulus
+751,3.0,3.0,lulus
+752,2.0,3.0,lulus
+753,3.0,2.0,lulus
+754,4.0,3.0,lulus
+755,4.0,3.0,lulus
+756,2.0,4.0,lulus
+757,4.0,3.0,lulus
+758,3.0,3.0,lulus
+759,3.0,4.0,lulus
+760,4.0,4.0,lulus
+761,3.0,4.0,lulus
+762,4.0,2.0,lulus
+763,2.0,3.0,lulus
+764,4.0,4.0,lulus
+765,4.0,3.0,lulus
+766,4.0,3.0,lulus
+767,3.0,3.0,lulus
+768,3.0,2.0,lulus
+769,3.0,2.0,lulus
+770,3.0,3.0,lulus
+771,4.0,3.0,lulus
+772,4.0,3.0,lulus
+773,4.0,3.0,lulus
+774,4.0,3.0,lulus
+775,4.0,4.0,lulus
+776,1.0,3.0,lulus
+777,2.0,3.0,lulus
+778,3.0,3.0,lulus
+779,4.0,3.0,lulus
+780,4.0,4.0,lulus
+781,4.0,4.0,lulus
+782,3.0,4.0,lulus
+783,2.0,2.0,lulus
+784,4.0,3.0,lulus
+785,4.0,3.0,lulus
+786,3.0,4.0,lulus
+787,3.0,4.0,lulus
+788,4.0,4.0,lulus
+789,4.0,3.0,lulus
+790,4.0,3.0,lulus
+791,3.0,3.0,lulus
+792,2.0,3.0,lulus
+793,4.0,2.0,lulus
+794,2.0,3.0,lulus
+795,3.0,2.0,lulus
+796,4.0,3.0,lulus
+797,4.0,4.0,lulus
+798,4.0,3.0,lulus
+799,3.0,2.0,lulus
+800,3.0,3.0,lulus
+801,3.0,3.0,lulus
+802,4.0,3.0,lulus
+803,3.0,4.0,lulus
+804,3.0,3.0,lulus
+805,2.0,4.0,lulus
+806,4.0,4.0,lulus
+807,4.0,4.0,lulus
+808,3.0,3.0,lulus
+809,4.0,3.0,lulus
+810,2.0,4.0,lulus
+811,3.0,2.0,lulus
+812,4.0,4.0,lulus
+813,4.0,4.0,lulus
+814,4.0,2.0,lulus
+815,2.0,3.0,lulus
+816,3.0,2.0,lulus
+817,4.0,3.0,lulus
+818,4.0,1.0,lulus
+819,3.0,3.0,lulus
+820,4.0,4.0,lulus
+821,4.0,4.0,lulus
+822,3.0,2.0,lulus
+823,4.0,3.0,lulus
+824,4.0,3.0,lulus
+825,2.0,3.0,lulus
+826,4.0,3.0,lulus
+827,2.0,3.0,lulus
+828,3.0,2.0,lulus
+829,2.0,3.0,lulus
+830,4.0,3.0,lulus
+831,3.0,3.0,lulus
+832,3.0,3.0,lulus
+833,3.0,4.0,lulus
+834,3.0,2.0,lulus
+835,4.0,3.0,lulus
+836,2.0,2.0,lulus
+837,3.0,4.0,lulus
+838,3.0,4.0,lulus
+839,3.0,2.0,lulus
+840,3.0,2.0,lulus
+841,4.0,3.0,lulus
+842,4.0,3.0,tidak lulus
+843,4.0,3.0,tidak lulus
+844,2.0,3.0,tidak lulus
+845,2.0,3.0,tidak lulus
+846,3.0,4.0,tidak lulus
+847,3.0,4.0,tidak lulus
+848,4.0,3.0,tidak lulus
+849,2.0,3.0,tidak lulus
+850,4.0,3.0,tidak lulus
+851,2.0,3.0,tidak lulus
+852,2.0,3.0,tidak lulus
+853,3.0,4.0,tidak lulus
+854,2.0,3.0,tidak lulus
+855,2.0,3.0,tidak lulus
+856,4.0,3.0,tidak lulus
+857,4.0,3.0,tidak lulus
+858,3.0,4.0,tidak lulus
+859,3.0,4.0,tidak lulus
+860,4.0,3.0,tidak lulus
+861,4.0,3.0,tidak lulus
+862,4.0,3.0,tidak lulus
+863,4.0,3.0,tidak lulus
+864,2.0,3.0,tidak lulus
+865,3.0,4.0,tidak lulus
+866,4.0,3.0,tidak lulus
+867,3.0,4.0,tidak lulus
+868,2.0,3.0,tidak lulus
+869,4.0,3.0,tidak lulus
+870,4.0,3.0,tidak lulus
+871,2.0,3.0,tidak lulus
+872,2.0,3.0,tidak lulus
+873,4.0,3.0,tidak lulus
+874,4.0,3.0,tidak lulus
+875,4.0,3.0,tidak lulus
+876,2.0,4.0,tidak lulus
+877,3.0,4.0,tidak lulus
+878,4.0,3.0,tidak lulus
+879,3.0,4.0,tidak lulus
+880,4.0,3.0,tidak lulus
+881,4.0,3.0,tidak lulus
+882,2.0,3.0,tidak lulus
+883,3.0,4.0,tidak lulus
+884,4.0,3.0,tidak lulus
+885,3.0,4.0,tidak lulus
+886,4.0,3.0,tidak lulus
+887,2.0,3.0,tidak lulus
+888,2.0,3.0,tidak lulus
+889,2.0,3.0,tidak lulus
+890,3.0,4.0,tidak lulus
+891,4.0,3.0,tidak lulus
+892,4.0,3.0,tidak lulus
+893,4.0,3.0,tidak lulus
+894,2.0,3.0,tidak lulus
+895,3.0,4.0,tidak lulus
+896,2.0,3.0,tidak lulus
+897,2.0,3.0,tidak lulus
+898,4.0,3.0,tidak lulus
+899,2.0,3.0,tidak lulus
+900,4.0,3.0,tidak lulus
+901,4.0,3.0,tidak lulus
+902,2.0,3.0,tidak lulus
+903,2.0,3.0,tidak lulus
+904,3.0,4.0,tidak lulus
+905,3.0,4.0,tidak lulus
+906,2.0,3.0,tidak lulus
+907,2.0,3.0,tidak lulus
+908,2.0,3.0,tidak lulus
+909,3.0,4.0,tidak lulus
+910,2.0,3.0,tidak lulus
+911,4.0,3.0,tidak lulus
+912,2.0,3.0,tidak lulus
+913,3.0,4.0,tidak lulus
+914,2.0,3.0,tidak lulus
+915,4.0,3.0,tidak lulus
+916,3.0,4.0,tidak lulus
+917,4.0,3.0,tidak lulus
+918,3.0,4.0,tidak lulus
+919,3.0,4.0,tidak lulus
+920,2.0,3.0,tidak lulus
+921,4.0,3.0,tidak lulus
+922,2.0,3.0,tidak lulus
+923,2.0,3.0,tidak lulus
+924,2.0,3.0,tidak lulus
+925,3.0,4.0,tidak lulus
+926,4.0,3.0,tidak lulus
+927,4.0,3.0,tidak lulus
+928,4.0,3.0,tidak lulus
+929,4.0,3.0,tidak lulus
+930,4.0,3.0,tidak lulus
+931,4.0,3.0,tidak lulus
+932,4.0,3.0,tidak lulus
+933,2.0,3.0,tidak lulus
+934,2.0,3.0,tidak lulus
+935,3.0,4.0,tidak lulus
+936,3.0,4.0,tidak lulus
+937,3.0,4.0,tidak lulus
+938,2.0,3.0,tidak lulus
+939,2.0,3.0,tidak lulus
+940,4.0,3.0,tidak lulus
+941,3.0,4.0,tidak lulus
+942,3.0,4.0,tidak lulus
+943,3.0,4.0,tidak lulus
+944,4.0,3.0,tidak lulus
+945,3.0,4.0,tidak lulus
+946,3.0,4.0,tidak lulus
+947,2.0,4.0,tidak lulus
+948,2.0,3.0,tidak lulus
+949,2.0,3.0,tidak lulus
+950,3.0,4.0,tidak lulus
+951,3.0,4.0,tidak lulus
+952,2.0,3.0,tidak lulus
+953,2.0,3.0,tidak lulus
+954,2.0,3.0,tidak lulus
+955,4.0,3.0,tidak lulus
+956,4.0,3.0,tidak lulus
+957,4.0,3.0,tidak lulus
+958,4.0,3.0,tidak lulus
+959,3.0,4.0,tidak lulus
+960,4.0,3.0,tidak lulus
+961,2.0,3.0,tidak lulus
+962,4.0,3.0,tidak lulus
+963,3.0,4.0,tidak lulus
+964,2.0,3.0,tidak lulus
+965,4.0,3.0,tidak lulus
+966,4.0,3.0,tidak lulus
+967,2.0,3.0,tidak lulus
+968,2.0,3.0,tidak lulus
+969,4.0,3.0,tidak lulus
+970,2.0,3.0,tidak lulus
+971,4.0,3.0,tidak lulus
+972,4.0,3.0,tidak lulus
+973,2.0,3.0,tidak lulus
+974,2.0,3.0,tidak lulus
+975,4.0,3.0,tidak lulus
+976,4.0,3.0,tidak lulus
+977,4.0,3.0,tidak lulus
+978,2.0,4.0,tidak lulus
+979,3.0,4.0,tidak lulus
+980,4.0,3.0,tidak lulus
+981,3.0,4.0,tidak lulus
+982,4.0,3.0,tidak lulus
+983,3.0,4.0,tidak lulus
+984,4.0,3.0,tidak lulus
+985,4.0,3.0,tidak lulus
+986,4.0,3.0,tidak lulus
+987,3.0,4.0,tidak lulus
+988,4.0,3.0,tidak lulus
+989,2.0,3.0,tidak lulus
+990,4.0,3.0,tidak lulus
+991,4.0,3.0,tidak lulus
+992,3.0,4.0,tidak lulus
+993,3.0,4.0,tidak lulus
+994,4.0,3.0,tidak lulus
+995,4.0,3.0,tidak lulus
+996,4.0,3.0,tidak lulus
+997,4.0,3.0,tidak lulus
+998,3.0,4.0,tidak lulus
+999,4.0,3.0,tidak lulus
+1000,3.0,4.0,tidak lulus
+1001,3.0,4.0,tidak lulus
+1002,3.0,4.0,tidak lulus
+1003,4.0,3.0,tidak lulus
+1004,2.0,3.0,tidak lulus
+1005,4.0,3.0,tidak lulus
+1006,3.0,4.0,tidak lulus
+1007,4.0,3.0,tidak lulus
+1008,3.0,4.0,tidak lulus
+1009,4.0,3.0,tidak lulus
+1010,3.0,4.0,tidak lulus
+1011,3.0,4.0,tidak lulus
+1012,4.0,3.0,tidak lulus
+1013,4.0,3.0,tidak lulus
+1014,3.0,4.0,tidak lulus
+1015,3.0,4.0,tidak lulus
+1016,4.0,3.0,tidak lulus
+1017,2.0,3.0,tidak lulus
+1018,4.0,3.0,tidak lulus
+1019,4.0,3.0,tidak lulus
+1020,2.0,3.0,tidak lulus
+1021,4.0,3.0,tidak lulus
+1022,2.0,3.0,tidak lulus
+1023,2.0,3.0,tidak lulus
+1024,2.0,3.0,tidak lulus
+1025,3.0,4.0,tidak lulus
+1026,4.0,3.0,tidak lulus
+1027,3.0,4.0,tidak lulus
+1028,4.0,3.0,tidak lulus
+1029,4.0,3.0,tidak lulus
+1030,4.0,3.0,tidak lulus
+1031,4.0,3.0,tidak lulus
+1032,4.0,3.0,tidak lulus
+1033,2.0,3.0,tidak lulus
+1034,4.0,3.0,tidak lulus
+1035,2.0,3.0,tidak lulus
+1036,2.0,3.0,tidak lulus
+1037,3.0,4.0,tidak lulus
+1038,4.0,3.0,tidak lulus
+1039,4.0,3.0,tidak lulus
+1040,2.0,3.0,tidak lulus
+1041,4.0,3.0,tidak lulus
+1042,4.0,3.0,tidak lulus
+1043,4.0,3.0,tidak lulus
+1044,2.0,3.0,tidak lulus
+1045,4.0,3.0,tidak lulus
+1046,4.0,3.0,tidak lulus
+1047,2.0,3.0,tidak lulus
+1048,3.0,4.0,tidak lulus
+1049,2.0,3.0,tidak lulus
+1050,3.0,4.0,tidak lulus
+1051,4.0,3.0,tidak lulus
+1052,2.0,4.0,tidak lulus
+1053,4.0,3.0,tidak lulus
+1054,2.0,3.0,tidak lulus
+1055,4.0,3.0,tidak lulus
+1056,4.0,3.0,tidak lulus
+1057,4.0,3.0,tidak lulus
+1058,4.0,3.0,tidak lulus
+1059,4.0,3.0,tidak lulus
+1060,3.0,4.0,tidak lulus
+1061,4.0,3.0,tidak lulus
+1062,4.0,3.0,tidak lulus
+1063,4.0,3.0,tidak lulus
+1064,3.0,4.0,tidak lulus
+1065,4.0,3.0,tidak lulus
+1066,4.0,3.0,tidak lulus
+1067,3.0,4.0,tidak lulus
+1068,4.0,3.0,tidak lulus
+1069,4.0,3.0,tidak lulus
+1070,4.0,3.0,tidak lulus
+1071,4.0,3.0,tidak lulus
+1072,3.0,4.0,tidak lulus
+1073,2.0,3.0,tidak lulus
+1074,3.0,4.0,tidak lulus
+1075,3.0,4.0,tidak lulus
+1076,4.0,3.0,tidak lulus
+1077,2.0,3.0,tidak lulus
+1078,4.0,3.0,tidak lulus
+1079,4.0,3.0,tidak lulus
+1080,3.0,4.0,tidak lulus
+1081,4.0,3.0,tidak lulus
+1082,4.0,3.0,tidak lulus
+1083,2.0,3.0,tidak lulus
+1084,3.0,4.0,tidak lulus
+1085,3.0,4.0,tidak lulus
+1086,4.0,3.0,tidak lulus
+1087,4.0,3.0,tidak lulus
+1088,4.0,3.0,tidak lulus
+1089,4.0,3.0,tidak lulus
+1090,4.0,3.0,tidak lulus
+1091,4.0,3.0,tidak lulus
+1092,4.0,3.0,tidak lulus
+1093,2.0,3.0,tidak lulus
+1094,2.0,3.0,tidak lulus
+1095,4.0,3.0,tidak lulus
+1096,4.0,3.0,tidak lulus
+1097,4.0,3.0,tidak lulus
+1098,4.0,3.0,tidak lulus
+1099,2.0,3.0,tidak lulus
+1100,4.0,3.0,tidak lulus
+1101,2.0,3.0,tidak lulus
+1102,4.0,3.0,tidak lulus
+1103,2.0,3.0,tidak lulus
+1104,3.0,4.0,tidak lulus
+1105,4.0,3.0,tidak lulus
+1106,4.0,3.0,tidak lulus
+1107,3.0,4.0,tidak lulus
+1108,2.0,3.0,tidak lulus
+1109,3.0,4.0,tidak lulus
+1110,3.0,4.0,tidak lulus
+1111,4.0,3.0,tidak lulus
+1112,3.0,4.0,tidak lulus
+1113,4.0,3.0,tidak lulus
+1114,4.0,3.0,tidak lulus
+1115,4.0,3.0,tidak lulus
+1116,3.0,4.0,tidak lulus
+1117,4.0,3.0,tidak lulus
+1118,4.0,3.0,tidak lulus
+1119,4.0,3.0,tidak lulus
+1120,4.0,3.0,tidak lulus
+1121,2.0,3.0,tidak lulus
+1122,3.0,4.0,tidak lulus
+1123,2.0,3.0,tidak lulus
+1124,4.0,3.0,tidak lulus
+1125,2.0,3.0,tidak lulus
+1126,4.0,3.0,tidak lulus
+1127,4.0,3.0,tidak lulus
+1128,3.0,4.0,tidak lulus
+1129,4.0,3.0,tidak lulus
+1130,3.0,4.0,tidak lulus
+1131,4.0,3.0,tidak lulus
+1132,4.0,3.0,tidak lulus
+1133,2.0,3.0,tidak lulus
+1134,3.0,4.0,tidak lulus
+1135,3.0,4.0,tidak lulus
+1136,4.0,3.0,tidak lulus
+1137,4.0,3.0,tidak lulus
+1138,2.0,3.0,tidak lulus
+1139,4.0,3.0,tidak lulus
+1140,4.0,3.0,tidak lulus
+1141,3.0,4.0,tidak lulus
+1142,4.0,3.0,tidak lulus
+1143,4.0,3.0,tidak lulus
+1144,4.0,3.0,tidak lulus
+1145,2.0,3.0,tidak lulus
+1146,4.0,3.0,tidak lulus
+1147,4.0,3.0,tidak lulus
+1148,4.0,3.0,tidak lulus
+1149,3.0,4.0,tidak lulus
+1150,4.0,3.0,tidak lulus
+1151,4.0,3.0,tidak lulus
+1152,4.0,3.0,tidak lulus
+1153,2.0,4.0,tidak lulus
+1154,4.0,3.0,tidak lulus
+1155,3.0,4.0,tidak lulus
+1156,2.0,3.0,tidak lulus
+1157,3.0,4.0,tidak lulus
+1158,2.0,3.0,tidak lulus
+1159,3.0,4.0,tidak lulus
+1160,2.0,4.0,tidak lulus
+1161,2.0,3.0,tidak lulus
+1162,3.0,4.0,tidak lulus
+1163,4.0,3.0,tidak lulus
+1164,3.0,4.0,tidak lulus
+1165,4.0,3.0,tidak lulus
+1166,3.0,4.0,tidak lulus
+1167,4.0,3.0,tidak lulus
+1168,3.0,4.0,tidak lulus
+1169,4.0,3.0,tidak lulus
+1170,3.0,4.0,tidak lulus
+1171,4.0,3.0,tidak lulus
+1172,2.0,3.0,tidak lulus
+1173,4.0,3.0,tidak lulus
+1174,4.0,3.0,tidak lulus
+1175,4.0,3.0,tidak lulus
+1176,3.0,4.0,tidak lulus
+1177,4.0,3.0,tidak lulus
+1178,4.0,3.0,tidak lulus
+1179,4.0,3.0,tidak lulus
+1180,2.0,3.0,tidak lulus
+1181,3.0,4.0,tidak lulus
+1182,3.0,4.0,tidak lulus
+1183,4.0,3.0,tidak lulus
+1184,4.0,3.0,tidak lulus
+1185,4.0,3.0,tidak lulus
+1186,2.0,3.0,tidak lulus
+1187,4.0,3.0,tidak lulus
+1188,4.0,3.0,tidak lulus
+1189,4.0,3.0,tidak lulus
+1190,4.0,3.0,tidak lulus
+1191,2.0,3.0,tidak lulus
+1192,4.0,3.0,tidak lulus
+1193,4.0,3.0,tidak lulus
+1194,4.0,3.0,tidak lulus
+1195,4.0,3.0,tidak lulus
+1196,3.0,4.0,tidak lulus
+1197,2.0,3.0,tidak lulus
+1198,3.0,4.0,tidak lulus
+1199,2.0,4.0,tidak lulus
+1200,4.0,3.0,tidak lulus
+1201,3.0,4.0,tidak lulus
+1202,4.0,3.0,tidak lulus
+1203,3.0,4.0,tidak lulus
+1204,4.0,3.0,tidak lulus
+1205,4.0,3.0,tidak lulus
+1206,4.0,3.0,tidak lulus
+1207,2.0,3.0,tidak lulus
+1208,4.0,3.0,tidak lulus
+1209,4.0,3.0,tidak lulus
+1210,3.0,4.0,tidak lulus
+1211,3.0,4.0,tidak lulus
+1212,3.0,4.0,tidak lulus
+1213,2.0,3.0,tidak lulus
+1214,4.0,3.0,tidak lulus
+1215,2.0,3.0,tidak lulus
+1216,4.0,3.0,tidak lulus
+1217,4.0,3.0,tidak lulus
+1218,3.0,4.0,tidak lulus
+1219,3.0,4.0,tidak lulus
+1220,4.0,3.0,tidak lulus
+1221,3.0,4.0,tidak lulus
+1222,3.0,4.0,tidak lulus
+1223,4.0,3.0,tidak lulus
+1224,4.0,3.0,tidak lulus
+1225,4.0,3.0,tidak lulus
+1226,4.0,3.0,tidak lulus
+1227,2.0,3.0,tidak lulus
+1228,2.0,3.0,tidak lulus
+1229,4.0,3.0,tidak lulus
+1230,2.0,3.0,tidak lulus
+1231,4.0,3.0,tidak lulus
+1232,3.0,4.0,tidak lulus
+1233,4.0,3.0,tidak lulus
+1234,3.0,4.0,tidak lulus
+1235,4.0,3.0,tidak lulus
+1236,4.0,3.0,tidak lulus
+1237,3.0,4.0,tidak lulus
+1238,2.0,3.0,tidak lulus
+1239,2.0,4.0,tidak lulus
+1240,4.0,3.0,tidak lulus
+1241,4.0,3.0,tidak lulus
+1242,2.0,3.0,tidak lulus
+1243,3.0,4.0,tidak lulus
+1244,3.0,4.0,tidak lulus
