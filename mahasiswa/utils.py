@@ -518,20 +518,17 @@ def get_profile(request, context):
             total_mutu = caching("get_total_mutu", get_total_mutu,
                                  (request.session['access_token'], npm), npm)[0]
             ipk = total_mutu / total_sks_dpo
-            data_mahasiswa = {}
-            data_mahasiswa['nama'] = mahasiswa['nama'].lower().title()
-            data_mahasiswa['npm'] = mahasiswa['npm']
-            data_mahasiswa['angkatan'] = mahasiswa['program'][last_term]['angkatan']
-            data_mahasiswa['prodi'] = mahasiswa['program'] \
-                                          [last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
-            data_mahasiswa['status'] = mahasiswa['program'][last_term]['nm_status']
-            data_mahasiswa['sks_lulus'] = caching("get_sks_sequential",
-                                                  get_sks_sequential,
-                                                  (request.session['access_token'], npm), npm)[0]
-            data_mahasiswa['mutu'] = str(round(total_mutu, 2))
-            data_mahasiswa['ipk'] = str(round(ipk, 2))
-            data_mahasiswa['sks_diperoleh'] = total_sks_dpo
-            context.update({'data_mahasiswa': data_mahasiswa})
+            prodi = mahasiswa['program'][last_term]['nm_org'] + ", " + mahasiswa['program'][0]['nm_prg']
+            context.update({'angkatan': mahasiswa['program'][last_term]['angkatan'],
+                            'prodi': prodi,
+                            'status': mahasiswa['program'][last_term]['nm_status'],
+                            'sks_lulus': caching("get_sks_sequential",
+                                                 get_sks_sequential,
+                                                 (request.session['access_token'], npm), npm)[0],
+                            'mutu': str(round(total_mutu, 2)),
+                            'ipk': str(round(ipk, 2)),
+                            'sks_diperoleh': total_sks_dpo
+                            })
             return context
     except KeyError as excp:
         print(excp)
