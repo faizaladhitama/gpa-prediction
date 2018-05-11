@@ -53,8 +53,6 @@ def verify_user(access_token):
             return {"identity_number": 'admin', "role": 'mahasiswa'}
         elif access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY":
             return {"identity_number": 'admin', "role": 'dosen'}
-        elif access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYA":
-            return {"identity_number": 'admin', "role": 'mahasiswa'}
         return generator.verify_user(access_token, os.environ['CLIENT_ID'])
     except ValueError as exception:
         return str(exception)

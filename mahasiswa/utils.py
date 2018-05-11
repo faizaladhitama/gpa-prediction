@@ -214,8 +214,6 @@ def get_index_mahasiswa_context(request, context):
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
         if 'admin' not in request.session['user_login']:
-
-            start = time.time()
             semester = caching("get_semester_evaluation", get_semester_evaluation, (npm, term), npm)
             # print("Semester :", semester)
             sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya, (semester), npm)
@@ -237,36 +235,35 @@ def get_index_mahasiswa_context(request, context):
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
-                                'name' : request.session['name']})
-            print(time.time() - start)
-            return context
-        elif request.session['user_login'] == 'admin':
-            semester = 4
-            sks_seharusnya = get_sks_seharusnya(semester)
-            all_sks = 24
-            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-            status = request_evaluation_status(npm, token, semester, all_sks, 0)
-            context.update({'sks_seharusnya': sks_seharusnya,
-                            'sks_kurang': sks_kurang, 'all_sks': all_sks,
-                            'status': status, 'semester': semester})
-            return context
-        else:
-            semester = 4
-            sks_seharusnya = get_sks_seharusnya(semester)
-            all_sks = 60
-            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-            status = request_evaluation_status(npm, token, semester, all_sks, 0)
-            context.update({'sks_seharusnya': sks_seharusnya,
-                            'sks_kurang': sks_kurang, 'all_sks': all_sks,
-                            'status': status, 'semester': semester})
-            return context
+                                'name': request.session['name']})
+        return context
+        # elif request.session['user_login'] == 'admin':
+        #     semester = 4
+        #     sks_seharusnya = get_sks_seharusnya(semester)
+        #     all_sks = 24
+        #     sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+        #     status = request_evaluation_status(npm, token, semester, all_sks, 0)
+        #     context.update({'sks_seharusnya': sks_seharusnya,
+        #                     'sks_kurang': sks_kurang, 'all_sks': all_sks,
+        #                     'status': status, 'semester': semester})
+        #     return context
+        # else:
+        #     semester = 4
+        #     sks_seharusnya = get_sks_seharusnya(semester)
+        #     all_sks = 60
+        #     sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
+        #     status = request_evaluation_status(npm, token, semester, all_sks, 0)
+        #     context.update({'sks_seharusnya': sks_seharusnya,
+        #                     'sks_kurang': sks_kurang, 'all_sks': all_sks,
+        #                     'status': status, 'semester': semester})
+        #     return context
 
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
         return str(excp)
-    except TypeError as excp:
-        return str(excp)
+    # except TypeError as excp:
+    #     return str(excp)
 
 
 def get_peraturan(request, context):

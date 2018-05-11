@@ -88,6 +88,7 @@ def http_get(processing, url):
     else:
         return 0
 
+
 class Requester:
     @staticmethod
     def async_req_sks(urls, processing):
@@ -97,7 +98,6 @@ class Requester:
         pool.close()
         pool.join()
         return results
-
 
     @staticmethod
     def request_academic_data(npm, client_id, token):
@@ -130,6 +130,7 @@ class Requester:
             raise ValueError(err_msg)
         return response.json()
 
+
 class AuthGenerator:
     def __init__(self):
         self.api_mahasiswa = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/"
@@ -147,8 +148,8 @@ class AuthGenerator:
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         if username == "dosen" and password == "dosen":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY"
-        if username == 'admin2' and password == 'admin2':
-            return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYA"
+        # if username == 'admin2' and password == 'admin2':
+        #     return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYA"
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password")
