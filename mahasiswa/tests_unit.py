@@ -235,8 +235,11 @@ class SplitJenjangJalurTest(TestCase):
 
 class GetIndexMahasiswaContext(MockSiak):
     def test_context_index_valid(self):
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+                             'user_login': 'dummy', 'id': 'dummy',
+                             'role': 'dummy', 'name': 'dummy', 'bypass':True}
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)

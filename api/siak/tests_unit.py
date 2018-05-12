@@ -10,7 +10,7 @@ from api.siak import get_academic_record, get_access_token, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential, \
     get_total_mutu
 
-from api.siak.utils import AuthGenerator, Requester, http_get, \
+from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list
 
 
@@ -28,23 +28,23 @@ class UtilsTest(TestCase):
         self.mocked_get = mocked_get.start()
         self.addCleanup(mocked_get.stop)
 
-    def test_httpget_on_valid(self):
-        course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
-        data = [course]
-        self.mocked_get.return_value = create_mocked_response(200, data)
+    # def test_httpget_on_valid(self):
+    #     course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+    #     data = [course]
+    #     self.mocked_get.return_value = create_mocked_response(200, data)
 
-        count = http_get('count', 'mocked')
-        self.assertEqual(3, count)
+    #     count = http_get('count', 'mocked')
+    #     self.assertEqual(3, count)
 
-        course = {'kelas': None, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
-        data = [course]
-        self.mocked_get.return_value = create_mocked_response(200, data)
+    #     course = {'kelas': None, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+    #     data = [course]
+    #     self.mocked_get.return_value = create_mocked_response(200, data)
 
-        count = http_get('count', 'mocked')
-        self.assertEqual(1, count)
+    #     count = http_get('count', 'mocked')
+    #     self.assertEqual(1, count)
 
-        count = http_get('other', 'mocked')
-        self.assertEqual(0, count)
+    #     count = http_get('other', 'mocked')
+    #     self.assertEqual(0, count)
 
     def test_url_formatter(self):
         url = make_sks_req_list("0", 0, 0, "0", "0")
@@ -210,7 +210,7 @@ class MockSiak(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
 
-        mocked_asyc_req = patch('api.siak.utils.Requester.async_req_sks')
+        #mocked_asyc_req = patch('api.siak.utils.Requester.async_req_sks')
 
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
 
@@ -222,11 +222,13 @@ class MockSiak(TestCase):
 
         mocked_req_sks = patch('api.siak.utils.Requester.request_sks')
 
+        mocked_req_sks_seq = patch('api.siak.get_sks_sequential')
+
         mocked_req_data = patch('api.siak.utils.Requester.request_mahasiswa_data')
 
         self.mocked_generator = mocked_generator.start()
 
-        self.mocked_asyc_req = mocked_asyc_req.start()
+        #self.mocked_asyc_req = mocked_asyc_req.start()
 
         self.mocked_verify = mocked_verify.start()
 
@@ -238,9 +240,11 @@ class MockSiak(TestCase):
 
         self.mocked_req_sks = mocked_req_sks.start()
 
+        self.mocked_req_sks_seq = mocked_req_sks_seq.start()
+
         self.mocked_req_data = mocked_req_data.start()
 
-        self.addCleanup(mocked_asyc_req.stop)
+        #self.addCleanup(mocked_asyc_req.stop)
 
         self.addCleanup(mocked_generator.stop)
 
@@ -253,6 +257,8 @@ class MockSiak(TestCase):
         self.addCleanup(mocked_get_data.stop)
 
         self.addCleanup(mocked_req_sks.stop)
+
+        self.addCleanup(mocked_req_sks_seq.stop)
 
         self.addCleanup(mocked_req_data.stop)
 

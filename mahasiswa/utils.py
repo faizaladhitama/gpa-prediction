@@ -42,6 +42,7 @@ def get_context_mahasiswa(request, term_str):
             'name': request.session['name']
         }
         return context
+
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
@@ -213,33 +214,23 @@ def get_index_mahasiswa_context(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-        if 'admin' not in request.session['user_login']:
 
+        if 'admin' not in request.session['user_login']:
             start = time.time()
             semester = caching("get_semester_evaluation", get_semester_evaluation, (npm, term), npm)
-            # print("Semester :", semester)
             sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya, (semester), npm)
-            # print("Sks seharusnya :", sks_seharusnya)
             all_sks, err = caching("get_sks_sequential", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
-            # print("All sks :", all_sks)
-            # mahasiswa, err = caching("get_data_user", get_data_user,
-            #                         (token, npm), npm)
-            # print("Mahasiswa :", mahasiswa)
-            # print("All sks err :", err)
             if err is None:
                 sks_kurang = caching("get_sks_kurang",
                                      get_sks_kurang, (sks_seharusnya, all_sks), npm)
-                print("Sks kurang :", sks_kurang)
                 status = caching("request_evaluation_status",
                                  request_evaluation_status, (npm, token, semester, all_sks), npm)
-                print("Status :", status)
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
                                 'name' : request.session['name']})
             print(time.time() - start)
-            return context
         elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
@@ -249,23 +240,10 @@ def get_index_mahasiswa_context(request, context):
             context.update({'sks_seharusnya': sks_seharusnya,
                             'sks_kurang': sks_kurang, 'all_sks': all_sks,
                             'status': status, 'semester': semester})
-            return context
-        else:
-            semester = 4
-            sks_seharusnya = get_sks_seharusnya(semester)
-            all_sks = 60
-            sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-            status = request_evaluation_status(npm, token, semester, all_sks, 0)
-            context.update({'sks_seharusnya': sks_seharusnya,
-                            'sks_kurang': sks_kurang, 'all_sks': all_sks,
-                            'status': status, 'semester': semester})
-            return context
-
+        return context
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
-        return str(excp)
-    except TypeError as excp:
         return str(excp)
 
 
@@ -274,29 +252,20 @@ def get_peraturan(request, context):
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
         start = time.time()
-        # if 'admin' not in request.session['user_login']:
-        #print("\nRekam akademik")
         jenjang_str, err = caching("get_jenjang", get_jenjang, (token, npm), npm)
-        # print("\nJenjang str :", jenjang_str)
-        # mahasiswa, err = caching("get_data_user", get_data_user,
-        #                         (token, npm), npm)
-        #print("\nMahasiswa :", mahasiswa)
         if err is None:
             jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
             semester_now = caching("semester_now", get_semester_now, (npm, term), npm)
             semester_evaluation = caching("semester_evaluation",
                                           get_semester_evaluation, (npm, term), npm)
-            #print("\nSemester evaluation :", semester_evaluation)
             status = caching("request_evaluation_status", request_evaluation_status,
                              (npm, token, semester_evaluation, 1), npm)
             detail_evaluasi = caching("detail_evaluasi", get_evaluation_detail_message,
                                       (jenjang, semester_evaluation, status), npm)
             all_sks, err = caching("all_sks", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
-            #print("\nAll sks :", all_sks)
             sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya,
                                      (semester_evaluation), npm)
-            #print("\nSks seharusnya :", sks_seharusnya)
             sks_kurang = caching("get_sks_kurang", get_sks_kurang,
                                  (sks_seharusnya, all_sks), npm)
             context.update({'all_sks': all_sks,
@@ -307,13 +276,10 @@ def get_peraturan(request, context):
             print(time.time() - start)
         return context
     except KeyError as excp:
-        print(excp)
         return str(excp)
     except AttributeError as excp:
-        print(excp)
         return str(excp)
     except TypeError as excp:
-        print(excp)
         return str(excp)
 
 
@@ -321,22 +287,16 @@ def get_riwayat_ip(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         start = time.time()
-        # if 'admin' not in request.session['user_login']:
-        # mahasiswa = caching("mahasiswa", get_data_user,
-        #                    (token, npm), npm)
         graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
         context.update({'name': request.session['name']})
         context = {**context, **graph_ip}
         print(time.time() - start)
         return context
     except KeyError as excp:
-        print(excp)
         return str(excp)
     except AttributeError as excp:
-        print(excp)
         return str(excp)
     except TypeError as excp:
-        print(excp)
         return str(excp)
 
 
@@ -344,9 +304,6 @@ def get_riwayat_sks(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         start = time.time()
-        # if 'admin' not in request.session['user_login']:
-        # mahasiswa = caching("mahasiswa", get_data_user,
-        #                   (token, npm), npm)
         sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
         all_sks, err = caching("all_sks",
                                get_sks_sequential,
@@ -357,13 +314,10 @@ def get_riwayat_sks(request, context):
         print(time.time() - start)
         return context
     except KeyError as excp:
-        print(excp)
         return str(excp)
     except AttributeError as excp:
-        print(excp)
         return str(excp)
     except TypeError as excp:
-        print(excp)
         return str(excp)
 
 
@@ -532,11 +486,8 @@ def get_profile(request, context):
                            })
         return context
     except KeyError as excp:
-        print(excp)
         return str(excp)
     except AttributeError as excp:
-        print(excp)
         return str(excp)
     except TypeError as excp:
-        print(excp)
         return str(excp)
