@@ -214,7 +214,6 @@ def get_index_mahasiswa_context(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-
         if 'admin' not in request.session['user_login']:
             start = time.time()
             semester = caching("get_semester_evaluation", get_semester_evaluation, (npm, term), npm)
@@ -252,6 +251,7 @@ def get_peraturan(request, context):
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
         start = time.time()
+        print("Masuk jenjang peraturan")
         jenjang_str, err = caching("get_jenjang", get_jenjang, (token, npm), npm)
         if err is None:
             jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
@@ -279,8 +279,6 @@ def get_peraturan(request, context):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
-    except TypeError as excp:
-        return str(excp)
 
 
 def get_riwayat_ip(request, context):
@@ -295,8 +293,6 @@ def get_riwayat_ip(request, context):
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
-        return str(excp)
-    except TypeError as excp:
         return str(excp)
 
 
@@ -317,9 +313,6 @@ def get_riwayat_sks(request, context):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
-    except TypeError as excp:
-        return str(excp)
-
 
 # def make_mock_data(status, context, token, npm):
 #     if status == 'green':
@@ -488,6 +481,4 @@ def get_profile(request, context):
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
-        return str(excp)
-    except TypeError as excp:
         return str(excp)

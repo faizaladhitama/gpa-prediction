@@ -209,68 +209,60 @@ class AuthGeneratorTest(TestCase):
 class MockSiak(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
-
         #mocked_asyc_req = patch('api.siak.utils.Requester.async_req_sks')
-
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
-
         mocked_verify = patch('api.siak.utils.AuthGenerator.verify_user')
-
         mocked_get_data = patch('api.siak.utils.AuthGenerator.get_data_user')
-
         mocked_requester = patch('api.siak.utils.Requester.request_academic_data')
-
         mocked_req_sks = patch('api.siak.utils.Requester.request_sks')
-
         mocked_req_sks_seq = patch('api.siak.get_sks_sequential')
-
         mocked_req_data = patch('api.siak.utils.Requester.request_mahasiswa_data')
+        mocked_dict_for_sks_term = patch('mahasiswa.utils.convert_dict_for_sks_term')
+        mocked_get_jenjang = patch('api.siak.get_jenjang')
+        mocked_get_sks_sequential = patch('api.siak.get_sks_sequential')
+        mocked_create_graph_ip = patch('mahasiswa.utils.create_graph_ip')
+        mocked_convert_dict_for_ip_term = patch('mahasiswa.utils.convert_dict_for_ip_term')
+        mocked_get_all_sks_term = patch('api.siak.get_all_sks_term')
 
         self.mocked_generator = mocked_generator.start()
-
         #self.mocked_asyc_req = mocked_asyc_req.start()
-
         self.mocked_verify = mocked_verify.start()
-
         self.mocked_get_token = mocked_get_token.start()
-
         self.mocked_get_data = mocked_get_data.start()
-
         self.mocked_requester = mocked_requester.start()
-
         self.mocked_req_sks = mocked_req_sks.start()
-
         self.mocked_req_sks_seq = mocked_req_sks_seq.start()
-
         self.mocked_req_data = mocked_req_data.start()
+        self.mocked_dict_for_sks_term = mocked_dict_for_sks_term.start()
+        self.mocked_get_jenjang = mocked_get_jenjang.start()
+        self.mocked_get_sks_sequential = mocked_get_sks_sequential.start()
+        self.mocked_create_graph_ip = mocked_create_graph_ip.start()
+        self.mocked_convert_dict_for_ip_term = mocked_convert_dict_for_ip_term.start()
+        self.mocked_get_all_sks_term = mocked_get_all_sks_term.start()
 
         #self.addCleanup(mocked_asyc_req.stop)
-
         self.addCleanup(mocked_generator.stop)
-
         self.addCleanup(mocked_requester.stop)
-
         self.addCleanup(mocked_verify.stop)
-
         self.addCleanup(mocked_get_token.stop)
-
         self.addCleanup(mocked_get_data.stop)
-
         self.addCleanup(mocked_req_sks.stop)
-
         self.addCleanup(mocked_req_sks_seq.stop)
-
         self.addCleanup(mocked_req_data.stop)
+        self.addCleanup(mocked_dict_for_sks_term.stop)
+        self.addCleanup(mocked_get_sks_sequential.stop)
+        self.addCleanup(mocked_get_jenjang.stop)
+        self.addCleanup(mocked_create_graph_ip.stop)
+        self.addCleanup(mocked_convert_dict_for_ip_term.stop)
+        self.addCleanup(mocked_get_all_sks_term.stop)
+
 
         self.mock_npm = "mocked"
-
         self.mock_username = "kafuu.chino"
-
         self.mock_password = "1"
-
         self.mock_token = 'mocked'
-
         self.mock_name = "john doe"
+
 
 
 class SiakTest(MockSiak):

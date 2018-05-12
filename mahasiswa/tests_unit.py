@@ -261,8 +261,28 @@ class GetIndexMahasiswaContext(MockSiak):
 
 class GetPeraturanContext(MockSiak):
     def test_context_index_valid(self):
+        mocked_get_jenjang = patch('api.siak.get_jenjang')
+        mocked_get_sks_sequential = patch('api.siak.get_sks_sequential')
+        self.mocked_get_jenjang = mocked_get_jenjang.start()
+        self.mocked_get_sks_sequential = mocked_get_sks_sequential.start()
+        self.addCleanup(mocked_get_sks_sequential.stop)
+        self.addCleanup(mocked_get_jenjang.stop)
+
+        self.mocked_generator.return_value = None
+        self.mocked_get_jenjang.return_value = "S1 Regular"
+        self.mocked_get_data.return_value = {'program': [{'angkatan': 2015, 'nm_prg':'S1 Regular'}]}
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_sks_sequential.return_value = 0, None
+
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+                             'access_token': 'dummy', 'user': 'dummy',
+                             'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_peraturan(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -284,11 +304,11 @@ class GetPeraturanContext(MockSiak):
 
 class GetIPContext(MockSiak):
     def test_context_index_valid(self):
+        self.mocked_create_graph_ip.return_value = {}
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_index_mahasiswa_context(request, context_mahasiswa)
-        context = get_riwayat_ip(request, context)
+        context = get_riwayat_ip(request, context_mahasiswa)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
@@ -308,11 +328,23 @@ class GetIPContext(MockSiak):
 
 class GetIndexSKSContext(MockSiak):
     def test_context_index_valid(self):
+        self.mocked_dict_for_sks_term.return_value = {}
+        self.mocked_generator.return_value = None
+        self.mocked_get_jenjang.return_value = "S1 Regular"
+        self.mocked_get_data.return_value = {'program': [{'angkatan': 2015, 'nm_prg':'S1 Regular'}]}
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_sks_sequential.return_value = 0, None
+
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_index_mahasiswa_context(request, context_mahasiswa)
-        context = get_riwayat_sks(request, context)
+        context = get_riwayat_sks(request, context_mahasiswa)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
@@ -495,6 +527,18 @@ class SksKurang(TestCase):
 
 class GetProfileContext(MockSiak):
     def test_context_valid(self):
+        self.mocked_generator.return_value = None
+        self.mocked_get_data.return_value = {"program": [{'angkatan': 2015, \
+         'nm_prg': "S1 Regular", 'nm_org' : 'Fakultas Ilmu Komputer', 'nm_status' : 'Aktif'}]}
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_all_sks_term.return_value = [100]
+
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context_mahasiswa)

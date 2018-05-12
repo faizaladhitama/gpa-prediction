@@ -63,7 +63,7 @@ def verify_user(access_token):
 def get_data_user(access_token, npm):
     try:
         generator = AuthGenerator()
-        return caching("get_data_user",
+        return caching("generator_get_data_user",
                        generator.get_data_user, (access_token, npm, os.environ['CLIENT_ID']),
                        npm), None
     except ValueError as exception:

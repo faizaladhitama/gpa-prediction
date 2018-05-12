@@ -86,6 +86,7 @@ def cek_mpkos(code):
 #     else:
 #         return 0
 
+
 class Requester:
     # @staticmethod
     # def async_req_sks(urls, processing):
@@ -95,7 +96,6 @@ class Requester:
     #     pool.close()
     #     pool.join()
     #     return results
-
 
     @staticmethod
     def request_academic_data(npm, client_id, token):
@@ -127,6 +127,7 @@ class Requester:
             err_msg = response.json()['detail']
             raise ValueError(err_msg)
         return response.json()
+
 
 class AuthGenerator:
     def __init__(self):
