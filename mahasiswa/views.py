@@ -29,6 +29,9 @@ def profile(request):
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_profile(request, context_mahasiswa)
+        # context = caching("get_profile",
+        #                   get_profile, (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
         return render(request, 'mahasiswa/profile.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
@@ -45,6 +48,9 @@ def riwayat_sks(request):
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_riwayat_sks(request, context_mahasiswa)
+        # context = caching("get_riwayat_sks",
+        #                   get_riwayat_sks, (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
         return render(request, 'mahasiswa/sks-term-table.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
@@ -56,6 +62,9 @@ def riwayat_ip(request):
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_riwayat_ip(request, context_mahasiswa)
+        # context = caching("get_riwayat_ip", get_riwayat_ip,
+        #                   (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
         return render(request, 'mahasiswa/graph-ip_term.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
@@ -67,6 +76,9 @@ def peraturan_akademik(request):
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
         context = get_peraturan(request, context_mahasiswa)
+        # context = caching("get_peraturan", get_peraturan,
+        #                   (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
         return render(request, 'mahasiswa/peraturan-akademik.tpl', context)
     except TypeError:
         return render(request, 'landing_page.tpl', {})

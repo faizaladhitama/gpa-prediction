@@ -1,4 +1,3 @@
-import time
 from collections import OrderedDict
 from datetime import datetime
 
@@ -72,7 +71,6 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
         status = caching("get_evaluation_status", get_evaluation_status,
                          (term, sks_lulus, sks_diambil, ip_now, npm), npm)
         save_status(npm, status)
-        print("status :", status)
         return status
     except TypeError:
         return "Argument salah"
@@ -154,10 +152,8 @@ def get_evaluation_detail_message(jenjang, semester, evaluation_status):
         if evaluation_status == "tidak lolos" or evaluation_status == "hati-hati":
             return {"source": source, "detail": putus_studi[jenjang][semester]}
         else:
-            print("evaluation_status :", evaluation_status)
             return {"source": '-', "detail": '-'}
-    except KeyError as excp:
-        print(excp)
+    except KeyError:
         return {"source": '-', "detail": '-'}
 
 
@@ -215,7 +211,6 @@ def get_index_mahasiswa_context(request, context):
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
         if 'admin' not in request.session['user_login']:
-            start = time.time()
             semester = caching("get_semester_evaluation", get_semester_evaluation, (npm, term), npm)
             sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya, (semester), npm)
             all_sks, err = caching("get_sks_sequential", get_sks_sequential,
@@ -229,7 +224,6 @@ def get_index_mahasiswa_context(request, context):
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
                                 'name' : request.session['name']})
-            print(time.time() - start)
         elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
@@ -250,19 +244,18 @@ def get_peraturan(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
-        start = time.time()
-        print("Masuk jenjang peraturan")
         jenjang_str, err = caching("get_jenjang", get_jenjang, (token, npm), npm)
         if err is None:
-            jenjang = caching("jenjang", split_jenjang_and_jalur, jenjang_str, npm)
-            semester_now = caching("semester_now", get_semester_now, (npm, term), npm)
-            semester_evaluation = caching("semester_evaluation",
+            jenjang = caching("split_jenjang_and_jalur", split_jenjang_and_jalur, jenjang_str, npm)
+            semester_now = caching("get_semester_now", get_semester_now, (npm, term), npm)
+            semester_evaluation = caching("get_semester_evaluation",
                                           get_semester_evaluation, (npm, term), npm)
             status = caching("request_evaluation_status", request_evaluation_status,
                              (npm, token, semester_evaluation, 1), npm)
-            detail_evaluasi = caching("detail_evaluasi", get_evaluation_detail_message,
+            detail_evaluasi = caching("get_evaluation_detail_message",
+                                      get_evaluation_detail_message,
                                       (jenjang, semester_evaluation, status), npm)
-            all_sks, err = caching("all_sks", get_sks_sequential,
+            all_sks, err = caching("get_sks_sequential", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
             sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya,
                                      (semester_evaluation), npm)
@@ -273,7 +266,6 @@ def get_peraturan(request, context):
                             'semester_evaluation': semester_evaluation,
                             'sks_kurang': sks_kurang, 'name': request.session['name']})
             context = {**context, **detail_evaluasi}
-            print(time.time() - start)
         return context
     except KeyError as excp:
         return str(excp)
@@ -284,11 +276,9 @@ def get_peraturan(request, context):
 def get_riwayat_ip(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
-        start = time.time()
-        graph_ip = caching("graph_ip", create_graph_ip, (token, npm), npm)
+        graph_ip = caching("create_graph_ip", create_graph_ip, (token, npm), npm)
         context.update({'name': request.session['name']})
         context = {**context, **graph_ip}
-        print(time.time() - start)
         return context
     except KeyError as excp:
         return str(excp)
@@ -299,95 +289,26 @@ def get_riwayat_ip(request, context):
 def get_riwayat_sks(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
-        start = time.time()
-        sks_term = caching("sks_term", convert_dict_for_sks_term, (token, npm), npm)
-        all_sks, err = caching("all_sks",
+        sks_term = caching("convert_dict_for_sks_term",
+                           convert_dict_for_sks_term, (token, npm), npm)
+        all_sks, err = caching("get_sks_sequential",
                                get_sks_sequential,
                                (request.session['access_token'], npm), npm)
         if err is None:
             context.update({'sks_term': sks_term, 'all_sks': all_sks,
                             'name': request.session['name']})
-        print(time.time() - start)
         return context
     except KeyError as excp:
         return str(excp)
     except AttributeError as excp:
         return str(excp)
 
-# def make_mock_data(status, context, token, npm):
-#     if status == 'green':
-#         jenjang = 'S1'
-#         sks_term = OrderedDict()
-#         sks_term['2017 - 1'] = 20
-#         sks_term['2017 - 2'] = 22
-#         sks_term['2017 - 3'] = 0
-#         sks_term['2018 - 1'] = 18
-#         sks_term['2018 - 2'] = 0
-#         sks_term['2018 - 3'] = 0
-#         graph_ip = OrderedDict()
-#         graph_ip['2017 - 1'] = 3.5
-#         graph_ip['2017 - 2'] = 3.3
-#         graph_ip['2017 - 3'] = 0
-#         graph_ip['2018 - 1'] = 3.4
-#         graph_ip['2018 - 2'] = 0
-#         graph_ip['2018 - 3'] = 0
-#         semester_now = 3
-#         semester_evaluation = 4
-#         all_sks = 60
-#     else:
-#         jenjang = 'S1'
-#         sks_term = OrderedDict()
-#         sks_term['2017 - 1'] = 12
-#         sks_term['2017 - 2'] = 6
-#         sks_term['2017 - 3'] = 0
-#         sks_term['2018 - 1'] = 6
-#         sks_term['2018 - 2'] = 0
-#         sks_term['2018 - 3'] = 0
-#         graph_ip = OrderedDict()
-#         graph_ip['2017 - 1'] = 2.5
-#         graph_ip['2017 - 2'] = 2.3
-#         graph_ip['2017 - 3'] = 0
-#         graph_ip['2018 - 1'] = 2
-#         graph_ip['2018 - 2'] = 0
-#         graph_ip['2018 - 3'] = 0
-#         semester_now = 3
-#         semester_evaluation = 4
-#         all_sks = 24
-#     status = request_evaluation_status(npm, token, semester_evaluation, all_sks, 0)
-#     detail_evaluasi = get_evaluation_detail_message(jenjang, semester_evaluation, status)
-#     sks_seharusnya = get_sks_seharusnya(semester_evaluation)
-#     sks_kurang = get_sks_kurang(sks_seharusnya, all_sks)
-#     graph_ip_all = mock_graph_ip(graph_ip)
-#     context.update({'sks_term': sks_term, 'all_sks': all_sks,
-#                     'semester_now': semester_now,
-#                     'semester_evaluation': semester_evaluation,
-#                     'sks_kurang': sks_kurang})
-#     context = {**context, **detail_evaluasi, **graph_ip_all}
-#     return context
-
-
-# def mock_graph_ip(graph_ip):
-#     xdata = []
-#     ydata = []
-#     for key, value in graph_ip.items():
-#         xdata.append(key)
-#         ydata.append(value)
-#     chartdata = {
-#         'x': xdata, 'name1': 'IP', 'y1': ydata,
-#     }
-#     charttype = "discreteBarChart"
-#     graph_ip = {
-#         'charttype': charttype,
-#         'chartdata': chartdata,
-#     }
-#     return graph_ip
 
 def convert_dict_for_sks_term(token, npm):
     sks_in_term = OrderedDict()
     all_sks_term, err = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)
     if err is not None:
         return None
-    print("Convert dict all_sks")
     for k, value in sorted(all_sks_term.items()):
         i = 1
         for val in value:

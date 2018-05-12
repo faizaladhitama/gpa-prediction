@@ -540,7 +540,8 @@ class GetProfileContext(MockSiak):
         self.mocked_get_all_sks_term.return_value = [100]
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
+                             'name': 'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_profile(request, context_mahasiswa)
         self.assertNotEqual(context, None)
