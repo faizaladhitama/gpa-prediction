@@ -1,19 +1,10 @@
 from random import randint
+import json
 
-from django.core.cache import cache
+from django.core.cache import cache, caches
+from django.core.cache.backends.base import InvalidCacheBackendError
 
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK
-from api.siak import get_academic_record
-
-
-def get_siak_data(npm, username, password):
-    # kalo buat semuanya paling ITF , yang kita cuma bisa ambil 6 aja
-    return get_academic_record(npm, username, password)
-
-
-def parse_siak_data(npm, username, password):
-    data = get_siak_data(npm, username, password)
-    return data
 
 
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
@@ -78,7 +69,8 @@ def create_mock_data_dosen(jumlah):
         dosen.save()
 
 
-def caching(name, func, args):
+def caching(name, func, args, kode=""):
+    name = kode + "_" + name
     try:
         if cache.get(name) is None:
             if isinstance(args, tuple):
@@ -88,13 +80,13 @@ def caching(name, func, args):
                 ret, err = temp
             else:
                 res = func(args)
-                if isinstance(res, str):
+                if isinstance(res, (str, dict)):
                     raise TypeError
                 ret, err = res
             cache.set(name, (ret, err))
         else:
             ret, err = cache.get(name)
-            print("use cache " + name)
+            print("use cache w err " + name)
         return ret, err
     except (TypeError, ValueError):
         if cache.get(name) is None:
@@ -102,8 +94,17 @@ def caching(name, func, args):
                 ret = func(*args)
             else:
                 ret = func(args)
-            cache.set(name, ret)
+            if isinstance(ret, dict):
+                cache.set(name, json.dumps(ret))
+            else:
+                cache.set(name, ret)
         else:
-            ret = cache.get(name)
+            try:
+                ret = json.loads(caches[name])
+            except InvalidCacheBackendError:
+                ret = cache.get(name)
             print("use cache " + name)
+        #handle tuple object (dict, _)
+        if isinstance(ret, str) and ret[0] == "{":
+            ret = json.loads(ret)
         return ret

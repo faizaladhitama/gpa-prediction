@@ -1,6 +1,5 @@
-from multiprocessing import Pool
-from functools import partial
 import requests
+
 
 def make_sks_req_list(npm, term, year, client_id, token):
     base_url = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/{}/riwayat".format(npm)
@@ -62,41 +61,41 @@ def cek_mpkos(code):
         return 0
 
 
-def count_sks(json):
-    tot_sks = 0
-    for course in json:
-        if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
-            tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
-        elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
-            tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
-    return tot_sks
+# def count_sks(json):
+#     tot_sks = 0
+#     for course in json:
+#         if course['kelas'] != None and cek_huruf_lulus(course['nilai']):
+#             tot_sks = tot_sks + course['kelas']['nm_mk_cl']['jml_sks']
+#         elif course['kelas'] is None and cek_huruf_lulus(course['nilai']):
+#             tot_sks = tot_sks + cek_mpkos(course['kd_mk'])
+#     return tot_sks
 
 
-def http_get(processing, url):
-    result = requests.get(url)
-    json = result.json()
-    count = 0
-    while result.status_code == 403:
-        if count < 5:
-            return 0
-        count = count + 1
-        result = requests.get(url)
-        json = result.json()
-    if processing == 'count':
-        return count_sks(json)
-    else:
-        return 0
+# def http_get(processing, url):
+#     result = requests.get(url)
+#     json = result.json()
+#     count = 0
+#     while result.status_code == 403:
+#         if count < 5:
+#             return 0
+#         count = count + 1
+#         result = requests.get(url)
+#         json = result.json()
+#     if processing == 'count':
+#         return count_sks(json)
+#     else:
+#         return 0
+
 
 class Requester:
-    @staticmethod
-    def async_req_sks(urls, processing):
-        pool = Pool(processes=5)
-        func = partial(http_get, processing)
-        results = pool.map(func, urls)
-        pool.close()
-        pool.join()
-        return results
-
+    # @staticmethod
+    # def async_req_sks(urls, processing):
+    #     pool = Pool(processes=5)
+    #     func = partial(http_get, processing)
+    #     results = pool.map(func, urls)
+    #     pool.close()
+    #     pool.join()
+    #     return results
 
     @staticmethod
     def request_academic_data(npm, client_id, token):
@@ -129,6 +128,7 @@ class Requester:
             raise ValueError(err_msg)
         return response.json()
 
+
 class AuthGenerator:
     def __init__(self):
         self.api_mahasiswa = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/"
@@ -144,10 +144,8 @@ class AuthGenerator:
         }
         if username == "admin" and password == "admin":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        if username == "dosen" and password == "dosen":
+        elif username == "dosen" and password == "dosen":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY"
-        if username == 'admin2' and password == 'admin2':
-            return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYA"
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password")
