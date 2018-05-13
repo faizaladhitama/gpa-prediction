@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 from api.models.nb_model import NbModel
 
-
 def get_prediction(mata_kuliah, nilai):
     nilai = np.asarray(nilai).reshape(1, -1)
     prediksi = NbModel(mata_kuliah, num_features=nilai)
@@ -48,7 +47,7 @@ def huruf_status_converter(huruf):
         'E': "tidak lulus",
         'N': "tidak lulus"
     }
-return bobot[huruf]
+    return bobot[huruf]
 
 def load_nilai_df():
     pwd = os.path.dirname(__file__)
