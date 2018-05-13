@@ -15,10 +15,10 @@
 						</tr>
 					</thead>
 					<tbody>
-					    {% for key, value in sks_term.items %}
+					    {% for i in sks_term %}
 						<tr>
-						    <td>{{key}}</td>
-						     <td>{{value}}</td>
+						    <td>{{i.0}}</td>
+						     <td>{{i.1}}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -28,6 +28,9 @@
 	<div class="row ">
 	    <div class="col ">
 		      <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3">Kembali ke Prediktor</a>
+		      <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-left my-3">
+		      Peraturan Akademik</a>
+		      <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3">Riwayat IP</a>
 	    </div>
 	</div>
 </div>

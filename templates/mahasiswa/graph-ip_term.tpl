@@ -8,6 +8,9 @@
   <div class="row ">
 	    <div class="col ">
   			<a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3">Kembali ke Prediktor</a>
+  			<a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-left my-3">
+  			Peraturan Akademik</a>
+  			<a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-left my-3">Riwayat SKS</a>
 	    </div>
 	</div>
 </div>

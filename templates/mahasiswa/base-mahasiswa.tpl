@@ -18,4 +18,6 @@
 	<footer class="footer-copyright text-center" >
     	© Usagi Studio - 2018
 	</footer>
+	{% block modal %}
+    {% endblock %}
 {% endblock %}

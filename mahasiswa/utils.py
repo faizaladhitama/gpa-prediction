@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from datetime import datetime
 
 from api.db.utils import caching
@@ -305,7 +304,7 @@ def get_riwayat_sks(request, context):
 
 
 def convert_dict_for_sks_term(token, npm):
-    sks_in_term = OrderedDict()
+    sks_in_term = {}
     all_sks_term, err = caching("get_all_sks_term", get_all_sks_term, (token, npm), npm)
     if err is not None:
         return None
@@ -315,11 +314,11 @@ def convert_dict_for_sks_term(token, npm):
             new_key = str(k) + ' - ' + str(i)
             sks_in_term[new_key] = val
             i = i + 1
-    return sks_in_term
+    return sorted(sks_in_term.items())
 
 
 def convert_dict_for_ip_term(token, npm):
-    ip_in_term = OrderedDict()
+    ip_in_term = {}
     all_ip_term, err = caching("get_all_ip_term", get_all_ip_term, (token, npm), npm)
     if err is not None:
         return None
@@ -329,7 +328,7 @@ def convert_dict_for_ip_term(token, npm):
             new_key = str(k) + ' - ' + str(i)
             ip_in_term[new_key] = val
             i = i + 1
-    return ip_in_term
+    return sorted(ip_in_term.items())
 
 
 def create_graph_ip(token, npm):
@@ -337,9 +336,9 @@ def create_graph_ip(token, npm):
     xdata = []
     ydata = []
     all_ip_term = caching("convert_dict_for_ip_term", convert_dict_for_ip_term, (token, npm), npm)
-    for key, value in all_ip_term.items():
-        xdata.append(key)
-        ydata.append(value)
+    for i in all_ip_term:
+        xdata.append(i[0])
+        ydata.append(i[1])
     chartdata = {
         'x': xdata, 'name1': 'IP', 'y1': ydata,
     }

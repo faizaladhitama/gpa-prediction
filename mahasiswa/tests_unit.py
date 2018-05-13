@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from datetime import datetime
 from unittest.mock import patch
 
@@ -239,7 +238,7 @@ class GetIndexMahasiswaContext(MockSiak):
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user_login': 'dummy', 'id': 'dummy',
-                             'role': 'dummy', 'name': 'dummy', 'bypass':True}
+                             'role': 'dummy', 'name': 'dummy', 'bypass': True}
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -366,11 +365,11 @@ class ConvertDictForSksTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict(
+        expected_order =\
             [('2015 - 1', 3), ('2015 - 2', 0), ('2015 - 3', 0),
              ('2016 - 1', 0), ('2016 - 2', 0), ('2016 - 3', 0),
              ('2017 - 1', 0), ('2017 - 2', 0), ('2017 - 3', 0),
-             ('2018 - 1', 0), ('2018 - 2', 0), ('2018 - 3', 0)])
+             ('2018 - 1', 0), ('2018 - 2', 0), ('2018 - 3', 0)]
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk': 'UIGE600042'}
@@ -394,10 +393,11 @@ class ConvertDictForIPTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_ip_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict([('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
-                                      ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
-                                      ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
-                                      ('2018 - 1', 2.7), ('2018 - 2', 2.7), ('2018 - 3', 2.7)])
+        expected_order = \
+            [('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
+             ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
+             ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
+             ('2018 - 1', 2.7), ('2018 - 2', 2.7), ('2018 - 3', 2.7)]
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
