@@ -13,6 +13,7 @@ django-nvd3==0.9.7
 django-pylibmc==0.6.1
 django-webpack-loader==0.4.1
 djangorestframework==3.7.7
+django-tables2==1.21.2
 flake8==3.3.0
 gunicorn==19.7.1
 Jinja2==2.9.6
