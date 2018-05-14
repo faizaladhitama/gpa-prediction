@@ -49,18 +49,13 @@ def get_access_token(username, password):
 def verify_user(access_token):
     try:
         generator = AuthGenerator()
-<<<<<<< HEAD
-=======
+
         if access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             return {"identity_number": 'admin', "role": 'mahasiswa'}
-<<<<<<< HEAD
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
         return generator.verify_user(access_token)
-=======
         elif access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY":
             return {"identity_number": 'admin', "role": 'dosen'}
         return generator.verify_user(access_token, os.environ['CLIENT_ID'])
->>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     except ValueError as exception:
         return str(exception)
     except requests.ConnectionError as exception:
