@@ -23,7 +23,7 @@ def save_status(npm, status):
     except ObjectDoesNotExist as exception:
         return None, str(exception)
 
-def save_status_matakuliah(mahasiswa, kd_mk, status):
+def save_status_matakuliah(npm, kd_mk, status):
     try:
         if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
             create_mahasiswa_siak(npm)
@@ -32,4 +32,4 @@ def save_status_matakuliah(mahasiswa, kd_mk, status):
         record.save()
         return status
     except ObjectDoesNotExist as exception:
-        return None, str(exception)    
+        return None, str(exception)
