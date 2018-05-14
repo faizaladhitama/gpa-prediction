@@ -45,6 +45,7 @@ class InformasiAkademis(models.Model):
 class PrediksiMataKuliah(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
+    status = models.TextField()
 
 class RekamJejakNilaiMataKuliah(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)

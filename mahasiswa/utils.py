@@ -6,6 +6,7 @@ from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu
+from api.models import Mahasiswa, PrediksiMataKuliah
 
 
 def get_term(now):
@@ -45,6 +46,12 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
+
+
+def get_recommendation(npm):
+    if Mahasiswa.objects.filter(npm=npm).count() >= 1:
+        mahasiswa = Mahasiswa.objects.filter(npm=npm)
+    return PrediksiMataKuliah.filter(npm=mahasiswa).filter(status='lulus')
 
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):

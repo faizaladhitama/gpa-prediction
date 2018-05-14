@@ -12,7 +12,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
-    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile
+    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
+    get_recommendation
 
 
 class URLTest(TestCase):
@@ -221,6 +222,15 @@ class EvaluationStatusTest(TestCase):
         status = get_evaluation_status(3, 25, 12)
         self.assertEqual(status, "Tidak Lolos".lower())
 
+class RecomendationTest(TestCase):
+    def recommendation_test(self):
+        pass
+
+    def recommendation_test_mhs_none(self):
+        npm = '000000999'
+        expected = 'Data Not Fond'
+        res = get_recommendation(npm)
+        self.assertEqual(expected, res)
 
 class SplitJenjangJalurTest(TestCase):
     def test_split_jenjangjalur_success(self):
