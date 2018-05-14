@@ -4,8 +4,8 @@
 <div class="mt-5">
     <h1 id="profile-mahasiswa-nama" class="text-center">{{name}}</h1>
 </div>
-<div class="table-responsive mx-auto profile-table-width">
-    <table class="table mt-5 table-hover table-striped"">
+<div class="profile-table-width table-responsive mx-auto">
+    <table class="table mt-5 mx-auto table-hover table-striped">
         <tbody>
             <tr class="px-0" id="profile-mahasiswa-npm" class="table-light">
                 <th class = "w-25" scope="row">NPM</th>
