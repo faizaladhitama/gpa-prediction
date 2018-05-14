@@ -18,7 +18,6 @@ class SeleniumTestCase(LiveServerTestCase):
         chrome_options.add_argument('--headless')
         chrome_options.add_argument("window-size=1200,640")
         chrome_options.add_argument('disable-gpu')
-        print(settings.CHROME_PATH)
         cls.browser = webdriver.Chrome(settings.CHROME_PATH, chrome_options=chrome_options)
         super(SeleniumTestCase, cls).setUp(cls)
 
@@ -71,7 +70,7 @@ class LandingPageTest(SeleniumTestCase):
         print(self.browser.find_element_by_css_selector('#navbar-dropdown'))
         self.browser.find_element_by_css_selector('#navbar-dropdown').click()
         self.browser.find_element_by_css_selector('#logout-button').click()
-        self.assertIn("Anda berhasil logout. Semua session Anda sudah dihapus",
+        self.assertIn("Anda berhasil logout.",
                       self.browser.page_source)
 
 
@@ -120,3 +119,51 @@ class ExternalAPITest(TestCase):
                                     {'username': 'molo', 'password': 'mola', 'connection': False},
                                     follow=True)
         self.assertEqual(response.status_code, 200)
+
+class ViewProfileMahasiswa(SeleniumTestCase):
+    def test_profile_mahasiswa_is_exist(self):
+        response = Client().get('/mahasiswa/profile', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    # def test_view_profile_mahasiswa(self):
+    #     self.browser.get('http://127.0.0.1:8000/')
+    #     self.browser.find_element_by_css_selector('#username').send_keys('')
+    #     self.browser.find_element_by_css_selector('#password').send_keys('')
+    #     self.browser.find_element_by_css_selector('#login-button').send_keys(Keys.RETURN)
+    #     self.browser.get('http://127.0.0.1:8000/mahasiswa/profile')
+
+    #     nama = self.browser.find_element_by_css_selector('#profile-mahasiswa-nama')\
+    #     .is_displayed()
+    #     self.assertTrue(nama)
+
+    #     angkatan = self.browser.find_element_by_css_selector('#profile-mahasiswa-angkatan')\
+    #     .is_displayed()
+    #     self.assertTrue(angkatan)
+
+    #     prodi = self.browser.find_element_by_css_selector('#profile-mahasiswa-prodi')\
+    #     .is_displayed()
+    #     self.assertTrue(prodi)
+
+    #     pem_akademik = self.browser.find_element_by_css_selector('#profile-mahasiswa-pa')\
+    #     .is_displayed()
+    #     self.assertTrue(pem_akademik)
+
+    #     status = self.browser.find_element_by_css_selector('#profile-mahasiswa-status')\
+    #     .is_displayed()
+    #     self.assertTrue(status)
+
+    #     sks_lulus = self.browser.find_element_by_css_selector('#profile-mahasiswa-sks-lulus')\
+    #     .is_displayed()
+    #     self.assertTrue(sks_lulus)
+
+    #     mutu = self.browser.find_element_by_css_selector('#profile-mahasiswa-mutu')\
+    #     .is_displayed()
+    #     self.assertTrue(mutu)
+
+    #     ipk = self.browser.find_element_by_css_selector('#profile-mahasiswa-ipk')\
+    #     .is_displayed()
+    #     self.assertTrue(ipk)
+
+    #     sks_diperoleh = self.browser\
+    #     .find_element_by_css_selector('#profile-mahasiswa-sks-diperoleh').is_displayed()
+    #     self.assertTrue(sks_diperoleh)

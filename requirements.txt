@@ -3,11 +3,14 @@ brotli==1.0.1
 coverage==4.3.4
 dj-database-url==0.5.0
 Django==2.0.2
+django-bower==5.2.0
 django-cas-ng==3.5.9
 django-dotenv==1.4.1
 django-filter==1.1.0
 django-lint==2.0.4
 django_heroku==0.3.1
+django-nvd3==0.9.7
+django-pylibmc==0.6.1
 django-webpack-loader==0.4.1
 djangorestframework==3.7.7
 flake8==3.3.0
@@ -25,6 +28,7 @@ pycparser==2.18
 PyDispatcher==2.0.5
 pyflakes==1.5.0
 PyInstaller==3.3
+pylibmc==1.5.2
 pylint==1.8.2
 pylint_django==0.9.3
 pylint-celery==0.3
@@ -39,6 +43,8 @@ pytest-cov==2.4.0
 pytest-mock==1.6.0
 python-dateutil==2.6.1
 python-dotenv==0.6.4
+python-memcached==1.59
+python-nvd3==0.15.0
 selenium==3.10.0
 six==1.10.0
 whitenoise==3.3.0
