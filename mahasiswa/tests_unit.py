@@ -222,6 +222,7 @@ class EvaluationStatusTest(TestCase):
         status = get_evaluation_status(3, 25, 12)
         self.assertEqual(status, "Tidak Lolos".lower())
 
+
 class RecomendationTest(TestCase):
     def recommendation_test(self):
         pass
@@ -231,6 +232,7 @@ class RecomendationTest(TestCase):
         expected = 'Data Not Fond'
         res = get_recommendation(npm)
         self.assertEqual(expected, res)
+
 
 class SplitJenjangJalurTest(TestCase):
     def test_split_jenjangjalur_success(self):
@@ -567,3 +569,12 @@ class GetProfileContext(MockSiak):
         context_mahasiswa = {}
         context = get_profile(request, context_mahasiswa)
         self.assertEqual(context, "'access_token'")
+
+
+class GetReccomendationContext(TestCase):
+    def context_valid(self):
+        context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                   'access_token': 'dummy', 'user': 'dummy',
+                   'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        new_context = get_recommendation_context(context)
+        self.assertIsNotNone(new_context)
