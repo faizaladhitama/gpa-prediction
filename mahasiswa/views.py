@@ -10,7 +10,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
 
 
 def index(request):
-    now = datetime.datetime.now()
+    now = datetime.now()
     year = now.year
     term = 1
     if now.month < 8:

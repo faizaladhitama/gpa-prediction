@@ -49,7 +49,6 @@ def get_access_token(username, password):
 def verify_user(access_token):
     try:
         generator = AuthGenerator()
-
         if access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             return {"identity_number": 'admin', "role": 'mahasiswa'}
         elif access_token == "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY":

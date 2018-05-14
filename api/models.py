@@ -6,7 +6,6 @@ class Civitas(models.Model):
 class Mahasiswa(Civitas):
     npm = models.TextField(primary_key=True, max_length=100, blank=True)
     study_program = models.TextField(max_length=100, blank=True)
-    educational_program = models.TextField(max_length=100, blank=True)
     nip_pa = models.ForeignKey('Dosen', on_delete=models.CASCADE)
 
 class MahasiswaSIAK(Mahasiswa):
@@ -16,14 +15,6 @@ class MahasiswaSSO(Mahasiswa):
     ldap_cn = models.TextField(max_length=100, blank=True)
     kd_org = models.TextField(max_length=100, blank=True)
     faculty = models.TextField(max_length=100, blank=True)
-
-class MataKuliah(models.Model):
-    kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
-    nip_pengajar = models.IntegerField()
-    sks = models.IntegerField()
-    nama_matkul = models.CharField(max_length=40)
-    prodi = models.CharField(max_length=30)
-    tingkatKerjasama = models.IntegerField(0)
 
 class Dosen(Civitas):
     nip = models.TextField(primary_key=True, max_length=100, blank=True)
@@ -44,8 +35,9 @@ class InformasiAkademis(models.Model):
 
 class PrediksiMataKuliah(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
-    kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
-
+    kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True)
+    status_evaluasi = models.TextField()
+    
 class RekamJejakNilaiMataKuliah(models.Model):
     npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
