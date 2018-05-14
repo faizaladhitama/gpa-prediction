@@ -578,3 +578,8 @@ class GetReccomendationContext(TestCase):
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         new_context = get_recommendation_context(context)
         self.assertIsNotNone(new_context)
+
+    def test_context_invalid_session(self):
+        context={}
+        new_context= get_recommendation_context(context)
+        self.assertEqual(new_context, "'id'")
