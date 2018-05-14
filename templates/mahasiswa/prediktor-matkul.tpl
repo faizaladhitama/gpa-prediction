@@ -1,6 +1,6 @@
 <h1 class="prediktor-title">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">Proyek Perangkat Lunak</h3>
-<div class="container-fluid">
+<div class="container">
 		<div class="row prediktor-body">
 			<div class="col-xs-4" id="result-button">
 				{% load static %} 

@@ -1,12 +1,10 @@
-<<<<<<< HEAD
 from django.test import TestCase
-
 
 class PrediktorKelulusanMatkulTest(TestCase):
     def test_prediktor_matkul_url_exist(self):
         response = self.client.post('/mahasiswa/prediktor-matkul', follow=True)
         self.assertEqual(response.status_code, 200)
-=======
+
 from datetime import datetime
 
 from django.test import TestCase
@@ -72,4 +70,3 @@ class UnitTest(TestCase):
         request = MockRequest()
         context = get_context_mahasiswa(request, get_term(datetime.now()))
         self.assertEqual(context, "'user_login'")
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0

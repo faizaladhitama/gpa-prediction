@@ -5,10 +5,10 @@ from sklearn import preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
-
+from imblearn.over_sampling import RandomOverSampler
 
 class NbModel:
-    def __init__(self, name, columns=[], num_features=[]):
+    def __init__(self, name, columns=None, num_features=None):
         self.course_name = str(name)
         self.columns = columns
         self.num_features = num_features
@@ -46,20 +46,29 @@ class NbModel:
                 mean, std = data_frame[each].mean(), data_frame[each].std()
                 scaled_features[each] = [mean, std]
                 data_frame.loc[:, each] = (data_frame[each] - mean) / std
-            features = data_frame.values[:, :len(self.num_features)]
-
-            # au saya juga bingung , cc Gibran MFW aja
-            target = data_frame.values[:, len(self.num_features)]
+            features = data_frame.values[:, 1:]
+            target = data_frame.values[:, 0]
         except TypeError:
             return "TypeError has Occured , try run obj.create_model"
 
         features_train, features_test, target_train, \
         target_test = train_test_split(features,
-                                       target, test_size=0.33, random_state=10)
+                                       target, test_size=0.3, random_state=10)
 
         self.clf.fit(features_train, target_train)
         target_pred = self.clf.predict(features_test)
         self.accuracy = accuracy_score(target_test, target_pred, normalize=True)
+        print("Non over sampling acc :", self.accuracy)
+
+        ros = RandomOverSampler()
+        x_res, y_res = ros.fit_sample(features_train, target_train)
+        features_train, features_test, target_train, \
+        target_test = train_test_split(x_res,
+                                       y_res, test_size=0.3, random_state=10)
+        self.clf.fit(features_train, target_train)
+        target_pred = self.clf.predict(features_test)
+        self.accuracy = accuracy_score(target_test, target_pred, normalize=True)
+        print("Over sampling acc :", self.accuracy)
         return None
 
     def save_model(self):
@@ -73,10 +82,14 @@ class NbModel:
         self.clf = pickle.load(open(file_name, 'rb'))
 
     def predict(self, features_test):
-        prediction = self.clf.predict(features_test)
+        prediction = self.clf.predict_prob(features_test)
         return prediction
 
     def build_model(self):
         self.create_model()
         self.train_model()
         self.save_model()
+
+# from api.models.nb_model import *
+# model = NbModel("POK", ["hasil", "pras1"], ["pras1"])
+# model.build_model()

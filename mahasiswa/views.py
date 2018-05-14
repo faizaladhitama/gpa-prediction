@@ -1,26 +1,27 @@
-<<<<<<< HEAD
+import datetime
 from django.shortcuts import render
-
-
-def prediktor_matkul(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/prediktor-matkul.tpl', context)
-=======
-from datetime import datetime
-
-from django.shortcuts import render
-
-from mahasiswa.utils import get_term, get_context_mahasiswa
-
 
 # Create your views here.
 def index(request):
-    now = datetime.now()
-    term_str = get_term(now)
+    now = datetime.datetime.now()
+    year = now.year
+    term = 1
+    if now.month < 8:
+        year = now.year - 1
+        term = 3
+        if now.month > 2 and now.month < 7:
+            term = 2
+    term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     try:
-        context = get_context_mahasiswa(request, term_str)
+        context = {
+            'term': term_str,
+            'team': 'usagi studio',
+            'user': request.session['user_login'],
+            'id': request.session['kode_identitas'],
+            'role': request.session['role']
+        }
         return render(request, 'mahasiswa/index.tpl', context)
-    except TypeError:
+    except KeyError:
         return render(request, 'landing_page.tpl', {})
 
 
@@ -32,4 +33,8 @@ def profile(request):
 def rekomendasi(request):
     context = {'name': 'mahasiswa'}
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
+
+
+def prediktor_matkul(request):
+    context = {'name': 'mahasiswa'}
+    return render(request, 'mahasiswa/prediktor-matkul.tpl', context)
