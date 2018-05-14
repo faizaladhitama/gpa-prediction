@@ -1,19 +1,24 @@
 stages:
   - test
   - deploy
+variables:
+  SECRET_KEY : '0cqmq9_8hn^&i7zk3)w9*1cs8+ecb=)-#q38%zulc848wo_!1n'
+  API_KEY: "8f426b0d-9ca8-47b3-990c-d1fda1e82b10"
+  MEMCACHIER_PASSWORD: "302706E779690FB96864DA6D6F239B72"
+  MEMCACHIER_SERVERS: "mc3.dev.ec2.memcachier.com:11211"
+  MEMCACHIER_USERNAME: "136B7A"
+services:
+  - memcached:1.4
 
-TestBackend:
+DjangoTest:
   image: python:3.6
   stage: test
-  #Postgres CI
-  #services:
-  #  - postgres:latest
-  #variables:
-  #  POSTGRES_DB: prima
-  #  POSTGRES_USER: usagistudio
-  #  POSTGRES_PASSWORD: pplc7
+  variables:
+    CLIENT_ID: "X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG"
+    AUTH_HASH: "Basic WDN6TmtGbWVwa2RBNDdBU05NRFpSWDNaOWdxU1UxTHd5d3U1V2VwRzpCRVFXQW43RDl6a2k3NEZ0bkNpWVhIRk50Ymg3eXlNWmFuNnlvMU1uaUdSVWNGWnhkQnBobUU5TUxuVHZiTTEzM1dsUnBwTHJoTXBkYktqTjBxcU9OaHlTNGl2Z0doczB0OVhlQ3M0Ym1JeUJLMldwbnZYTXE4VU5yTEFEMDNZeA=="
   before_script:
     #Reference : Lab PPW Odd Semester 2017/2018
+<<<<<<< HEAD
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
     - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
     - pip install -r requirements.txt
@@ -24,13 +29,18 @@ TestBackend:
     - apt-get install -y xvfb
     - wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
     - unzip chromedriver_linux64.zip
+=======
+    - chmod +x ./setup-script.sh
+    - ./setup-script.sh $GITLAB_USER_LOGIN
+>>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - python manage.py collectstatic --no-input
     - python manage.py runserver 8000 &
   when: on_success
   script:
-    - pylint --load-plugins pylint_django api/ backend/ dosen/ mahasiswa/ pa/ sekre/ --reports=y
-    - coverage run --include='api/*','mahasiswa/*','dosen/*','pa/*','sekre/*' manage.py test
-    - coverage report
+    - ./django-lint.sh
+    - if [[ $GITLAB_USER_LOGIN == "faiz97" || $GITLAB_USER_LOGIN == "sarahdfxo" || $GITLAB_USER_LOGIN == "tinna.fauziah" ]]; then coverage run --include='api/*','mahasiswa/*' manage.py test api.tests_functional; fi
+    - coverage run --include='api/*','mahasiswa/*' --append manage.py test api.tests_unit api.db.tests_unit api.siak.tests_unit mahasiswa.tests_unit
+    - coverage report -m --fail-under=90
   coverage: '/\d+\%\s*$/'
 
 DeploymentProduction:
@@ -42,8 +52,13 @@ DeploymentProduction:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
+<<<<<<< HEAD
     - dpl --provider=heroku --app=prima-pplc7 --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+=======
+    - dpl --provider=heroku --app=prima-pplc7 --api-key=$API_KEY
+    - export HEROKU_API_KEY=$API_KEY
+>>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - heroku run bash --app prima-pplc7 deployment.sh
   environment:
     name: production
@@ -58,8 +73,13 @@ DeploymentStaging:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
+<<<<<<< HEAD
     - dpl --provider=heroku --app=prima-sit-uat --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+=======
+    - dpl --provider=heroku --app=prima-sit-uat --api-key=$API_KEY
+    - export HEROKU_API_KEY=$API_KEY
+>>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - heroku run bash --app prima-sit-uat deployment.sh
   environment:
     name: staging
@@ -75,8 +95,13 @@ DeploymentCobacoba:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
+<<<<<<< HEAD
     - dpl --provider=heroku --app=prima-cobacoba --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
+=======
+    - dpl --provider=heroku --app=prima-cobacoba --api-key=$API_KEY
+    - export HEROKU_API_KEY=$API_KEY
+>>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - heroku run bash --app prima-cobacoba deployment.sh
   environment:
     name: coba-coba

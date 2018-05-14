@@ -4,16 +4,9 @@
 </ul>
 <div class="tab-content nav-item">
   <div id="evaluasi-akademik" class="tab-pane fade in active">
-    {% include 'mahasiswa/prediktor-evaluasi-akademik.tpl' %}
+    {% include 'mahasiswa/prediktor_evaluasi_akademik.tpl' %}
   </div>
   <div id="kelulusan-matkul" class="tab-pane fade">
-    <!-- <h3>Prediktor Kelulusan Matkul</h3>
-    <p>Some content in Prediktor Kelulusan Matkul.</p> -->
 	{% include 'mahasiswa/prediktor-matkul.tpl' %}
   </div>
 </div>
-<!-- 
-{% block customized_js%}
-	{% load static %}
-	<script type="text/javascript" src="{% static "js/prediktor.js" %}"></script>
-{% endblock %} -->

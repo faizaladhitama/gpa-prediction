@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^profile$', views.profile, name='profile'),
     url(r'^rekomendasi$', views.rekomendasi, name='rekomendasi'),
-    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor-matkul'),
+    url(r'^peraturan-akademik$', views.peraturan_akademik, name='peraturan_akademik'),
+    url(r'^riwayat-ip$', views.riwayat_ip, name='riwayat_ip'),
+    url(r'^riwayat-sks$', views.riwayat_sks, name='riwayat_sks')
 ]

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 """
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 import requests
 
 API_MAHASISWA = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/"
@@ -106,7 +103,5 @@ def mahasiswa_bimbingan_dosen(id_dosen, tahun=None, term=None):
 def jadwal_kelas_dosen(id_dosen, tahun, term):
     # https://api-dev.cs.ui.ac.id/siakngcs/dosen/1/jadwal-kelas/2017/1/?access_token=DoGHePHO0Nug23EHpks9Lr56u3EZc9&client_id=X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG"
     return (id_dosen, tahun, term)
-<<<<<<< HEAD
-=======
 """
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
+

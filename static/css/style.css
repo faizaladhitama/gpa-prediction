@@ -19,11 +19,7 @@
 }
 
 .footer {
-<<<<<<< HEAD
-  position: fixed;
-=======
   position: absolute;
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
   bottom: 0;
   width: 100%;
 }
@@ -34,12 +30,6 @@ body {
 }
 
 .messages {
-<<<<<<< HEAD
-	font-family: 'Montserrat-Bold';
-	color: transparent;
-}
-=======
 	margin-top:3%;
 	font-family: 'Montserrat-Bold';
 }
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0

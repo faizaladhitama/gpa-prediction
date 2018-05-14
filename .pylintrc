@@ -10,11 +10,16 @@ disable=
     missing-docstring,
     protected-access,
 <<<<<<< HEAD
+<<<<<<< HEAD
     no-else-return,
     no-name-in-module
 =======
     no-else-return
 >>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
+=======
+    no-else-return,
+    wrong-import-position
+>>>>>>> 206ec7de54b9609b77dade0777818addff656f80
 
 [VARIABLES]
 

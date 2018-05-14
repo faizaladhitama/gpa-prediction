@@ -24,7 +24,7 @@ PRODUCTION = os.environ.get('DATABASE_URL') != None
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0cqmq9_8hn^&i7zk3)w9*1cs8+ecb=)-#q38%zulc848wo_!1n'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'mahasiswa',
     'sekre',
     'pa',
+    'django_nvd3',
+    'djangobower',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +149,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -173,3 +174,83 @@ if platform.system() == "Windows":
     CHROME_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
 else:
     CHROME_PATH = "./chromedriver"
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, '/static/components')
+
+BOWER_INSTALLED_APPS = (
+    'd3#3.3.13',
+    'nvd3#1.7.1',
+)
+
+
+def get_cache():
+    # try:
+    #     servers = os.environ['MEMCACHIER_SERVERS']
+    #     username = os.environ['MEMCACHIER_USERNAME']
+    #     password = os.environ['MEMCACHIER_PASSWORD']
+    #     print("use memcached")
+    #     return {
+    #         'default': {
+    #             'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+    #             # TIMEOUT is not the connection timeout! It's the default expiration
+    #             # timeout that should be applied to keys! Setting it to `None`
+    #             # disables expiration.
+    #             'TIMEOUT': None,
+    #             'LOCATION': servers,
+    #             'OPTIONS': {
+    #                 'binary': True,
+    #                 'username': username,
+    #                 'password': password,
+    #                 'behaviors': {
+    #                     # Enable faster IO
+    #                     'no_block': True,
+    #                     'tcp_nodelay': True,
+    #                     # Keep connection alive
+    #                     'tcp_keepalive': True,
+    #                     # Timeout settings
+    #                     'connect_timeout': 10000,  # ms
+    #                     'send_timeout': 750 * 10000,  # us
+    #                     'receive_timeout': 750 * 10000,  # us
+    #                     '_poll_timeout': 20000,  # ms
+    #                     # Better failover
+    #                     'ketama': True,
+    #                     'remove_failed': 3,
+    #                     'retry_timeout': 5,
+    #                     'dead_timeout': 40,
+    #                 }
+    #             }
+    #         }
+    #     }
+    # except KeyError:
+    #     return {
+    #         'default': {
+    #             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+    #         }
+    #     }
+    # Caching in database
+    return {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+            'LOCATION': 'cache_table',
+            'TIMEOUT' : 60*60*2
+        }
+    }
+
+    # Caching in memory
+    # return {
+    #     'default': {
+    #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #         'TIMEOUT': None
+    #     }
+    # }
+
+
+CACHES = get_cache()

@@ -1,7 +1,14 @@
-import datetime
+from datetime import datetime
+
 from django.shortcuts import render
 
+from api.db.utils import caching
+from mahasiswa.utils import get_term, get_context_mahasiswa, \
+    get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
+    get_peraturan, get_profile
 # Create your views here.
+
+
 def index(request):
     now = datetime.datetime.now()
     year = now.year
@@ -13,21 +20,28 @@ def index(request):
             term = 2
     term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     try:
-        context = {
-            'term': term_str,
-            'team': 'usagi studio',
-            'user': request.session['user_login'],
-            'id': request.session['kode_identitas'],
-            'role': request.session['role']
-        }
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = caching("get_index_mahasiswa_context",
+                          get_index_mahasiswa_context, (request, context_mahasiswa),
+                          context_mahasiswa['id'])
         return render(request, 'mahasiswa/index.tpl', context)
-    except KeyError:
+    except TypeError:
+
         return render(request, 'landing_page.tpl', {})
 
 
 def profile(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/profile.tpl', context)
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_profile(request, context_mahasiswa)
+        # context = caching("get_profile",
+        #                   get_profile, (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
+        return render(request, 'mahasiswa/profile.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
 
 
 def rekomendasi(request):
@@ -35,6 +49,43 @@ def rekomendasi(request):
     return render(request, 'mahasiswa/rekomendasi.tpl', context)
 
 
-def prediktor_matkul(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/prediktor-matkul.tpl', context)
+def riwayat_sks(request):
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_riwayat_sks(request, context_mahasiswa)
+        # context = caching("get_riwayat_sks",
+        #                   get_riwayat_sks, (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
+        return render(request, 'mahasiswa/sks-term-table.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
+
+
+def riwayat_ip(request):
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_riwayat_ip(request, context_mahasiswa)
+        # context = caching("get_riwayat_ip", get_riwayat_ip,
+        #                   (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
+        return render(request, 'mahasiswa/graph-ip_term.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
+
+
+def peraturan_akademik(request):
+    now = datetime.now()
+    term_str = get_term(now)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context = get_peraturan(request, context_mahasiswa)
+        # context = caching("get_peraturan", get_peraturan,
+        #                   (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
+        return render(request, 'mahasiswa/peraturan-akademik.tpl', context)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
