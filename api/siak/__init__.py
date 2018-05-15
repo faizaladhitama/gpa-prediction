@@ -268,3 +268,7 @@ def get_total_mutu(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+
+def get_prasyarat():
+    pass
+    
