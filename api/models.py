@@ -43,3 +43,5 @@ class RekamJejakNilaiMataKuliah(models.Model):
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
     nilai = models.CharField(max_length=2)
     term = models.IntegerField()
+
+
