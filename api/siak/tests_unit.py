@@ -655,3 +655,9 @@ class SiakTest(MockSiak):
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
+
+    def test_get_prasyarat_anum:
+        pass
+
+    def test_get_prasyarat_error:
+        pass
