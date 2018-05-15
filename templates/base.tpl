@@ -30,6 +30,9 @@
 {% block customized_css%}
 {% endblock %}
 
+{% load static %}
+<img src="{% static 'assets/loader.gif' %}">
+
 {% block content %}
 {% endblock %}
 
