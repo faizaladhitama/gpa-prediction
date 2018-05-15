@@ -13,8 +13,20 @@ h1 {
 }
 
 h3 {
+	font-family: 'Montserrat-Bold';
+	margin-top: 5%;
+}
+
+h7 {
+	font-family: 'Montserrat-Bold';
+	line-height: 300%;
+}
+
+.matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
+	margin-left: 40%;
+	margin-top: 10px;
 }
 
 #mytabs {
@@ -40,32 +52,23 @@ h3 {
 }
 
 .prediktor-title {
-	margin-left: -15%;
+	margin-left: 20%;
+	margin-top: 2%;
 }
 
-.prediktor-title {
-	margin-left: -15%;
+.prediktor-title-matkul {
+	margin-left: 30%;
 }
 
 .prediktor-body {
-	margin-top: 70px;
-}
-
-.matkul-to-predict {
-	margin-left: 0%;
+	margin-top: 5%;
 }
 
 #result-button {
-	margin-left: -10%;
-}
-
-#table-matkul-prasyarat {
-	position: relative;
-	left: 30%;
+	margin-left: 20%;
 }
 
 .prediktor-message {
-	margin-left: -10%;
 	margin-top: 30px;
 }
 
@@ -75,5 +78,26 @@ h3 {
 }
 
 #prediktor-eval-button {
-	margin-left: 70px;
+	margin-left: 32%;
+}
+
+#table-matkul-prasyarat {
+	margin-left: 50%;
+	margin-top: 15%;
+}
+
+.btn-link{
+	margin-left: 39%
+}
+
+body{
+    overflow-x:hidden;
+}
+
+.prediktor-button{
+    padding: 8.2rem 1rem;
+}
+
+.prediktor-red-button{
+    padding:4.2rem 4rem;
 }

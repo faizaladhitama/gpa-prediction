@@ -1,9 +1,17 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-	<h6>
+	<div>
 		{% for message in messages %}
-			<h6 class="messages">{{message}}</h6>
+			<div class="alert alert-success h6">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   					<span aria-hidden="true">&times;</span>
+  				</button>
+				{{message}}
+			</div>
 		{% endfor %}
-	</h6>
-	{% include 'mahasiswa/prediktor.tpl' %}
+	</div>
+	{% include 'mahasiswa/predictor-tabs.tpl' %}
 {% endblock %}
+{% block modal%}
+{% include 'mahasiswa/detail-akademik-modal.tpl' %}
+{% endblock%}
