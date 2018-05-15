@@ -16,6 +16,14 @@ class MahasiswaSSO(Mahasiswa):
     kd_org = models.TextField(max_length=100, blank=True)
     faculty = models.TextField(max_length=100, blank=True)
 
+class MataKuliah(models.Model):
+    kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
+    nip_pengajar = models.IntegerField()
+    sks = models.IntegerField()
+    nama_matkul = models.CharField(max_length=40)
+    prodi = models.CharField(max_length=30)
+    tingkatKerjasama = models.IntegerField(0)
+
 class Dosen(Civitas):
     nip = models.TextField(primary_key=True, max_length=100, blank=True)
     is_pa = models.BooleanField()
