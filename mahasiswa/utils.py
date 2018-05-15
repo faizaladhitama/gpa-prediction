@@ -8,6 +8,8 @@ from api.siak import get_jenjang, get_all_sks_term, \
     get_total_mutu
 from api.models import Mahasiswa, PrediksiMataKuliah
 
+NPM_MAHASISWA = ""
+
 
 def get_term(now):
     year = now.year
@@ -51,7 +53,7 @@ def get_context_mahasiswa(request, term_str):
 def get_recommendation(npm):
     if Mahasiswa.objects.filter(npm=npm).count() >= 1:
         mahasiswa = Mahasiswa.objects.filter(npm=npm)
-    return PrediksiMataKuliah.filter(npm=mahasiswa).filter(status='lulus')
+    return PrediksiMataKuliah.objects.filter(npm=mahasiswa).filter(status='lulus')
 
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
@@ -409,3 +411,19 @@ def get_profile(request, context):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
+
+
+def get_npm(context):
+    try:
+        return context is None
+    except KeyError as excp:
+        return str(excp)
+
+
+def set_npm(npm):
+    global NPM_MAHASISWA
+    NPM_MAHASISWA = npm
+
+
+def get_global_npm():
+    return NPM_MAHASISWA
