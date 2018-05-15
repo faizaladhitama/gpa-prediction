@@ -1,7 +1,7 @@
 import os.path
 import numpy as np
 import pandas as pd
-from api.models.nb_model import NbModel
+from api.ml_models.nb_model import NbModel
 
 def get_prediction(mata_kuliah, nilai):
     nilai = np.asarray(nilai).reshape(1, -1)
