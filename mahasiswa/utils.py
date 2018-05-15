@@ -429,7 +429,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=0):
 
 def request_course_prediction(npm, kd_mk_target, kd_mk_pras):
     status = get_prediction(kd_mk_target, kd_mk_pras)
-    save_status_matakuliah(npm, kd_mk_targetm status)
+    save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):
