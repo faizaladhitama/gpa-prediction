@@ -6,6 +6,7 @@ from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu
+from api.ml_models import get_prediction
 
 
 def get_term(now):
