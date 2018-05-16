@@ -592,3 +592,9 @@ class SetNpm(TestCase):
         set_npm(test_npm)
         global_npm = get_global_npm()
         self.assertEqual(global_npm, test_npm)
+
+    def set_invalid(self):
+        test_npm = "'id'"
+        set_npm(test_npm)
+        global_npm = get_global_npm()
+        self.assertIsNone(global_npm)

@@ -422,7 +422,10 @@ def get_npm(context):
 
 def set_npm(npm):
     global NPM_MAHASISWA
-    NPM_MAHASISWA = npm
+    if npm == "'id'":
+        NPM_MAHASISWA = None
+    else:
+        NPM_MAHASISWA = npm
 
 
 def get_global_npm():
