@@ -513,7 +513,7 @@ class GetPrediktorMatkulContext(TestCase):
     def test_prediktor_matkul_context_invalid_request(self):
         request = None
         context = None
-        prediktor_matkul_context = get_index_mahasiswa_context(request, context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, context)
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
 
