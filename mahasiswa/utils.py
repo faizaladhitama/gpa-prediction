@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from api.db.utils import caching
+from api.db.utils import caching, create_mahasiswa_siak
 
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
@@ -52,8 +52,10 @@ def get_context_mahasiswa(request, term_str):
 
 def get_recommendation(npm):
     if MahasiswaSIAK.objects.filter(npm=npm).count() >= 1:
-        mahasiswa = MahasiswaSIAK.objects.filter(npm=npm)
-    return PrediksiMataKuliah.objects.filter(npm=mahasiswa).filter(status='lulus')
+        mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
+    else:
+        mahasiswa = create_mahasiswa_siak(npm)
+    return PrediksiMataKuliah.objects.get(npm=mahasiswa, status='lulus')
 
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):

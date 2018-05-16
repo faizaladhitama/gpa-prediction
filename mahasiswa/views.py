@@ -43,7 +43,7 @@ def rekomendasi(request):
     context_mahasiswa = get_context_mahasiswa(request, term_str)
     npm = context_mahasiswa['id']
     set_npm(npm)
-    table = RekomendasiTable(get_recommendation(npm))
+    table = RekomendasiTable(get_recommendation(npm).objects.all())
     RequestConfig(request, paginate={'per_page': 25}).configure(table)
     context_mahasiswa.update({'table': table})
     return render(request, 'mahasiswa/rekomendasi.tpl', context_mahasiswa)
