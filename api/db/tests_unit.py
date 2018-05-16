@@ -75,6 +75,9 @@ class UtilsTest(TestCase):
          nama_matkul=mock_nama_matkul).count() > 0
         self.assertTrue(flag)
 
+    def test_populate_matkul(self):
+        pass
+
 
 def lazy(count):
     for i in range(6000):
