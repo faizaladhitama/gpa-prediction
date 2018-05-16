@@ -68,6 +68,12 @@ def create_mock_data_dosen(jumlah):
         is_pa = True
         dosen.save()
 
+def populate_matkul(file_csv):
+    pass
+
+def populate_prasyarat_matkul(file_csv):
+    pass    
+
 
 def caching(name, func, args, kode=""):
     name = kode + "_" + name
