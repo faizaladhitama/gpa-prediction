@@ -19,7 +19,7 @@
         </span>
 	</li>
 	<li>
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" id = "dropdown">
