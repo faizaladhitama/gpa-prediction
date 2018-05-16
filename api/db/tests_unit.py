@@ -7,7 +7,7 @@ from django.test import TestCase
 from api.siak import get_siak_data, parse_siak_data
 from api.db.utils import insert_to_db_rekam_jejak, \
     create_mock_data_mahasiswa, create_mock_data_dosen, \
-    caching
+    caching, insert_to_db_matakuliah
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
 
 
@@ -68,7 +68,12 @@ class UtilsTest(TestCase):
         return flag
 
     def test_insert_to_db_matakuliah(self):
-        pass
+        mock_kode_matkul = 'IKI20100'
+        mock_nama_matkul = 'Basis Data'
+        insert_to_db_matakuliah(mock_kode_matkul, nama=mock_nama_matkul)
+        flag = MataKuliah.objects.filter(kode_matkul=mock_kode_matkul,\
+         nama_matkul=mock_nama_matkul).count() > 0
+        self.assertTrue(flag)
 
 
 def lazy(count):
