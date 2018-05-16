@@ -80,6 +80,9 @@ def request_course_prediction(npm, kd_mk_target, kd_mk_pras):
     save_status_matakuliah(npm, status)
     return status
 
+def get_prediktor_matkul_context(request, matkul_to_predict)
+    pass
+
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):
     source = "Keputusan Rektor Universitas Indonesia\
             Nomor: 478/SK/R/UI/2004 tentang Evaluasi\

@@ -503,17 +503,18 @@ class ViewTest(TestCase):
 
 class GetPrediktorMatkulContext(TestCase):
     def test_prediktor_matkul_context_valid(self):
+        matkul = 'Basis Data'
         context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                    'access_token': 'dummy', 'user': 'dummy',
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context)
-        prediktor_matkul_context = get_prediktor_matkul_context(request, context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
         self.assertIsNotNone(prediktor_matkul_context)
 
     def test_prediktor_matkul_context_invalid_request(self):
         request = None
         context = None
-        prediktor_matkul_context = get_prediktor_matkul_context(request, context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
 
