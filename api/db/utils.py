@@ -50,10 +50,7 @@ def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tkt_
     matkul = MataKuliah(kode_matkul=kode_matkul, nip_pengajar=nip, nama_matkul=nama, prodi=prodi,
                         tingkatKerjasama=tkt_krjsama, sks=sks)
     matkul.save()
-
-
-def insert_to_matakuliah(kode_matkul, nama):
-    pass
+    
 
 def create_mock_data_mahasiswa():
     return True
