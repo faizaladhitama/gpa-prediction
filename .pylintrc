@@ -10,7 +10,8 @@ disable=
     missing-docstring,
     protected-access,
     no-else-return,
-    wrong-import-position
+    wrong-import-position,
+    global-statement
 
 [VARIABLES]
 

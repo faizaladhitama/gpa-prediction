@@ -13,7 +13,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     create_graph_ip, request_evaluation_status, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
     get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
-    get_recommendation
+    get_recommendation, get_npm, get_global_npm, \
+    set_npm
 
 
 class URLTest(TestCase):
@@ -222,6 +223,7 @@ class EvaluationStatusTest(TestCase):
         status = get_evaluation_status(3, 25, 12)
         self.assertEqual(status, "Tidak Lolos".lower())
 
+
 class RecomendationTest(TestCase):
     def recommendation_test(self):
         pass
@@ -231,6 +233,7 @@ class RecomendationTest(TestCase):
         expected = 'Data Not Fond'
         res = get_recommendation(npm)
         self.assertEqual(expected, res)
+
 
 class SplitJenjangJalurTest(TestCase):
     def test_split_jenjangjalur_success(self):
@@ -567,3 +570,25 @@ class GetProfileContext(MockSiak):
         context_mahasiswa = {}
         context = get_profile(request, context_mahasiswa)
         self.assertEqual(context, "'access_token'")
+
+
+class GetNpm(TestCase):
+    def context_valid(self):
+        context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                   'access_token': 'dummy', 'user': 'dummy',
+                   'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        new_context = get_npm(context)
+        self.assertIsNotNone(new_context)
+
+    def test_context_invalid_session(self):
+        context = {}
+        new_context = get_npm(context)
+        self.assertEqual(new_context, "'id'")
+
+
+class SetNpm(TestCase):
+    def set_valid(self):
+        test_npm = "1506689162"
+        set_npm(test_npm)
+        global_npm = get_global_npm()
+        self.assertEqual(global_npm, test_npm)

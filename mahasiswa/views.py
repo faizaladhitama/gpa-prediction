@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from django.shortcuts import render
-
+from django_tables2 import RequestConfig
 from api.db.utils import caching
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
-    get_peraturan, get_profile
-# Create your views here.
+    get_peraturan, get_profile, set_npm, get_recommendation
+from mahasiswa.table import RekomendasiTable
 
 
 def index(request):
@@ -38,8 +38,15 @@ def profile(request):
 
 
 def rekomendasi(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/rekomendasi.tpl', context)
+    now = datetime.now()
+    term_str = get_term(now)
+    context_mahasiswa = get_context_mahasiswa(request, term_str)
+    npm = context_mahasiswa['id']
+    set_npm(npm)
+    table = RekomendasiTable(get_recommendation(npm))
+    RequestConfig(request, paginate={'per_page': 25}).configure(table)
+    context_mahasiswa.update({'table': table})
+    return render(request, 'mahasiswa/rekomendasi.tpl', context_mahasiswa)
 
 
 def riwayat_sks(request):

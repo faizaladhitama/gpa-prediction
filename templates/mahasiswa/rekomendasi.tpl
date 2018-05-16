@@ -1,1 +1,6 @@
-<h1>This is {{name}}/rekomendasi page</h1>>
+{% extends 'mahasiswa/base-mahasiswa.tpl' %}
+
+{% block contentPage %}
+    {% load render_table from django_tables2 %}
+        {% render_table table %}
+{% endblock %}
