@@ -67,7 +67,7 @@ class UtilsTest(TestCase):
         flag = Dosen.objects.filter(nama="nama5").count() > 0
         return flag
 
-    def test_insert_to_db_matakuliah(self):
+    def test_create_matakuliah(self):
         mock_kode_matkul = 'IKI20100'
         mock_nama_matkul = 'Basis Data'
         create_matakuliah(mock_kode_matkul, nama=mock_nama_matkul)
@@ -75,8 +75,6 @@ class UtilsTest(TestCase):
          nama_matkul=mock_nama_matkul).count() > 0
         self.assertTrue(flag)
 
-    def test_populate_matkul(self):
-        pass
 
 def lazy(count):
     for i in range(6000):
