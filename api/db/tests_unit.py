@@ -67,6 +67,9 @@ class UtilsTest(TestCase):
         flag = Dosen.objects.filter(nama="nama5").count() > 0
         return flag
 
+    def test_insert_to_db_matakuliah(self):
+        pass
+
 
 def lazy(count):
     for i in range(6000):
