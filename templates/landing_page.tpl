@@ -14,9 +14,16 @@
 				<img id="logo" src= "{% static "assets/logo_persegi.png" %}">
 			</div>
 			<div class="col-sm-4">
-				{% for message in messages %}
-				<h3 class="messages">{{message}}</h3>
-				{% endfor %}
+				<div>
+					{% for message in messages %}
+						<div class="alert alert-success h6">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			   					<span aria-hidden="true">&times;</span>
+			  				</button>
+							{{message}}
+						</div>
+					{% endfor %}
+				</div>
 				<form class="login-form" action="{% url 'api:auth-login' %}" method="POST">                
                 {% csrf_token %}
 					<div class="form-group">
@@ -27,11 +34,16 @@
 						<label for="password" class="login-label">Password </label>
 						<input type="password" name="password" id="password" class="form-control" onfocus="deleteMessage()">
 					</div>
-				<input type="submit" class="btn btn-outline-warning" id="login-button" value="Log in">
+				<input type="submit" class="btn btn-warning font-weight-bold" id="login-button" value="Log in" onclick="displayLoader()">
 				</form>
 
 			</div>
 		</div>
 </div>
 
+<footer class="footer-copyright text-white text-center py-5" >
+     © Usagi Studio - 2018
+</footer>
+
 {% endblock %}
+

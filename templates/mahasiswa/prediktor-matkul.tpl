@@ -1,10 +1,9 @@
-<h1 class="prediktor-title">Prediktor Kelulusan Mata Kuliah</h1>
+<h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">Proyek Perangkat Lunak</h3>
 <div class="container">
 		<div class="row prediktor-body">
 			<div class="col-xs-4" id="result-button">
-				{% load static %} 
-				<img src= "{% static "assets/yellowButton.png" %}">
+				<button type="button" class="btn btn-warning btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">hati-hati</button>
 			</div>
 			<div class="col-xs-8"> 
 				<div class="table-responsive" id="table-matkul-prasyarat">
@@ -43,7 +42,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col">
+			<div class="col text-center">
 				<p class="prediktor-message"> Hati-hati! Anda memiliki kemungkinan  <span class ="verdict">tidak lulus</span> Proyek Perangkat Lunak <p>
 			</div>
 		</div>

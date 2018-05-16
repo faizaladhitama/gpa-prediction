@@ -12,14 +12,14 @@
 
       <span id="identity">
         <a class="nav-link activate" href="#" id = "user-term-role">
-          <h10>{{user}} - {{id}}</h10><br>
+          <h10>{{name}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
-          <h10>{{role}}</h10>
+          <h10 id="role">{{role}}</h10>
         </a>
         </span>
 	</li>
 	<li>
-        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbar-dropdown">
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu  dropdown-menu-right border-info" id = "dropdown">
@@ -29,7 +29,7 @@
     </ul>
   </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light" id ="second-navbar">
+<nav class="navbar navbar-expand-lg" id ="second-navbar">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#underNavbar" aria-controls="underNavbar" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

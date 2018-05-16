@@ -11,6 +11,8 @@ disable=
     protected-access,
     no-else-return,
     no-name-in-module
+    no-else-return,
+    wrong-import-position
 
 [VARIABLES]
 

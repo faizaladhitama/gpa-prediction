@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from datetime import datetime
 from unittest.mock import patch
 
@@ -12,7 +11,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     split_jenjang_and_jalur, get_index_mahasiswa_context, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
-    get_sks_seharusnya, get_sks_kurang, get_semester_now
+    get_sks_seharusnya, get_sks_kurang, get_semester_now, \
+    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile
 
 
 class URLTest(TestCase):
@@ -28,8 +28,16 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/profile', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_akademik(self):
-        response = self.client.get('/mahasiswa/detail-akademik', follow=True)
+    def test_riwayat_ip(self):
+        response = self.client.get('/mahasiswa/riwayat-ip', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_riwayat_sks(self):
+        response = self.client.get('/mahasiswa/riwayat-sks', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_peraturan_akademik_valid(self):
+        response = self.client.get('/mahasiswa/peraturan-akademik', follow=True)
         self.assertEqual(response.status_code, 200)
 
 
@@ -57,16 +65,17 @@ class TermTest(TestCase):
 
 
 class ContextTest(TestCase):
-    def test_context_mahasiswa_valid(self):
+    @patch('api.siak.utils.AuthGenerator.get_data_user')
+    def test_context_mahasiswa_valid(self, mocked_get_data):
         session = {
             'user_login': 'dummy',
             'kode_identitas': 'dummy',
             'role': 'dummy'
         }
+        mocked_get_data.return_value = {"mocked": "mocked"}
         request = MockRequest(session)
         context = get_context_mahasiswa(request, get_term(datetime.now()))
-        self.assertEqual(context, {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                                   'user': 'dummy', 'id': 'dummy', 'role': 'dummy'})
+        self.assertIsNotNone(context)
 
     def test_context_invalid_request(self):
         request = None
@@ -76,7 +85,7 @@ class ContextTest(TestCase):
     def test_context_invalid_session(self):
         request = MockRequest()
         context = get_context_mahasiswa(request, get_term(datetime.now()))
-        self.assertEqual(context, "'user_login'")
+        self.assertEqual(context, "'access_token'")
 
 
 class EvaluationTest(TestCase):
@@ -172,6 +181,10 @@ class SemesterNowTest(TestCase):
         semester = get_semester_now("15066989162", 4)
         self.assertEqual("Wrong term", semester)
 
+    def test_kode_identitas_invalid(self):
+        semester = get_semester_now("-15066989162", 4)
+        self.assertEqual("Wrong kode identitas", semester)
+
 
 class AngkatanTest(TestCase):
     def test_angkatan_valid(self):
@@ -221,8 +234,11 @@ class SplitJenjangJalurTest(TestCase):
 
 class GetIndexMahasiswaContext(MockSiak):
     def test_context_index_valid(self):
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy'}
+                             'user_login': 'dummy', 'id': 'dummy',
+                             'role': 'dummy', 'name': 'dummy', 'bypass': True}
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -242,15 +258,118 @@ class GetIndexMahasiswaContext(MockSiak):
         self.assertEqual(context, "'access_token'")
 
 
+class GetPeraturanContext(MockSiak):
+    def test_context_index_valid(self):
+        mocked_get_jenjang = patch('api.siak.get_jenjang')
+        mocked_get_sks_sequential = patch('api.siak.get_sks_sequential')
+        self.mocked_get_jenjang = mocked_get_jenjang.start()
+        self.mocked_get_sks_sequential = mocked_get_sks_sequential.start()
+        self.addCleanup(mocked_get_sks_sequential.stop)
+        self.addCleanup(mocked_get_jenjang.stop)
+
+        self.mocked_generator.return_value = None
+        self.mocked_get_jenjang.return_value = "S1 Regular"
+        self.mocked_get_data.return_value = {'program': [{'angkatan': 2015, 'nm_prg':'S1 Regular'}]}
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_sks_sequential.return_value = 0, None
+
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'access_token': 'dummy', 'user': 'dummy',
+                             'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_peraturan(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_peraturan(request,
+                                context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_peraturan(request,
+                                context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
+
+
+class GetIPContext(MockSiak):
+    def test_context_index_valid(self):
+        self.mocked_create_graph_ip.return_value = {}
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_riwayat_ip(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_riwayat_ip(request,
+                                 context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_riwayat_ip(request,
+                                 context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
+
+
+class GetIndexSKSContext(MockSiak):
+    def test_context_index_valid(self):
+        self.mocked_dict_for_sks_term.return_value = {}
+        self.mocked_generator.return_value = None
+        self.mocked_get_jenjang.return_value = "S1 Regular"
+        self.mocked_get_data.return_value = {'program': [{'angkatan': 2015, 'nm_prg':'S1 Regular'}]}
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_sks_sequential.return_value = 0, None
+
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_riwayat_sks(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_riwayat_sks(request,
+                                  context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_riwayat_sks(request,
+                                  context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
+
+
 class ConvertDictForSksTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_sks_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict(
+        expected_order =\
             [('2015 - 1', 3), ('2015 - 2', 0), ('2015 - 3', 0),
              ('2016 - 1', 0), ('2016 - 2', 0), ('2016 - 3', 0),
              ('2017 - 1', 0), ('2017 - 2', 0), ('2017 - 3', 0),
-             ('2018 - 1', 0), ('2018 - 2', 0), ('2018 - 3', 0)])
+             ('2018 - 1', 0), ('2018 - 2', 0), ('2018 - 3', 0)]
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         course = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-', 'kd_mk': 'UIGE600042'}
@@ -274,10 +393,11 @@ class ConvertDictForIPTerm(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
     @patch('api.siak.utils.Requester.request_mahasiswa_data')
     def test_ip_convert_valid(self, mocked_req_data, mocked_req_sks):
-        expected_order = OrderedDict([('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
-                                      ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
-                                      ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
-                                      ('2018 - 1', 2.7), ('2018 - 2', 2.7), ('2018 - 3', 2.7)])
+        expected_order = \
+            [('2015 - 1', 2.7), ('2015 - 2', 2.7), ('2015 - 3', 2.7),
+             ('2016 - 1', 2.7), ('2016 - 2', 2.7), ('2016 - 3', 2.7),
+             ('2017 - 1', 2.7), ('2017 - 2', 2.7), ('2017 - 3', 2.7),
+             ('2018 - 1', 2.7), ('2018 - 2', 2.7), ('2018 - 3', 2.7)]
         mocked_npm = '1506689162'
         mocked_token = 'dummy'
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
@@ -326,7 +446,7 @@ class RequestStatusTest(TestCase):
         self.mocked_token = "token"
         self.mocked_term = "2016/2017 - 2"
 
-    @patch('api.siak.get_sks')
+    @patch('api.siak.get_sks_sequential')
     @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
     @patch('mahasiswa.utils.save_status', return_value=True)
     def test_valid(self, mocked_get_sks, mocked_get_eval, mocked_save):
@@ -336,7 +456,7 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "lolos")
 
-    @patch('api.siak.get_sks')
+    @patch('api.siak.get_sks_sequential')
     @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
     @patch('mahasiswa.utils.save_status', return_value=True)
     def test_valid_with_sks(self, mocked_get_sks, mocked_get_eval, mocked_save):
@@ -346,7 +466,7 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 70)
         self.assertEqual(status, "lolos")
 
-    @patch('api.siak.get_sks')
+    @patch('api.siak.get_sks_sequential')
     @patch('mahasiswa.utils.get_evaluation_status', return_value='Lolos')
     @patch('mahasiswa.utils.save_status', return_value=True)
     def test_valid_negative_with_sks(self, mocked_get_sks, mocked_get_eval, mocked_save):
@@ -403,3 +523,37 @@ class SksKurang(TestCase):
     def test_invalid_sks_seharusnya(self):
         sks_kurang = get_sks_kurang(None, None)
         self.assertEqual(sks_kurang, "sks seharusnya atau sks diperoleh bermasalah")
+
+
+class GetProfileContext(MockSiak):
+    def test_context_valid(self):
+        self.mocked_generator.return_value = None
+        self.mocked_get_data.return_value = {"program": [{'angkatan': 2015, \
+         'nm_prg': "S1 Regular", 'nm_org' : 'Fakultas Ilmu Komputer', 'nm_status' : 'Aktif'}]}
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_all_sks_term.return_value = [100]
+
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
+                             'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_profile(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_profile(request, context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    def test_context_invalid_session(self):
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_profile(request, context_mahasiswa)
+        self.assertEqual(context, "'access_token'")
