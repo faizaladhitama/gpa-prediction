@@ -1,6 +1,7 @@
 import datetime
 import os
-
+import math
+import json
 import requests
 
 from api.db.utils import caching
@@ -268,4 +269,21 @@ def get_total_mutu(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+
+def get_mata_kuliah(access_token):
+    try:
+        data = Requester.request_mata_kuliah(1, os.environ['CLIENT_ID'], access_token)
+        total_data = data["count"]
+        res = data["results"]
+        retreives = math.ceil(total_data/100)
+        for i in range(2, retreives+1):
+            data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
+            res += data["results"]
+        with open('list_matkul.json', 'w') as file:
+            json.dump(res, file)
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)
+
     
