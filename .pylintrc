@@ -10,8 +10,8 @@ disable=
     missing-docstring,
     protected-access,
     no-else-return,
-    no-name-in-module
-    no-else-return,
+    no-name-in-module,
+    duplicate-code,
     wrong-import-position
 
 [VARIABLES]

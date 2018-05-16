@@ -1,7 +1,6 @@
 import os.path
 import pickle
 import pandas as pd
-from sklearn import preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
@@ -15,7 +14,7 @@ class NbModel:
         self.accuracy = -1
         self.clf = GaussianNB()
         self.data_frame = None
-        
+
     def create_model(self):
         pwd = os.path.dirname(__file__)
         address = pwd + "/data/" + self.course_name + ".csv"

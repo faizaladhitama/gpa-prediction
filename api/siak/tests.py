@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 import requests
 from requests.models import Response
 from django.test import TestCase
-from api.siak import get_academic_record, get_access_token, verify_user, get_data_user
+from api.siak import get_academic_record, get_access_token
 from api.siak.utils import AuthGenerator, Requester
 
 
@@ -61,8 +61,9 @@ class UtilsTest(TestCase):
 
         mock_uname = "mocked"
         mock_pswd = "mocked"
+        mock_hash = "mocked"
 
-        resp = self.generator.get_access_token(mock_uname, mock_pswd)
+        resp = self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
         self.assertEqual(1, resp)
 
     def test_get_token_on_invalid(self):
@@ -70,9 +71,10 @@ class UtilsTest(TestCase):
 
         mock_uname = "mocked"
         mock_pswd = "mocked"
+        mock_hash = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.get_access_token(mock_uname, mock_pswd)
+            self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
 
         self.assertTrue('mocked' in str(context.exception))
 
@@ -80,17 +82,19 @@ class UtilsTest(TestCase):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
 
         mock_access_token = "mocked"
+        client_id = "mocked"
 
-        resp = self.generator.verify_user(mock_access_token)
+        resp = self.generator.verify_user(mock_access_token, client_id)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_verify_user_on_invalid(self):
         self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
         mock_access_token = "mocked"
+        client_id = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.verify_user(mock_access_token)
+            self.generator.verify_user(mock_access_token, client_id)
 
         self.assertTrue("mocked" in str(context.exception))
 
@@ -99,8 +103,9 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
+        client_id = "mocked"
 
-        resp = self.generator.get_data_user(mock_access_token, mock_npm)
+        resp = self.generator.get_data_user(mock_access_token, mock_npm, client_id)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_get_data_user_on_invalid(self):
@@ -108,9 +113,10 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
+        client_id = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.get_data_user(mock_access_token, mock_npm)
+            self.generator.get_data_user(mock_access_token, mock_npm, client_id)
 
         self.assertTrue('mocked' in str(context.exception))
 
@@ -200,66 +206,5 @@ class SiakTest(TestCase):
         self.mocked_get_token.side_effect = requests.ConnectionError("connection refused")
 
         resp = get_access_token(self.mock_username, self.mock_password)
-
-        self.assertEqual("connection refused", resp)
-
-    def test_verify_user_on_valid(self):
-        mocked_data = {"username":"kafuu.chino"}
-        mocked_token = "mocked"
-
-        self.mocked_generator.return_value = None
-        self.mocked_verify.return_value = mocked_data
-
-        resp = verify_user(mocked_token)
-
-        self.assertEqual(mocked_data, resp)
-
-    def test_verify_user_on_value_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_generator.return_value = None
-        self.mocked_verify.side_effect = ValueError("mocked error")
-
-        resp = verify_user(mocked_token)
-
-        self.assertEqual("mocked error", resp)
-
-    def test_verify_user_on_conn_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_generator.return_value = None
-        self.mocked_verify.side_effect = requests.ConnectionError("connection refused")
-
-        resp = verify_user(mocked_token)
-
-        self.assertEqual("connection refused", resp)
-
-    def test_get_data_on_valid(self):
-        mocked_token = "mocked"
-
-        self.mocked_generator.return_value = None
-        self.mocked_get_data.return_value = {"mocked":"mocked"}
-
-        resp = get_data_user(mocked_token, self.mock_npm)
-
-        self.assertEqual("mocked", resp["mocked"])
-
-    def test_get_data_on_value_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_generator.return_value = None
-        self.mocked_get_data.side_effect = ValueError("mocked error")
-
-        resp = get_data_user(mocked_token, self.mock_npm)
-
-        self.assertEqual("mocked error", resp)
-
-    def test_get_data_on_conn_error(self):
-        mocked_token = "mocked"
-
-        self.mocked_generator.return_value = None
-        self.mocked_get_data.side_effect = requests.ConnectionError("connection refused")
-
-        resp = get_data_user(mocked_token, self.mock_npm)
 
         self.assertEqual("connection refused", resp)
