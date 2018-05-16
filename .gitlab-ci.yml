@@ -18,7 +18,6 @@ DjangoTest:
     AUTH_HASH: "Basic WDN6TmtGbWVwa2RBNDdBU05NRFpSWDNaOWdxU1UxTHd5d3U1V2VwRzpCRVFXQW43RDl6a2k3NEZ0bkNpWVhIRk50Ymg3eXlNWmFuNnlvMU1uaUdSVWNGWnhkQnBobUU5TUxuVHZiTTEzM1dsUnBwTHJoTXBkYktqTjBxcU9OaHlTNGl2Z0doczB0OVhlQ3M0Ym1JeUJLMldwbnZYTXE4VU5yTEFEMDNZeA=="
   before_script:
     #Reference : Lab PPW Odd Semester 2017/2018
-<<<<<<< HEAD
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
     - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
     - pip install -r requirements.txt
@@ -29,10 +28,8 @@ DjangoTest:
     - apt-get install -y xvfb
     - wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
     - unzip chromedriver_linux64.zip
-=======
     - chmod +x ./setup-script.sh
     - ./setup-script.sh $GITLAB_USER_LOGIN
->>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - python manage.py collectstatic --no-input
     - python manage.py runserver 8000 &
   when: on_success
@@ -52,13 +49,8 @@ DeploymentProduction:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-<<<<<<< HEAD
     - dpl --provider=heroku --app=prima-pplc7 --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
     - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-=======
-    - dpl --provider=heroku --app=prima-pplc7 --api-key=$API_KEY
-    - export HEROKU_API_KEY=$API_KEY
->>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - heroku run bash --app prima-pplc7 deployment.sh
   environment:
     name: production
@@ -73,13 +65,8 @@ DeploymentStaging:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-<<<<<<< HEAD
-    - dpl --provider=heroku --app=prima-sit-uat --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-=======
     - dpl --provider=heroku --app=prima-sit-uat --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
->>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - heroku run bash --app prima-sit-uat deployment.sh
   environment:
     name: staging
@@ -95,13 +82,8 @@ DeploymentCobacoba:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-<<<<<<< HEAD
-    - dpl --provider=heroku --app=prima-cobacoba --api-key=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-    - export HEROKU_API_KEY=8f426b0d-9ca8-47b3-990c-d1fda1e82b10
-=======
     - dpl --provider=heroku --app=prima-cobacoba --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
->>>>>>> 206ec7de54b9609b77dade0777818addff656f80
     - heroku run bash --app prima-cobacoba deployment.sh
   environment:
     name: coba-coba

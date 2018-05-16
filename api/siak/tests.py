@@ -1,32 +1,17 @@
 from unittest.mock import Mock, patch
-<<<<<<< HEAD
-
-import requests
-from django.test import TestCase
-
-=======
 import requests
 from requests.models import Response
 from django.test import TestCase
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 from api.siak import get_academic_record, get_access_token, verify_user, get_data_user
 from api.siak.utils import AuthGenerator, Requester
 
 
 def create_mocked_response(status_code, data):
-<<<<<<< HEAD
-    mocked_response = Mock(spec=requests.Response)
-=======
     mocked_response = Mock(spec=Response)
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
     mocked_response.status_code = status_code
     mocked_response.json.return_value = data
     return mocked_response
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 class RequesterTest(TestCase):
     def setUp(self):
         mocked_get = patch('requests.get')
@@ -35,11 +20,7 @@ class RequesterTest(TestCase):
         self.addCleanup(mocked_get.stop)
 
     def test_request_data_on_valid(self):
-<<<<<<< HEAD
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
-=======
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 
         mock_npm = "mocked"
         mock_access_token = "mocked"
@@ -49,11 +30,7 @@ class RequesterTest(TestCase):
         self.assertEqual("mocked", resp["mocked"])
 
     def test_request_data_on_invalid(self):
-<<<<<<< HEAD
-        self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
-=======
         self.mocked_get.return_value = create_mocked_response(403, {"detail":"mocked"})
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 
         mock_npm = "mocked"
         mock_access_token = "mocked"
@@ -64,10 +41,6 @@ class RequesterTest(TestCase):
 
         self.assertTrue("mocked" in str(context.exception))
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 class UtilsTest(TestCase):
     def setUp(self):
         mocked_post = patch('requests.post')
@@ -126,11 +99,7 @@ class UtilsTest(TestCase):
         self.assertTrue("mocked" in str(context.exception))
 
     def test_get_data_user_on_valid(self):
-<<<<<<< HEAD
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
-=======
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
@@ -149,10 +118,6 @@ class UtilsTest(TestCase):
 
         self.assertTrue('mocked' in str(context.exception))
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 class SiakTest(TestCase):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
@@ -182,11 +147,7 @@ class SiakTest(TestCase):
 
     def test_get_record_on_valid(self):
         self.mocked_generator.return_value = None
-<<<<<<< HEAD
-        self.mocked_verify.return_value = {"username": "kafuu.chino"}
-=======
         self.mocked_verify.return_value = {"username":"kafuu.chino"}
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
         self.mocked_requester.return_value = "mocked"
         self.mocked_get_id.return_value = 1
         self.mocked_get_token.return_value = 1
@@ -197,11 +158,7 @@ class SiakTest(TestCase):
 
     def test_get_record_on_invalid(self):
         self.mocked_generator.return_value = None
-<<<<<<< HEAD
-        self.mocked_verify.return_value = {"username": "mocked"}
-=======
         self.mocked_verify.return_value = {"username":"mocked"}
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
         self.mocked_requester.return_value = "mocked"
         self.mocked_get_id.return_value = 1
         self.mocked_get_token.return_value = 1
@@ -251,11 +208,7 @@ class SiakTest(TestCase):
         self.assertEqual("connection refused", resp)
 
     def test_verify_user_on_valid(self):
-<<<<<<< HEAD
-        mocked_data = {"username": "kafuu.chino"}
-=======
         mocked_data = {"username":"kafuu.chino"}
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
         mocked_token = "mocked"
 
         self.mocked_generator.return_value = None
@@ -289,11 +242,7 @@ class SiakTest(TestCase):
         mocked_token = "mocked"
 
         self.mocked_generator.return_value = None
-<<<<<<< HEAD
-        self.mocked_get_data.return_value = {"mocked": "mocked"}
-=======
         self.mocked_get_data.return_value = {"mocked":"mocked"}
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 
         resp = get_data_user(mocked_token, self.mock_npm)
 
