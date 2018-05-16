@@ -99,10 +99,3 @@ class CacheTest(TestCase):
         dict_ = caching("dict_cache", dict_cache, {"a":1, "b":2})
         expected = {"a":1, "b":2}
         self.assertEqual(expected, dict_)
-
-class PrasyaratTest(TestCase):
-    def test_get_prasyarat_anum(self):
-        pass
-
-    def test_get_prasyarat_error(self):
-        pass
