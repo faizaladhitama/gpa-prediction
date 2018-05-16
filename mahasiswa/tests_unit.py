@@ -502,11 +502,12 @@ class ViewTest(TestCase):
 
 
 class GetPrediktorMatkulContext(TestCase):
-    def prediktor_matkul_context_valid(self):
+    def test_prediktor_matkul_context_valid(self):
         context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                    'access_token': 'dummy', 'user': 'dummy',
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
-        prediktor_matkul_context = get_prediktor_matkul_context(context)
+        request = MockRequest(context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, context)
         self.assertIsNotNone(prediktor_matkul_context)
 
 
