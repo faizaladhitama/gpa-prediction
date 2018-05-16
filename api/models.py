@@ -6,7 +6,6 @@ class Civitas(models.Model):
 class Mahasiswa(Civitas):
     npm = models.TextField(primary_key=True, max_length=100, blank=True)
     study_program = models.TextField(max_length=100, blank=True)
-    educational_program = models.TextField(max_length=100, blank=True)
     nip_pa = models.ForeignKey('Dosen', on_delete=models.CASCADE)
 
 class MahasiswaSIAK(Mahasiswa):
@@ -43,8 +42,8 @@ class InformasiAkademis(models.Model):
     sks_dipunya = models.IntegerField()
 
 class PrediksiMataKuliah(models.Model):
-    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
-    kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
+    npm = models.ForeignKey('MahasiswaSIAK', on_delete=models.CASCADE)
+    kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True)
     status = models.TextField()
 
 class RekamJejakNilaiMataKuliah(models.Model):
