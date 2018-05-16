@@ -82,7 +82,7 @@ class NbModel:
         self.clf = pickle.load(open(file_name, 'rb'))
 
     def predict(self, features_test):
-        prediction = self.clf.predict_prob(features_test)
+        prediction = self.clf.predict(features_test)
         return prediction
 
     def build_model(self):

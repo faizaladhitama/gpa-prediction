@@ -2,7 +2,7 @@ from datetime import datetime
 
 from api.db.utils import caching
 
-from api.utils import give_verdict, save_status
+from api.utils import give_verdict, save_status, save_status_matakuliah
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu
@@ -77,7 +77,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
 
 def request_course_prediction(npm, kd_mk_target, kd_mk_pras):
     status = get_prediction(kd_mk_target, kd_mk_pras)
-    save_status_matakuliah(npm, status)
+    save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):
