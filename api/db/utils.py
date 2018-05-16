@@ -6,6 +6,8 @@ from django.core.cache.backends.base import InvalidCacheBackendError
 
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah,\
  MahasiswaSIAK
+ 
+import pandas as pd
 
 
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
@@ -50,7 +52,7 @@ def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tkt_
     matkul = MataKuliah(kode_matkul=kode_matkul, nip_pengajar=nip, nama_matkul=nama, prodi=prodi,
                         tingkatKerjasama=tkt_krjsama, sks=sks)
     matkul.save()
-    
+
 
 def create_mock_data_mahasiswa():
     return True
