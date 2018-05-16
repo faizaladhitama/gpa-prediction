@@ -8,7 +8,7 @@ from django.core.cache import cache
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_jenjang, get_all_sks_term, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential, \
-    get_total_mutu
+    get_total_mutu, get_mata_kuliah
 
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list
@@ -652,6 +652,40 @@ class SiakTest(MockSiak):
         self.mocked_req_sks.side_effect = ValueError("connection refused")
 
         resp, err = get_total_mutu(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+     def test_get_matkul_on_valid(self):
+        mocked_token = "mocked"
+
+        self.mocked_get_matkul.return_value = {
+            "url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+            "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+        resp, err = get_mata_kuliah(mocked_token)
+
+        mocked_res = {"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+            "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+        self.assertIsNone(err)
+        self.assertEqual(mocked_res, resp)
+
+    def test_get_matkul_on_conn_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_get_matkul.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_mata_kuliah(mocked_token)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_matkul_on_val_error(self):
+        mocked_token = "mocked"
+        self.mocked_get_matkul.side_effect = ValueError("connection refused")
+
+        resp, err = get_mata_kuliah(mocked_token)
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
