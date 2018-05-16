@@ -501,6 +501,15 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class GetPrediktorMatkulContext(TestCase):
+    def prediktor_matkul_context_valid(self):
+        context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                   'access_token': 'dummy', 'user': 'dummy',
+                   'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        prediktor_matkul_context = get_prediktor_matkul_context(context)
+        self.assertIsNotNone(prediktor_matkul_context)
+
+
 class SksSeharusnya(TestCase):
     def test_semester_genap(self):
         sks_seharusnya = get_sks_seharusnya(2)
