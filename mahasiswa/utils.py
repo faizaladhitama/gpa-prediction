@@ -6,7 +6,7 @@ from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu
-from api.models import Mahasiswa, PrediksiMataKuliah
+from api.models import MahasiswaSIAK, PrediksiMataKuliah
 
 NPM_MAHASISWA = ""
 
@@ -51,8 +51,8 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_recommendation(npm):
-    if Mahasiswa.objects.filter(npm=npm).count() >= 1:
-        mahasiswa = Mahasiswa.objects.filter(npm=npm)
+    if MahasiswaSIAK.objects.filter(npm=npm).count() >= 1:
+        mahasiswa = MahasiswaSIAK.objects.filter(npm=npm)
     return PrediksiMataKuliah.objects.filter(npm=mahasiswa).filter(status='lulus')
 
 
