@@ -78,6 +78,8 @@ class UtilsTest(TestCase):
     def test_populate_matkul(self):
         pass
 
+    def test_populate_prasyarat_matkul(self):
+        pass
 
 def lazy(count):
     for i in range(6000):
