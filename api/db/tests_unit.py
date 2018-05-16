@@ -70,7 +70,7 @@ class UtilsTest(TestCase):
     def test_insert_to_db_matakuliah(self):
         mock_kode_matkul = 'IKI20100'
         mock_nama_matkul = 'Basis Data'
-        insert_to_db_matakuliah(mock_kode_matkul, nama=mock_nama_matkul)
+        insert_to_db_matakuliah(mock_kode_matkul, nama_matkul=mock_nama_matkul)
         flag = MataKuliah.objects.filter(kode_matkul=mock_kode_matkul,\
          nama_matkul=mock_nama_matkul).count() > 0
         self.assertTrue(flag)
