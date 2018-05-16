@@ -4,7 +4,8 @@ import json
 from django.core.cache import cache, caches
 from django.core.cache.backends.base import InvalidCacheBackendError
 
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah,\
+ MahasiswaSIAK
 
 
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
@@ -16,7 +17,6 @@ def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
     kode_matkul = MataKuliah.objects.get(kode_matkul=kode_matkul)
     rj_new = RekamJejakNilaiMataKuliah(npm=npm, kode_matkul=kode_matkul, nilai=nilai, term=term)
     rj_new.save()
-
 
 def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa Jenjang", nip_pa=""):
     if Dosen.objects.filter(nip=nip_pa).count() < 1:
@@ -51,6 +51,9 @@ def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tkt_
                         tingkatKerjasama=tkt_krjsama, sks=sks)
     matkul.save()
 
+
+def insert_to_matakuliah(kode_matkul, nama):
+    pass
 
 def create_mock_data_mahasiswa():
     return True

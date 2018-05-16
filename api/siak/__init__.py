@@ -72,26 +72,26 @@ def get_data_user(access_token, npm):
         return None, str(exception)
 
 
-def get_sks(access_token, npm):
-    try:
-        data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
-                       (npm, os.environ['CLIENT_ID'], access_token), npm)
-        angkatan = data['program'][0]['angkatan']
+# def get_sks(access_token, npm):
+#     try:
+#         data = caching("req_mahasiswa_data", Requester.request_mahasiswa_data,
+#                        (npm, os.environ['CLIENT_ID'], access_token), npm)
+#         angkatan = data['program'][0]['angkatan']
 
-        now = datetime.datetime.now()
-        urls = []
+#         now = datetime.datetime.now()
+#         urls = []
 
-        for year in range(int(angkatan), now.year + 1):
-            for term in range(1, 4):
-                url = make_sks_req_list(npm, term, year, os.environ['CLIENT_ID'], access_token)
-                urls.append(url)
+#         for year in range(int(angkatan), now.year + 1):
+#             for term in range(1, 4):
+#                 url = make_sks_req_list(npm, term, year, os.environ['CLIENT_ID'], access_token)
+#                 urls.append(url)
 
-        all_sks = caching("async_req_sks", Requester.async_req_sks, (urls, 'count'), npm)
-        return sum(all_sks), None
-    except ValueError as exception:
-        return None, str(exception)
-    except requests.ConnectionError as exception:
-        return None, str(exception)
+#         all_sks = caching("async_req_sks", Requester.async_req_sks, (urls, 'count'), npm)
+#         return sum(all_sks), None
+#     except ValueError as exception:
+#         return None, str(exception)
+#     except requests.ConnectionError as exception:
+#         return None, str(exception)
 
 
 def get_sks_sequential(access_token, npm):
@@ -268,7 +268,4 @@ def get_total_mutu(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
-
-def get_prasyarat():
-    pass
     
