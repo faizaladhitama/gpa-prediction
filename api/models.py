@@ -42,7 +42,7 @@ class InformasiAkademis(models.Model):
     sks_dipunya = models.IntegerField()
 
 class PrediksiMataKuliah(models.Model):
-    npm = models.ForeignKey('Mahasiswa', on_delete=models.CASCADE)
+    npm = models.ForeignKey('MahasiswaSIAK', on_delete=models.CASCADE)
     kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True)
     status = models.TextField()
 
