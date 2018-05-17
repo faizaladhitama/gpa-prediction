@@ -73,7 +73,7 @@ def populate_matkul(file_csv):
     for _, row in df_matkul.iterrows():
         kode = row.loc['Kode']
 
-        if MataKuliah.objects.filter(kode_matkul=kode).count() < 0:
+        if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
             create_matakuliah(kode_matkul=kode)       
 
 def populate_prasyarat_matkul(file_csv):
@@ -81,7 +81,6 @@ def populate_prasyarat_matkul(file_csv):
     for _, row in df_matkul.iterrows():
         kode = row.loc['Kode']
         prasyarat = row.loc['Jejaring_Kode']
-        print(kode, prasyarat)
 
         if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
             create_matakuliah(kode_matkul=kode)
