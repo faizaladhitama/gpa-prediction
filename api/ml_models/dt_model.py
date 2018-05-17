@@ -1,8 +1,6 @@
 import os.path
 import pickle
 import pandas as pd
-import numpy as np
-from sklearn import preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.tree import DecisionTreeClassifier
@@ -14,7 +12,7 @@ class DTModel:
         self.columns = columns
         self.num_features = num_features
         self.accuracy = -1
-        self.dt = DecisionTreeClassifier(max_depth=10)
+        self.clf = DecisionTreeClassifier(max_depth=10)
         self.data_frame = None
         self.pwd = os.path.dirname(__file__)
         self.file_name = self.pwd + '/savefile/dt_' + self.course_name + '.sav'
@@ -23,7 +21,7 @@ class DTModel:
     def create_model(self):
         data_frame = pd.read_csv(self.address, header=None, delimiter=",", engine='python')
         data_frame.columns = self.columns
-        df_rev = data_frame.iloc[1:,:]
+        df_rev = data_frame.iloc[1:, :]
 
         self.data_frame = df_rev
         return df_rev
@@ -34,44 +32,43 @@ class DTModel:
         try:
             for each in self.num_features:
                 data_frame[each] = pd.to_numeric(data_frame[each])
-                data_frame[each].infer_objects().dtypes
                 mean, std = data_frame[each].mean(), data_frame[each].std()
                 scaled_features[each] = [mean, std]
                 data_frame.loc[:, each] = (data_frame[each] - mean) / std
             features = data_frame.values[:, 1:]
             target = data_frame.values[:, 0]
-        except TypeError as e:
+        except TypeError:
             return "TypeError has Occured , try run obj.create_model"
 
         features_train, features_test, target_train, \
         target_test = train_test_split(features,
                                        target, test_size=0.3, random_state=10)
 
-        self.dt.fit(features_train, target_train)
-        target_pred = self.dt.predict(features_test)
+        self.clf.fit(features_train, target_train)
+        target_pred = self.clf.predict(features_test)
         self.accuracy = accuracy_score(target_test, target_pred, normalize=True)
         print("Non over sampling acc :", self.accuracy)
-        
+
         ros = RandomOverSampler()
         x_res, y_res = ros.fit_sample(features_train, target_train)
         features_train, features_test, target_train, \
         target_test = train_test_split(x_res,
                                        y_res, test_size=0.3, random_state=10)
-        self.dt.fit(features_train, target_train)
-        target_pred = self.dt.predict(features_test)
+        self.clf.fit(features_train, target_train)
+        target_pred = self.clf.predict(features_test)
         self.accuracy = accuracy_score(target_test, target_pred, normalize=True)
         print("Over sampling acc :", self.accuracy)
 
         return None
 
     def save_model(self):
-        pickle.dump(self.dt, open(file_name, 'wb'))
+        pickle.dump(self.clf, open(self.file_name, 'wb'))
 
     def load_model(self):
-        self.dt = pickle.load(open(self.file_name, 'rb'))
+        self.clf = pickle.load(open(self.file_name, 'rb'))
 
     def predict(self, features_test):
-        prediction = self.dt.predict_prob(features_test)
+        prediction = self.clf.predict_prob(features_test)
         return prediction
 
     def build_model(self):

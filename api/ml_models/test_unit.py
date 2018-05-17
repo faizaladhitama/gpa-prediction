@@ -2,9 +2,9 @@ import os.path
 
 from django.test import TestCase
 
-from api.models.dt_model import DTModel
-from api.models.nb_model import NbModel
-from api.models import get_prediction_by_matkul
+from api.ml_models.dt_model import DTModel
+from api.ml_models.nb_model import NbModel
+from api.models import get_prediction_by_matkul, create_training_data
 
 
 class NbModelTest(TestCase):
@@ -35,13 +35,14 @@ class NbModelTest(TestCase):
         self.model.save_model()
         pwd = os.path.dirname(__file__)
         file_name = pwd + '/savefile/' + self.model.course_name + '.sav'
-        return os.path.isfile(file_name)
+        self.assertTrue(os.path.isfile(file_name))
 
     def test_build(self):
         self.model.build_model()
         flag1 = self.model.accuracy is not None
         flag2 = self.model.data_frame is not None
-        return flag1 and flag2
+        self.assertTrue(flag1)
+        self.assertTrue(flag2)
 
 class DTModelTest(TestCase):
     def setUp(self):
@@ -91,3 +92,7 @@ class PrediktorKelulusanMatkulTest(TestCase):
 
     def pok_tidak_lulus_test(self):
         self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")
+
+    def creation_passed(self):
+        res = create_training_data("CSF1600400", "SDA", ["CSF1600200"])
+        self.assertEqual(res, 'passed')

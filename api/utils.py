@@ -28,7 +28,7 @@ def save_status_matakuliah(npm, kd_mk, status):
         if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
             create_mahasiswa_siak(npm)
         mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
-        record = PrediksiMataKuliah(mahasiswa, kd_mk, status)
+        record = PrediksiMataKuliah(npm=mahasiswa, kode_matkul=kd_mk, status=status)
         record.save()
         return status
     except ObjectDoesNotExist as exception:

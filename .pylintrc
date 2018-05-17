@@ -9,8 +9,9 @@ ignore=backend.py,migrations,wsgi.py
 disable=
     missing-docstring,
     protected-access,
-    no-name-in-module
     no-else-return,
+    no-name-in-module,
+    duplicate-code,
     wrong-import-position
 
 [VARIABLES]
