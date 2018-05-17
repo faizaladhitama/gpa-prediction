@@ -51,12 +51,11 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_recommendation(npm):
-    if MahasiswaSIAK.objects.filter(npm=npm).count() >= 1:
-        mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
-    else:
-        mahasiswa = create_mahasiswa_siak(npm)
-    return PrediksiMataKuliah.objects.get(npm=mahasiswa, status='lulus')
-
+    if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
+        create_mahasiswa_siak(npm)
+    mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
+    res = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus')
+    return res
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
     if term % 2 > 0:
