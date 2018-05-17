@@ -8,7 +8,7 @@ from api.siak import get_siak_data, parse_siak_data
 from api.db.utils import insert_to_db_rekam_jejak, \
     create_mock_data_mahasiswa, create_mock_data_dosen, \
     caching, create_matakuliah, populate_matkul, populate_prasyarat_matkul
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, PrasyaratMataKuliah
 
 
 class UtilsTest(TestCase):
@@ -82,7 +82,10 @@ class UtilsTest(TestCase):
         self.assertTrue(flag)
 
     def test_populate_prasyarat_matkul(self):
-        pass
+        mock_csv = 'prasyarat_matkul.csv'
+        populate_prasyarat_matkul(mock_csv)
+        flag = PrasyaratMataKuliah.objects.count() > 1
+        self.assertTrue(flag)
 
 def lazy(count):
     for i in range(6000):
