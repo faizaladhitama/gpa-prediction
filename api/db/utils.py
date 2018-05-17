@@ -5,7 +5,7 @@ from django.core.cache import cache, caches
 from django.core.cache.backends.base import InvalidCacheBackendError
 
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah,\
- MahasiswaSIAK
+ MahasiswaSIAK, PrasyaratMataKuliah
  
 import pandas as pd
 
@@ -77,7 +77,16 @@ def populate_matkul(file_csv):
         create_matakuliah(kode_matkul=kode_matkul)       
 
 def populate_prasyarat_matkul(file_csv):
-    pass    
+    df = pd.read_csv(file_csv)
+    for _, row in df.iterrows():
+        kode = row.loc['Kode']
+        prasyarat = row.loc['Jejaring_Kode']
+
+    if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
+        create_matakuliah(kode_matkul=kode_matkul)
+    if PrasyaratMataKuliah.filter(kode_matkul=kode).count() < 1:
+        pm = PrasyaratMataKuliah(kode_matkul=kode, kode_matkul_pras=prasyarat)
+        pm.save()
 
 
 def caching(name, func, args, kode=""):
