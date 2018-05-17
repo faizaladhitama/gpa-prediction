@@ -69,24 +69,24 @@ def create_mock_data_dosen(jumlah):
         dosen.save()
 
 def populate_matkul(file_csv):
-    df = pd.read_csv(file_csv)
-    for _, row in df.iterrows():
+    df_matkul = pd.read_csv(file_csv)
+    for _, row in df_matkul.iterrows():
         kode = row.loc['Kode']
 
     if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
-        create_matakuliah(kode_matkul=kode_matkul)       
+        create_matakuliah(kode_matkul=kode)       
 
 def populate_prasyarat_matkul(file_csv):
-    df = pd.read_csv(file_csv)
-    for _, row in df.iterrows():
+    df_matkul = pd.read_csv(file_csv)
+    for _, row in df_matkul.iterrows():
         kode = row.loc['Kode']
         prasyarat = row.loc['Jejaring_Kode']
 
     if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
-        create_matakuliah(kode_matkul=kode_matkul)
-    if PrasyaratMataKuliah.filter(kode_matkul=kode).count() < 1:
-        pm = PrasyaratMataKuliah(kode_matkul=kode, kode_matkul_pras=prasyarat)
-        pm.save()
+        create_matakuliah(kode_matkul=kode)
+    if PrasyaratMataKuliah.objects.filter(kode_matkul=kode).count() < 1:
+        pras = PrasyaratMataKuliah(kode_matkul=kode, kode_matkul_pras=prasyarat)
+        pras.save()
 
 
 def caching(name, func, args, kode=""):
