@@ -69,7 +69,12 @@ def create_mock_data_dosen(jumlah):
         dosen.save()
 
 def populate_matkul(file_csv):
-    pass
+    df = pd.read_csv(file_csv)
+    for _, row in df.iterrows():
+        kode = row.loc['Kode']
+
+    if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
+        create_matakuliah(kode_matkul=kode_matkul)       
 
 def populate_prasyarat_matkul(file_csv):
     pass    
