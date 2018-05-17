@@ -104,4 +104,3 @@ def jadwal_kelas_dosen(id_dosen, tahun, term):
     # https://api-dev.cs.ui.ac.id/siakngcs/dosen/1/jadwal-kelas/2017/1/?access_token=DoGHePHO0Nug23EHpks9Lr56u3EZc9&client_id=X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG"
     return (id_dosen, tahun, term)
 """
-

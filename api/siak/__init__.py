@@ -1,6 +1,7 @@
 import datetime
 import os
-
+import math
+import json
 import requests
 
 from api.db.utils import caching
@@ -24,6 +25,8 @@ def get_academic_record(npm, username, password):
         return str(exception)
     except requests.ConnectionError as exception:
         return str(exception)
+    except requests.HTTPError as exception:
+        return str(exception)
 
 
 def get_siak_data(npm, username, password):
@@ -44,6 +47,8 @@ def get_access_token(username, password):
         return str(exception)
     except requests.ConnectionError as exception:
         return str(exception)
+    except requests.HTTPError as exception:
+        return str(exception)
 
 
 def verify_user(access_token):
@@ -58,6 +63,8 @@ def verify_user(access_token):
         return str(exception)
     except requests.ConnectionError as exception:
         return str(exception)
+    except requests.HTTPError as exception:
+        return str(exception)
 
 
 def get_data_user(access_token, npm):
@@ -69,6 +76,8 @@ def get_data_user(access_token, npm):
     except ValueError as exception:
         return None, str(exception)
     except requests.ConnectionError as exception:
+        return None, str(exception)
+    except requests.HTTPError as exception:
         return None, str(exception)
 
 
@@ -118,6 +127,9 @@ def get_sks_sequential(access_token, npm):
         return None, str(exception)
     except requests.ConnectionError as exception:
         return None, str(exception)
+    except requests.HTTPError as exception:
+        return None, str(exception)
+
 
 
 def get_all_sks_term(access_token, npm):
@@ -156,6 +168,8 @@ def get_all_sks_term(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+    except requests.HTTPError as exception:
+        return {}, str(exception)
 
 
 def get_sks_term(access_token, npm, year, term):
@@ -175,6 +189,8 @@ def get_sks_term(access_token, npm, year, term):
     except ValueError as exception:
         return 0, str(exception)
     except requests.ConnectionError as exception:
+        return 0, str(exception)
+    except requests.HTTPError as exception:
         return 0, str(exception)
 
 
@@ -203,6 +219,8 @@ def get_ip_term(access_token, npm, year, term):
     except ValueError as exception:
         return 0, str(exception)
     except requests.ConnectionError as exception:
+        return 0, str(exception)
+    except requests.HTTPError as exception:
         return 0, str(exception)
 
 
@@ -241,6 +259,8 @@ def get_all_ip_term(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+    except requests.HTTPError as exception:
+        return {}, str(exception)
 
 
 def get_total_mutu(access_token, npm):
@@ -268,4 +288,22 @@ def get_total_mutu(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
-    
+    except requests.HTTPError as exception:
+        return {}, str(exception)
+
+def get_mata_kuliah(access_token):
+    try:
+        data = Requester.request_mata_kuliah(1, os.environ['CLIENT_ID'], access_token)
+        total_data = data["count"]
+        res = data["results"]
+        retreives = math.ceil(total_data/100)
+        for i in range(2, retreives+1):
+            data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
+            res += data["results"]
+        with open('list_matkul.json', 'w') as file:
+            json.dump(res, file)
+        return res, None
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)

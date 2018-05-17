@@ -12,7 +12,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
-    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile
+    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
+    get_prediktor_matkul_context, request_course_prediction
 
 
 class URLTest(TestCase):
@@ -484,6 +485,19 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "Argument salah")
 
+class RequestCourseStatusTest(TestCase):
+    def setUp(self):
+        self.mocked_npm = "1506730000"
+        self.mocked_course = "SDA"
+        self.mocked_nilai = [3.0]
+
+    def test_course_pass(self):
+        status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
+        self.assertEqual(status[0], 2)
+
+    def test_course_nopass(self):
+        status = request_course_prediction(self.mocked_npm, self.mocked_course, [0])
+        self.assertEqual(status[0], 1)
 
 class ViewTest(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
@@ -500,6 +514,24 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('mahasiswa:index'))
         self.assertEqual(response.status_code, 200)
 
+
+class GetPrediktorMatkulContext(TestCase):
+    def test_prediktor_matkul_ctx_valid(self):
+        matkul = 'Basis Data'
+        context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                   'access_token': 'dummy', 'user': 'dummy',
+                   'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
+        self.assertIsNotNone(prediktor_matkul_context)
+
+    def test_prediktor_ctx_invalid(self):
+        request = None
+        matkul = None
+        context = None
+        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+        self.assertIsNone(prediktor_matkul_context)
 
 class SksSeharusnya(TestCase):
     def test_semester_genap(self):

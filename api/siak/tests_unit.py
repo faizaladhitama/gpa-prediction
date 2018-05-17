@@ -8,7 +8,7 @@ from django.core.cache import cache
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_jenjang, get_all_sks_term, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential, \
-    get_total_mutu
+    get_total_mutu, get_mata_kuliah
 
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list
@@ -223,6 +223,7 @@ class MockSiak(TestCase):
         mocked_create_graph_ip = patch('mahasiswa.utils.create_graph_ip')
         mocked_convert_dict_for_ip_term = patch('mahasiswa.utils.convert_dict_for_ip_term')
         mocked_get_all_sks_term = patch('api.siak.get_all_sks_term')
+        mocked_get_matkul = patch('api.siak.get_mata_kuliah')
 
         self.mocked_generator = mocked_generator.start()
         #self.mocked_asyc_req = mocked_asyc_req.start()
@@ -239,6 +240,7 @@ class MockSiak(TestCase):
         self.mocked_create_graph_ip = mocked_create_graph_ip.start()
         self.mocked_convert_dict_for_ip_term = mocked_convert_dict_for_ip_term.start()
         self.mocked_get_all_sks_term = mocked_get_all_sks_term.start()
+        self.mocked_get_matkul = mocked_get_matkul.start()
 
         #self.addCleanup(mocked_asyc_req.stop)
         self.addCleanup(mocked_generator.stop)
@@ -255,14 +257,12 @@ class MockSiak(TestCase):
         self.addCleanup(mocked_create_graph_ip.stop)
         self.addCleanup(mocked_convert_dict_for_ip_term.stop)
         self.addCleanup(mocked_get_all_sks_term.stop)
-
+        self.addCleanup(mocked_get_matkul.stop)
 
         self.mock_npm = "mocked"
         self.mock_username = "kafuu.chino"
         self.mock_password = "1"
         self.mock_token = 'mocked'
-        self.mock_name = "john doe"
-
 
 
 class SiakTest(MockSiak):
@@ -303,6 +303,14 @@ class SiakTest(MockSiak):
 
         self.assertEqual("connection refused", resp)
 
+    def test_get_record_on_http_error(self):
+        self.mocked_generator.return_value = None
+        self.mocked_get_token.side_effect = requests.HTTPError("connection refused")
+
+        resp = get_academic_record(self.mock_npm, self.mock_username, self.mock_password)
+
+        self.assertEqual("connection refused", resp)
+
     def test_get_token_on_valid(self):
         self.mocked_generator.return_value = None
         self.mocked_get_token.return_value = 1
@@ -320,6 +328,14 @@ class SiakTest(MockSiak):
     def test_get_token_on_conn_error(self):
         self.mocked_generator.return_value = None
         self.mocked_get_token.side_effect = requests.ConnectionError("connection refused")
+
+        resp = get_access_token(self.mock_username, self.mock_password)
+
+        self.assertEqual("connection refused", resp)
+
+    def test_get_token_on_http_error(self):
+        self.mocked_generator.return_value = None
+        self.mocked_get_token.side_effect = requests.HTTPError("connection refused")
 
         resp = get_access_token(self.mock_username, self.mock_password)
 
@@ -351,6 +367,16 @@ class SiakTest(MockSiak):
 
         self.mocked_generator.return_value = None
         self.mocked_verify.side_effect = requests.ConnectionError("connection refused")
+
+        resp = verify_user(mocked_token)
+
+        self.assertEqual("connection refused", resp)
+
+    def test_verify_user_on_http_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_generator.return_value = None
+        self.mocked_verify.side_effect = requests.HTTPError("connection refused")
 
         resp = verify_user(mocked_token)
 
@@ -389,6 +415,17 @@ class SiakTest(MockSiak):
         self.assertIsNone(resp)
         self.assertEqual("connection refused", err)
 
+    def test_get_data_on_http_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_generator.return_value = None
+        self.mocked_get_data.side_effect = requests.HTTPError("connection refused")
+
+        resp, err = get_data_user(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("connection refused", err)
+
     def test_get_sks_seq_on_valid(self):
         mocked_token = "mocked"
 
@@ -412,6 +449,16 @@ class SiakTest(MockSiak):
         mocked_token = "mocked"
 
         self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_sks_sequential(mocked_token, self.mock_npm)
+
+        self.assertIsNone(resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_sks_seq_on_http_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = requests.HTTPError("connection refused")
 
         resp, err = get_sks_sequential(mocked_token, self.mock_npm)
 
@@ -468,6 +515,16 @@ class SiakTest(MockSiak):
         mocked_token = "mocked"
 
         self.mocked_req_data.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_all_sks_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_all_sks_on_http_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_data.side_effect = requests.HTTPError("connection refused")
 
         resp, err = get_all_sks_term(mocked_token, self.mock_npm)
 
@@ -540,6 +597,15 @@ class SiakTest(MockSiak):
         self.assertEqual(0, resp)
         self.assertEqual("connection refused", err)
 
+    def test_get_sks_term_on_http_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = requests.HTTPError("connection refused")
+
+        resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)
+
     def test_get_sks_term_on_val_error(self):
         mocked_token = "mocked"
         self.mocked_req_sks.side_effect = ValueError("connection refused")
@@ -562,6 +628,15 @@ class SiakTest(MockSiak):
     def test_get_ip_term_on_conn_error(self):
         mocked_token = "mocked"
         self.mocked_req_sks.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_ip_term(mocked_token, self.mock_npm, 1997, 3)
+
+        self.assertEqual(0, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_ip_term_on_http_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_sks.side_effect = requests.HTTPError("connection refused")
 
         resp, err = get_ip_term(mocked_token, self.mock_npm, 1997, 3)
 
@@ -612,6 +687,16 @@ class SiakTest(MockSiak):
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
 
+    def test_all_ip_term_on_http_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.side_effect = requests.HTTPError("connection refused")
+
+        resp, err = get_all_ip_term(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+
     def test_all_ip_term_on_val_error(self):
         mocked_token = "mocked"
 
@@ -645,6 +730,17 @@ class SiakTest(MockSiak):
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
 
+    def test_total_mutu_on_http_error(self):
+        mocked_token = "mocked"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        self.mocked_req_sks.side_effect = requests.HTTPError("connection refused")
+
+        resp, err = get_total_mutu(mocked_token, self.mock_npm)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
     def test_total_mutu_on_val_error(self):
         mocked_token = "mocked"
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
@@ -655,4 +751,37 @@ class SiakTest(MockSiak):
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
-        
+
+    def test_get_matkul_on_valid(self):
+        mocked_token = "mocked"
+
+        self.mocked_get_matkul.return_value = {
+            "url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+            "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+        resp, err = get_mata_kuliah(mocked_token)
+
+        mocked_res = {"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+            "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+        self.assertIsNone(err)
+        self.assertEqual(mocked_res, resp)
+
+    def test_get_matkul_on_conn_error(self):
+        mocked_token = "mocked"
+
+        self.mocked_get_matkul.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_mata_kuliah(mocked_token)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_matkul_on_val_error(self):
+        mocked_token = "mocked"
+        self.mocked_get_matkul.side_effect = ValueError("connection refused")
+
+        resp, err = get_mata_kuliah(mocked_token)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)

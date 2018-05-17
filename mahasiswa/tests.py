@@ -1,16 +1,11 @@
+from datetime import datetime
 from django.test import TestCase
+from mahasiswa.utils import get_term, get_context_mahasiswa
 
 class PrediktorKelulusanMatkulTest(TestCase):
     def test_prediktor_matkul_url_exist(self):
         response = self.client.post('/mahasiswa/prediktor-matkul', follow=True)
         self.assertEqual(response.status_code, 200)
-
-from datetime import datetime
-
-from django.test import TestCase
-
-from mahasiswa.utils import get_term, get_context_mahasiswa
-
 
 class URLTest(TestCase):
     def test_homepage(self):

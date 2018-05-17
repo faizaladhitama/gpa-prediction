@@ -1,7 +1,6 @@
 import os.path
 import pickle
 import pandas as pd
-from sklearn import preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
@@ -19,27 +18,29 @@ class NbModel:
     def create_model(self):
         pwd = os.path.dirname(__file__)
         address = pwd + "/data/" + self.course_name + ".csv"
-        data_frame = pd.read_csv(address, header=None, delimiter=",", engine='python')
-        data_frame.columns = self.columns
-        df_rev = data_frame
+        data_frame = pd.read_csv(address, delimiter=",", engine='python')
+        #data_frame.columns = self.columns
+        #df_rev = data_frame
 
-        label_encode = preprocessing.LabelEncoder()
-        cat_list = []
-        for col in data_frame.columns:
-            cat_list.append(label_encode.fit_transform(getattr(df_rev, col)))
+        #label_encode = preprocessing.LabelEncoder()
+        #cat_list = []
+        #for col in data_frame.columns:
+        #    cat_list.append(label_encode.fit_transform(getattr(df_rev, col)))
 
-        column_cat_value = list(zip(data_frame.columns, cat_list))
+        #column_cat_value = list(zip(data_frame.columns, cat_list))
 
-        for col in column_cat_value:
-            df_rev[col[0]] = col[1]
+        #for col in column_cat_value:
+        #    df_rev[col[0]] = col[1]
 
-        self.data_frame = df_rev
+        self.data_frame = data_frame
 
-        return df_rev
+        return self.data_frame
 
     def train_model(self):
 
         data_frame = self.data_frame
+        #features = data_frame.values[:, :len(self.num_features)]
+        #target = data_frame.values[:, len(self.num_features)]
         scaled_features = {}
         try:
             for each in self.num_features:

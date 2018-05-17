@@ -15,7 +15,8 @@ def create_prediction(mata_kuliah, column, fitur):
     model_baru.build_model()
 
 def get_prediction_by_matkul(npm, matkul):
-    pass
+    npm = matkul
+    matkul = npm
 
 def huruf_converter(huruf):
     bobot = {
@@ -51,22 +52,22 @@ def huruf_status_converter(huruf):
 
 def load_nilai_df():
     pwd = os.path.dirname(__file__)
-    df = pd.read_csv(pwd+'/nilai.csv', delimiter='\t')
-    return df
+    dataframe = pd.read_csv(pwd+'/nilai.csv', delimiter='\t')
+    return dataframe
 
-def convert_to_ml_df(df, kd_mk, prasyarats):
+def convert_to_ml_df(dataframe, kd_mk, prasyarats):
     count = 0
     hasil = []
-    target_mk = df.loc[df['kd_mk'] == kd_mk]
-    if(len(target_mk) <= 0):
-    	return "target not found", False
-    for index, row in target_mk.iterrows():
+    target_mk = dataframe.loc[dataframe['kd_mk'] == kd_mk]
+    if len(target_mk) <= 0:
+        return "target not found", False
+    for _, row in target_mk.iterrows():
         entry = {}
         no_pras = 1
         for prasyarat in prasyarats:
-            pras = df.loc[(df['kd_mk'] == prasyarat) & (df['npm'] == row['npm'])]
-            if len(pras) > 0:
-                max = 0.0
+            flag = dataframe['npm'] == row['npm']
+            pras = dataframe.loc[(dataframe['kd_mk'] == prasyarat) & flag]
+            if not pras.empty:
                 for val in pras['nilai'].values:
                     idx_pras = 'pras'+str(no_pras)
                     entry[idx_pras] = huruf_converter(val)
@@ -78,22 +79,23 @@ def convert_to_ml_df(df, kd_mk, prasyarats):
     hasil_df = pd.DataFrame(hasil)
     return hasil_df, True
 
-def save_df_csv(df, nama_mk):
+def save_df_csv(dataframe, nama_mk):
     try:
         pwd = os.path.dirname(__file__)
         file_name = pwd+"/data/"+ str(nama_mk)+".csv"
-        df.to_csv(file_name, sep=',', index=False)
+        dataframe.to_csv(file_name, sep=',', index=False)
         return "passed", True
-    except Exception as e:
-        return e, False
+    except FileNotFoundError as exception:
+        return exception, False
 
 def create_training_data(kd_mk, nama_mk, prasyarats=None):
-    df = load_nilai_df()
-    df_hasil = convert_to_ml_df(df, kd_mk, prasyarats)
-    if df_hasil[1] == False:
+    dataframe = load_nilai_df()
+    df_hasil = convert_to_ml_df(dataframe, kd_mk, prasyarats)
+    if not df_hasil[1]:
         return "Error "+df_hasil[0]
-    df_hasil = df_hasil[0].dropna() #cleaning na rows
+    #df_hasil = df_hasil.dropna() #cleaning na rows
     status = save_df_csv(df_hasil, nama_mk)
+    return status
 
 def data_spawner():
     create_training_data("CSC2601105", "MatDas 2", ["UIST601110"])

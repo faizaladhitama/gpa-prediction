@@ -21,7 +21,6 @@ class RequesterTest(TestCase):
 
     def test_request_data_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
-
         mock_npm = "mocked"
         mock_access_token = "mocked"
         mock_client_id = "mocked"
@@ -61,8 +60,9 @@ class UtilsTest(TestCase):
 
         mock_uname = "mocked"
         mock_pswd = "mocked"
+        mock_hash = "mocked"
 
-        resp = self.generator.get_access_token(mock_uname, mock_pswd)
+        resp = self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
         self.assertEqual(1, resp)
 
     def test_get_token_on_invalid(self):
@@ -70,31 +70,30 @@ class UtilsTest(TestCase):
 
         mock_uname = "mocked"
         mock_pswd = "mocked"
+        mock_hash = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.get_access_token(mock_uname, mock_pswd)
+            self.generator.get_access_token(mock_uname, mock_pswd, mock_hash)
 
         self.assertTrue('mocked' in str(context.exception))
 
     def test_verify_user_on_valid(self):
-<<<<<<< HEAD
-        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
-=======
         self.mocked_get.return_value = create_mocked_response(200, {"mocked":"mocked"})
->>>>>>> ac1e53e5d5183d390fcb3982b7fe24f1cf580fd0
 
         mock_access_token = "mocked"
+        client_id = "mocked"
 
-        resp = self.generator.verify_user(mock_access_token)
+        resp = self.generator.verify_user(mock_access_token, client_id)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_verify_user_on_invalid(self):
         self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
         mock_access_token = "mocked"
+        client_id = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.verify_user(mock_access_token)
+            self.generator.verify_user(mock_access_token, client_id)
 
         self.assertTrue("mocked" in str(context.exception))
 
@@ -103,8 +102,9 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
+        client_id = "mocked"
 
-        resp = self.generator.get_data_user(mock_access_token, mock_npm)
+        resp = self.generator.get_data_user(mock_access_token, mock_npm, client_id)
         self.assertEqual("mocked", resp["mocked"])
 
     def test_get_data_user_on_invalid(self):
@@ -112,9 +112,10 @@ class UtilsTest(TestCase):
 
         mock_access_token = "mocked"
         mock_npm = "mocked"
+        client_id = "mocked"
 
         with self.assertRaises(Exception) as context:
-            self.generator.get_data_user(mock_access_token, mock_npm)
+            self.generator.get_data_user(mock_access_token, mock_npm, client_id)
 
         self.assertTrue('mocked' in str(context.exception))
 
