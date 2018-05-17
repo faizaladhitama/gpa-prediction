@@ -76,15 +76,15 @@ class UtilsTest(TestCase):
         self.assertTrue(flag)
 
     def test_populate_matkul(self):
-        mock_csv = 'prasyarat_matkul.csv'
+        mock_csv = './api/db/prasyarat_matkul.csv'
         populate_matkul(mock_csv)
-        flag = MataKuliah.objects.count() > 1
+        flag = MataKuliah.objects.all().count() > 1
         self.assertTrue(flag)
 
     def test_populate_prasyarat_matkul(self):
-        mock_csv = 'prasyarat_matkul.csv'
+        mock_csv = './api/db/prasyarat_matkul.csv'
         populate_prasyarat_matkul(mock_csv)
-        flag = PrasyaratMataKuliah.objects.count() > 1
+        flag = PrasyaratMataKuliah.objects.all().count() > 1
         self.assertTrue(flag)
 
 def lazy(count):

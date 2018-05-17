@@ -655,4 +655,3 @@ class SiakTest(MockSiak):
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
-        
