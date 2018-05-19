@@ -87,6 +87,9 @@ class UtilsTest(TestCase):
         flag = PrasyaratMataKuliah.objects.all().count() > 1
         self.assertTrue(flag)
 
+    def test_get_kode_prasyarat(self):
+        pass
+
 def lazy(count):
     for i in range(6000):
         for j in range(6000):
