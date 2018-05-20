@@ -4,11 +4,10 @@ import json
 from django.core.cache import cache, caches
 from django.core.cache.backends.base import InvalidCacheBackendError
 from django.core.exceptions import ObjectDoesNotExist
-
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah,\
- MahasiswaSIAK, PrasyaratMataKuliah
- 
 import pandas as pd
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah,\
+ MataKuliah, MahasiswaSIAK, PrasyaratMataKuliah
+
 
 
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
@@ -75,7 +74,7 @@ def populate_matkul(file_csv):
         kode = row.loc['Kode']
 
         if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
-            create_matakuliah(kode_matkul=kode)       
+            create_matakuliah(kode_matkul=kode)
 
 def populate_prasyarat_matkul(file_csv):
     df_matkul = pd.read_csv(file_csv)
