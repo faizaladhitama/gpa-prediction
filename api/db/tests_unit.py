@@ -7,7 +7,8 @@ from django.test import TestCase
 from api.siak import get_siak_data, parse_siak_data
 from api.db.utils import insert_to_db_rekam_jejak, \
     create_mock_data_mahasiswa, create_mock_data_dosen, \
-    caching, create_matakuliah, populate_matkul, populate_prasyarat_matkul
+    caching, create_matakuliah, populate_matkul, populate_prasyarat_matkul, \
+    get_kode_prasyarat
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, PrasyaratMataKuliah
 
 
@@ -88,7 +89,11 @@ class UtilsTest(TestCase):
         self.assertTrue(flag)
 
     def test_get_kode_prasyarat(self):
-        pass
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_kode_matkul = 'IKS32753'
+        mock_kode_prasyarat = ['IKI20505']
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_kode_prasyarat, get_kode_prasyarat(mock_kode_matkul))
 
 def lazy(count):
     for i in range(6000):
