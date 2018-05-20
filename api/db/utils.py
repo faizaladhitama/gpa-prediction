@@ -3,6 +3,7 @@ import json
 
 from django.core.cache import cache, caches
 from django.core.cache.backends.base import InvalidCacheBackendError
+from django.core.exceptions import ObjectDoesNotExist
 
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah,\
  MahasiswaSIAK, PrasyaratMataKuliah
@@ -88,6 +89,13 @@ def populate_prasyarat_matkul(file_csv):
             kode = MataKuliah.objects.get(kode_matkul=kode)
             pras = PrasyaratMataKuliah(kode_matkul=kode, kode_matkul_pras=prasyarat)
             pras.save()
+
+def get_kode_prasyarat(kode):
+    try:
+        kode_prasyarat = PrasyaratMataKuliah.objects.get(kode_matkul=kode).kode_matkul_pras
+        return kode_prasyarat.split()
+    except ObjectDoesNotExist:
+        return "Prasyarat tidak ditemukan"
 
 
 def caching(name, func, args, kode=""):
