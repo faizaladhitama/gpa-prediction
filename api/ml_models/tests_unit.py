@@ -4,7 +4,6 @@ from django.test import TestCase
 
 from api.ml_models.dt_model import DTModel
 from api.ml_models.nb_model import NbModel
-from api.models import get_prediction_by_matkul, create_training_data
 
 
 class NbModelTest(TestCase):
