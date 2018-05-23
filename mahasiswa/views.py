@@ -1,11 +1,10 @@
 from datetime import datetime
 
 from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.db.utils import caching
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
-    get_peraturan, get_profile, set_npm, get_recommendation
+    get_peraturan, get_profile, get_rekomendasi_context
 
 
 def index(request):
@@ -39,20 +38,15 @@ def profile(request):
 def rekomendasi(request):
     now = datetime.now()
     term_str = get_term(now)
-    context_mahasiswa = get_context_mahasiswa(request, term_str)
-    npm = context_mahasiswa['id']
-    set_npm(npm)
-    prediksi_list = get_recommendation(npm).objects.get_queryset().order_by('kode_matkul')
-    page = request.GET.get('page', 1)
-    paginator = Paginator(prediksi_list, 10)
     try:
-        prediksi = paginator.page(page)
-    except PageNotAnInteger:
-        prediksi = paginator.page(1)
-    except EmptyPage:
-        prediksi = paginator.page(paginator.num_pages)
-    context_mahasiswa.update({'table': prediksi})
-    return render(request, 'mahasiswa/rekomendasi.tpl', context_mahasiswa)
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        context_rekomendasi = get_rekomendasi_context(request, context_mahasiswa)
+        # context = caching("get_riwayat_sks",
+        #                   get_riwayat_sks, (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
+        return render(request, 'mahasiswa/rekomendasi.tpl', context_rekomendasi)
+    except TypeError:
+        return render(request, 'landing_page.tpl', {})
 
 
 def riwayat_sks(request):

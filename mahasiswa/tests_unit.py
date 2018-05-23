@@ -13,8 +13,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     create_graph_ip, request_evaluation_status, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
     get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
-    get_recommendation, get_npm, get_global_npm, \
-    set_npm
+    get_recommendation, get_rekomendasi_context
 
 
 class URLTest(TestCase):
@@ -572,29 +571,35 @@ class GetProfileContext(MockSiak):
         self.assertEqual(context, "'access_token'")
 
 
-class GetNpm(TestCase):
-    def context_valid(self):
-        context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                   'access_token': 'dummy', 'user': 'dummy',
-                   'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
-        new_context = get_npm(context)
-        self.assertIsNotNone(new_context)
+class GetProfileContext(MockSiak):
+    def test_context_valid(self):
+        self.mocked_generator.return_value = None
+        self.mocked_get_data.return_value = {"program": [{'angkatan': 2015, \
+         'nm_prg': "S1 Regular", 'nm_org' : 'Fakultas Ilmu Komputer', 'nm_status' : 'Aktif'}]}
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        mocked_sks = [course1, course2, course3]
+        self.mocked_req_sks.return_value = mocked_sks
+        self.mocked_get_all_sks_term.return_value = [100]
+
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
+                             'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_profile(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_profile(request, context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
-        context = {}
-        new_context = get_npm(context)
-        self.assertEqual(new_context, "'id'")
-
-
-class SetNpm(TestCase):
-    def set_valid(self):
-        test_npm = "1506689162"
-        set_npm(test_npm)
-        global_npm = get_global_npm()
-        self.assertEqual(global_npm, test_npm)
-
-    def set_invalid(self):
-        test_npm = "'id'"
-        set_npm(test_npm)
-        global_npm = get_global_npm()
-        self.assertIsNone(global_npm)
+        request = MockRequest()
+        context_mahasiswa = {}
+        context = get_profile(request, context_mahasiswa)
+        self.assertEqual(context, "'access_token'")

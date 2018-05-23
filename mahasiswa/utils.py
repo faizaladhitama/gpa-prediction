@@ -1,14 +1,12 @@
 from datetime import datetime
 
 from api.db.utils import caching, create_mahasiswa_siak
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu
 from api.models import MahasiswaSIAK, PrediksiMataKuliah
-
-NPM_MAHASISWA = ""
 
 
 def get_term(now):
@@ -414,20 +412,16 @@ def get_profile(request, context):
         return str(excp)
 
 
-def get_npm(context):
+def get_rekomendasi_context(request, context_mahasiswa):
+    npm = context_mahasiswa['id']
+    prediksi_list = get_recommendation(npm).objects.get_queryset().order_by('kode_matkul')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(prediksi_list, 10)
     try:
-        return context['id']
-    except KeyError as excp:
-        return str(excp)
-
-
-def set_npm(npm):
-    global NPM_MAHASISWA
-    if npm == "'id'":
-        NPM_MAHASISWA = None
-    else:
-        NPM_MAHASISWA = npm
-
-
-def get_global_npm():
-    return NPM_MAHASISWA
+        prediksi = paginator.page(page)
+    except PageNotAnInteger:
+        prediksi = paginator.page(1)
+    except EmptyPage:
+        prediksi = paginator.page(paginator.num_pages)
+    context_mahasiswa.update({'table': prediksi})
+    return context_mahasiswa
