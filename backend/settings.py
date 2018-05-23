@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'pa',
     'django_nvd3',
     'djangobower',
-    'django_tables2',
 ]
 
 MIDDLEWARE = [

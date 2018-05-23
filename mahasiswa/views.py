@@ -1,12 +1,11 @@
 from datetime import datetime
 
 from django.shortcuts import render
-from django_tables2 import RequestConfig
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.db.utils import caching
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
     get_peraturan, get_profile, set_npm, get_recommendation
-from mahasiswa.table import RekomendasiTable
 
 
 def index(request):
@@ -43,9 +42,16 @@ def rekomendasi(request):
     context_mahasiswa = get_context_mahasiswa(request, term_str)
     npm = context_mahasiswa['id']
     set_npm(npm)
-    table = RekomendasiTable(get_recommendation(npm).objects.all())
-    RequestConfig(request, paginate={'per_page': 25}).configure(table)
-    context_mahasiswa.update({'table': table})
+    prediksi_list = get_recommendation(npm).objects.get_queryset().order_by('kode_matkul')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(prediksi_list, 10)
+    try:
+        prediksi = paginator.page(page)
+    except PageNotAnInteger:
+        prediksi = paginator.page(1)
+    except EmptyPage:
+        prediksi = paginator.page(paginator.num_pages)
+    context_mahasiswa.update({'table': prediksi})
     return render(request, 'mahasiswa/rekomendasi.tpl', context_mahasiswa)
 
 

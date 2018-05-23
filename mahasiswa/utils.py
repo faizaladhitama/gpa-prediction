@@ -416,7 +416,7 @@ def get_profile(request, context):
 
 def get_npm(context):
     try:
-        return context is None
+        return context['id']
     except KeyError as excp:
         return str(excp)
 
