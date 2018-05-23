@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeClassifier
 from imblearn.over_sampling import RandomOverSampler
 
 class DTModel:
-    def __init__(self, name, columns=None, num_features=None):
+    def __init__(self, name, training_file_name=None, columns=None, num_features=None):
         self.course_name = str(name)
         self.columns = columns
         self.num_features = num_features
@@ -15,7 +15,10 @@ class DTModel:
         self.clf = DecisionTreeClassifier(max_depth=10)
         self.data_frame = None
         self.pwd = os.path.dirname(__file__)
-        self.file_name = self.pwd + '/savefile/dt_' + self.course_name + '.sav'
+        if training_file_name is None:
+            self.file_name = self.pwd + '/savefile/dt_' + self.course_name + '.sav'
+        else:
+            self.file_name = self.pwd + '/savefile/' + training_file_name + '.sav'
         self.address = self.pwd + "/data/" + self.course_name + ".csv"
 
     def create_model(self):
@@ -68,7 +71,7 @@ class DTModel:
         self.clf = pickle.load(open(self.file_name, 'rb'))
 
     def predict(self, features_test):
-        prediction = self.clf.predict_prob(features_test)
+        prediction = self.clf.predict(features_test)
         return prediction
 
     def build_model(self):

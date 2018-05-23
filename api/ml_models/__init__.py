@@ -2,10 +2,11 @@ import os.path
 import numpy as np
 import pandas as pd
 from api.ml_models.nb_model import NbModel
+from api.ml_models.dt_model import DTModel
 
-def get_prediction(mata_kuliah, nilai):
+def get_prediction(nilai):
     nilai = np.asarray(nilai).reshape(1, -1)
-    prediksi = NbModel(mata_kuliah, num_features=nilai)
+    prediksi = DTModel('final', training_file_name='final')
     prediksi.load_model()
     hasil = prediksi.predict(nilai)
     return hasil

@@ -75,9 +75,9 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
     except TypeError:
         return "Argument salah"
 
-def request_course_prediction(npm, kd_mk_target, kd_mk_pras):
+def request_course_prediction(npm, kd_mk_target, nilai):
     npm = npm + "1"
-    status = get_prediction(kd_mk_target, kd_mk_pras)
+    status = get_prediction(nilai)
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
