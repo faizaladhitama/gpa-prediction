@@ -99,6 +99,13 @@ def get_kode_prasyarat(kode):
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 
+def get_nama_prasyarat(nama_matkul):
+    try:
+        kode_prasyarat = PrasyaratMataKuliah.objects.get(nama_matkul=nama_matkul).nama_matkul_pras
+        return kode_prasyarat.split('/')
+    except ObjectDoesNotExist:
+        return "Prasyarat tidak ditemukan"
+
 
 def caching(name, func, args, kode=""):
     name = kode + "_" + name
