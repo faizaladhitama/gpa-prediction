@@ -4,7 +4,7 @@ import math
 import json
 import requests
 
-from api.db.utils import caching
+from api.db.utils import caching, get_nama_prasyarat
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list, cek_huruf_lulus, huruf_to_angka, cek_mpkos
 
@@ -306,4 +306,34 @@ def get_mata_kuliah(access_token):
     except ValueError as exception:
         return {}, str(exception)
     except requests.ConnectionError as exception:
+        return {}, str(exception)
+
+def get_nilai_prasyarat(access_token, npm, nama_matkul):
+    try:
+        data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
+                       (npm, os.environ['CLIENT_ID'], access_token), npm)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+
+        prasyarat = get_nama_prasyarat(nama_matkul)
+
+        nilai_prasyarat = []
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1, 4):
+                key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+                res = caching(key_name, Requester.request_sks,
+                              (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
+                #res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                for course in res:
+                    if ((course['kelas'] != None) and\
+                     (course['kelas']['nm_mk_cl']['nm_mk'] in prasyarat)):
+                        nilai_prasyarat.append(huruf_to_angka(course['nilai']))
+        return nilai_prasyarat, None
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)
+    except requests.HTTPError as exception:
         return {}, str(exception)
