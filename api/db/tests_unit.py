@@ -102,6 +102,20 @@ class UtilsTest(TestCase):
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
 
+    def test_get_kode_prasyarat_none(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_kode_matkul = 'IKS000'
+        mock_kode_prasyarat = "Prasyarat tidak ditemukan"
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_kode_prasyarat, get_kode_prasyarat(mock_kode_matkul))
+
+    def test_get_nama_prasyarat_none(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_nama_matkul = 'asdfjas'
+        mock_nama_prasyarat = "Prasyarat tidak ditemukan"
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
+
 def lazy(count):
     for i in range(6000):
         for j in range(6000):
