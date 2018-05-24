@@ -8,10 +8,12 @@ from django.core.cache import cache
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_jenjang, get_all_sks_term, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential, \
-    get_total_mutu, get_mata_kuliah
+    get_total_mutu, get_mata_kuliah, get_nilai_prasyarat
 
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list
+
+from api.db.utils import populate_prasyarat_matkul
 
 
 def create_mocked_response(status_code, data):
@@ -782,6 +784,59 @@ class SiakTest(MockSiak):
         self.mocked_get_matkul.side_effect = ValueError("connection refused")
 
         resp, err = get_mata_kuliah(mocked_token)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_nilai_pras_on_valid(self):
+        populate_prasyarat_matkul('./api/db/prasyarat_matkul.csv')
+        mocked_token = 'mocked'
+        mocked_matkul = 'Sistem Operasi'
+        mocked_nilai_prasyarat = [2.7]
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'nm_mk':\
+         'Pengantar Organisasi Komputer'}}, 'nilai': 'B+'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_nilai_prasyarat(mocked_token, self.mock_npm, mocked_matkul)
+
+        self.assertIsNone(err)
+        self.assertEqual(mocked_nilai_prasyarat, resp)
+
+    def test_get_nil_pras_on_conn_error(self):
+        mocked_token = "mocked"
+        mocked_matkul = "abc"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        self.mocked_req_sks.side_effect = requests.ConnectionError("connection refused")
+
+        resp, err = get_nilai_prasyarat(mocked_token, self.mock_npm, mocked_matkul)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_nil_pras_on_http_error(self):
+        mocked_token = "mocked"
+        mocked_matkul = "abc"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        self.mocked_req_sks.side_effect = requests.HTTPError("connection refused")
+
+        resp, err = get_nilai_prasyarat(mocked_token, self.mock_npm, mocked_matkul)
+
+        self.assertEqual({}, resp)
+        self.assertEqual("connection refused", err)
+
+    def test_get_nil_pras_on_val_error(self):
+        mocked_token = "mocked"
+        mocked_matkul = "abc"
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        self.mocked_req_sks.side_effect = ValueError("connection refused")
+
+        resp, err = get_nilai_prasyarat(mocked_token, self.mock_npm, mocked_matkul)
 
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
