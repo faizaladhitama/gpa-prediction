@@ -80,13 +80,16 @@ def populate_prasyarat_matkul(file_csv):
     df_matkul = pd.read_csv(file_csv)
     for _, row in df_matkul.iterrows():
         kode = row.loc['Kode']
+        nama = row.loc['Matkul']
         prasyarat = row.loc['Jejaring_Kode']
+        nama_prasyarat = row.loc['Jejaring_Matkul']
 
         if MataKuliah.objects.filter(kode_matkul=kode).count() < 1:
             create_matakuliah(kode_matkul=kode)
-        if PrasyaratMataKuliah.objects.filter(kode_matkul=kode).count() < 1:
+        if PrasyaratMataKuliah.objects.filter(nama_matkul=nama).count() < 1:
             kode = MataKuliah.objects.get(kode_matkul=kode)
-            pras = PrasyaratMataKuliah(kode_matkul=kode, kode_matkul_pras=prasyarat)
+            pras = PrasyaratMataKuliah(kode_matkul=kode, nama_matkul=nama,\
+             kode_matkul_pras=prasyarat, nama_matkul_pras=nama_prasyarat)
             pras.save()
 
 def get_kode_prasyarat(kode):
