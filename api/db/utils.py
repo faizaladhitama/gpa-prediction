@@ -95,7 +95,7 @@ def populate_prasyarat_matkul(file_csv):
 def get_kode_prasyarat(kode):
     try:
         kode_prasyarat = PrasyaratMataKuliah.objects.get(kode_matkul=kode).kode_matkul_pras
-        return kode_prasyarat.split()
+        return kode_prasyarat.split('/')
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 
