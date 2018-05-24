@@ -34,7 +34,7 @@ class AnggotaKelas(models.Model):
 
 class PrasyaratMataKuliah(models.Model):
     kode_matkul = models.ForeignKey('MataKuliah', on_delete=models.CASCADE)
-    nama_matkkul = models.CharField(max_length=100)
+    nama_matkul = models.CharField(max_length=100)
     kode_matkul_pras = models.CharField(max_length=100)
     nama_matkul_pras = models.CharField(max_length=150)
 
