@@ -52,7 +52,7 @@ def get_recommendation(npm):
     if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
         create_mahasiswa_siak(npm)
     mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
-    res = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus')
+    res = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus' )
     return res
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
@@ -414,7 +414,7 @@ def get_profile(request, context):
 
 def get_rekomendasi_context(request, context_mahasiswa):
     npm = context_mahasiswa['id']
-    prediksi_list = get_recommendation(npm).objects.get_queryset().order_by('kode_matkul')
+    prediksi_list = get_recommendation(npm).order_by('kode_matkul')
     page = request.GET.get('page', 1)
     paginator = Paginator(prediksi_list, 10)
     try:
