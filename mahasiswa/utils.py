@@ -416,7 +416,9 @@ def get_rekomendasi_context(request, context_mahasiswa):
     npm = context_mahasiswa['id']
     prediksi_list = get_recommendation(npm).order_by('kode_matkul')
     page = request.GET.get('page', 1)
-    paginator = Paginator(prediksi_list, 10)
+    answers_list = list(prediksi_list)
+    paginator = Paginator(answers_list, 1)
+    print(paginator.object_list[0].kode_matkul)
     try:
         prediksi = paginator.page(page)
     except PageNotAnInteger:
@@ -424,4 +426,6 @@ def get_rekomendasi_context(request, context_mahasiswa):
     except EmptyPage:
         prediksi = paginator.page(paginator.num_pages)
     context_mahasiswa.update({'table': prediksi})
+    print(answers_list)
+    print(context_mahasiswa)
     return context_mahasiswa
