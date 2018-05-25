@@ -22,21 +22,21 @@
 			    {% if table.has_other_pages %}
 			    <ul class="pagination">
 			    {% if table.has_previous %}
-			    <li class="page-item"><a href="?page={{ table.previous_page_number }}">&laquo;</a></li>
+			    <li class="page-item"><a class="page-link" href="?page={{ table.previous_page_number }}">&laquo;</a></li>
 			    {% else %}
-			    <li class="page-item disabled"><span>&laquo;</span></li>
+			    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
 			    {% endif %}
 			    {% for i in table.paginator.page_range %}
 			    {% if table.number == i %}
-			    <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+			    <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
       {% else %}
-        <li class="page-item"><a href="?page={{ i }}">{{ i }}</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
     {% if table.has_next %}
-      <li class="page-item"><a href="?page={{ table.next_page_number }}">&raquo;</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ table.next_page_number }}">&raquo;</a></li>
     {% else %}
-      <li class="page-item disabled"><span>&raquo;</span></li>
+      <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
     {% endif %}
   </ul>
 {% endif %}
