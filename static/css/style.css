@@ -38,3 +38,17 @@ th{
 .table-hover > tbody > tr:nth-child(even):hover > td{
    background-color: #E4F1FE;
 }
+#loader {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0 , 0.8);
+	z-index: 10000;
+	display: none;
+}
+
+#img-loader {
+	position: absolute;
+	left: 43vw;
+	top: 38vh;
+}
