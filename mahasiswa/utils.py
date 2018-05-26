@@ -417,7 +417,7 @@ def get_rekomendasi_context(request, context_mahasiswa):
     prediksi_list = get_recommendation(npm).order_by('kode_matkul')
     page = request.GET.get('page', 1)
     answers_list = list(prediksi_list)
-    paginator = Paginator(answers_list, 1)
+    paginator = Paginator(answers_list, 10)
     print(paginator.object_list[0].kode_matkul)
     try:
         prediksi = paginator.page(page)
@@ -426,6 +426,4 @@ def get_rekomendasi_context(request, context_mahasiswa):
     except EmptyPage:
         prediksi = paginator.page(paginator.num_pages)
     context_mahasiswa.update({'table': prediksi})
-    print(answers_list)
-    print(context_mahasiswa)
     return context_mahasiswa

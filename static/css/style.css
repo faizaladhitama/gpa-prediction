@@ -17,3 +17,24 @@ body {
 	margin-top:3%;
 	font-family: 'Montserrat-Bold';
 }
+
+.table-striped > tbody > tr:nth-child(odd) > td{
+   background-color: white;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td{
+   background-color: #AEDDE5;
+}
+
+th{
+   background-color: #56A5EC;
+   color: white;
+}
+
+.table-hover > tbody > tr:nth-child(odd):hover > td{
+   background-color: #F2F1EF;
+}
+
+.table-hover > tbody > tr:nth-child(even):hover > td{
+   background-color: #E4F1FE;
+}
