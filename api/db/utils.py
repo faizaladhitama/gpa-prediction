@@ -63,9 +63,9 @@ def convert_kode_to_nama(kode_matkul):
     if PrasyaratMataKuliah.objects.filter(kode_matkul=kode_matkul).count() < 1:
         return "Nama Not Found"
     else:
-        a = PrasyaratMataKuliah.objects.get(kode_matkul=kode_matkul).nama_matkul
-        if a is not None:
-            return a
+        obj = PrasyaratMataKuliah.objects.get(kode_matkul=kode_matkul).nama_matkul
+        if obj is not None:
+            return obj
         return "Nama Not Found"
 
 
