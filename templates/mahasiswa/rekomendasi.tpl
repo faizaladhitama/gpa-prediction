@@ -14,7 +14,9 @@
 					<tbody>
 					    {% for prediksi in table %}
 					    <tr>
-					    <td>{{ prediksi.kode_matkul }}</td>
+					    {% for record in prediksi %}
+					    <td>{{ record }}</td>
+					    {% endfor %}
 					    </tr>
 					    {% endfor %}
 					</tbody>

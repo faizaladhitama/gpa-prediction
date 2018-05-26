@@ -52,7 +52,11 @@ def get_recommendation(npm):
     if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
         create_mahasiswa_siak(npm)
     mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
-    res = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus')
+    quer = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus').order_by('kode_matkul')
+    res = []
+    for prediksi in quer:
+        nama_matkul = "nama_matkul"
+        res.append([prediksi.kode_matkul, nama_matkul])
     return res
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
@@ -414,11 +418,12 @@ def get_profile(request, context):
 
 def get_rekomendasi_context(request, context_mahasiswa):
     npm = context_mahasiswa['id']
-    prediksi_list = get_recommendation(npm).order_by('kode_matkul')
+    prediksi_list = get_recommendation(npm)
     page = request.GET.get('page', 1)
     answers_list = list(prediksi_list)
     paginator = Paginator(answers_list, 10)
-    print(paginator.object_list[0].kode_matkul)
+    print(paginator.object_list[0][0])
+    print(paginator.object_list[0][1])
     try:
         prediksi = paginator.page(page)
     except PageNotAnInteger:
