@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage
 from api.db.utils import caching, create_mahasiswa_siak, convert_kode_to_nama
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
@@ -419,18 +419,18 @@ def get_profile(request, context):
 def get_rekomendasi_context(request, context_mahasiswa):
     try:
         npm = context_mahasiswa['id']
-    except KeyError as exp:
-        return str(exp)
-    prediksi_list = get_recommendation(npm)
-    try:
-        page = request.GET.get('page', 1)
-    except AttributeError as exp:
-        return str(exp)
-    answers_list = list(prediksi_list)
-    paginator = Paginator(answers_list, 10)
-    try:
-        prediksi = paginator.page(page)
-    except EmptyPage:
-        prediksi = paginator.page(paginator.num_pages)
-    context_mahasiswa.update({'table': prediksi})
-    return context_mahasiswa
+        if request is not None:
+            prediksi_list = get_recommendation(npm)
+            page = request.GET.get('page', 1)
+            answers_list = list(prediksi_list)
+            paginator = Paginator(answers_list, 10)
+            try:
+                prediksi = paginator.page(page)
+            except EmptyPage:
+                prediksi = paginator.page(paginator.num_pages)
+            context_mahasiswa.update({'table': prediksi})
+            return context_mahasiswa
+        else:
+            return context_mahasiswa
+    except KeyError:
+        return {}

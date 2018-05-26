@@ -7,8 +7,9 @@ from django.test import TestCase
 from api.siak import get_siak_data, parse_siak_data
 from api.db.utils import insert_to_db_rekam_jejak, \
     create_mock_data_mahasiswa, create_mock_data_dosen, \
-    caching
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah
+    caching, create_matakuliah, convert_kode_to_nama
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, \
+    MataKuliah, PrasyaratMataKuliah
 
 
 class UtilsTest(TestCase):
@@ -99,3 +100,32 @@ class CacheTest(TestCase):
         dict_ = caching("dict_cache", dict_cache, {"a":1, "b":2})
         expected = {"a":1, "b":2}
         self.assertEqual(expected, dict_)
+
+
+class ConvertKodeToNama(TestCase):
+
+    def setUp(self):
+        create_matakuliah(kode_matkul='cs123', nip=0,
+                          nama="sc", prodi="semua", tkt_krjsama=1, sks=3)
+        create_matakuliah(kode_matkul='cs125', nip=0, nama="", prodi="semua", tkt_krjsama=1, sks=3)
+        mk = MataKuliah.objects.get(kode_matkul='cs123')
+        mk2 = MataKuliah.objects.get(kode_matkul='cs125')
+        PrasyaratMataKuliah(kode_matkul=mk, nama_matkul="sc", kode_matkul_pras="cs456",
+                            nama_matkul_pras="statprob").save()
+        PrasyaratMataKuliah(kode_matkul=mk2, kode_matkul_pras="cs456",
+                            nama_matkul_pras="statprob").save()
+
+    def test_convert(self):
+        mock_kode = 'cs123'
+        status = convert_kode_to_nama(mock_kode)
+        self.assertIsNotNone(status)
+
+    def test_convert_none(self):
+        mock_kode = 'cs124'
+        status = convert_kode_to_nama(mock_kode)
+        self.assertIsNotNone(status)
+
+    def test_name_none(self):
+        mock_kode = 'cs125'
+        status = convert_kode_to_nama(mock_kode)
+        self.assertIsNotNone(status)

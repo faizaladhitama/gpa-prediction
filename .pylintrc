@@ -11,7 +11,8 @@ disable=
     protected-access,
     no-else-return,
     wrong-import-position,
-    global-statement
+    global-statement,
+    invalid-name
 
 [VARIABLES]
 
