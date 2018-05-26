@@ -1,4 +1,4 @@
-<h1 class="prediktor-title"> Prediktor Kelulusan Evaluasi Akademik </h1>
+<p id="prediktor-title"> Prediktor Kelulusan Evaluasi Akademik </p>
 <div class="container">
 		<div class="row ">
 			<div class="col prediktor-body" id="prediktor-eval-button">

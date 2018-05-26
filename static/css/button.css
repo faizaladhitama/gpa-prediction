@@ -1,9 +1,4 @@
 @media screen and (max-width: 768px) {
-	body {
-		background-color: #EBF4FA !important;
-		color: #000000;
-    }
-
     #status-prediktor {
         font-size: 30px !important;
         position: relative;
@@ -14,7 +9,7 @@
         position: relative;
         border: 0;
         transition: all 40ms linear;
-        margin-left: -30% !important;
+        margin-left: 50% !important;
         border-radius: 50%;
         width: 200px !important;
         height: 200px !important;
@@ -75,7 +70,7 @@
 
 .btn3d {
 	position: relative;
-	top: -6px;
+	top: -17%;
 	border: 0;
 	transition: all 40ms linear;
 	margin-top: 10px;
@@ -83,8 +78,8 @@
 	margin-left: 2px;
 	margin-right: 2px;
 	border-radius: 50%;
-	width: 50%;
-	height: 50%;
+	width: 30%;
+	height: 55%;
 	font-size: 60px;
 	font-family: Montserrat-Bold;
 	text-transform: uppercase;
