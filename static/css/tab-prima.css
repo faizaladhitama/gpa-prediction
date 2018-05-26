@@ -25,3 +25,20 @@ h5 {
 a:hover {
 	color: red;
 }
+
+@media screen and (max-width: 768px) {
+	body {
+		background-color: #ffffff !important;
+		color: #000000;
+	}
+
+	#tab-prediktor-evaluasi-akademik {
+		display: block;
+		width: 100%;
+	}
+	
+	#tab-prediktor-matkul {
+		display: block;
+		width: 100%;
+	}
+}
