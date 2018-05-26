@@ -1,10 +1,13 @@
 from datetime import datetime
 from unittest.mock import patch
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.test import TestCase
 from django.urls import reverse
 
 from api.siak.tests_unit import MockSiak
+from api.models import PrediksiMataKuliah, MahasiswaSIAK
+from api.db.utils import create_mahasiswa_siak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester_evaluation, \
     get_angkatan, get_evaluation_status, \
@@ -14,9 +17,6 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
     get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
     get_recommendation, get_rekomendasi_context
-
-from api.models import PrediksiMataKuliah, MahasiswaSIAK
-from api.db.utils import create_mahasiswa_siak
 
 class URLTest(TestCase):
     def test_homepage(self):
@@ -244,8 +244,6 @@ class RecomendationTest(TestCase):
         status = get_recommendation(mock_npm)
         self.assertIsNotNone(status)
 
-    def test_rekomendasi_context(self):
-        pass
 
 class SplitJenjangJalurTest(TestCase):
     def test_split_jenjangjalur_success(self):
@@ -552,6 +550,7 @@ class SksKurang(TestCase):
     def test_sapu_jagat(self):
         pass
 
+
 class GetProfileContext(MockSiak):
     def test_context_valid(self):
         self.mocked_generator.return_value = None
@@ -584,3 +583,37 @@ class GetProfileContext(MockSiak):
         context_mahasiswa = {}
         context = get_profile(request, context_mahasiswa)
         self.assertEqual(context, "'access_token'")
+
+
+class GetRekomendasiContext(MockSiak):
+    def setUp(self):
+        create_mahasiswa_siak('123456')
+        mhs = MahasiswaSIAK.objects.get(npm='123456')
+        PrediksiMataKuliah(npm=mhs, kode_matkul='csc123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='ui123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='UIS123', status='tidak lulus').save()
+
+    def test_context_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': '123456', 'role': 'dummy',
+                             'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = None
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+
+    @patch('mahasiswa.utils.get_recommendation')
+    def test_context_empty(self, rekomendasi_dummy):
+        rekomendasi_dummy.return_value = None
+        request = MockRequest()
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': '123456', 'role': 'dummy',
+                             'name': 'dummy'}
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        with self.assertRaises(EmptyPage):
+            context['table'].get_page(1)

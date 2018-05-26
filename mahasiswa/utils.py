@@ -418,11 +418,8 @@ def get_rekomendasi_context(request, context_mahasiswa):
     page = request.GET.get('page', 1)
     answers_list = list(prediksi_list)
     paginator = Paginator(answers_list, 10)
-    print(paginator.object_list[0].kode_matkul)
     try:
         prediksi = paginator.page(page)
-    except PageNotAnInteger:
-        prediksi = paginator.page(1)
     except EmptyPage:
         prediksi = paginator.page(paginator.num_pages)
     context_mahasiswa.update({'table': prediksi})
