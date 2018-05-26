@@ -318,7 +318,7 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
 
         prasyarat = get_nama_prasyarat(nama_matkul)
 
-        nilai_prasyarat = []
+        nilai_prasyarat = {}
 
         for year in range(int(angkatan), now.year + 1):
             for term in range(1, 4):
@@ -329,7 +329,8 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
                 for course in res:
                     if ((course['kelas'] != None) and\
                      (course['kelas']['nm_mk_cl']['nm_mk'] in prasyarat)):
-                        nilai_prasyarat.append(huruf_to_angka(course['nilai']))
+                        prasyarat = course['kelas']['nm_mk_cl']['nm_mk']
+                        nilai_prasyarat[prasyarat] = course['nilai']
         return nilai_prasyarat, None
     except ValueError as exception:
         return {}, str(exception)
