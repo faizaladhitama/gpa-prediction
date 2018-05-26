@@ -792,7 +792,7 @@ class SiakTest(MockSiak):
         populate_prasyarat_matkul('./api/db/prasyarat_matkul.csv')
         mocked_token = 'mocked'
         mocked_matkul = 'Sistem Operasi'
-        mocked_nilai_prasyarat = [2.7]
+        mocked_nilai_prasyarat = {'Sistem Operasi': 'B+'}
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
