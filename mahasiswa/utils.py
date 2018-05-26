@@ -49,14 +49,20 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_recommendation(npm):
+    print("a")
     if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
         create_mahasiswa_siak(npm)
+    print("b")
     mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
+    print("c")
     quer = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus').order_by('kode_matkul')
+    print("d")
     res = []
     for prediksi in quer:
         nama_matkul = convert_kode_to_nama(prediksi.kode_matkul)
+        print("e")
         res.append([prediksi.kode_matkul, nama_matkul])
+    print("f")
     return res
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
