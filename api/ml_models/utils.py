@@ -1,4 +1,4 @@
-from api.ml_models.nb_model import NBModel
+from .nb_model import *
 
 def convert_nama_to_kode(nama_mk):
     return nama_mk

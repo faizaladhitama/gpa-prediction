@@ -1,12 +1,13 @@
 from datetime import datetime
 
-from api.db.utils import caching
+from api.db.utils import caching, get_nama_prasyarat
 
 from api.utils import give_verdict, save_status, save_status_matakuliah
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
-    get_total_mutu
+    get_total_mutu, get_nilai_prasyarat
 from api.ml_models import get_prediction
+from api.ml_models.utils import search_matkul
 
 
 def get_term(now):
@@ -81,11 +82,17 @@ def request_course_prediction(npm, kd_mk_target, nilai):
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
-def get_prediktor_matkul_context(request, matkul_to_predict, context):
-    context = None
-    request = context
-    matkul_to_predict = request
-    return matkul_to_predict
+def get_prediktor_matkul_context(request, matkul_to_predict, nilai, context):
+    context_prediktor_matkul = None
+    matkul_prasyarat = caching("matkul_prasyarat", get_nama_prasyarat, matkul_to_predict)
+    # status_matkul = caching("kelulusan_matkul", search_matkul, (request, matkul_to_predict), context['id'])
+    nilai_prasyarat = get_nilai_prasyarat(request, context['id'], matkul_to_predict)
+    avg_score = 0
+    for i in nilai_prasyarat:
+        avg_score = avg_score + nilai_prasyarat[i]
+    status_matkul = caching("kelulusan_matkul", request_course_prediction, (context['id'], matkul_to_predict, avg_score), context['id'])
+    context_prediktor_matkul.update({'kelulusan_matkul': status_matkul, 'matkul_prasyarat': matkul_prasyarat})
+    return context_prediktor_matkul
 
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):
     source = "Keputusan Rektor Universitas Indonesia\
