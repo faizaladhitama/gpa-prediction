@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from api.db.utils import caching, create_mahasiswa_siak
+from api.db.utils import caching, create_mahasiswa_siak, convert_kode_to_nama
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
@@ -55,7 +55,7 @@ def get_recommendation(npm):
     quer = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus').order_by('kode_matkul')
     res = []
     for prediksi in quer:
-        nama_matkul = "nama_matkul"
+        nama_matkul = convert_kode_to_nama(prediksi.kode_matkul)
         res.append([prediksi.kode_matkul, nama_matkul])
     return res
 
