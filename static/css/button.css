@@ -1,3 +1,73 @@
+@media screen and (max-width: 768px) {
+	body {
+		background-color: #EBF4FA !important;
+		color: #000000;
+    }
+
+    #status-prediktor {
+        font-size: 30px !important;
+        position: relative;
+        left: -20%;
+    }
+    
+    .btn3d {
+        position: relative;
+        border: 0;
+        transition: all 40ms linear;
+        margin-left: -30% !important;
+        border-radius: 50%;
+        width: 200px !important;
+        height: 200px !important;
+    }
+    
+    .btn3d:active:focus,
+    .btn3d:focus:hover,
+    .btn3d:focus {
+        -moz-outline-style: none;
+        outline: medium none;
+    }
+    
+    .btn3d:active,
+    .btn3d.active {
+        top: 2px;
+    }
+    
+    .btn3d.btn-success {
+        box-shadow: 0 0 0 1px #5eb924 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #007319, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+        background-color: #009d22;
+    }
+    
+    .btn3d.btn-success:active,
+    .btn3d.btn-success.active {
+        box-shadow: 0 0 0 1px #30cd00 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+        background-color: #009d22;
+    }
+    
+    .btn3d.btn-warning {
+        color: #fff;
+        box-shadow: 0 0 0 1px #FFE76E inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #b0b000, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+        background-color: #FFDD02;
+    }
+    
+    .btn3d.btn-warning:active,
+    .btn3d.btn-warning.active {
+        color: #fff !important;
+        box-shadow: 0 0 0 1px #cea800 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+        background-color: #fcd517 !important;
+    }
+    
+    .btn3d.btn-danger {
+        box-shadow: 0 0 0 1px #b93802 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #AA0000, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+        background-color: #D73814;
+    }
+    
+    .btn3d.btn-danger:active,
+    .btn3d.btn-danger.active {
+        box-shadow: 0 0 0 1px #b93802 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+        background-color: #D73814;
+    }
+}
+
 @font-face {
     font-family: Montserrat-Bold;
     src: url("../fonts/Montserrat-Bold.ttf");
@@ -13,8 +83,8 @@
 	margin-left: 2px;
 	margin-right: 2px;
 	border-radius: 50%;
-	width: 350px;
-	height: 350px;
+	width: 50%;
+	height: 50%;
 	font-size: 60px;
 	font-family: Montserrat-Bold;
 	text-transform: uppercase;
