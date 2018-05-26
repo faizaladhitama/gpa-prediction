@@ -419,27 +419,27 @@ def get_profile(request, context):
 def get_rekomendasi_context(request, context_mahasiswa):
     try:
         npm = context_mahasiswa['id']
-        print("NPM",npm)
+        print("NPM", npm)
         if request is not None:
             prediksi_list = get_recommendation(npm)
-            print("PREDIKSI_LIST",prediksi_list)
+            print("PREDIKSI_LIST", prediksi_list)
             page = request.GET.get('page', 1)
-            print("PAGE",page)
+            print("PAGE", page)
             answers_list = list(prediksi_list)
-            print("ANSWER_LIST",answers_list)
+            print("ANSWER_LIST", answers_list)
             paginator = Paginator(answers_list, 10)
-            print("PAGINATOR",paginator)
+            print("PAGINATOR", paginator)
             try:
                 prediksi = paginator.page(page)
             except EmptyPage:
                 prediksi = paginator.page(paginator.num_pages)
-            print("PREDIKSI",prediksi)
+            print("PREDIKSI", prediksi)
             context_mahasiswa.update({'table': prediksi})
-            print("CONTEXT_MAHASISWA",context_mahasiswa)
+            print("CONTEXT_MAHASISWA", context_mahasiswa)
             return context_mahasiswa
         else:
-            print("CONTEXT_MAHASISWA",context_mahasiswa)
+            print("CONTEXT_MAHASISWA", context_mahasiswa)
             return context_mahasiswa
     except KeyError as e:
-        print("ERROR",e)
+        print("ERROR", e)
         return {}
