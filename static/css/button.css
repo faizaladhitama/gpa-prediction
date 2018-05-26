@@ -9,7 +9,8 @@
         position: relative;
         border: 0;
         transition: all 40ms linear;
-        margin-left: 50% !important;
+        top: 5%;
+        left: -100% !important;
         border-radius: 50%;
         width: 200px !important;
         height: 200px !important;

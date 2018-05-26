@@ -79,8 +79,9 @@ h7 {
 	margin-left: 20%;
 }
 
-.prediktor-message {
-	margin-top: 30px;
+#prediktor-message {
+	position: relative;
+	top: -100%;
 }
 
 .verdict {
