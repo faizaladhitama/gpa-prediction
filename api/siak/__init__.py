@@ -318,7 +318,7 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
 
         prasyarat = get_nama_prasyarat(nama_matkul)
 
-        nilai_prasyarat = []
+        nilai_prasyarat = {}
 
         for year in range(int(angkatan), now.year + 1):
             for term in range(1, 4):
