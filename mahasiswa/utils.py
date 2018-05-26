@@ -421,10 +421,11 @@ def get_rekomendasi_context(request, context_mahasiswa):
         npm = context_mahasiswa['id']
     except KeyError as exp:
         return str(exp)
+    prediksi_list = get_recommendation(npm)
+    try:
+        page = request.GET.get('page', 1)
     except AttributeError as exp:
         return str(exp)
-    prediksi_list = get_recommendation(npm)
-    page = request.GET.get('page', 1)
     answers_list = list(prediksi_list)
     paginator = Paginator(answers_list, 10)
     try:

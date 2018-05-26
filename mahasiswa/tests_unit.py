@@ -603,9 +603,11 @@ class GetRekomendasiContext(MockSiak):
 
     def test_context_invalid_request(self):
         request = None
-        context_mahasiswa = None
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': '123456', 'role': 'dummy',
+                             'name': 'dummy'}
         context = get_rekomendasi_context(request, context_mahasiswa)
-        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
+        self.assertEqual(context, "'NoneType' object has no attribute 'GET'")
 
     @patch('mahasiswa.utils.get_recommendation')
     def test_context_empty(self, rekomendasi_dummy):
@@ -615,5 +617,4 @@ class GetRekomendasiContext(MockSiak):
                              'user': 'dummy', 'id': '123456', 'role': 'dummy',
                              'name': 'dummy'}
         context = get_rekomendasi_context(request, context_mahasiswa)
-        with self.assertRaises(EmptyPage):
-            context['table'].get_page(1)
+        self.assertEqual(len(context['table'].object_list), 0)
