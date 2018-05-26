@@ -3,18 +3,21 @@
 <div class="container mx-auto my-3" id="myTabContent2">
 	<div class="col-xs-8 mt-5">
 	        <h4 class="font-weight-bold">Rekomendasi Mata Kuliah</h4>
-	        {% if table != None %}
+	        {% if table.object_list|length != 0 %}
 		    <div class="table-responsive" id="rekomendasi-table">
 				<table class="table table-condensed table-hover table-striped">
 					<thead class="table-primary">
 						<tr>
-							<th>Mata Kuliah</th>
+							<th>Kode Mata Kuliah</th>
+							<th>Nama Mata Kuliah</th>
 						</tr>
 					</thead>
 					<tbody>
 					    {% for prediksi in table %}
 					    <tr>
-					    <td>{{ prediksi.kode_matkul }}</td>
+					    {% for record in prediksi %}
+					    <td>{{ record }}</td>
+					    {% endfor %}
 					    </tr>
 					    {% endfor %}
 					</tbody>

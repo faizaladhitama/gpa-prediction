@@ -609,7 +609,7 @@ class GetRekomendasiContext(MockSiak):
 
     @patch('mahasiswa.utils.get_recommendation')
     def test_context_empty(self, rekomendasi_dummy):
-        rekomendasi_dummy.return_value = None
+        rekomendasi_dummy.return_value = []
         request = MockRequest()
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': '123456', 'role': 'dummy',
