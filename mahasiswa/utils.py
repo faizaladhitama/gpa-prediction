@@ -77,7 +77,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
         return "Argument salah"
 
 def request_course_prediction(npm, kd_mk_target, nilai):
-    npm = npm + "1"
+    npm = npm
     status = get_prediction(nilai)
     save_status_matakuliah(npm, kd_mk_target, status)
     return status

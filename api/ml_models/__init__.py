@@ -9,7 +9,8 @@ def get_prediction(nilai):
     prediksi = DTModel('final', training_file_name='final')
     prediksi.load_model()
     hasil = prediksi.predict(nilai)
-    return hasil
+    verdict = hasil[0]
+    return verdict
 
 def create_prediction(mata_kuliah, column, fitur):
     model_baru = NbModel(mata_kuliah, column, fitur)
