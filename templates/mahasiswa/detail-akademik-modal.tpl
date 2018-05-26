@@ -9,9 +9,9 @@
 <!--         {% include 'mahasiswa/detail-akademik-tab.tpl' %} -->
         <h5 class="text-center">Tekan tombol di bawah ini untuk melihat detail akademik</h5>
         <div class="text-center mt-3">
-          <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-right">Peraturan Akademik</a>
-          <a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-right">Riwayat SKS</a>
-          <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-right">Riwayat IP</a>
+          <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-right" onclick="displayLoader()">Peraturan Akademik</a>
+          <a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-right" onclick="displayLoader()">Riwayat SKS</a>
+          <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-right" onclick="displayLoader()">Riwayat IP</a>
         </div>
       </div>
       <div class="modal-footer">

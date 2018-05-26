@@ -62,7 +62,6 @@ class MockRequest:
 class MockGet:
     def __init__(self):
         self.dummy = "dummy"
-        
     def get(self, key, out):
         self.dummy = key
         if key:

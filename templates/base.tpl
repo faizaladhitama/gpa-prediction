@@ -30,6 +30,12 @@
 {% block customized_css%}
 {% endblock %}
 
+<div id="loader">
+	{% load static %}
+	<img src="{% static 'assets/loader.gif' %}" id="img-loader" >
+	<p>please wait ;)</p>
+</div>
+
 {% block content %}
 {% endblock %}
 
