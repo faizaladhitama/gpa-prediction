@@ -15,6 +15,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
     get_recommendation, get_rekomendasi_context
 
+from api.models import PrediksiMataKuliah, MahasiswaSIAK
+from api.db.utils import create_mahasiswa_siak
 
 class URLTest(TestCase):
     def test_homepage(self):
@@ -225,13 +227,20 @@ class EvaluationStatusTest(TestCase):
 
 class RecomendationTest(TestCase):
 
+    def setUp(self):
+        create_mahasiswa_siak('123456')
+        mhs = MahasiswaSIAK.objects.get(npm='123456')
+        PrediksiMataKuliah(npm=mhs, kode_matkul='csc123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='ui123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='UIS123', status='tidak lulus').save()
+
     def test_recommendation(self):
         mock_npm = '123456'
         status = get_recommendation(mock_npm)
         self.assertIsNotNone(status)
 
-    def test_recommendation_None(self):
-        mock_npm = '123456'
+    def test_recommendation_none(self):
+        mock_npm = '123459'
         status = get_recommendation(mock_npm)
         self.assertIsNotNone(status)
 

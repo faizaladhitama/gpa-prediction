@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from api.db.utils import caching, create_mahasiswa_siak
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from api.db.utils import caching, create_mahasiswa_siak
 from api.utils import give_verdict, save_status
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
@@ -52,7 +52,7 @@ def get_recommendation(npm):
     if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
         create_mahasiswa_siak(npm)
     mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
-    res = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus' )
+    res = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus')
     return res
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
