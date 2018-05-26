@@ -17,3 +17,17 @@ body {
 	margin-top:3%;
 	font-family: 'Montserrat-Bold';
 }
+
+.table-striped > tbody > tr:nth-child(odd) > td{
+   background-color: white;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td{
+   background-color: #AEDDE5;
+}
+
+th{
+   background-color: #56A5EC;
+   color: white;
+}
+
