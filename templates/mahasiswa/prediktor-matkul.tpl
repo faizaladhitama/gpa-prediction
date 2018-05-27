@@ -21,10 +21,10 @@
 					</tr>
 					</thead>
 					<tbody>
-					    {% for key in matkul_prasyarat %}
+					    {% for i in matkul_prasyarat  %}
 						<tr>
-						    <td>{{key}}</td>
-						     <td>{{value}}</td>
+						    <td>{{i}}</td>
+						    <td>{{ value}}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -38,13 +38,13 @@
 					<p> nama prasyarat: {{nama_prasyarat}} </p>
 
 			{% if status_matkul == 'lulus' %}
-				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> {{matkul}} !</p>
+				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> <strong>{{matkul}}</strong> !</p>
 
 			{% elif status_matkul == 'hati-hati' %}
-				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> {{matkul}} <strong> {{semester}}</strong>!</p> <p class="prediktor-message">Anda kurang <strong>{{sks_kurang}} SKS </strong> dari <strong>{{sks_seharusnya}} SKS </strong> untuk lolos evaluasi akademik</p>
+				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> {{matkul}} dalam mengambil mata kuliah <strong> {{matkul}}</strong>!</p> <p class="prediktor-message">Anda harus berusaha keras agar dapat lulus mata kuliah {{matkul}}. Semangat! :)</p>
 			{% else %}
 				<p class="prediktor-message">Anda terancam <span class ="verdict">{{status_matkul}}</span>  <strong> {{matkul}} </strong>!</p>
-				<p class="prediktor-message"> Harap diskusikan dengan PA anda untuk solusi yang terbaik</p>
+				<p class="prediktor-message"> Silakan mengambil mata kuliah yang lain atau diskusikan dengan PA anda untuk solusi yang terbaik</p>
 			{% endif %}
 		</div>
 	</div>

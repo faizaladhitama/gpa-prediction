@@ -8,6 +8,7 @@ from api.siak import get_jenjang, get_all_sks_term, \
     get_total_mutu, get_nilai_prasyarat
 from api.ml_models import get_prediction
 from api.ml_models.utils import search_matkul
+from django.template.defaultfilters import register
 
 
 def get_term(now):
@@ -80,6 +81,12 @@ def request_course_prediction(npm, kd_mk_target, nilai):
     status = get_prediction(nilai)
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
+
+@register.filter(name='lookup')
+def lookup(dict, index):
+    if index in dict:
+        return dict[index]
+    return ''
 
 def get_prediktor_matkul_context(request, matkul_to_predict, context):
     token = request.session['access_token']
