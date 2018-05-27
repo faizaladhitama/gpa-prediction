@@ -14,7 +14,7 @@
         <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{name}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
-          <h10 id="role">{{role}}</h10>
+          <h10 id="role">{{role}} semester {{semester_now}}</h10>
         </a>
         </span>
 	</li>

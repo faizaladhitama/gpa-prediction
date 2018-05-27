@@ -94,6 +94,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     context_prediktor_matkul = {}
     matkul_prasyarat = get_nama_prasyarat('Jejaring Semantik')
     prasyarat = get_nilai_prasyarat(token, context['id'], 'Jejaring Semantik')
+    # print('ini value dari dict' + prasyarat.values())
     # status_matkul = caching("kelulusan_matkul", search_matkul, (request, matkul_to_predict), context['id'])
     # nilai_prasyarat = get_nilai_prasyarat(request, context['id'], matkul_to_predict)
     # print(nilai_prasyarat)
