@@ -8,7 +8,7 @@ from api.siak import get_siak_data, parse_siak_data
 from api.db.utils import insert_to_db_rekam_jejak, \
     create_mock_data_mahasiswa, create_mock_data_dosen, \
     caching, create_matakuliah, populate_matkul, populate_prasyarat_matkul, \
-    get_kode_prasyarat, get_nama_prasyarat
+    get_kode_prasyarat, get_nama_prasyarat, conv_nama_matkul_to_kode_matkul
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, PrasyaratMataKuliah
 
 
@@ -102,6 +102,13 @@ class UtilsTest(TestCase):
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
 
+    def test_conv_nama_to_kode(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_nama_matkul = 'Penambangan Data'
+        mock_kode_matkul = 'IKO42351'
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul(mock_nama_matkul))
+
     def test_get_kode_prasyarat_none(self):
         mock_csv = './api/db/prasyarat_matkul.csv'
         mock_kode_matkul = 'IKS000'
@@ -115,6 +122,7 @@ class UtilsTest(TestCase):
         mock_nama_prasyarat = "Prasyarat tidak ditemukan"
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
+
 
 def lazy(count):
     for i in range(6000):
