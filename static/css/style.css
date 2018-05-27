@@ -34,8 +34,5 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-	body {
-		background-color: #EBF4FA !important;
-		color: #000000;
-	}
+	
 }

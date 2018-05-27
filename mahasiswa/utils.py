@@ -1,10 +1,11 @@
 from datetime import datetime
 
-from api.db.utils import caching, get_nama_prasyarat
+from api.db.utils import caching, get_nama_prasyarat, conv_nama_matkul_to_kode_matkul
 from api.ml_models import get_prediction
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
-    get_total_mutu
+    get_total_mutu, get_nilai_prasyarat
+from api.ml_models.utils import search_matkul
 from api.utils import give_verdict, save_status, save_status_matakuliah
 
 
@@ -82,27 +83,36 @@ def request_course_prediction(npm, kd_mk_target, nilai):
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
+<<<<<<< HEAD
 
 def get_prediktor_matkul_context(matkul_to_predict, context):
+=======
+def get_prediktor_matkul_context(request, matkul_to_predict, context):
+    token = request.session['access_token']
+>>>>>>> 5c9f26ac9de4a78f29dd66e802c2ae55ad3b48b8
     context_prediktor_matkul = {}
+    kode_mk = conv_nama_matkul_to_kode_matkul(matkul_to_predict)
     matkul_prasyarat = get_nama_prasyarat(matkul_to_predict)
-    # status_matkul = caching("kelulusan_matkul",
-    #   search_matkul, (request, matkul_to_predict), context['id'])
-    # nilai_prasyarat = get_nilai_prasyarat(request, context['id'], matkul_to_predict)
-    # print(nilai_prasyarat)
+    prasyarat = get_nilai_prasyarat(token, context['id'], matkul_to_predict)
+    nilai_prasyarat = prasyarat[0].values()
     # avg_score = 0
     # for key in nilai_prasyarat:
     #     print('masuk')
     #     avg_score = avg_score + nilai_prasyarat[key]
     # avg_score = avg_score/len(nilai_prasyarat)
     # print('lewat')
+<<<<<<< HEAD
     try:
         status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
     except KeyError as exp:
         return str(exp)
+=======
+    status_matkul = request_course_prediction(context['id'], kode_mk, 3.0)
+>>>>>>> 5c9f26ac9de4a78f29dd66e802c2ae55ad3b48b8
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
-                                     'matkul_prasyarat': matkul_prasyarat})
+                                     'matkul_prasyarat': prasyarat[0]
+                                    })
     return context_prediktor_matkul
 
 

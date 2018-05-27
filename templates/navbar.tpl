@@ -14,11 +14,19 @@
         <a class="nav-link activate" href="#" id = "user-term-role">
           <h10>{{name}} - {{id}}</h10><br>
           <h10>{{term}}</h10><br>
+<<<<<<< HEAD
           {% if role == 'mahasiswa'%}
           <h10 id="role">{{role}} semester {{semester_now}}</h10>
           {% else %}
           <h10 id="role">{{role}}</h10>
           {% endif %}
+=======
+          <h10 id="role">{{role}}  
+          {% if role == 'mahasiswa' %}
+            semester {{semester}}
+          {% endif %}
+          </h10>
+>>>>>>> 5c9f26ac9de4a78f29dd66e802c2ae55ad3b48b8
         </a>
         </span>
 	</li>
