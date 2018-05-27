@@ -106,6 +106,12 @@ def get_nama_prasyarat(nama_matkul):
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 
+def conv_nama_matkul_to_kode_matkul(nama):
+    try:
+        kode = PrasyaratMataKuliah.objects.get(nama_matkul=nama).kode_matkul.kode_matkul
+        return kode
+    except ObjectDoesNotExist:
+        return "Prasyarat tidak ditemukan"
 
 def caching(name, func, args, kode=""):
     name = kode + "_" + name
