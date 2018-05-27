@@ -1,5 +1,6 @@
 import os.path
 
+import pickle
 import pandas as pd
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis, LinearDiscriminantAnalysis
 from sklearn.ensemble import ExtraTreesClassifier
@@ -18,19 +19,23 @@ from sklearn.neighbors import NearestCentroid
 from sklearn.linear_model import RidgeClassifierCV
 from sklearn.semi_supervised import LabelPropagation, LabelSpreading
 from imblearn.over_sampling import RandomOverSampler, SMOTE
-import pickle
+
 
 class Classifier:
     def __init__(self, name, columns=None, num_features=None, md_name="Gaussian"):
         self.model = {
             "Gaussian": GaussianNB(),
             "Bernoulli": BernoulliNB(),
-            "Random Forest": RandomForestClassifier(n_estimators=600, random_state=10, min_samples_split=3),
-            "Extra Tree": ExtraTreesClassifier(n_estimators=600, random_state=10, min_samples_split=2),
+            "Random Forest": RandomForestClassifier(n_estimators=600,
+                                                    random_state=10, min_samples_split=3),
+            "Extra Tree": ExtraTreesClassifier(n_estimators=600,
+                                               random_state=10, min_samples_split=2),
             "Ada Boost": AdaBoostClassifier(n_estimators=600, random_state=10, learning_rate=5),
-            "Ada Boost-Decision Tree": AdaBoostClassifier(DecisionTreeClassifier(max_depth=None), n_estimators=600,
+            "Ada Boost-Decision Tree": AdaBoostClassifier(DecisionTreeClassifier(max_depth=None),
+                                                          n_estimators=600,
                                                           learning_rate=2, random_state=10),
-            "Gradient Boosting": GradientBoostingClassifier(n_estimators=600, learning_rate=0.5, max_depth=None,
+            "Gradient Boosting": GradientBoostingClassifier(n_estimators=600,
+                                                            learning_rate=0.5, max_depth=None,
                                                             random_state=10),
             "Nearest Neighbor": KNeighborsClassifier(),
             "Linear SVM": SVC(kernel="linear", C=0.025, random_state=10),
@@ -77,7 +82,7 @@ class Classifier:
         self.clf.fit(features_train, target_train)
         target_pred = self.clf.predict(features_test)
 
-        self.accuracy = round(accuracy_score(target_test, target_pred),3)
+        self.accuracy = round(accuracy_score(target_test, target_pred), 3)
         print("\naccuracy over sampling: {}".format(self.accuracy))
         print(confusion_matrix(target_test, target_pred))
         return self.accuracy
@@ -99,20 +104,22 @@ class Classifier:
 
     def final_test(self):
         data = pd.read_csv('final.csv')
-        used = data.loc[:,['mean_pras', 'y']]
+        used = data.loc[:, ['mean_pras', 'y']]
         used = used.dropna()
 
         col = 'mean_pras'
         col_zscore = col
-        used[col_zscore] = (used[col] - used[col].mean())/used[col].std(ddof=0)
-        
+        used[col_zscore] = (used[col] -
+                            used[col].mean())/used[col].std(ddof=0)
         target = used['y']
         features = used['mean_pras']
-        features_train, features_test, target_train, target_test = train_test_split(features, target, test_size=0.3, random_state=10)
+        features_train, features_test, target_train, target_test = \
+            train_test_split(features, target, test_size=0.3, random_state=10)
 
-        sm = SMOTE(random_state=20)
-        features_train, target_train = sm.fit_sample(features_train.values.reshape(-1, 1), target_train)
+        s_m = SMOTE(random_state=20)
+        features_train, target_train = s_m.fit_sample(
+            features_train.values.reshape(-1, 1), target_train)
 
         self.clf.fit(features_train.reshape(-1, 1), target_train)
         y_pred = self.clf.predict(features_test.values.reshape(-1, 1))
-        pickle.dump(self.clf, open( "savefile/final.sav", "wb" ))
+        pickle.dump(self.clf, open("savefile/final.sav", "wb"))

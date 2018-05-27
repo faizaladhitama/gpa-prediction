@@ -240,7 +240,7 @@ class GetIndexMahasiswaContext(MockSiak):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user_login': 'dummy', 'id': 'dummy',
                              'role': 'dummy', 'name': 'dummy', 'bypass': True}
-        context_matakuliah={'matkul': 'dummy'}
+        context_matakuliah = {'matkul': 'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa, context_matakuliah)
         self.assertNotEqual(context, None)
