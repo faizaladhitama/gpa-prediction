@@ -236,7 +236,7 @@ def get_angkatan(kode_identitas):
         return "Wrong kode identitas"
 
 
-def get_index_mahasiswa_context(request, context):
+def get_index_mahasiswa_context(request, context, context2):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
@@ -254,6 +254,7 @@ def get_index_mahasiswa_context(request, context):
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
                                 'name': request.session['name']})
+                context = {**context, **context2}
         elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
