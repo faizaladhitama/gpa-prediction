@@ -4,15 +4,9 @@ from api.db.utils import caching, get_nama_prasyarat
 from api.ml_models import get_prediction
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
-<<<<<<< HEAD
     get_total_mutu, get_nilai_prasyarat
-from api.ml_models import get_prediction
 from api.ml_models.utils import search_matkul
-from django.template.defaultfilters import register
-=======
-    get_total_mutu
 from api.utils import give_verdict, save_status, save_status_matakuliah
->>>>>>> 847890387f580695106284525c22fb65fa7a9157
 
 
 def get_term(now):
@@ -87,29 +81,14 @@ def request_course_prediction(npm, kd_mk_target, nilai):
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
-<<<<<<< HEAD
-@register.filter(name='lookup')
-def lookup(dict, index):
-    if index in dict:
-        return dict[index]
-    return ''
-=======
->>>>>>> 847890387f580695106284525c22fb65fa7a9157
-
 def get_prediktor_matkul_context(request, matkul_to_predict, context):
     token = request.session['access_token']
     print('ini matkul' + matkul_to_predict)
     context_prediktor_matkul = {}
-<<<<<<< HEAD
     matkul_prasyarat = get_nama_prasyarat('Jejaring Semantik')
     prasyarat = get_nilai_prasyarat(token, context['id'], 'Jejaring Semantik')
     # print('ini value dari dict' + prasyarat.values())
     # status_matkul = caching("kelulusan_matkul", search_matkul, (request, matkul_to_predict), context['id'])
-=======
-    matkul_prasyarat = get_nama_prasyarat(matkul_to_predict)
-    # status_matkul = caching("kelulusan_matkul",
-    #   search_matkul, (request, matkul_to_predict), context['id'])
->>>>>>> 847890387f580695106284525c22fb65fa7a9157
     # nilai_prasyarat = get_nilai_prasyarat(request, context['id'], matkul_to_predict)
     # print(nilai_prasyarat)
     # avg_score = 0
@@ -119,13 +98,10 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     # avg_score = avg_score/len(nilai_prasyarat)
     # print('lewat')
     status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
-<<<<<<< HEAD
-    context_prediktor_matkul.update({'matkul': matkul_to_predict, 'status_matkul': status_matkul[0], 'matkul_prasyarat': prasyarat, 'nama_prasyarat': matkul_prasyarat})
-=======
+
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
                                      'matkul_prasyarat': matkul_prasyarat})
->>>>>>> 847890387f580695106284525c22fb65fa7a9157
     return context_prediktor_matkul
 
 
