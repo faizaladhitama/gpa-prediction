@@ -24,6 +24,7 @@ def get_context_mahasiswa(request, term_str):
     try:
         token = request.session['access_token']
         npm = request.session['kode_identitas']
+        semester = get_semester_now(npm, int(term_str[-1:]))
         if request.session['kode_identitas'] != 'admin':
             mahasiswa, err = caching("get_data_user", get_data_user,
                                      (token, npm), npm)
@@ -37,7 +38,8 @@ def get_context_mahasiswa(request, term_str):
             'user': request.session['user_login'],
             'id': npm,
             'role': request.session['role'],
-            'name': request.session['name']
+            'name': request.session['name'],
+            'semester_now': str(semester)
         }
         return context
 
@@ -81,8 +83,7 @@ def request_course_prediction(npm, kd_mk_target, nilai):
     return status
 
 
-def get_prediktor_matkul_context(request, matkul_to_predict, context):
-    print('ini matkul' + matkul_to_predict)
+def get_prediktor_matkul_context(matkul_to_predict, context):
     context_prediktor_matkul = {}
     matkul_prasyarat = get_nama_prasyarat(matkul_to_predict)
     # status_matkul = caching("kelulusan_matkul",
@@ -95,7 +96,10 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     #     avg_score = avg_score + nilai_prasyarat[key]
     # avg_score = avg_score/len(nilai_prasyarat)
     # print('lewat')
-    status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
+    try:
+        status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
+    except KeyError as exp:
+        return str(exp)
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
                                      'matkul_prasyarat': matkul_prasyarat})

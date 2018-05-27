@@ -521,17 +521,15 @@ class GetPrediktorMatkulContext(TestCase):
         context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                    'access_token': 'dummy', 'user': 'dummy',
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
-        request = MockRequest(context)
-        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
+        prediktor_matkul_context = get_prediktor_matkul_context(matkul, context)
         self.assertIsNotNone(prediktor_matkul_context)
 
     def test_prediktor_ctx_invalid(self):
-        request = None
         matkul = None
-        context = None
-        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
-        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
-        self.assertIsNone(prediktor_matkul_context)
+        context = {}
+        prediktor_matkul_context = get_prediktor_matkul_context(matkul, context)
+        self.assertEqual(prediktor_matkul_context, "'id'")
+
 
 class SksSeharusnya(TestCase):
     def test_semester_genap(self):

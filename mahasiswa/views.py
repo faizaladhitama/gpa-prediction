@@ -21,12 +21,11 @@ def index(request):
     term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     try:
         context_mahasiswa = get_context_mahasiswa(request, term_str)
-        context = caching("get_index_mahasiswa_context",
-                          get_index_mahasiswa_context, (request, context_mahasiswa),
-                          context_mahasiswa['id'])
-        prediktor_matkul_context = get_prediktor_matkul_context(request, 'IKO31300', context)
-        context.update(prediktor_matkul_context)
-        return render(request, 'mahasiswa/index.tpl', context)
+        # context = caching("get_index_mahasiswa_context",
+        #                    get_index_mahasiswa_context, (request, context_mahasiswa),
+        #                    context_mahasiswa['id'])
+        prediktor_matkul_context = get_prediktor_matkul_context(request, 'IKO31300', context_mahasiswa)
+        return render(request, 'mahasiswa/index.tpl', prediktor_matkul_context)
     except TypeError as err_msg:
         print('ini eror' + str(err_msg))
         return render(request, 'landing_page.tpl', {})
