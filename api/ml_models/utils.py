@@ -1,7 +1,8 @@
-from .nb_model import *
+from api.ml_models.nb_model import NbModel
 
 def convert_nama_to_kode(nama_mk):
     return nama_mk
+
 
 def search_matkul(request, nama_mk):
     npm = request.session['kode_identitas']
@@ -49,14 +50,14 @@ def search_matkul(request, nama_mk):
 
     # dapetin kolom
     for i in range(len(pras)):
-        arr_col.append("pras"+(i+1))
-        pras_col.append("pras"+(i+1))
-    model = NBModel(nama_mk, arr_col, pras_col)
+        arr_col.append("pras" + (i + 1))
+        pras_col.append("pras" + (i + 1))
+    model = NbModel(nama_mk, arr_col, pras_col)
     model.build_model()
 
     test = []
     # dapetin nilai prasyarat
     for item in pras:
         print(item.append(npm))
-        #test.append(db.access(npm, item)) #db.accesss nya gk ada
+        # test.append(db.access(npm, item)) #db.accesss nya gk ada
     return model.predict(test)
