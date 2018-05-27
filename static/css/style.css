@@ -32,3 +32,10 @@ body {
 	left: 43vw;
 	top: 38vh;
 }
+
+@media screen and (max-width: 768px) {
+	body {
+		background-color: #EBF4FA !important;
+		color: #000000;
+	}
+}
