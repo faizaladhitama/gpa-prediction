@@ -49,20 +49,14 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_recommendation(npm):
-    print("a")
     if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
         create_mahasiswa_siak(npm)
-    print("b")
     mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
-    print("c")
     quer = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus').order_by('kode_matkul')
-    print("d")
     res = []
     for prediksi in quer:
         nama_matkul = convert_kode_to_nama(prediksi.kode_matkul)
-        print("e")
         res.append([prediksi.kode_matkul, nama_matkul])
-    print("f")
     return res
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
@@ -425,27 +419,26 @@ def get_profile(request, context):
 def get_rekomendasi_context(request, context_mahasiswa):
     try:
         npm = context_mahasiswa['id']
-        print("NPM", npm)
+        # print("NPM", npm)
         if request is not None:
             prediksi_list = get_recommendation(npm)
-            print("PREDIKSI_LIST", prediksi_list)
+            # print("PREDIKSI_LIST", prediksi_list)
             page = request.GET.get('page', 1)
-            print("PAGE", page)
+            # print("PAGE", page)
             answers_list = list(prediksi_list)
-            print("ANSWER_LIST", answers_list)
+            # print("ANSWER_LIST", answers_list)
             paginator = Paginator(answers_list, 10)
-            print("PAGINATOR", paginator)
+            # print("PAGINATOR", paginator)
             try:
                 prediksi = paginator.page(page)
             except EmptyPage:
                 prediksi = paginator.page(paginator.num_pages)
-            print("PREDIKSI", prediksi)
+            # print("PREDIKSI", prediksi)
             context_mahasiswa.update({'table': prediksi})
-            print("CONTEXT_MAHASISWA", context_mahasiswa)
+            # print("CONTEXT_MAHASISWA", context_mahasiswa)
             return context_mahasiswa
         else:
-            print("CONTEXT_MAHASISWA", context_mahasiswa)
+            # print("CONTEXT_MAHASISWA", context_mahasiswa)
             return context_mahasiswa
-    except KeyError as e:
-        print("ERROR", e)
+    except KeyError:
         return {}
