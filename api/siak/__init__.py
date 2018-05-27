@@ -345,7 +345,3 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
         return {}, str(exception)
     except requests.HTTPError as exception:
         return {}, str(exception)
-
-# from api.siak import get_access_token, get_nilai_prasyarat
-# token = get_access_token('maula.faiz', '1506722853')
-# get_nilai_prasyarat(token, '1506722853', 'Penambangan Data')
