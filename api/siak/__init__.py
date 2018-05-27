@@ -329,8 +329,15 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
                 for course in res:
                     if ((course['kelas'] != None) and\
                      (course['kelas']['nm_mk_cl']['nm_mk'] in prasyarat)):
-                        prasyarat = course['kelas']['nm_mk_cl']['nm_mk']
-                        nilai_prasyarat[prasyarat] = course['nilai']
+                        pras = course['kelas']['nm_mk_cl']['nm_mk']
+                        nilai_prasyarat[pras] = course['nilai']
+
+        keys = list(nilai_prasyarat.keys())
+
+        for matkul in prasyarat:
+            if matkul not in keys:
+                nilai_prasyarat[matkul] = '-'
+
         return nilai_prasyarat, None
     except ValueError as exception:
         return {}, str(exception)
@@ -338,3 +345,7 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
         return {}, str(exception)
     except requests.HTTPError as exception:
         return {}, str(exception)
+
+# from api.siak import get_access_token, get_nilai_prasyarat
+# token = get_access_token('maula.faiz', '1506722853')
+# get_nilai_prasyarat(token, '1506722853', 'Penambangan Data')
