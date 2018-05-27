@@ -43,6 +43,7 @@ DeploymentProduction:
     - dpl --provider=heroku --app=prima-pplc7 --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
     - heroku run bash --app prima-pplc7 deployment.sh
+    - heroku run bash --app prima-pplc7 api/ml_models/background_train.sh
   environment:
     name: production
     url: https://prima-pplc7.herokuapp.com/
@@ -59,6 +60,7 @@ DeploymentStaging:
     - dpl --provider=heroku --app=prima-sit-uat --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
     - heroku run bash --app prima-sit-uat deployment.sh
+    - heroku run bash --app prima-sit-uat api/ml_models/background_train.sh
   environment:
     name: staging
     url: https://prima-sit-uat.herokuapp.com/
@@ -76,6 +78,7 @@ DeploymentCobacoba:
     - dpl --provider=heroku --app=prima-cobacoba --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
     - heroku run bash --app prima-cobacoba deployment.sh
+    - heroku run bash --app prima-cobacoba api/ml_models/background_train.sh
   environment:
     name: coba-coba
     url: https://prima-cobacoba.herokuapp.com/
