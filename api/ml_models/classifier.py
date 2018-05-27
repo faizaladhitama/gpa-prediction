@@ -17,10 +17,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.linear_model import RidgeClassifierCV
 from sklearn.semi_supervised import LabelPropagation, LabelSpreading
-from imblearn.over_sampling import RandomOverSampler
+from imblearn.over_sampling import RandomOverSampler, SMOTE
+import pickle
 
 class Classifier:
-    def __init__(self, name, training_file_name=None, columns=None, num_features=None, md_name="Gaussian"):
+    def __init__(self, name, columns=None, num_features=None, md_name="Gaussian"):
         self.model = {
             "Gaussian": GaussianNB(),
             "Bernoulli": BernoulliNB(),
@@ -44,37 +45,28 @@ class Classifier:
             "Label Spreading":LabelSpreading()
         }
         print("\nModel :", md_name)
-        self.course_name = str(name)
-        self.columns = columns
-        self.num_features = num_features
+
+        # Classifier berdasarkan nama model
         self.clf = self.model[md_name]
-        self.pwd = os.path.dirname(__file__)
-        if training_file_name is None:
-            self.file_name = self.pwd + '/savefile/dt_' + self.course_name + '.sav'
+        if name == "final":
+            # Ikutin kicut aja
+            self.final_test()
         else:
-            self.file_name = self.pwd + '/savefile/' + training_file_name + '.sav'
-        self.address = self.pwd + "/data/" + self.course_name + ".csv"
-        self.data_frame = pd.read_csv(self.address, header=None, delimiter=",", engine='python')
-        self.data_frame.columns = self.columns
-        self.data_frame = self.data_frame.iloc[1:, :]
+            # Inisialisasi data
+            self.course_name = str(name)
+            self.columns = columns
+            self.num_features = num_features
+            self.pwd = os.path.dirname(__file__)
+            self.file_name = self.pwd + '/savefile/' + self.course_name + '.sav'
+            self.address = self.pwd + "/data/" + self.course_name + ".csv"
+            self.data_frame = pd.read_csv(self.address, header=None, delimiter=",", engine='python')
+            self.data_frame.columns = self.columns
+            self.data_frame = self.data_frame.iloc[1:, :]
 
     def normalize_data(self):
         pass
 
-    def train_model_normal_data(self):
-        features = self.data_frame.values[:, 1:]
-        target = self.data_frame.values[:, 0]
-        features_train, features_test, target_train, \
-        target_test = train_test_split(features,
-                                       target, test_size=0.33, random_state=10)
-
-        self.clf.fit(features_train, target_train)
-        target_pred = self.clf.predict(features_test)
-
-        print("\naccuracy without over sampling: {}".format(round(accuracy_score(target_test, target_pred),3)))
-        print(confusion_matrix(target_test, target_pred))
-
-    def train_model_with_over_sampling(self):
+    def train_model(self):
         ros = RandomOverSampler()
         features = self.data_frame.values[:, 1:]
         target = self.data_frame.values[:, 0]
@@ -85,65 +77,42 @@ class Classifier:
         self.clf.fit(features_train, target_train)
         target_pred = self.clf.predict(features_test)
 
-        print("\naccuracy over sampling: {}".format(round(accuracy_score(target_test, target_pred),3)))
+        self.accuracy = round(accuracy_score(target_test, target_pred),3)
+        print("\naccuracy over sampling: {}".format(self.accuracy))
         print(confusion_matrix(target_test, target_pred))
+        return self.accuracy
 
-    def train_model(self):
-        self.train_model_normal_data()
-        self.train_model_with_over_sampling()
+    def save_model(self):
+        pickle.dump(self.clf, open(self.file_name, 'wb'))
 
+    def load_model(self):
+        self.clf = pickle.load(open(self.file_name, 'rb'))
+        return self.clf
 
-print("Mata kuliah POK")
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"])
-c.train_model()
+    def predict(self, features_test):
+        prediction = self.clf.predict(features_test)
+        return prediction
 
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Bernoulli")
-c.train_model()
+    def build_model(self):
+        self.train_model()
+        self.save_model()
 
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Random Forest")
-c.train_model()
+    def final_test(self):
+        data = pd.read_csv('final.csv')
+        used = data.loc[:,['mean_pras', 'y']]
+        used = used.dropna()
 
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Extra Tree")
-c.train_model()
+        col = 'mean_pras'
+        col_zscore = col
+        used[col_zscore] = (used[col] - used[col].mean())/used[col].std(ddof=0)
+        
+        target = used['y']
+        features = used['mean_pras']
+        features_train, features_test, target_train, target_test = train_test_split(features, target, test_size=0.3, random_state=10)
 
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Ada Boost")
-c.train_model()
+        sm = SMOTE(random_state=20)
+        features_train, target_train = sm.fit_sample(features_train.values.reshape(-1, 1), target_train)
 
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Ada Boost-Decision Tree")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Gradient Boosting")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Nearest Neighbor")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Linear SVM")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "RBF SVM")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Gaussian Process")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Decision Tree")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Linear Discriminant")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Quadratic Discriminant")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Nearest Centroid")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Ridge")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Label Propagation")
-c.train_model()
-
-c = Classifier("POK", "POK", ["hasil", "pras1"], ["pras1"], "Label Spreading")
-c.train_model()
+        self.clf.fit(features_train.reshape(-1, 1), target_train)
+        y_pred = self.clf.predict(features_test.values.reshape(-1, 1))
+        pickle.dump(self.clf, open( "savefile/final.sav", "wb" ))

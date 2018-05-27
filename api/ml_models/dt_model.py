@@ -68,7 +68,8 @@ class DTModel:
         pickle.dump(self.clf, open(self.file_name, 'wb'))
 
     def load_model(self):
-        self.clf = pickle.load(open(self.file_name, 'rb'))
+        f = open(self.file_name, 'rb')
+        self.clf = pickle.load(f)
 
     def predict(self, features_test):
         prediction = self.clf.predict(features_test)
