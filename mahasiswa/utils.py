@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from api.db.utils import caching, get_nama_prasyarat, conv_nama_matkul_to_kode_matkul
+from api.db.utils import caching
 from api.ml_models import get_prediction
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
@@ -106,8 +106,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
-                                     'matkul_prasyarat': prasyarat[0]
-                                    })
+                                     'matkul_prasyarat': prasyarat[0]})
     return context_prediktor_matkul
 
 

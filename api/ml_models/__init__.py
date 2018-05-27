@@ -1,23 +1,28 @@
 import os.path
+
 import numpy as np
 import pandas as pd
-from api.ml_models.nb_model import NbModel
-from api.ml_models.dt_model import DTModel
+
+from api.ml_models.classifier import Classifier
+
 
 def get_prediction(nilai):
     nilai = np.asarray(nilai).reshape(1, -1)
-    prediksi = DTModel('final', training_file_name='final')
+    prediksi = Classifier('final')
     prediksi.load_model()
     hasil = prediksi.predict(nilai)
     return hasil
 
+
 def create_prediction(mata_kuliah, column, fitur):
-    model_baru = NbModel(mata_kuliah, column, fitur)
+    model_baru = Classifier(mata_kuliah, column, fitur)
     model_baru.build_model()
+
 
 def get_prediction_by_matkul(npm, matkul):
     npm = matkul
     matkul = npm
+
 
 def huruf_converter(huruf):
     bobot = {
@@ -35,6 +40,7 @@ def huruf_converter(huruf):
     }
     return bobot[huruf]
 
+
 def huruf_status_converter(huruf):
     bobot = {
         'A': "lulus",
@@ -51,10 +57,12 @@ def huruf_status_converter(huruf):
     }
     return bobot[huruf]
 
+
 def load_nilai_df():
     pwd = os.path.dirname(__file__)
-    dataframe = pd.read_csv(pwd+'/nilai.csv', delimiter='\t')
+    dataframe = pd.read_csv(pwd + '/nilai.csv', delimiter='\t')
     return dataframe
+
 
 def convert_to_ml_df(dataframe, kd_mk, prasyarats):
     count = 0
@@ -70,7 +78,7 @@ def convert_to_ml_df(dataframe, kd_mk, prasyarats):
             pras = dataframe.loc[(dataframe['kd_mk'] == prasyarat) & flag]
             if not pras.empty:
                 for val in pras['nilai'].values:
-                    idx_pras = 'pras'+str(no_pras)
+                    idx_pras = 'pras' + str(no_pras)
                     entry[idx_pras] = huruf_converter(val)
                     entry['hasil'] = huruf_status_converter(row['nilai'][0])
                     hasil.append(entry)
@@ -80,23 +88,26 @@ def convert_to_ml_df(dataframe, kd_mk, prasyarats):
     hasil_df = pd.DataFrame(hasil)
     return hasil_df, True
 
+
 def save_df_csv(dataframe, nama_mk):
     try:
         pwd = os.path.dirname(__file__)
-        file_name = pwd+"/data/"+ str(nama_mk)+".csv"
+        file_name = pwd + "/data/" + str(nama_mk) + ".csv"
         dataframe.to_csv(file_name, sep=',', index=False)
         return "passed", True
     except FileNotFoundError as exception:
         return exception, False
 
+
 def create_training_data(kd_mk, nama_mk, prasyarats=None):
     dataframe = load_nilai_df()
     df_hasil = convert_to_ml_df(dataframe, kd_mk, prasyarats)
     if not df_hasil[1]:
-        return "Error "+df_hasil[0]
-    #df_hasil = df_hasil.dropna() #cleaning na rows
+        return "Error " + df_hasil[0]
+    # df_hasil = df_hasil.dropna() #cleaning na rows
     status = save_df_csv(df_hasil, nama_mk)
     return status
+
 
 def data_spawner():
     create_training_data("CSC2601105", "MatDas 2", ["UIST601110"])

@@ -1,24 +1,24 @@
 import os.path
-
 import pickle
+
 import pandas as pd
+from imblearn.over_sampling import RandomOverSampler, SMOTE
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis, LinearDiscriminantAnalysis
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
+from sklearn.linear_model import RidgeClassifierCV
 from sklearn.metrics import confusion_matrix, \
     accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB, BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import NearestCentroid
+from sklearn.semi_supervised import LabelPropagation, LabelSpreading
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import NearestCentroid
-from sklearn.linear_model import RidgeClassifierCV
-from sklearn.semi_supervised import LabelPropagation, LabelSpreading
-from imblearn.over_sampling import RandomOverSampler, SMOTE
 
 
 class Classifier:
@@ -44,25 +44,25 @@ class Classifier:
             "Decision Tree": DecisionTreeClassifier(max_depth=5, random_state=10),
             "Linear Discriminant": LinearDiscriminantAnalysis(solver="eigen"),
             "Quadratic Discriminant": QuadraticDiscriminantAnalysis(),
-            "Nearest Centroid":NearestCentroid(),
-            "Ridge":RidgeClassifierCV(),
-            "Label Propagation":LabelPropagation(),
-            "Label Spreading":LabelSpreading()
+            "Nearest Centroid": NearestCentroid(),
+            "Ridge": RidgeClassifierCV(),
+            "Label Propagation": LabelPropagation(),
+            "Label Spreading": LabelSpreading()
         }
         print("\nModel :", md_name)
 
         # Classifier berdasarkan nama model
         self.clf = self.model[md_name]
+        self.course_name = str(name)
+        self.pwd = os.path.dirname(__file__)
+        self.file_name = self.pwd + '/savefile/' + self.course_name + '.sav'
         if name == "final":
             # Ikutin kicut aja
             self.final_test()
         else:
             # Inisialisasi data
-            self.course_name = str(name)
             self.columns = columns
             self.num_features = num_features
-            self.pwd = os.path.dirname(__file__)
-            self.file_name = self.pwd + '/savefile/' + self.course_name + '.sav'
             self.address = self.pwd + "/data/" + self.course_name + ".csv"
             self.data_frame = pd.read_csv(self.address, header=None, delimiter=",", engine='python')
             self.data_frame.columns = self.columns
@@ -82,10 +82,10 @@ class Classifier:
         self.clf.fit(features_train, target_train)
         target_pred = self.clf.predict(features_test)
 
-        self.accuracy = round(accuracy_score(target_test, target_pred), 3)
-        print("\naccuracy over sampling: {}".format(self.accuracy))
+        accuracy = round(accuracy_score(target_test, target_pred), 3)
+        print("\naccuracy over sampling: {}".format(accuracy))
         print(confusion_matrix(target_test, target_pred))
-        return self.accuracy
+        return accuracy
 
     def save_model(self):
         pickle.dump(self.clf, open(self.file_name, 'wb'))
@@ -103,17 +103,17 @@ class Classifier:
         self.save_model()
 
     def final_test(self):
-        data = pd.read_csv('final.csv')
+        data = pd.read_csv(self.pwd + '/final.csv')
         used = data.loc[:, ['mean_pras', 'y']]
         used = used.dropna()
 
         col = 'mean_pras'
         col_zscore = col
         used[col_zscore] = (used[col] -
-                            used[col].mean())/used[col].std(ddof=0)
+                            used[col].mean()) / used[col].std(ddof=0)
         target = used['y']
         features = used['mean_pras']
-        features_train, features_test, target_train, target_test = \
+        features_train, _, target_train, _ = \
             train_test_split(features, target, test_size=0.3, random_state=10)
 
         s_m = SMOTE(random_state=20)
@@ -121,5 +121,4 @@ class Classifier:
             features_train.values.reshape(-1, 1), target_train)
 
         self.clf.fit(features_train.reshape(-1, 1), target_train)
-        y_pred = self.clf.predict(features_test.values.reshape(-1, 1))
-        pickle.dump(self.clf, open("savefile/final.sav", "wb"))
+        pickle.dump(self.clf, open(self.pwd + "/savefile/final.sav", "wb"))

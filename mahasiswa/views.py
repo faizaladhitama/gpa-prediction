@@ -2,10 +2,12 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-#from api.db.utils import caching
+# from api.db.utils import caching
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
     get_peraturan, get_profile, get_prediktor_matkul_context
+
+
 # Create your views here.
 
 
@@ -24,7 +26,9 @@ def index(request):
         # context = caching("get_index_mahasiswa_context",
         #                    get_index_mahasiswa_context, (request, context_mahasiswa),
         #                    context_mahasiswa['id'])
-        prediktor_matkul_context = get_prediktor_matkul_context(request, 'Jejaring Semantik', context_mahasiswa)
+        prediktor_matkul_context = get_prediktor_matkul_context(request,
+                                                                'Jejaring Semantik',
+                                                                context_mahasiswa)
         index_context = get_index_mahasiswa_context(request,
                                                     context_mahasiswa,
                                                     prediktor_matkul_context)

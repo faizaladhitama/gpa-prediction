@@ -12,7 +12,8 @@ disable=
     no-else-return,
     no-name-in-module,
     duplicate-code,
-    wrong-import-position
+    wrong-import-position,
+    attribute-defined-outside-init
 
 [VARIABLES]
 

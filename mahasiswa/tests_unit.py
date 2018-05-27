@@ -494,13 +494,9 @@ class RequestCourseStatusTest(TestCase):
         self.mocked_course = "SDA"
         self.mocked_nilai = [3.0]
 
-    def test_course_pass(self):
+    def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status[0], 2)
-
-    def test_course_nopass(self):
-        status = request_course_prediction(self.mocked_npm, self.mocked_course, [0])
-        self.assertEqual(status[0], 1)
+        self.assertEqual(status[0], "lulus")
 
 class ViewTest(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
