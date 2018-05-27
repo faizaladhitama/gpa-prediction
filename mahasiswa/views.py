@@ -24,7 +24,7 @@ def index(request):
         # context = caching("get_index_mahasiswa_context",
         #                    get_index_mahasiswa_context, (request, context_mahasiswa),
         #                    context_mahasiswa['id'])
-        prediktor_matkul_context = get_prediktor_matkul_context('IKO31300', context_mahasiswa)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, 'Jejaring Semantik', context_mahasiswa)
         index_context = get_index_mahasiswa_context(request,
                                                     context_mahasiswa,
                                                     prediktor_matkul_context)

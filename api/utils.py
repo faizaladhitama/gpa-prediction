@@ -23,6 +23,7 @@ def save_status(npm, status):
     except ObjectDoesNotExist as exception:
         return None, str(exception)
 
+
 def save_status_matakuliah(npm, kd_mk, status):
     try:
         if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
