@@ -82,9 +82,11 @@ def request_course_prediction(npm, kd_mk_target, nilai):
     return status
 
 def get_prediktor_matkul_context(request, matkul_to_predict, context):
+    token = request.session['access_token']
     print('ini matkul' + matkul_to_predict)
     context_prediktor_matkul = {}
-    matkul_prasyarat = get_nama_prasyarat(matkul_to_predict)
+    matkul_prasyarat = get_nama_prasyarat('Jejaring Semantik')
+    prasyarat = get_nilai_prasyarat(token, context['id'], 'Jejaring Semantik')
     # status_matkul = caching("kelulusan_matkul", search_matkul, (request, matkul_to_predict), context['id'])
     # nilai_prasyarat = get_nilai_prasyarat(request, context['id'], matkul_to_predict)
     # print(nilai_prasyarat)
@@ -95,7 +97,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     # avg_score = avg_score/len(nilai_prasyarat)
     # print('lewat')
     status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
-    context_prediktor_matkul.update({'matkul': matkul_to_predict, 'status_matkul': status_matkul[0], 'matkul_prasyarat': matkul_prasyarat})
+    context_prediktor_matkul.update({'matkul': matkul_to_predict, 'status_matkul': status_matkul[0], 'matkul_prasyarat': prasyarat, 'nama_prasyarat': matkul_prasyarat})
     return context_prediktor_matkul
 
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):

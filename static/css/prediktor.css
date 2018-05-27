@@ -68,15 +68,19 @@ h7 {
 }
 
 .prediktor-title-matkul {
-	margin-left: 30%;
+	margin-top: 2%;
+	font-family: 'Montserrat-Bold';
+	font-size: 2em;
+	text-align: center;
 }
 
 .prediktor-body {
 	margin-top: 5%;
 }
 
-#result-button {
-	margin-left: 20%;
+#prediktor-matkul-button {
+	position: relative;
+	left: 20%;
 }
 
 #prediktor-message {
@@ -96,8 +100,8 @@ h7 {
 }
 
 #table-matkul-prasyarat {
-	margin-left: 50%;
-	margin-top: 15%;
+	position: relative;
+	left: -30%;
 }
 
 .btn-link{
