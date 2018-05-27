@@ -21,10 +21,10 @@
 					</tr>
 					</thead>
 					<tbody>
-					    {% for i in matkul_prasyarat  %}
+					    {% for i,v in matkul_prasyarat.items  %}
 						<tr>
 						    <td>{{i}}</td>
-						    <td>{{ value}}</td>
+						    <td>{{v}}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -35,8 +35,6 @@
 
 	<div class="row ">
 		<div class="col text-center">
-					<p> nama prasyarat: {{nama_prasyarat}} </p>
-
 			{% if status_matkul == 'lulus' %}
 				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> <strong>{{matkul}}</strong> !</p>
 

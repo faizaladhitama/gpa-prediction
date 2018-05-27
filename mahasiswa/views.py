@@ -24,7 +24,7 @@ def index(request):
         context = caching("get_index_mahasiswa_context",
                           get_index_mahasiswa_context, (request, context_mahasiswa),
                           context_mahasiswa['id'])
-        prediktor_matkul_context = get_prediktor_matkul_context(request, 'IKO31300', context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request, 'Jejaring Semantik', context)
         context.update(prediktor_matkul_context)
         return render(request, 'mahasiswa/index.tpl', context)
     except TypeError as err_msg:
