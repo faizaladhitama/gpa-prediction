@@ -17,6 +17,11 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
 
 
 class URLTest(TestCase):
+    def setUp(self):
+        session = self.client.session
+        session['kode_identitas'] = "dummy"
+        session.save()
+
     def test_homepage(self):
         response = self.client.get('/mahasiswa/', follow=True)
         self.assertEqual(response.status_code, 200)
@@ -39,6 +44,10 @@ class URLTest(TestCase):
 
     def test_peraturan_akademik_valid(self):
         response = self.client.get('/mahasiswa/peraturan-akademik', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_prediktor_matkul_valid(self):
+        response = self.client.get('/mahasiswa/prediktor-matkul', follow=True)
         self.assertEqual(response.status_code, 200)
 
 
@@ -239,26 +248,24 @@ class GetIndexMahasiswaContext(MockSiak):
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user_login': 'dummy', 'id': 'dummy',
-                             'role': 'dummy', 'name': 'dummy', 'bypass': True}
-        context_matakuliah = {'matkul': 'dummy'}
+                             'role': 'dummy', 'name': 'dummy', 'bypass': True,
+                             'kode_identitas':'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_index_mahasiswa_context(request, context_mahasiswa, context_matakuliah)
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
-        context_matakuliah = None
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa, context_matakuliah)
+                                              context_mahasiswa)
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
         request = MockRequest()
         context_mahasiswa = {}
-        context_matakuliah = {}
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa, context_matakuliah)
+                                              context_mahasiswa)
         self.assertEqual(context, "'access_token'")
 
 
@@ -285,7 +292,8 @@ class GetPeraturanContext(MockSiak):
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'access_token': 'dummy', 'user': 'dummy',
-                             'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+                             'id': 'dummy', 'role': 'dummy', 'name': 'dummy',
+                             'kode_identitas': 'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_peraturan(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -309,7 +317,8 @@ class GetIPContext(MockSiak):
     def test_context_index_valid(self):
         self.mocked_create_graph_ip.return_value = {}
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy',
+                             'kode_identitas': 'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_riwayat_ip(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -345,7 +354,8 @@ class GetIndexSKSContext(MockSiak):
         self.mocked_get_sks_sequential.return_value = 0, None
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
-                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+                             'user': 'dummy', 'id': 'dummy', 'role': 'dummy', 'name': 'dummy',
+                             'kode_identitas': 'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_riwayat_sks(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -488,6 +498,7 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "Argument salah")
 
+
 class RequestCourseStatusTest(TestCase):
     def setUp(self):
         self.mocked_npm = "1506730000"
@@ -496,7 +507,8 @@ class RequestCourseStatusTest(TestCase):
 
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status[0], "lulus")
+        self.assertEqual(status[0], "tidak lulus")
+
 
 class ViewTest(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
@@ -580,7 +592,7 @@ class GetProfileContext(MockSiak):
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
-                             'name': 'dummy'}
+                             'name': 'dummy','kode_identitas':'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_profile(request, context_mahasiswa)
         self.assertNotEqual(context, None)
