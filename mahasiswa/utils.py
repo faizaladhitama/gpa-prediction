@@ -107,6 +107,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
                                      'matkul_prasyarat': prasyarat[0]})
+    context_prediktor_matkul = {**context, **context_prediktor_matkul}
     return context_prediktor_matkul
 
 

@@ -26,9 +26,6 @@ def index(request):
         # context = caching("get_index_mahasiswa_context",
         #                    get_index_mahasiswa_context, (request, context_mahasiswa),
         #                    context_mahasiswa['id'])
-        prediktor_matkul_context = get_prediktor_matkul_context(request,
-                                                                'Jejaring Semantik',
-                                                                context_mahasiswa)
         index_context = get_index_mahasiswa_context(request,
                                                     context_mahasiswa)
         return render(request, 'mahasiswa/index.tpl', index_context)
@@ -55,6 +52,7 @@ def prediktor_matkul(request):
         prediktor_matkul_context = get_prediktor_matkul_context(request,
                                                                 'Jejaring Semantik',
                                                                 context_mahasiswa)
+        print(prediktor_matkul_context)
         return render(request, 'mahasiswa/prediktor-matkul.tpl', prediktor_matkul_context)
     except TypeError as err_msg:
         print('ini eror' + str(err_msg))
