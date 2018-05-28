@@ -1,9 +1,8 @@
 from django.test import TestCase
 
 from api.db.utils import create_mahasiswa_siak
-from api.ml_models import get_prediction_by_matkul, create_training_data
 from api.models import MahasiswaSIAK
-from api.utils import give_verdict, save_status, save_status_matakuliah
+from api.utils import give_verdict, save_status
 
 
 class URLTest(TestCase):

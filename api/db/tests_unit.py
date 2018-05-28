@@ -1,3 +1,4 @@
+import time
 from unittest.mock import patch
 
 from django.core.cache import cache
@@ -108,6 +109,13 @@ class UtilsTest(TestCase):
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul(mock_nama_matkul))
 
+    def test_conv_nama_2kode_invalid(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_nama_matkul = 'Penambangan Data'
+        mock_kode_matkul = 'Prasyarat tidak ditemukan'
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul("Icikiwir"))
+
     def test_get_kode_prasyarat_none(self):
         mock_csv = './api/db/prasyarat_matkul.csv'
         mock_kode_matkul = 'IKS000'
@@ -135,20 +143,20 @@ def dict_cache(dict_):
 
 
 class CacheTest(TestCase):
-    # def test_without_caching(self):
-    #     start = time.time()
-    #     res = caching("non_cache", lazy, 0)
-    #     end = time.time() - start
-    #     self.assertEqual(res, 0)
-    #     self.assertGreaterEqual(end, 10)
+    def test_without_caching(self):
+        start = time.time()
+        res = caching("non_cache", lazy, 0)
+        end = time.time() - start
+        self.assertEqual(res, 0)
+        self.assertGreaterEqual(end, 10)
 
-    # def test_with_caching(self):
-    #     caching("cache", lazy, 0)
-    #     start = time.time()
-    #     res = caching("cache", lazy, 0)
-    #     end = time.time() - start
-    #     self.assertEqual(res, 0)
-    #     self.assertLessEqual(end, 2)
+    def test_with_caching(self):
+        caching("cache", lazy, 0)
+        start = time.time()
+        res = caching("cache", lazy, 0)
+        end = time.time() - start
+        self.assertEqual(res, 0)
+        self.assertLessEqual(end, 2)
 
     def test_dict(self):
         caching("dict_cache", dict_cache, {"a": 1, "b": 2})

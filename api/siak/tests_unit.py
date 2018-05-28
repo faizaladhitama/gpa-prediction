@@ -132,7 +132,6 @@ class RequesterTest(TestCase):
     def test_request_matkul_on_valid(self):
         self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
 
-        mock_npm = "mocked"
         mock_access_token = "mocked"
         mock_client_id = "mocked"
 
@@ -142,7 +141,6 @@ class RequesterTest(TestCase):
     def test_request_matkul_on_invalid(self):
         self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
 
-        mock_npm = "mocked"
         mock_access_token = "mocked"
         mock_client_id = "mocked"
 
@@ -800,7 +798,7 @@ class SiakTest(MockSiak):
             "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
             "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1
         }]}
-        resp, err = get_mata_kuliah(mocked_token,2)
+        resp, err = get_mata_kuliah(mocked_token, 2)
 
         mocked_res = [{"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
                       "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
