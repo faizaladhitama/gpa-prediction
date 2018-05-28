@@ -5,12 +5,99 @@ import pandas as pd
 
 from api.ml_models.classifier import Classifier
 
+def matkul_converter(matkul):
+    convert_map = {
+        'Administrasi Sistem': 4,
+        'Analisis Numerik': 5,
+        'Aproksimasi & Sistem Nonlinier': 6,
+        'Basis Data': 7,
+        'Basis Data Lanjut': 8,
+        'Bioinformatika': 9,
+        'Customer Relationship Management': 10,
+        'Dasar-Dasar Arsitektur Komputer': 11,
+        'Dasar-Dasar Audit SI': 12,
+        'Desain & Analisis Algoritma': 13,
+        'E-Commerce': 14,
+        'Enterprise Resource Planning': 15,
+        'Game Development': 16,
+        'Geometri Komputasional': 17,
+        'Grafika Komputer': 18,
+        'Infrastruktur TI Modern': 19,
+        'Jaringan Komputer': 20,
+        'Jaringan Komunikasi Data': 21,
+        'Jejaring Semantik': 22,
+        'Kecerdasan Bisnis': 23,
+        'Komputasi Lunak': 24,
+        'Komputasi Ubiquitous & Net-Sentris': 25,
+        'Konfigurasi ERP': 26,
+        'Kriptografi & Keamanan Informasi': 27,
+        'Layanan & Aplikasi Web': 28,
+        'Logika Komputasional': 29,
+        'Manajemen Hubungan Pelanggan': 30,
+        'Manajemen Keamanan Informasi': 31,
+        'Manajemen Layanan TI': 32,
+        'Manajemen Proyek TI': 33,
+        'Manajemen Rantai Suplai': 34,
+        'Manajemen Sistem Informasi': 35,
+        'Manajemen Sumber Daya Manusia': 36,
+        'Metode Formal': 37,
+        'Organisasi Sistem Komputer': 38,
+        'Pemelajaran Mesin': 39,
+        'Pemrograman Deklaratif': 40,
+        'Pemrograman Konkuren & Paralel': 41,
+        'Pemrograman Logika': 42,
+        'Pemrograman Sistem': 43,
+        'Penambangan Data': 44,
+        'Pengajaran Berbantuan Komputer': 45,
+        'Pengantar Organisasi Komputer': 46,
+        'Pengembangan dan Pemasaran Produk': 47,
+        'Pengolahan Bahasa Manusia': 48,
+        'Pengolahan Citra': 49,
+        'Pengolahan Multimedia': 50,
+        'Pengolahan Sinyal Dijital': 51,
+        'Penjaminan Mutu Perangkat Lunak': 52,
+        'Perancangan & Pemrograman Web': 53,
+        'Perdagangan Elektronis': 54,
+        'Perolehan Informasi': 55,
+        'Persamaan Diferensial': 56,
+        'Proyek Pengembangan Sistem Informasi': 57,
+        'Proyek Perangkat Lunak': 58,
+        'Rancangan Sistem Dijital': 59,
+        'Rekayasa Perangkat Lunak': 60,
+        'Riset Operasi': 61,
+        'Robotika': 62,
+        'Simulasi & Pemodelan': 63,
+        'Sistem Cerdas': 64,
+        'Sistem Informasi Akuntansi dan Keuangan': 65,
+        'Sistem Informasi Geografis': 66,
+        'Sistem Interaksi': 67,
+        'Sistem Operasi': 68,
+        'Sistem Terdistribusi': 69,
+        'Sistem Tertanam': 70,
+        'Struktur Data & Algoritma': 71,
+        'Teknik Kompilator': 72,
+        'Teknologi Mobile': 73,
+        'Teori Bahasa & Automata': 74,
+        'Teori Informasi': 75
+    }
+    return convert_map[matkul]
 
-def get_prediction(nilai):
-    nilai = np.asarray(nilai).reshape(1, -1)
+def get_prediction(pras1, pras2, pras3, pras4, nama_matkul):
+    pras_mean = np.mean([pras1, pras2, pras3, pras4])
+    pras_median = np.median([pras1, pras2, pras3, pras4])
+    pras_std = np.std([pras1, pras2, pras3, pras4])
+    pras_num = np.count_nonzero([pras1, pras2, pras3, pras4])
+    input_model = np.zeros(76)
+    
+    input_model[0] = pras_mean
+    input_model[1] = pras_median
+    input_model[2] = pras_std
+    input_model[3] = pras_num
+    input_model[matkul_converter(nama_matkul)] = 1
+    
     prediksi = Classifier('final')
     prediksi.load_model()
-    hasil = prediksi.predict(nilai)
+    hasil = prediksi.predict(input_model.reshape(1, -1))
     return hasil
 
 
