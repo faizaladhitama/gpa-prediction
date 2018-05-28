@@ -5,7 +5,7 @@
   <div class="container mx-auto" id="peraturanAkademik" role="tabpanel" aria-labelledby="peraturan-tab">
        {% if detail != '-' %}
        <div class="mx-auto my-3 text-center">
-         <img src="https://memegenerator.net/img/instances/59493154.jpg"  />
+         <!--img src="https://memegenerator.net/img/instances/59493154.jpg"  /-->
        </div>
        <h4>
        Anda berada pada <strong> semester {{semester_now}} </strong>
@@ -20,7 +20,7 @@
        <h10>{{source}}</h10>
        {% else %}
        <div class="mx-auto my-3 text-center">
-         <img src="http://i.pokeme.com/meme/img/00cx.jpg" />
+         <!--img src="http://i.pokeme.com/meme/img/00cx.jpg" /-->
        </div>
        <h4>
        Anda berada pada <strong> semester {{semester_now}} </strong>

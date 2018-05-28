@@ -291,13 +291,15 @@ def get_total_mutu(access_token, npm):
     except requests.HTTPError as exception:
         return {}, str(exception)
 
-def get_mata_kuliah(access_token):
+def get_mata_kuliah(access_token, retreives=0):
     try:
         data = Requester.request_mata_kuliah(1, os.environ['CLIENT_ID'], access_token)
         total_data = data["count"]
         res = data["results"]
-        retreives = math.ceil(total_data/100)
+        if retreives == 0:
+            retreives = math.ceil(total_data/100)
         for i in range(2, retreives+1):
+            print("masuk")
             data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
             res += data["results"]
         with open('list_matkul.json', 'w') as file:
@@ -329,8 +331,15 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
                 for course in res:
                     if ((course['kelas'] != None) and\
                      (course['kelas']['nm_mk_cl']['nm_mk'] in prasyarat)):
-                        prasyarat = course['kelas']['nm_mk_cl']['nm_mk']
-                        nilai_prasyarat[prasyarat] = course['nilai']
+                        pras = course['kelas']['nm_mk_cl']['nm_mk']
+                        nilai_prasyarat[pras] = course['nilai']
+
+        keys = list(nilai_prasyarat.keys())
+
+        for matkul in prasyarat:
+            if matkul not in keys:
+                nilai_prasyarat[matkul] = '-'
+
         return nilai_prasyarat, None
     except ValueError as exception:
         return {}, str(exception)
