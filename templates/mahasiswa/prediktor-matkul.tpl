@@ -1,3 +1,5 @@
+{% extends 'mahasiswa/base-mahasiswa.tpl'%}
+{% block contentPage %}
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
@@ -47,3 +49,4 @@
 		</div>
 	</div>
 </div>
+{% endblock %}

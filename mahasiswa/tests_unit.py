@@ -41,6 +41,10 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/peraturan-akademik', follow=True)
         self.assertEqual(response.status_code, 200)
 
+    def test_prediktor_matkul_valid(self):
+        response = self.client.get('/mahasiswa/prediktor-matkul', follow=True)
+        self.assertEqual(response.status_code, 200)
+
 
 class MockRequest:
     def __init__(self, session=None):
@@ -240,25 +244,22 @@ class GetIndexMahasiswaContext(MockSiak):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user_login': 'dummy', 'id': 'dummy',
                              'role': 'dummy', 'name': 'dummy', 'bypass': True}
-        context_matakuliah = {'matkul': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_index_mahasiswa_context(request, context_mahasiswa, context_matakuliah)
+        context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
-        context_matakuliah = None
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa, context_matakuliah)
+                                              context_mahasiswa)
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
         request = MockRequest()
         context_mahasiswa = {}
-        context_matakuliah = {}
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa, context_matakuliah)
+                                              context_mahasiswa)
         self.assertEqual(context, "'access_token'")
 
 
@@ -488,6 +489,7 @@ class RequestStatusTest(TestCase):
         status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "Argument salah")
 
+
 class RequestCourseStatusTest(TestCase):
     def setUp(self):
         self.mocked_npm = "1506730000"
@@ -497,6 +499,7 @@ class RequestCourseStatusTest(TestCase):
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
         self.assertEqual(status[0], "lulus")
+
 
 class ViewTest(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
