@@ -1,3 +1,12 @@
+{% extends 'mahasiswa/base-mahasiswa.tpl'%}
+{% block contentPage %}
+{% include 'search-bar.tpl' %}
+{% if matkul_prasyarat != '' %}
+    {% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
+    <div class="alert alert-danger">
+    <strong>Mohon Maaf</strong>, Mata Kuliah atau Prasyarat Tidak Ditemukan
+    </div>
+    {% else %}
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
@@ -47,3 +56,6 @@
 		</div>
 	</div>
 </div>
+{% endif %}
+{% endif %}
+{% endblock %}

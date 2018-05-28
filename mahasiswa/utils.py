@@ -107,6 +107,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
                                      'matkul_prasyarat': prasyarat[0]})
+    context_prediktor_matkul = {**context, **context_prediktor_matkul}
     return context_prediktor_matkul
 
 
@@ -240,7 +241,7 @@ def get_angkatan(kode_identitas):
         return "Wrong kode identitas"
 
 
-def get_index_mahasiswa_context(request, context, context2):
+def get_index_mahasiswa_context(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
@@ -258,7 +259,7 @@ def get_index_mahasiswa_context(request, context, context2):
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
                                 'name': request.session['name']})
-                context = {**context, **context2}
+                context = {**context}
         elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
