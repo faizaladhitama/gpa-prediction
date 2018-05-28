@@ -320,6 +320,9 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
 
         prasyarat = get_nama_prasyarat(nama_matkul)
 
+        if prasyarat == "Prasyarat tidak ditemukan":
+            raise ValueError
+
         nilai_prasyarat = {}
 
         for year in range(int(angkatan), now.year + 1):
@@ -342,8 +345,4 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
 
         return nilai_prasyarat, None
     except ValueError as exception:
-        return {}, str(exception)
-    except requests.ConnectionError as exception:
-        return {}, str(exception)
-    except requests.HTTPError as exception:
-        return {}, str(exception)
+        return "Mata Kuliah atau Prasyarat Tidak Ditemukan", str(exception)
