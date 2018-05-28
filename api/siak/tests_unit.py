@@ -129,6 +129,28 @@ class RequesterTest(TestCase):
 
         self.assertTrue("mocked" in str(context.exception))
 
+    def test_request_matkul_on_valid(self):
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
+
+        mock_npm = "mocked"
+        mock_access_token = "mocked"
+        mock_client_id = "mocked"
+
+        resp = Requester.request_mata_kuliah(1, mock_client_id, mock_access_token)
+        self.assertEqual("mocked", resp["mocked"])
+
+    def test_request_matkul_on_invalid(self):
+        self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
+
+        mock_npm = "mocked"
+        mock_access_token = "mocked"
+        mock_client_id = "mocked"
+
+        with self.assertRaises(ValueError) as context:
+            Requester.request_mata_kuliah(1, mock_client_id, mock_access_token)
+
+        self.assertTrue("mocked" in str(context.exception))
+
 
 class AuthGeneratorTest(TestCase):
     def setUp(self):
@@ -754,19 +776,38 @@ class SiakTest(MockSiak):
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
 
-    def test_get_matkul_on_valid(self):
+    def test_get_matkul_valid_1pg(self):
         mocked_token = "mocked"
 
-        self.mocked_req_mata_kuliah.return_value = {"count": 1, "results": {
+        self.mocked_req_mata_kuliah.return_value = {"count": 1, "results": [{
             "url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
             "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
             "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1
-        }}
+        }]}
         resp, err = get_mata_kuliah(mocked_token)
 
-        mocked_res = {"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+        mocked_res = [{"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
                       "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
-                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}]
+        self.assertIsNone(err)
+        self.assertEqual(mocked_res, resp)
+
+    def test_get_matkul_valid_multipg(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_mata_kuliah.return_value = {"count": 1, "results": [{
+            "url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+            "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1
+        }]}
+        resp, err = get_mata_kuliah(mocked_token,2)
+
+        mocked_res = [{"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+                      "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1},
+                      {"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+                      "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}]
         self.assertIsNone(err)
         self.assertEqual(mocked_res, resp)
 

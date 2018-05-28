@@ -3,7 +3,7 @@ from django.test import TestCase
 from api.db.utils import create_mahasiswa_siak
 from api.ml_models import get_prediction_by_matkul, create_training_data
 from api.models import MahasiswaSIAK
-from api.utils import give_verdict, save_status
+from api.utils import give_verdict, save_status, save_status_matakuliah
 
 
 class URLTest(TestCase):
@@ -133,19 +133,19 @@ class EvaluasiTest(TestCase):
 #     #     return flag1 and flag2
 
 
-class PrediktorKelulusanMatkulTest(TestCase):
-    def matkul_not_found(self):
-        self.assertEqual(get_prediction_by_matkul("admin", "SPS"), "not-found")
+# class PrediktorKelulusanMatkulTest(TestCase):
+#     def matkul_not_found(self):
+#         self.assertEqual(get_prediction_by_matkul("admin", "SPS"), "not-found")
 
-    def pok_lulus_test(self):
-        self.assertEqual(get_prediction_by_matkul("admin", "POK"), "lulus")
+#     def pok_lulus_test(self):
+#         self.assertEqual(get_prediction_by_matkul("admin", "POK"), "lulus")
 
-    def pok_hati_hati_test(self):
-        self.assertEqual(get_prediction_by_matkul("CIA", "POK"), "hati-hati")
+#     def pok_hati_hati_test(self):
+#         self.assertEqual(get_prediction_by_matkul("CIA", "POK"), "hati-hati")
 
-    def pok_tidak_lulus_test(self):
-        self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")
+#     def pok_tidak_lulus_test(self):
+#         self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")
 
-    def creation_passed(self):
-        res = create_training_data("CSF1600400", "SDA", ["CSF1600200"])
-        self.assertEqual(res, 'passed')
+#     def creation_passed(self):
+#         res = create_training_data("CSF1600400", "SDA", ["CSF1600200"])
+#         self.assertEqual(res, 'passed')

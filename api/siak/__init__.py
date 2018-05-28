@@ -291,13 +291,15 @@ def get_total_mutu(access_token, npm):
     except requests.HTTPError as exception:
         return {}, str(exception)
 
-def get_mata_kuliah(access_token):
+def get_mata_kuliah(access_token, retreives=0):
     try:
         data = Requester.request_mata_kuliah(1, os.environ['CLIENT_ID'], access_token)
         total_data = data["count"]
         res = data["results"]
-        retreives = math.ceil(total_data/100)
+        if retreives == 0:
+            retreives = math.ceil(total_data/100)
         for i in range(2, retreives+1):
+            print("masuk")
             data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
             res += data["results"]
         with open('list_matkul.json', 'w') as file:
