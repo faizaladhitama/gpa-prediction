@@ -299,7 +299,6 @@ def get_mata_kuliah(access_token, retreives=0):
         if retreives == 0:
             retreives = math.ceil(total_data/100)
         for i in range(2, retreives+1):
-            print("masuk")
             data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
             res += data["results"]
         with open('list_matkul.json', 'w') as file:

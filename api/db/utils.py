@@ -1,8 +1,7 @@
 from random import randint
 import json
 
-from django.core.cache import cache, caches
-from django.core.cache.backends.base import InvalidCacheBackendError
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah,\
@@ -113,10 +112,58 @@ def conv_nama_matkul_to_kode_matkul(nama):
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 
+# def caching(name, func, args, kode=""):
+#     name = kode + "_" + name
+#     try:
+#         if cache.get(name) is None:
+#             if isinstance(args, tuple):
+#                 temp = func(*args)
+#                 if isinstance(temp, dict):
+#                     raise TypeError
+#                 ret, err = temp
+#             else:
+#                 res = func(args)
+#                 if isinstance(res, (str, dict)):
+#                     raise TypeError
+#                 ret, err = res
+#             cache.set(name, (ret, err))
+#         else:
+#             ret, err = cache.get(name)
+#             print("use cache w err " + name)
+#         return ret, err
+#     except (TypeError, ValueError):
+#         if cache.get(name) is None:
+#             if isinstance(args, tuple):
+#                 ret = func(*args)
+#             else:
+#                 ret = func(args)
+#             if isinstance(ret, dict):
+#                 cache.set(name, json.dumps(ret))
+#             else:
+#                 cache.set(name, ret)
+#         else:
+#             try:
+#                 ret = json.loads(caches[name])
+#             except InvalidCacheBackendError:
+#                 ret = cache.get(name)
+#             print("use cache " + name)
+#         #handle tuple object (dict, _)
+#         if isinstance(ret, str) and ret[0] == "{":
+#             ret = json.loads(ret)
+#         return ret
+
 def caching(name, func, args, kode=""):
-    name = kode + "_" + name
     try:
-        if cache.get(name) is None:
+        dic = cache.get(kode)
+        if dic is None:
+            new_dict = dict()
+            cache.set(kode, json.dumps(new_dict))
+        else:
+            dic = json.loads(dic)
+
+        try:
+            ret, err = dic[name]
+        except KeyError:
             if isinstance(args, tuple):
                 temp = func(*args)
                 if isinstance(temp, dict):
@@ -127,28 +174,30 @@ def caching(name, func, args, kode=""):
                 if isinstance(res, (str, dict)):
                     raise TypeError
                 ret, err = res
-            cache.set(name, (ret, err))
-        else:
-            ret, err = cache.get(name)
+            dic[name] = (ret, err)
+            cache.set(kode, json.dumps(dic))
             print("use cache w err " + name)
         return ret, err
     except (TypeError, ValueError):
-        if cache.get(name) is None:
+        dic = cache.get(kode)
+        if dic is None:
+            new_dict = dict()
+            cache.set(kode, json.dumps(new_dict))
+        else:
+            dic = json.loads(dic)
+
+        try:
+            ret = dic[name]
+        except KeyError:
             if isinstance(args, tuple):
                 ret = func(*args)
             else:
                 ret = func(args)
             if isinstance(ret, dict):
-                cache.set(name, json.dumps(ret))
-            else:
-                cache.set(name, ret)
-        else:
-            try:
-                ret = json.loads(caches[name])
-            except InvalidCacheBackendError:
-                ret = cache.get(name)
+                ret = json.dumps(ret)
+            dic[name] = ret
+            cache.set(kode, json.dumps(dic))
             print("use cache " + name)
-        #handle tuple object (dict, _)
         if isinstance(ret, str) and ret[0] == "{":
             ret = json.loads(ret)
         return ret

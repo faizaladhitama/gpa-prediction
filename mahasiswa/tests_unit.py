@@ -496,7 +496,7 @@ class RequestCourseStatusTest(TestCase):
 
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status[0], "lulus")
+        self.assertEqual(status[0], "tidak lulus")
 
 class ViewTest(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
