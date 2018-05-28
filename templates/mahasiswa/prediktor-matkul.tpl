@@ -2,6 +2,7 @@
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
 <div class="row prediktor-body">
+{% include 'search-bar.tpl' %}
 			<div class="col xs-4" id="prediktor-matkul-button">
 				{% if status_matkul == 'lulus' %}
     				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">lolos</button>
