@@ -111,10 +111,10 @@ class UtilsTest(TestCase):
 
     def test_conv_nama_2kode_invalid(self):
         mock_csv = './api/db/prasyarat_matkul.csv'
-        mock_nama_matkul = 'Penambangan Data'
+        mock_nama_matkul = 'Icikiwir'
         mock_kode_matkul = 'Prasyarat tidak ditemukan'
         populate_prasyarat_matkul(mock_csv)
-        self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul("Icikiwir"))
+        self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul(mock_nama_matkul))
 
     def test_get_kode_prasyarat_none(self):
         mock_csv = './api/db/prasyarat_matkul.csv'
