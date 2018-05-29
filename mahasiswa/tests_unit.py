@@ -502,12 +502,12 @@ class RequestStatusTest(TestCase):
 class RequestCourseStatusTest(TestCase):
     def setUp(self):
         self.mocked_npm = "1506730000"
-        self.mocked_course = "SDA"
-        self.mocked_nilai = [3.0]
+        self.mocked_course = "Struktur Data & Algoritma"
+        self.mocked_nilai = [3.0, 3.0, 0, 0]
 
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status[0], "tidak lulus")
+        self.assertEqual(status[0], "hati hati")
 
 
 class ViewTest(TestCase):
@@ -592,7 +592,7 @@ class GetProfileContext(MockSiak):
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user': 'dummy', 'id': 'dummy', 'role': 'dummy',
-                             'name': 'dummy','kode_identitas':'dummy'}
+                             'name': 'dummy', 'kode_identitas':'dummy'}
         request = MockRequest(context_mahasiswa)
         context = get_profile(request, context_mahasiswa)
         self.assertNotEqual(context, None)

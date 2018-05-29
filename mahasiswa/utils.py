@@ -79,7 +79,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
 
 
 def request_course_prediction(npm, kd_mk_target, nilai):
-    status = get_prediction(nilai)
+    status = get_prediction(nilai, kd_mk_target)
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
@@ -103,7 +103,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     # avg_score = avg_score/len(nilai_prasyarat)
     # print('lewat')
 
-    status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
+    status_matkul = request_course_prediction(context['id'], matkul_to_predict, [3.0, 3.0, 0, 0])
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
                                      'status_matkul': status_matkul[0],
                                      'matkul_prasyarat': prasyarat[0]})
