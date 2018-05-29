@@ -63,7 +63,8 @@ def prediktor_matkul(request):
         #                                    (request, 'Analisis Numerik',
         #                                     context_mahasiswa), context_mahasiswa['id'])
         print("CONTEXT ON Analisis")
-        prediktor_matkul_context = get_prediktor_matkul_context(request, 'Pengolahan Bahasa Manusia', context_mahasiswa)
+        prediktor_matkul_context = get_prediktor_matkul_context(request,\
+         'Pengolahan Bahasa Manusia', context_mahasiswa)
         print("CONTEXT ON predictor_matkul " +  str(prediktor_matkul_context))
         return render(request, 'mahasiswa/prediktor-matkul.tpl', prediktor_matkul_context)
     except TypeError as err_msg:
@@ -84,13 +85,13 @@ def search_matkul(request):
         context_mahasiswa = caching("get_context_mahasiswa", get_context_mahasiswa,
                                     (request, term_str), request.session['kode_identitas'])
         return render(request, 'search-bar.tpl', context_mahasiswa)
-    except TypeError as err_msg:
+    except TypeError:
         return render(request, 'landing_page.tpl', {})
 
 def query_checker(request):
-        matkul_to_predict = request.POST['matkul']
-        print('ini matkul yg dicari ' + matkul_to_predict)
-        return render(request, 'search-bar.tpl', context_mahasiswa)
+    matkul_to_predict = request.POST['matkul']
+    print('ini matkul yg dicari ' + matkul_to_predict)
+    return render(request, 'search-bar.tpl', context_mahasiswa)
 
 
 def profile(request):
