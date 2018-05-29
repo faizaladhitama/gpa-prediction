@@ -6,7 +6,7 @@
         aria-haspopup="true" aria-expanded="false">Prediktor</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="/mahasiswa/" onclick="displayLoader()">Evaluasi Akademik</a>
-          <a class="dropdown-item" href="/mahasiswa/prediktor-matkul" onclick="displayLoader()">Mata Kuliah</a>
+          <a class="dropdown-item" href="/mahasiswa/search-matkul" onclick="displayLoader()">Mata Kuliah</a>
         </div>
       </li>
       <li class="nav-item">
