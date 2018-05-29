@@ -170,20 +170,17 @@ def caching(name, func, args, kode=""):
                     raise TypeError
                 ret, err = temp
             else:
-                res = func(args)
-                if isinstance(res, (str, dict)):
+                temp = func(args)
+                if isinstance(temp, (str, dict)):
                     raise TypeError
-                ret, err = res
+            ret, err = temp
             dic[name] = (ret, err)
             cache.set(kode, json.dumps(dic))
             print("use cache w err " + name)
         return ret, err
     except (TypeError, ValueError):
         dic = cache.get(kode)
-        if dic is None:
-            new_dict = dict()
-            cache.set(kode, json.dumps(new_dict))
-        else:
+        if dic is not None:
             dic = json.loads(dic)
 
         try:

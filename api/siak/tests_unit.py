@@ -849,6 +849,24 @@ class SiakTest(MockSiak):
         self.assertIsNone(err)
         self.assertEqual(mocked_nilai_prasyarat, resp)
 
+    def test_get_nilai_pras_invalid(self):
+        populate_prasyarat_matkul('./api/db/prasyarat_matkul.csv')
+        mocked_token = 'mocked'
+        mocked_matkul = 'dummy'
+        mocked_nilai_prasyarat = "Mata Kuliah atau Prasyarat Tidak Ditemukan"
+
+        self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'nm_mk': \
+                                                  'Pengantar Organisasi Komputer'}}, 'nilai': 'B+'}]
+        self.mocked_req_sks.return_value = mocked_sks
+
+        resp, err = get_nilai_prasyarat(mocked_token, self.mock_npm, mocked_matkul)
+
+        self.assertIsNotNone(err)
+        self.assertEqual(mocked_nilai_prasyarat, resp)
+
+
     def test_get_nil_pras_on_val_error(self):
         mocked_token = "mocked"
         mocked_matkul = "abc"

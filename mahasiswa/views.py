@@ -89,7 +89,18 @@ def search_matkul(request):
         return render(request, 'landing_page.tpl', {})
 
 def query_checker(request):
+    now = datetime.now()
+    year = now.year
+    term = 1
+    if now.month < 8:
+        year = now.year - 1
+        term = 3
+        if now.month > 2 and now.month < 7:
+            term = 2
+    term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     matkul_to_predict = request.POST['matkul']
+    context_mahasiswa = caching("get_context_mahasiswa", get_context_mahasiswa,
+                                (request, term_str), request.session['kode_identitas'])
     print('ini matkul yg dicari ' + matkul_to_predict)
     return render(request, 'search-bar.tpl', context_mahasiswa)
 
