@@ -32,7 +32,7 @@
 
 <div id="loader">
 	{% load static %}
-	<img src="{% static 'assets/loader.gif' %}" id="img-loader" >
+	<img src="{% static 'assets/Wedges-3s-200px.apng' %}" id="img-loader" >
 </div>
 
 {% block content %}
