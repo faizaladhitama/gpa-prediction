@@ -5,6 +5,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from api.siak.tests_unit import MockSiak
+from api.models import PrediksiMataKuliah, MahasiswaSIAK
+from api.db.utils import create_mahasiswa_siak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester_evaluation, \
     get_angkatan, get_evaluation_status, \
@@ -12,8 +14,8 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
     convert_dict_for_sks_term, convert_dict_for_ip_term, \
     create_graph_ip, request_evaluation_status, \
     get_sks_seharusnya, get_sks_kurang, get_semester_now, \
-    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile
-
+    get_riwayat_sks, get_riwayat_ip, get_peraturan, get_profile, \
+    get_recommendation, get_rekomendasi_context
 
 class URLTest(TestCase):
     def test_homepage(self):
@@ -21,6 +23,13 @@ class URLTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_rekomendasi(self):
+        session = self.client.session
+        session["kode_identitas"] = "dummy"
+        session["user_login"] = "dummy"
+        session["role"] = "dummy"
+        session["access_token"] = "dummy"
+        session["name"] = "dummy"
+        session.save()
         response = self.client.get('/mahasiswa/rekomendasi', follow=True)
         self.assertEqual(response.status_code, 200)
 
@@ -48,7 +57,28 @@ class MockRequest:
         else:
             session.update({'access_token': 'dummy'})
         self.session = session
+        self.GET = MockGet()
 
+class MockGet:
+    def __init__(self):
+        self.dummy = "dummy"
+    def get(self, key, out):
+        self.dummy = key
+        if key:
+            return 2
+        else:
+            return out
+
+class GetTest(TestCase):
+    def test_found(self):
+        mock = MockGet()
+        exp = mock.get(True, 1)
+        self.assertEqual(exp, 2)
+
+    def test_not_found(self):
+        mock = MockGet()
+        exp = mock.get(False, 1)
+        self.assertEqual(exp, 1)
 
 class TermTest(TestCase):
     def test_term_1(self):
@@ -220,6 +250,26 @@ class EvaluationStatusTest(TestCase):
     def test_status_fail_invalid(self):
         status = get_evaluation_status(3, 25, 12)
         self.assertEqual(status, "Tidak Lolos".lower())
+
+
+class RecomendationTest(TestCase):
+
+    def setUp(self):
+        create_mahasiswa_siak('123456')
+        mhs = MahasiswaSIAK.objects.get(npm='123456')
+        PrediksiMataKuliah(npm=mhs, kode_matkul='csc123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='ui123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='UIS123', status='tidak lulus').save()
+
+    def test_recommendation(self):
+        mock_npm = '123456'
+        status = get_recommendation(mock_npm)
+        self.assertIsNotNone(status)
+
+    def test_recommendation_none(self):
+        mock_npm = '123459'
+        status = get_recommendation(mock_npm)
+        self.assertIsNotNone(status)
 
 
 class SplitJenjangJalurTest(TestCase):
@@ -500,6 +550,20 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('mahasiswa:index'))
         self.assertEqual(response.status_code, 200)
 
+    @patch('api.siak.utils.Requester.request_sks')
+    @patch('api.siak.utils.Requester.request_mahasiswa_data')
+    def test_rekomendasi(self, mocked_req_sks, mocked_req_data):
+        session = self.client.session
+        session["kode_identitas"] = "dummy"
+        session["user_login"] = "dummy"
+        session["role"] = "dummy"
+        session["access_token"] = "dummy"
+        session.save()
+        mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
+        response = self.client.get(reverse('mahasiswa:rekomendasi'))
+        self.assertEqual(response.status_code, 200)
+
 
 class SksSeharusnya(TestCase):
     def test_semester_genap(self):
@@ -523,6 +587,9 @@ class SksKurang(TestCase):
     def test_invalid_sks_seharusnya(self):
         sks_kurang = get_sks_kurang(None, None)
         self.assertEqual(sks_kurang, "sks seharusnya atau sks diperoleh bermasalah")
+
+    def test_sapu_jagat(self):
+        pass
 
 
 class GetProfileContext(MockSiak):
@@ -557,3 +624,44 @@ class GetProfileContext(MockSiak):
         context_mahasiswa = {}
         context = get_profile(request, context_mahasiswa)
         self.assertEqual(context, "'access_token'")
+
+
+class GetRekomendasiContext(MockSiak):
+    def setUp(self):
+        create_mahasiswa_siak('123456')
+        mhs = MahasiswaSIAK.objects.get(npm='123456')
+        PrediksiMataKuliah(npm=mhs, kode_matkul='csc123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='ui123', status='lulus').save()
+        PrediksiMataKuliah(npm=mhs, kode_matkul='UIS123', status='tidak lulus').save()
+
+    def test_context_valid(self):
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': '123456', 'role': 'dummy',
+                             'name': 'dummy'}
+        request = MockRequest(context_mahasiswa)
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_wrong(self):
+        context_mahasiswa = {}
+        request = MockRequest(context_mahasiswa)
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        self.assertNotEqual(context, None)
+
+    def test_context_invalid_request(self):
+        request = None
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': '123456', 'role': 'dummy',
+                             'name': 'dummy'}
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        self.assertEqual(context, context_mahasiswa)
+
+    @patch('mahasiswa.utils.get_recommendation')
+    def test_context_empty(self, rekomendasi_dummy):
+        rekomendasi_dummy.return_value = []
+        request = MockRequest()
+        context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                             'user': 'dummy', 'id': '123456', 'role': 'dummy',
+                             'name': 'dummy'}
+        context = get_rekomendasi_context(request, context_mahasiswa)
+        self.assertNotEqual(context, None)

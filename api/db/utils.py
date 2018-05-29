@@ -4,7 +4,8 @@ import json
 from django.core.cache import cache, caches
 from django.core.cache.backends.base import InvalidCacheBackendError
 
-from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK
+from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, MahasiswaSIAK,\
+ PrasyaratMataKuliah
 
 
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
@@ -18,26 +19,26 @@ def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
     rj_new.save()
 
 
-def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", program="Tanpa Jenjang", nip_pa=""):
+def create_mahasiswa(npm, nama="nama_def", prodi="Tanpa Prodi", nip_pa=""):
     if Dosen.objects.filter(nip=nip_pa).count() < 1:
         if nip_pa == "":
             nip_pa = "1123456789"  # default dosen
         # else:
         create_dosen(nip=nip_pa, is_pa=True)
 
-    ma_new = Mahasiswa(npm=npm, nama=nama, study_program=prodi, educational_program=program)
+    ma_new = Mahasiswa(npm=npm, nama=nama, study_program=prodi)
     ma_new.nip_pa = Dosen.objects.get(nip=nip_pa)
     ma_new.save()
 
 
-def create_mahasiswa_siak(npm, nama="nama_def", prodi="no Prodi", program="no Jenjang", nip_pa=""):
+def create_mahasiswa_siak(npm, nama="nama_def", prodi="no Prodi", nip_pa=""):
     if Dosen.objects.filter(nip=nip_pa).count() < 1:
         if nip_pa == "":
             nip_pa = "1234567890"  # default dosen
         # else:
         create_dosen(nip=nip_pa, is_pa=True)
 
-    ma_new = MahasiswaSIAK(npm=npm, nama=nama, study_program=prodi, educational_program=program)
+    ma_new = MahasiswaSIAK(npm=npm, nama=nama, study_program=prodi)
     ma_new.status_evaluasi = False
     ma_new.nip_pa = Dosen.objects.get(nip=nip_pa)
     ma_new.save()
@@ -56,6 +57,16 @@ def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tkt_
 
 def create_mock_data_mahasiswa():
     return True
+
+
+def convert_kode_to_nama(kode_matkul):
+    if PrasyaratMataKuliah.objects.filter(kode_matkul=kode_matkul).count() < 1:
+        return "Nama Not Found"
+    else:
+        obj = PrasyaratMataKuliah.objects.get(kode_matkul=kode_matkul).nama_matkul
+        if obj is not None:
+            return obj
+        return "Nama Not Found"
 
 
 def create_mock_data_dosen(jumlah):
