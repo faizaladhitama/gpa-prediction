@@ -33,7 +33,7 @@
     </ul>
   </div>
 </nav>
-<nav class="navbar navbar-expand-lg" id ="second-navbar">
+<nav class="navbar navbar-expand-lg navbar-light" id ="second-navbar">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#underNavbar" aria-controls="underNavbar" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

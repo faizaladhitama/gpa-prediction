@@ -299,7 +299,6 @@ def get_mata_kuliah(access_token, retreives=0):
         if retreives == 0:
             retreives = math.ceil(total_data/100)
         for i in range(2, retreives+1):
-            print("masuk")
             data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
             res += data["results"]
         with open('list_matkul.json', 'w') as file:
@@ -319,6 +318,9 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
         now = datetime.datetime.now()
 
         prasyarat = get_nama_prasyarat(nama_matkul)
+
+        if prasyarat == "Prasyarat tidak ditemukan":
+            raise ValueError
 
         nilai_prasyarat = {}
 
@@ -342,8 +344,4 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
 
         return nilai_prasyarat, None
     except ValueError as exception:
-        return {}, str(exception)
-    except requests.ConnectionError as exception:
-        return {}, str(exception)
-    except requests.HTTPError as exception:
-        return {}, str(exception)
+        return "Mata Kuliah atau Prasyarat Tidak Ditemukan", str(exception)

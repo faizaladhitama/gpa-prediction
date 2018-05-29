@@ -10,7 +10,7 @@
 			</div>
 		{% endfor %}
 	</div>
-	{% include 'mahasiswa/predictor-tabs.tpl' %}
+	{% include 'mahasiswa/prediktor_evaluasi_akademik.tpl' %}
 {% endblock %}
 {% block modal%}
 {% include 'mahasiswa/detail-akademik-modal.tpl' %}

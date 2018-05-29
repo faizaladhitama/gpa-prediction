@@ -1,14 +1,25 @@
+{% extends 'mahasiswa/base-mahasiswa.tpl'%}
+{% block contentPage %}
+{% include 'search-bar.tpl' %}
+{% if matkul_prasyarat != '' %}
+    {% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
+    <div class="alert alert-danger">
+    <strong>Mohon Maaf</strong>, Mata Kuliah atau Prasyarat Tidak Ditemukan
+    </div>
+    {% else %}
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
 <div class="row prediktor-body">
 			<div class="col xs-4" id="prediktor-matkul-button">
 				{% if status_matkul == 'lulus' %}
-    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">lolos</button>
-				{% elif status_matkul == 'hati-hati' %}
+    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">lulus</button>
+				{% elif status_matkul == 'hati hati' %}
     				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#detailAkademik">hati-hati</button>
+    				}
 				{% else %}
-    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">tidak<br> lolos</button>
+    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">tidak<br> lulus</button>
+					}
 				{% endif %}
 			</div>
 		<div class="col-xs-8"> 
@@ -38,7 +49,7 @@
 			{% if status_matkul == 'lulus' %}
 				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> <strong>{{matkul}}</strong> !</p>
 
-			{% elif status_matkul == 'hati-hati' %}
+			{% elif status_matkul == 'hati hati' %}
 				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> {{matkul}} dalam mengambil mata kuliah <strong> {{matkul}}</strong>!</p> <p class="prediktor-message">Anda harus berusaha keras agar dapat lulus mata kuliah {{matkul}}. Semangat! :)</p>
 			{% else %}
 				<p class="prediktor-message">Anda terancam <span class ="verdict">{{status_matkul}}</span>  <strong> {{matkul}} </strong>!</p>
@@ -47,3 +58,6 @@
 		</div>
 	</div>
 </div>
+{% endif %}
+{% endif %}
+{% endblock %}
