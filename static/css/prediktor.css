@@ -34,8 +34,8 @@ h7 {
 .matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
-	margin-left: 40%;
-	margin-top: 10px;
+	position: relative;
+	text-align: center;
 }
 
 #mytabs {
@@ -68,7 +68,8 @@ h7 {
 }
 
 .prediktor-title-matkul {
-	margin-top: 2%;
+	top: 15%;
+	bottom: 5%;
 	font-family: 'Montserrat-Bold';
 	font-size: 2em;
 	text-align: center;

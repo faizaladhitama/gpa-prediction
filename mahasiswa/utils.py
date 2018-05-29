@@ -83,6 +83,10 @@ def request_course_prediction(npm, mk_target, nilai):
     return status
 
 
+def get_query_checker(request, query_matkul, context):
+    pass
+
+
 def get_prediktor_matkul_context(request, matkul_to_predict, context):
     try:
         token = request.session['access_token']
