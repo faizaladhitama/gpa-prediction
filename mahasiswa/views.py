@@ -13,7 +13,7 @@ from mahasiswa.utils import get_term, get_context_mahasiswa, \
 
 
 def index(request):
-    start = time.time()
+    #start = time.time()
     now = datetime.now()
     year = now.year
     term = 1

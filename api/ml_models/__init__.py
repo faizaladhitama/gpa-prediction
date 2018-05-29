@@ -89,13 +89,16 @@ def get_prediction(prass, nama_matkul):
     pras_std = np.std(pras)
     pras_num = np.count_nonzero(pras)
     input_model = np.zeros(76)
-    
+
     input_model[0] = pras_mean
     input_model[1] = pras_median
     input_model[2] = pras_std
     input_model[3] = pras_num
-    input_model[matkul_converter(nama_matkul)] = 1
-    
+    try:
+        input_model[matkul_converter(nama_matkul)] = 1
+    except KeyError:
+        pass
+
     prediksi = Classifier('final')
     prediksi.load_model()
     hasil = prediksi.predict(input_model.reshape(1, -1))
