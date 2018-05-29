@@ -1,13 +1,11 @@
 from datetime import datetime
 
 from api.db.utils import caching
-from api.ml_models import get_prediction
+from api.ml_models import get_prediction, huruf_converter
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu, get_nilai_prasyarat
-# from api.ml_models.utils import search_matkul
 from api.utils import give_verdict, save_status, save_status_matakuliah
-
 
 def get_term(now):
     year = now.year
@@ -78,9 +76,10 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
         return "Argument salah"
 
 
-def request_course_prediction(npm, kd_mk_target, nilai):
-    status = get_prediction(nilai)
-    save_status_matakuliah(npm, kd_mk_target, status)
+def request_course_prediction(npm, mk_target, nilai):
+    print (nilai)
+    status = get_prediction(prass=nilai, nama_matkul=mk_target)
+    save_status_matakuliah(npm, mk_target, status)
     return status
 
 
@@ -92,20 +91,20 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     except KeyError as ex:
         return str(ex)
     context_prediktor_matkul = {}
-    # kode_mk = conv_nama_matkul_to_kode_matkul(matkul_to_predict)
-    # matkul_prasyarat = get_nama_prasyarat(matkul_to_predict)
     prasyarat = get_nilai_prasyarat(token, context['id'], matkul_to_predict)
-    # nilai_prasyarat = prasyarat[0].values()
-    # # avg_score = 0
-    # for key in nilai_prasyarat:
-    #     print('masuk')
-    #     avg_score = avg_score + nilai_prasyarat[key]
-    # avg_score = avg_score/len(nilai_prasyarat)
-    # print('lewat')
-
-    status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
+    nilai_prasyarat = prasyarat[0]
+    scores = []
+    not_found = 'Mata Kuliah atau Prasyarat Tidak Ditemukan'
+    if type(nilai_prasyarat) == str and nilai_prasyarat == not_found:
+        status_matkul = not_found
+    else:
+        for key in nilai_prasyarat:
+            if nilai_prasyarat[key] == '-':
+                continue
+            scores.append(huruf_converter(nilai_prasyarat[key]))
+        status_matkul = request_course_prediction(context['id'], matkul_to_predict, scores)
     context_prediktor_matkul.update({'matkul': matkul_to_predict,
-                                     'status_matkul': status_matkul[0],
+                                     'status_matkul': status_matkul,
                                      'matkul_prasyarat': prasyarat[0]})
     context_prediktor_matkul = {**context, **context_prediktor_matkul}
     return context_prediktor_matkul

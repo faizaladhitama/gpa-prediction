@@ -51,19 +51,20 @@ def prediktor_matkul(request):
             term = 2
     term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     try:
-        # context_mahasiswa = get_context_mahasiswa(request, term_str)
+        #context_mahasiswa = get_context_mahasiswa(request, term_str)
         # prediktor_matkul_context = get_prediktor_matkul_context(request,
         #                                                         'Jejaring Semantik',
         #                                                         context_mahasiswa)
 
         context_mahasiswa = caching("get_context_mahasiswa", get_context_mahasiswa,
                                     (request, term_str), request.session['kode_identitas'])
-        prediktor_matkul_context = caching("get_prediktor_matkul_context",
-                                           get_prediktor_matkul_context,
-                                           (request, 'Jejaring Semantik',
-                                            context_mahasiswa), context_mahasiswa['id'])
-
-        print(prediktor_matkul_context)
+        # prediktor_matkul_context = caching("get_prediktor_matkul_context",
+        #                                    get_prediktor_matkul_context,
+        #                                    (request, 'Analisis Numerik',
+        #                                     context_mahasiswa), context_mahasiswa['id'])
+        print("CONTEXT ON Analisis")
+        prediktor_matkul_context = get_prediktor_matkul_context(request, 'Pengolahan Bahasa Manusia', context_mahasiswa)
+        print("CONTEXT ON predictor_matkul " +  str(prediktor_matkul_context))
         return render(request, 'mahasiswa/prediktor-matkul.tpl', prediktor_matkul_context)
     except TypeError as err_msg:
         print('ini eror' + str(err_msg))
