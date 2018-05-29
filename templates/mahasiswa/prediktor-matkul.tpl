@@ -1,6 +1,6 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-{% include 'search-bar.tpl' %}
+{#{% include 'search-bar.tpl' %}#}
 {% if matkul_prasyarat != '' %}
     {% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
     <div class="alert alert-danger">
