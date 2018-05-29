@@ -1,19 +1,17 @@
+import datetime
 from unittest.mock import Mock, patch
 
-import datetime
 import requests
+from django.core.cache import cache
 from django.test import TestCase
 
-from django.core.cache import cache
+from api.db.utils import populate_prasyarat_matkul
 from api.siak import get_academic_record, get_access_token, \
     verify_user, get_data_user, get_jenjang, get_all_sks_term, \
     get_sks_term, get_ip_term, get_all_ip_term, get_sks_sequential, \
     get_total_mutu, get_mata_kuliah, get_nilai_prasyarat
-
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list
-
-from api.db.utils import populate_prasyarat_matkul
 
 
 def create_mocked_response(status_code, data):
@@ -50,8 +48,8 @@ class UtilsTest(TestCase):
 
     def test_url_formatter(self):
         url = make_sks_req_list("0", 0, 0, "0", "0")
-        self.assertEqual(url, "https://api-dev.cs.ui.ac.id/"+\
-            "siakngcs/mahasiswa/0/riwayat/0/0/?client_id=0&access_token=0")
+        self.assertEqual(url, "https://api-dev.cs.ui.ac.id/" + \
+                         "siakngcs/mahasiswa/0/riwayat/0/0/?client_id=0&access_token=0")
 
 
 class RequesterTest(TestCase):
@@ -128,6 +126,26 @@ class RequesterTest(TestCase):
 
         with self.assertRaises(ValueError) as context:
             Requester.request_academic_data(mock_npm, mock_client_id, mock_access_token)
+
+        self.assertTrue("mocked" in str(context.exception))
+
+    def test_request_matkul_on_valid(self):
+        self.mocked_get.return_value = create_mocked_response(200, {"mocked": "mocked"})
+
+        mock_access_token = "mocked"
+        mock_client_id = "mocked"
+
+        resp = Requester.request_mata_kuliah(1, mock_client_id, mock_access_token)
+        self.assertEqual("mocked", resp["mocked"])
+
+    def test_request_matkul_on_invalid(self):
+        self.mocked_get.return_value = create_mocked_response(403, {"detail": "mocked"})
+
+        mock_access_token = "mocked"
+        mock_client_id = "mocked"
+
+        with self.assertRaises(ValueError) as context:
+            Requester.request_mata_kuliah(1, mock_client_id, mock_access_token)
 
         self.assertTrue("mocked" in str(context.exception))
 
@@ -208,15 +226,22 @@ class AuthGeneratorTest(TestCase):
         self.assertTrue('mocked' in str(context.exception))
 
 
-class MockSiak(TestCase):
+class MockMahasiswa(TestCase):
+    def load_data(self):
+        self.mock_npm = "mocked"
+        self.mock_username = "kafuu.chino"
+        self.mock_password = "1"
+        self.mock_token = 'mocked'
+
+class MockSiak(MockMahasiswa):
     def setUp(self):
         mocked_generator = patch('api.siak.utils.AuthGenerator.__init__')
-        #mocked_asyc_req = patch('api.siak.utils.Requester.async_req_sks')
         mocked_get_token = patch('api.siak.utils.AuthGenerator.get_access_token')
         mocked_verify = patch('api.siak.utils.AuthGenerator.verify_user')
         mocked_get_data = patch('api.siak.utils.AuthGenerator.get_data_user')
         mocked_requester = patch('api.siak.utils.Requester.request_academic_data')
         mocked_req_sks = patch('api.siak.utils.Requester.request_sks')
+        mocked_req_mata_kuliah = patch('api.siak.utils.Requester.request_mata_kuliah')
         mocked_req_sks_seq = patch('api.siak.get_sks_sequential')
         mocked_req_data = patch('api.siak.utils.Requester.request_mahasiswa_data')
         mocked_dict_for_sks_term = patch('mahasiswa.utils.convert_dict_for_sks_term')
@@ -228,13 +253,13 @@ class MockSiak(TestCase):
         mocked_get_matkul = patch('api.siak.get_mata_kuliah')
 
         self.mocked_generator = mocked_generator.start()
-        #self.mocked_asyc_req = mocked_asyc_req.start()
         self.mocked_verify = mocked_verify.start()
         self.mocked_get_token = mocked_get_token.start()
         self.mocked_get_data = mocked_get_data.start()
         self.mocked_requester = mocked_requester.start()
         self.mocked_req_sks = mocked_req_sks.start()
         self.mocked_req_sks_seq = mocked_req_sks_seq.start()
+        self.mocked_req_mata_kuliah = mocked_req_mata_kuliah.start()
         self.mocked_req_data = mocked_req_data.start()
         self.mocked_dict_for_sks_term = mocked_dict_for_sks_term.start()
         self.mocked_get_jenjang = mocked_get_jenjang.start()
@@ -244,7 +269,6 @@ class MockSiak(TestCase):
         self.mocked_get_all_sks_term = mocked_get_all_sks_term.start()
         self.mocked_get_matkul = mocked_get_matkul.start()
 
-        #self.addCleanup(mocked_asyc_req.stop)
         self.addCleanup(mocked_generator.stop)
         self.addCleanup(mocked_requester.stop)
         self.addCleanup(mocked_verify.stop)
@@ -252,6 +276,7 @@ class MockSiak(TestCase):
         self.addCleanup(mocked_get_data.stop)
         self.addCleanup(mocked_req_sks.stop)
         self.addCleanup(mocked_req_sks_seq.stop)
+        self.addCleanup(mocked_req_mata_kuliah.stop)
         self.addCleanup(mocked_req_data.stop)
         self.addCleanup(mocked_dict_for_sks_term.stop)
         self.addCleanup(mocked_get_sks_sequential.stop)
@@ -261,10 +286,7 @@ class MockSiak(TestCase):
         self.addCleanup(mocked_get_all_sks_term.stop)
         self.addCleanup(mocked_get_matkul.stop)
 
-        self.mock_npm = "mocked"
-        self.mock_username = "kafuu.chino"
-        self.mock_password = "1"
-        self.mock_token = 'mocked'
+        self.load_data()
 
 
 class SiakTest(MockSiak):
@@ -434,8 +456,8 @@ class SiakTest(MockSiak):
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
         course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'A'}
-        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
-        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        course2 = {'kelas': None, 'kd_mk': 'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk': 'UIGE600001', 'nilai': 'A'}
         mocked_sks = [course1, course2, course3]
         self.mocked_req_sks.return_value = mocked_sks
 
@@ -445,7 +467,6 @@ class SiakTest(MockSiak):
 
         self.assertIsNone(err)
         self.assertEqual(4 * (now.year + 1 - 2015) * 3, resp)
-
 
     def test_get_sks_seq_on_conn_error(self):
         mocked_token = "mocked"
@@ -502,9 +523,9 @@ class SiakTest(MockSiak):
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk':'UIGE600042', 'nilai': 'B-'}
-        course2 = {'kelas': None, 'kd_mk':'UIGE600040', 'nilai': 'A'}
-        course3 = {'kelas': None, 'kd_mk':'UIGE600001', 'nilai': 'A'}
+        course1 = {'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'kd_mk': 'UIGE600042', 'nilai': 'B-'}
+        course2 = {'kelas': None, 'kd_mk': 'UIGE600040', 'nilai': 'A'}
+        course3 = {'kelas': None, 'kd_mk': 'UIGE600001', 'nilai': 'A'}
         mocked_sks = [course1, course2, course3]
         self.mocked_req_sks.return_value = mocked_sks
 
@@ -554,7 +575,7 @@ class SiakTest(MockSiak):
         self.assertEqual(3, resp)
         cache.clear()
 
-        mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk':'UIGE600001'}]
+        mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk': 'UIGE600001'}]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
@@ -563,7 +584,7 @@ class SiakTest(MockSiak):
         self.assertEqual(0, resp)
         cache.clear()
 
-        mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk':'UIGE600040'}]
+        mocked_sks = [{'kelas': None, 'nilai': 'B-', 'kd_mk': 'UIGE600040'}]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_sks_term(mocked_token, self.mock_npm, 1997, 3)
@@ -698,7 +719,6 @@ class SiakTest(MockSiak):
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
 
-
     def test_all_ip_term_on_val_error(self):
         mocked_token = "mocked"
 
@@ -754,24 +774,45 @@ class SiakTest(MockSiak):
         self.assertEqual({}, resp)
         self.assertEqual("connection refused", err)
 
-    def test_get_matkul_on_valid(self):
+    def test_get_matkul_valid_1pg(self):
         mocked_token = "mocked"
 
-        self.mocked_get_matkul.return_value = {
+        self.mocked_req_mata_kuliah.return_value = {"count": 1, "results": [{
             "url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
             "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
-            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1
+        }]}
         resp, err = get_mata_kuliah(mocked_token)
 
-        mocked_res = {"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+        mocked_res = [{"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+                      "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}]
+        self.assertIsNone(err)
+        self.assertEqual(mocked_res, resp)
+
+    def test_get_matkul_valid_multipg(self):
+        mocked_token = "mocked"
+
+        self.mocked_req_mata_kuliah.return_value = {"count": 1, "results": [{
+            "url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
             "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
-            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}
+            "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1
+        }]}
+        resp, err = get_mata_kuliah(mocked_token, 2)
+
+        mocked_res = [{"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+                      "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1},
+                      {"url": "https://api.cs.ui.ac.id/siakngcs/matakuliah/1490/", \
+                      "kd_mk": "UIGE600021", "nm_mk": "MPK Seni - Batik", \
+                      "kd_org": "02.00.12.01", "kd_kur": "02.00.12.01-2016", "jml_sks": 1}]
         self.assertIsNone(err)
         self.assertEqual(mocked_res, resp)
 
     def test_get_matkul_on_conn_error(self):
         mocked_token = "mocked"
 
+        self.mocked_req_mata_kuliah.side_effect = requests.ConnectionError("connection refused")
         self.mocked_get_matkul.side_effect = requests.ConnectionError("connection refused")
 
         resp, err = get_mata_kuliah(mocked_token)
@@ -781,6 +822,8 @@ class SiakTest(MockSiak):
 
     def test_get_matkul_on_val_error(self):
         mocked_token = "mocked"
+
+        self.mocked_req_mata_kuliah.side_effect = ValueError("connection refused")
         self.mocked_get_matkul.side_effect = ValueError("connection refused")
 
         resp, err = get_mata_kuliah(mocked_token)
@@ -792,12 +835,13 @@ class SiakTest(MockSiak):
         populate_prasyarat_matkul('./api/db/prasyarat_matkul.csv')
         mocked_token = 'mocked'
         mocked_matkul = 'Sistem Operasi'
-        mocked_nilai_prasyarat = {'Pengantar Organisasi Komputer': 'B+'}
+        mocked_nilai_prasyarat = {'Dasar-Dasar Arsitektur Komputer': '-',
+                                  'Pengantar Organisasi Komputer': 'B+'}
 
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
 
-        mocked_sks = [{'kelas': {'nm_mk_cl': {'nm_mk':\
-         'Pengantar Organisasi Komputer'}}, 'nilai': 'B+'}]
+        mocked_sks = [{'kelas': {'nm_mk_cl': {'nm_mk': \
+                                                  'Pengantar Organisasi Komputer'}}, 'nilai': 'B+'}]
         self.mocked_req_sks.return_value = mocked_sks
 
         resp, err = get_nilai_prasyarat(mocked_token, self.mock_npm, mocked_matkul)

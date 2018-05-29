@@ -240,22 +240,25 @@ class GetIndexMahasiswaContext(MockSiak):
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user_login': 'dummy', 'id': 'dummy',
                              'role': 'dummy', 'name': 'dummy', 'bypass': True}
+        context_matakuliah = {'matkul': 'dummy'}
         request = MockRequest(context_mahasiswa)
-        context = get_index_mahasiswa_context(request, context_mahasiswa)
+        context = get_index_mahasiswa_context(request, context_mahasiswa, context_matakuliah)
         self.assertNotEqual(context, None)
 
     def test_context_invalid_request(self):
         request = None
         context_mahasiswa = None
+        context_matakuliah = None
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa)
+                                              context_mahasiswa, context_matakuliah)
         self.assertEqual(context, "'NoneType' object has no attribute 'session'")
 
     def test_context_invalid_session(self):
         request = MockRequest()
         context_mahasiswa = {}
+        context_matakuliah = {}
         context = get_index_mahasiswa_context(request,
-                                              context_mahasiswa)
+                                              context_mahasiswa, context_matakuliah)
         self.assertEqual(context, "'access_token'")
 
 
@@ -491,13 +494,9 @@ class RequestCourseStatusTest(TestCase):
         self.mocked_course = "SDA"
         self.mocked_nilai = [3.0]
 
-    def test_course_pass(self):
+    def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status[0], 2)
-
-    def test_course_nopass(self):
-        status = request_course_prediction(self.mocked_npm, self.mocked_course, [0])
-        self.assertEqual(status[0], 1)
+        self.assertEqual(status[0], "lulus")
 
 class ViewTest(TestCase):
     @patch('api.siak.utils.Requester.request_sks')
@@ -522,16 +521,24 @@ class GetPrediktorMatkulContext(TestCase):
                    'access_token': 'dummy', 'user': 'dummy',
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
         request = MockRequest(context)
-        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request,
+                                                                matkul, context)
         self.assertIsNotNone(prediktor_matkul_context)
 
-    def test_prediktor_ctx_invalid(self):
-        request = None
+    def test_prediktor_no_req(self):
         matkul = None
         context = None
+        request = None
         prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
-        self.assertEqual(context, "'NoneType' object has no attribute 'session'")
-        self.assertIsNone(prediktor_matkul_context)
+        self.assertEqual(prediktor_matkul_context, "'NoneType' object has no attribute 'session'")
+
+    def test_prediktor_no_session(self):
+        matkul = None
+        context = {}
+        request = MockRequest()
+        prediktor_matkul_context = get_prediktor_matkul_context(request, matkul, context)
+        self.assertEqual(prediktor_matkul_context, "'access_token'")
+
 
 class SksSeharusnya(TestCase):
     def test_semester_genap(self):

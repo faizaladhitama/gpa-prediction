@@ -1,13 +1,12 @@
 from datetime import datetime
 
-from api.db.utils import caching, get_nama_prasyarat
-
-from api.utils import give_verdict, save_status, save_status_matakuliah
+from api.db.utils import caching
+from api.ml_models import get_prediction
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu, get_nilai_prasyarat
-from api.ml_models import get_prediction
-from api.ml_models.utils import search_matkul
+# from api.ml_models.utils import search_matkul
+from api.utils import give_verdict, save_status, save_status_matakuliah
 
 
 def get_term(now):
@@ -26,6 +25,7 @@ def get_context_mahasiswa(request, term_str):
     try:
         token = request.session['access_token']
         npm = request.session['kode_identitas']
+        semester = get_semester_now(npm, int(term_str[-1:]))
         if request.session['kode_identitas'] != 'admin':
             mahasiswa, err = caching("get_data_user", get_data_user,
                                      (token, npm), npm)
@@ -39,7 +39,8 @@ def get_context_mahasiswa(request, term_str):
             'user': request.session['user_login'],
             'id': npm,
             'role': request.session['role'],
-            'name': request.session['name']
+            'name': request.session['name'],
+            'semester_now': str(semester)
         }
         return context
 
@@ -65,7 +66,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
                                 get_sks_sequential, (token, npm), npm)[0]
         else:
             pass
-            #sks_lulus = caching("sks_lulus", get_sks, (token, npm), npm)[0]
+            # sks_lulus = caching("sks_lulus", get_sks, (token, npm), npm)[0]
     sks_diambil = 18
     ip_now = 3.0  # diitung ntr
     try:
@@ -76,23 +77,38 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
     except TypeError:
         return "Argument salah"
 
+
 def request_course_prediction(npm, kd_mk_target, nilai):
-    npm = npm
     status = get_prediction(nilai)
     save_status_matakuliah(npm, kd_mk_target, status)
     return status
 
-def get_prediktor_matkul_context(request, matkul_to_predict, nilai, context):
-    context_prediktor_matkul = None
-    matkul_prasyarat = caching("matkul_prasyarat", get_nama_prasyarat, matkul_to_predict)
-    # status_matkul = caching("kelulusan_matkul", search_matkul, (request, matkul_to_predict), context['id'])
-    nilai_prasyarat = get_nilai_prasyarat(request, context['id'], matkul_to_predict)
-    avg_score = 0
-    for i in nilai_prasyarat:
-        avg_score = avg_score + nilai_prasyarat[i]
-    status_matkul = caching("kelulusan_matkul", request_course_prediction, (context['id'], matkul_to_predict, avg_score), context['id'])
-    context_prediktor_matkul.update({'kelulusan_matkul': status_matkul, 'matkul_prasyarat': matkul_prasyarat})
+
+def get_prediktor_matkul_context(request, matkul_to_predict, context):
+    try:
+        token = request.session['access_token']
+    except AttributeError as ex:
+        return str(ex)
+    except KeyError as ex:
+        return str(ex)
+    context_prediktor_matkul = {}
+    # kode_mk = conv_nama_matkul_to_kode_matkul(matkul_to_predict)
+    # matkul_prasyarat = get_nama_prasyarat(matkul_to_predict)
+    prasyarat = get_nilai_prasyarat(token, context['id'], matkul_to_predict)
+    # nilai_prasyarat = prasyarat[0].values()
+    # # avg_score = 0
+    # for key in nilai_prasyarat:
+    #     print('masuk')
+    #     avg_score = avg_score + nilai_prasyarat[key]
+    # avg_score = avg_score/len(nilai_prasyarat)
+    # print('lewat')
+
+    status_matkul = request_course_prediction(context['id'], matkul_to_predict, 3.0)
+    context_prediktor_matkul.update({'matkul': matkul_to_predict,
+                                     'status_matkul': status_matkul[0],
+                                     'matkul_prasyarat': prasyarat[0]})
     return context_prediktor_matkul
+
 
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):
     source = "Keputusan Rektor Universitas Indonesia\
@@ -224,7 +240,7 @@ def get_angkatan(kode_identitas):
         return "Wrong kode identitas"
 
 
-def get_index_mahasiswa_context(request, context):
+def get_index_mahasiswa_context(request, context, context2):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
@@ -241,7 +257,8 @@ def get_index_mahasiswa_context(request, context):
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
-                                'name' : request.session['name']})
+                                'name': request.session['name']})
+                context = {**context, **context2}
         elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
@@ -351,7 +368,6 @@ def convert_dict_for_ip_term(token, npm):
 
 
 def create_graph_ip(token, npm):
-
     xdata = []
     ydata = []
     all_ip_term = caching("convert_dict_for_ip_term", convert_dict_for_ip_term, (token, npm), npm)
@@ -405,7 +421,7 @@ def get_profile(request, context):
                                  (request.session['access_token'], npm), npm)[0]
             ipk = total_mutu / total_sks_dpo
             prodi = mahasiswa['program'][last_term]['nm_org'] + \
-                        ", " + mahasiswa['program'][0]['nm_prg']
+                    ", " + mahasiswa['program'][0]['nm_prg']
             context.update({'angkatan': mahasiswa['program'][last_term]['angkatan'],
                             'prodi': prodi,
                             'status': mahasiswa['program'][last_term]['nm_status'],
@@ -414,8 +430,7 @@ def get_profile(request, context):
                                                  (request.session['access_token'], npm), npm)[0],
                             'mutu': str(round(total_mutu, 2)),
                             'ipk': str(round(ipk, 2)),
-                            'sks_diperoleh': total_sks_dpo
-                           })
+                            'sks_diperoleh': total_sks_dpo})
         return context
     except KeyError as excp:
         return str(excp)

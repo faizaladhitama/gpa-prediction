@@ -4,12 +4,12 @@ from unittest.mock import patch
 from django.core.cache import cache
 from django.test import TestCase
 
-from api.siak import get_siak_data, parse_siak_data
 from api.db.utils import insert_to_db_rekam_jejak, \
     create_mock_data_mahasiswa, create_mock_data_dosen, \
     caching, create_matakuliah, populate_matkul, populate_prasyarat_matkul, \
-    get_kode_prasyarat, get_nama_prasyarat
+    get_kode_prasyarat, get_nama_prasyarat, conv_nama_matkul_to_kode_matkul
 from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah, MataKuliah, PrasyaratMataKuliah
+from api.siak import get_siak_data, parse_siak_data
 
 
 class UtilsTest(TestCase):
@@ -35,7 +35,7 @@ class UtilsTest(TestCase):
         cache.clear()
         hasil = get_siak_data(mock_npm, mock_username, mock_password)
 
-        #expected = "Wrong username or password"
+        # expected = "Wrong username or password"
         self.assertNotEqual(hasil, None)
 
     def test_parse_siak(self):
@@ -72,8 +72,8 @@ class UtilsTest(TestCase):
         mock_kode_matkul = 'IKI20100'
         mock_nama_matkul = 'Basis Data'
         create_matakuliah(mock_kode_matkul, nama=mock_nama_matkul)
-        flag = MataKuliah.objects.filter(kode_matkul=mock_kode_matkul,\
-         nama_matkul=mock_nama_matkul).count() > 0
+        flag = MataKuliah.objects.filter(kode_matkul=mock_kode_matkul, \
+                                         nama_matkul=mock_nama_matkul).count() > 0
         self.assertTrue(flag)
 
     def test_populate_matkul(self):
@@ -102,6 +102,20 @@ class UtilsTest(TestCase):
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
 
+    def test_conv_nama_to_kode(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_nama_matkul = 'Penambangan Data'
+        mock_kode_matkul = 'IKO42351'
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul(mock_nama_matkul))
+
+    def test_conv_nama_2kode_invalid(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_nama_matkul = 'Icikiwir'
+        mock_kode_matkul = 'Prasyarat tidak ditemukan'
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_kode_matkul, conv_nama_matkul_to_kode_matkul(mock_nama_matkul))
+
     def test_get_kode_prasyarat_none(self):
         mock_csv = './api/db/prasyarat_matkul.csv'
         mock_kode_matkul = 'IKS000'
@@ -116,11 +130,13 @@ class UtilsTest(TestCase):
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
 
+
 def lazy(count):
     for i in range(6000):
         for j in range(6000):
             count = (i + j) * 0
     return count
+
 
 def dict_cache(dict_):
     return dict_
@@ -143,7 +159,7 @@ class CacheTest(TestCase):
         self.assertLessEqual(end, 2)
 
     def test_dict(self):
-        caching("dict_cache", dict_cache, {"a":1, "b":2})
-        dict_ = caching("dict_cache", dict_cache, {"a":1, "b":2})
-        expected = {"a":1, "b":2}
+        caching("dict_cache", dict_cache, {"a": 1, "b": 2})
+        dict_ = caching("dict_cache", dict_cache, {"a": 1, "b": 2})
+        expected = {"a": 1, "b": 2}
         self.assertEqual(expected, dict_)
