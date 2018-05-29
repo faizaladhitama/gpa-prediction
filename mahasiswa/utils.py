@@ -77,7 +77,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
 
 
 def request_course_prediction(npm, mk_target, nilai):
-    print (nilai)
+    print(nilai)
     status = get_prediction(prass=nilai, nama_matkul=mk_target)
     save_status_matakuliah(npm, mk_target, status)
     return status
@@ -99,7 +99,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     nilai_prasyarat = prasyarat[0]
     scores = []
     not_found = 'Mata Kuliah atau Prasyarat Tidak Ditemukan'
-    if type(nilai_prasyarat) == str and nilai_prasyarat == not_found:
+    if isinstance(nilai_prasyarat, str) and nilai_prasyarat == not_found:
         status_matkul = not_found
     else:
         for key in nilai_prasyarat:
