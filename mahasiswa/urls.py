@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.urls import re_path
 
 from . import views
 
@@ -26,7 +25,5 @@ urlpatterns = [
     url(r'^peraturan-akademik$', views.peraturan_akademik, name='peraturan_akademik'),
     url(r'^riwayat-ip$', views.riwayat_ip, name='riwayat_ip'),
     url(r'^riwayat-sks$', views.riwayat_sks, name='riwayat_sks'),
-    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor_matkul'),
-    url(r'^search-matkul$', views.search_matkul, name='search_matkul'),
-    re_path(r'^query-checker$', views.query_checker, name='query-checker'),
+    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor_matkul')
 ]

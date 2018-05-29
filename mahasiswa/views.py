@@ -70,28 +70,6 @@ def prediktor_matkul(request):
         print('ini eror' + str(err_msg))
         return render(request, 'landing_page.tpl', {})
 
-def search_matkul(request):
-    now = datetime.now()
-    year = now.year
-    term = 1
-    if now.month < 8:
-        year = now.year - 1
-        term = 3
-        if now.month > 2 and now.month < 7:
-            term = 2
-    term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
-    try:
-        context_mahasiswa = caching("get_context_mahasiswa", get_context_mahasiswa,
-                                    (request, term_str), request.session['kode_identitas'])
-        return render(request, 'search-bar.tpl', context_mahasiswa)
-    except TypeError as err_msg:
-        return render(request, 'landing_page.tpl', {})
-
-def query_checker(request):
-        matkul_to_predict = request.POST['matkul']
-        print('ini matkul yg dicari ' + matkul_to_predict)
-        return render(request, 'search-bar.tpl', context_mahasiswa)
-
 
 def profile(request):
     start = time.time()

@@ -50,10 +50,6 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/prediktor-matkul', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_search_matkul_valid(self):
-        response = self.client.get('/mahasiswa/search-matkul', follow=True)
-        self.assertEqual(response.status_code, 200)
-
 
 class MockRequest:
     def __init__(self, session=None):
