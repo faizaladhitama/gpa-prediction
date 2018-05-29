@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^peraturan-akademik$', views.peraturan_akademik, name='peraturan_akademik'),
     url(r'^riwayat-ip$', views.riwayat_ip, name='riwayat_ip'),
     url(r'^riwayat-sks$', views.riwayat_sks, name='riwayat_sks'),
-    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor_matkul')
+    url(r'^prediktor-matkul$', views.prediktor_matkul, name='prediktor_matkul'),
+    url(r'^search-matkul$', views.search_matkul, name='search_matkul')
 ]
