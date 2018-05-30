@@ -2,7 +2,7 @@ import os.path
 import pickle
 
 import pandas as pd
-from imblearn.over_sampling import RandomOverSampler, SMOTE
+from imblearn.over_sampling import SMOTE
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis, LinearDiscriminantAnalysis
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
@@ -10,8 +10,6 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
 from sklearn.linear_model import RidgeClassifierCV
-from sklearn.metrics import confusion_matrix, \
-    accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB, BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -22,7 +20,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 class Classifier:
-    def __init__(self, name, columns=None, num_features=None, md_name="Gaussian"):
+    def __init__(self, name, md_name="Gaussian"):
         self.model = {
             "Gaussian": GaussianNB(),
             "Bernoulli": BernoulliNB(),
@@ -62,7 +60,7 @@ class Classifier:
         data = pd.read_csv(self.pwd + '/final.csv')
         used = data.loc[:, ['mean_pras', 'y']]
         used = used.dropna()
-        
+
         col = 'mean_pras'
         col_zscore = col
         used[col_zscore] = (used[col] -

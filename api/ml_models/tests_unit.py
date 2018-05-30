@@ -5,7 +5,7 @@ from api.ml_models import get_prediction, \
 from api.ml_models.classifier import Classifier
 
 
-class NbModelTest(TestCase):
+class ClassifierTest(TestCase):
     def test_prediction(self):
         res = get_prediction([3.0, 2.0, 1.0], 'Usagi Studio')
         self.assertNotEqual(res, None)
@@ -43,6 +43,7 @@ class NbModelTest(TestCase):
         self.assertEqual(res[0], 'E')
 
     def test_classfier(self):
-        res = Classifier('DSA', columns=['hasil', 'pras2'], num_features=['pras2'])
-        res.build_model()
+        res = Classifier('DSA')
+        res.set_model("Decision Tree")
+        res.predict(3.0)
         self.assertEqual(True, True)

@@ -85,7 +85,7 @@ def matkul_converter(matkul):
 
 def load_model(model_name):
     return pickle.load(open(os.path.dirname(__file__) + "/savefile/" + model_name + ".sav", 'rb'))
-    
+
 def get_prediction(prass, nama_matkul):
     pras = list(prass)#making sure prass is list
     pras_mean = np.mean(pras)
