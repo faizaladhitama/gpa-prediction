@@ -1,4 +1,5 @@
 import os.path
+import pickle
 
 import numpy as np
 import pandas as pd
@@ -82,6 +83,9 @@ def matkul_converter(matkul):
     }
     return convert_map[matkul]
 
+def load_model(model_name):
+    return pickle.load(open(os.path.dirname(__file__) + "/savefile/" + model_name + ".sav", 'rb'))
+    
 def get_prediction(prass, nama_matkul):
     pras = list(prass)#making sure prass is list
     pras_mean = np.mean(pras)
@@ -99,8 +103,7 @@ def get_prediction(prass, nama_matkul):
     except KeyError:
         pass
 
-    prediksi = Classifier('final')
-    prediksi.load_model()
+    prediksi = load_model("final")
     hasil = prediksi.predict(input_model.reshape(1, -1))
     print(hasil)
     return hasil[0]
