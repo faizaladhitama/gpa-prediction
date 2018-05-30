@@ -171,16 +171,19 @@ def caching(name, func, args, kode=""):
             dic = json.loads(dic)
 
         try:
-            ret, err = dic[name]
+            if isinstance(dic[name], tuple):
+                ret, err = dic[name]
+            else:
+                raise TypeError
         except KeyError:
             if isinstance(args, tuple):
                 temp = func(*args)
-                if isinstance(temp, dict):
+                if not isinstance(temp, tuple):
                     raise TypeError
                 ret, err = temp
             else:
                 temp = func(args)
-                if isinstance(temp, (str, dict)):
+                if not isinstance(temp, tuple):
                     raise TypeError
             ret, err = temp
             dic[name] = (ret, err)
