@@ -143,4 +143,4 @@ class EvaluasiTest(TestCase):
 #         self.assertEqual(get_prediction_by_matkul("CIA", "POK"), "hati-hati")
 
 #     def pok_tidak_lulus_test(self):
-#         self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus") 
+#         self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")

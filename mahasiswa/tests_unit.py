@@ -4,7 +4,6 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 
-from api.db.utils import populate_prasyarat_matkul
 from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester_evaluation, \
