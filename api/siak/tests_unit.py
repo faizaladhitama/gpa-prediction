@@ -251,6 +251,7 @@ class MockSiak(MockMahasiswa):
         mocked_convert_dict_for_ip_term = patch('mahasiswa.utils.convert_dict_for_ip_term')
         mocked_get_all_sks_term = patch('api.siak.get_all_sks_term')
         mocked_get_matkul = patch('api.siak.get_mata_kuliah')
+        mocked_get_nilai_prasyarat = patch('api.siak.get_nilai_prasyarat')
 
         self.mocked_generator = mocked_generator.start()
         self.mocked_verify = mocked_verify.start()
@@ -268,6 +269,7 @@ class MockSiak(MockMahasiswa):
         self.mocked_convert_dict_for_ip_term = mocked_convert_dict_for_ip_term.start()
         self.mocked_get_all_sks_term = mocked_get_all_sks_term.start()
         self.mocked_get_matkul = mocked_get_matkul.start()
+        self.mocked_get_nilai_prasyarat = mocked_get_nilai_prasyarat.start()
 
         self.addCleanup(mocked_generator.stop)
         self.addCleanup(mocked_requester.stop)
@@ -285,6 +287,7 @@ class MockSiak(MockMahasiswa):
         self.addCleanup(mocked_convert_dict_for_ip_term.stop)
         self.addCleanup(mocked_get_all_sks_term.stop)
         self.addCleanup(mocked_get_matkul.stop)
+        self.addCleanup(mocked_get_nilai_prasyarat.stop)
 
         self.load_data()
 

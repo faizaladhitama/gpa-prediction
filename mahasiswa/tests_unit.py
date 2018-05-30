@@ -4,6 +4,7 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 
+from api.db.utils import populate_prasyarat_matkul
 from api.siak.tests_unit import MockSiak
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_evaluation_detail_message, get_semester_evaluation, \
@@ -542,10 +543,11 @@ class GetPrediktorMatkulContext(TestCase):
         self.assertIsNotNone(prediktor_matkul_context)
 
     def test_prediktor_matkul_valid(self):
-        matkul = 'Analisis'
+        matkul = 'Proyek Perangkat Lunak'
         context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                    'access_token': 'dummy', 'user': 'dummy',
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+
         request = MockRequest(context)
         prediktor_matkul_context = get_prediktor_matkul_context(request,
                                                                 matkul, context)

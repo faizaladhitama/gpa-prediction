@@ -99,6 +99,7 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
     nilai_prasyarat = prasyarat[0]
     scores = []
     not_found = 'Mata Kuliah atau Prasyarat Tidak Ditemukan'
+    print("matkul_to_predict", matkul_to_predict, nilai_prasyarat)
     if isinstance(nilai_prasyarat, str) and nilai_prasyarat == not_found:
         status_matkul = not_found
     else:
