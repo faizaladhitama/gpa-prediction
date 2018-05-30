@@ -10,6 +10,10 @@ disable=
     missing-docstring,
     protected-access,
     no-else-return,
+    no-name-in-module,
+    duplicate-code,
+    wrong-import-position,
+    attribute-defined-outside-init,
     wrong-import-position,
     global-statement,
     invalid-name

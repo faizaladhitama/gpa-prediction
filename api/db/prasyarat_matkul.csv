@@ -1,0 +1,76 @@
+Jejaring_Matkul,Kode,Matkul,Jejaring_Kode
+Sistem Operasi,IKS32753,Administrasi Sistem,IKI20505
+Analisis Numerik,IKO41154,Aljabar Linier Numerik,IKO32104
+Aljabar Linier/Matematika Dasar 2,IKO32104,Analisis Numerik,IKI10103/IKO21105
+Analisis Numerik,IKO41153,Aproksimasi & Sistem Nonlinier,IKO32104
+Struktur Data & Algoritma,IKI20700,Basis Data,IKI10400
+Basis Data,IKO31754,Basis Data Lanjut,IKI20700
+Struktur Data & Algoritma/Statistika & Probabilitas,IKO31350,Bioinformatika,IKI10400/IKI20102
+Enterprise Resource Planning,IKS31603,Manajemen Hubungan Pelanggan,IKS22602
+Dasar-Dasar Pemrograman,IKS21501,Dasar-Dasar Arsitektur Komputer,IKI10200
+Jaringan Komunikasi Data/Basis Data/Prinsip-Prinsip Sistem Informasi,IKS41851,Dasar-Dasar Audit SI,IKS31504/IKI20700/IKS12800
+Struktur Data & Algoritma,IKO32402,Desain & Analisis Algoritma,IKI10400
+Prinsip-Prinsip Sistem Informasi,IKS31650,Perdagangan Elektronis,IKS12800
+Jaringan Komunikasi Data/Basis Data,IKS42755,Integrasi Aplikasi Perusahaan,IKS31504/IKI20700
+Administrasi Bisnis,IKS22602,Enterprise Resource Planning,IKS12600
+Struktur Data & Algoritma,IKO42451,Geometri Komputasional,IKI10400
+Aljabar Linier/Struktur Data & Algoritma,IKO32450,Grafika Komputer,IKI10103/IKI10400
+Jaringan Komunikasi Data/Basis Data,IKS32756,Infrastruktur TI Modern,IKS31504/IKI20700
+Sistem Operasi,IKO31503,Jaringan Komputer,IKI20505
+Sistem Operasi,IKS31504,Jaringan Komunikasi Data,IKI20505
+Sistem Cerdas/Perancangan & Pemrograman Web,IKO41361,Jejaring Semantik,IKO31300/IKI20201
+Basis Data,IKS42651,Kecerdasan Bisnis,IKI20700
+Sistem Cerdas,IKO41352,Komputasi Lunak,IKO31300
+Jaringan Komputer,IKO41557,Komputasi Ubiquitous & Net-Sentris ,IKO31503
+Enterprise Resource Planning/Dasar-Dasar Pemrograman,IKS32656,Konfigurasi ERP,IKS22602/IKI10200
+Jaringan Komputer/Statistika & Probabilitas/Matematika Diskret 1/Matematika Diskret 2,IKO32453,Kriptografi & Keamanan Informasi,IKO31503/IKI20102/IKI10100/IKI20101
+Jaringan Komputer/Perancangan & Pemrograman Web,IKO32751,Layanan & Aplikasi Web,IKO31503/IKI20201
+Sistem Cerdas,IKO41454,Logika Komputasional,IKO31300
+Jaringan Komunikasi Data,IKS41757,Manajemen Keamanan Informasi,IKS31504
+Jaringan Komunikasi Data/Prinsip-Prinsip Sistem Informasi,IKS32758,Manajemen Layanan TI,IKS31504/IKS12800
+Prinsip-Prinsip Manajemen,IKS31259,Manajemen Proyek TI,IKS21601
+Prinsip-Prinsip Sistem Informasi/Jaringan Komunikasi Data/Basis Data,IKS41852,Manajemen Sistem Informasi,IKS12800/IKS31504/IKI20700
+Enterprise Resource Planning,IKS31604,Manajemen Sumber Daya Manusia,IKS22602
+Struktur Data & Algoritma/Matematika Diskret 1/Matematika Diskret 2,IKO42252,Metode Formal,IKI10400/IKI10100/IKI20101
+Pengantar Organisasi Komputer,IKO31550,Organisasi Sistem Komputer,IKO21502
+Sistem Cerdas,IKO32353,Pemelajaran Mesin,IKO31300
+Grafika Komputer,IKO41452,Pemodelan Geometris,IKO32450
+Struktur Data & Algoritma,IKO22203,Pemrograman Deklaratif,IKI10400
+Sistem Operasi/Aljabar Linier/Matematika Dasar 2,IKO31258,Pemrograman Konkuren & Paralel,IKI20505/IKI10103/IKO21105
+Matematika Diskret 1/Dasar-Dasar Pemrograman,IKO41253,Pemrograman Logika,IKI10100/IKI10200
+Struktur Data & Algoritma/Sistem Operasi,IKO31204,Pemrograman Sistem,IKI10400/IKI20505
+Basis Data/Sistem Cerdas,IKO42351,Penambangan Data,IKI20700/IKO31300
+Perancangan & Pemrograman Web,IKO41853,Pengajaran Berbantuan Komputer,IKI20201
+Pengantar Sistem Dijital/Dasar-Dasar Pemrograman,IKO21502,Pengantar Organisasi Komputer,IKO12500/IKI10200
+Administrasi Bisnis,IKS41652,Pengembangan dan Pemasaran Produk,IKS12600
+Jaringan Komunikasi Data,IKS42260,Pengembangan Perangkat Lunak Open Source,IKS31504
+Struktur Data & Algoritma,IKO41251,Game Development,IKI10400
+Teori Bahasa & Automata/Sistem Cerdas,IKO32354,Pengolahan Bahasa Manusia,IKO22401/IKO31300
+Aljabar Linier/Matematika Dasar 2/Struktur Data & Algoritma,IKO31355,Pengolahan Citra,IKI10103/IKO21105/IKI10400
+Struktur Data & Algoritma,IKO41356,Pengolahan Multimedia,IKI10400
+Statistika & Probabilitas/Pengantar Organisasi Komputer,IKO41552,Pengolahan Sinyal Dijital,IKI20102/IKO21502
+Rekayasa Perangkat Lunak,IKO41254,Penjaminan Mutu Perangkat Lunak,IKI30202
+Dasar-Dasar Pemrograman,IKI20201,Perancangan & Pemrograman Web,IKI10200
+Struktur Data & Algoritma,IKO41357,Perolehan Informasi,IKI10400
+Aljabar Linier/Matematika Dasar 2,IKO32152,Persamaan Diferensial,IKI10103/IKO21105
+Rekayasa Perangkat Lunak/Basis Data,IKS32206,Proyek Pengembangan Sistem Informasi,IKI30202/IKI20700
+Rekayasa Perangkat Lunak,IKO32205,Proyek Perangkat Lunak,IKI30202
+Pengantar Organisasi Komputer,IKO42553,Rancangan Sistem Dijital,IKO21502
+Dasar-Dasar Pemrograman,IKI30202,Rekayasa Perangkat Lunak,IKI10200
+Aljabar Linier,IKS22403,Riset Operasi,IKI10103
+Pengantar Organisasi Komputer/Sistem Cerdas,IKO42360,Robotika,IKO21502/IKO31300
+Statistika & Probabilitas/Jaringan Komputer,IKO41151,Simulasi & Pemodelan,IKI20102/IKO31503
+Statistika & Probabilitas/Struktur Data & Algoritma/Matematika Diskret 1,IKO31300,Sistem Cerdas,IKI20102/IKI10400/IKI10100
+Enterprise Resource Planning,IKS32606,Sistem Informasi Akuntansi dan Keuangan,IKS22602
+Basis Data/Rekayasa Perangkat Lunak,IKO41854,Sistem Informasi Geografis,IKI20700/IKI30202
+Prinsip-Prinsip Sistem Informasi/Basis Data,IKS32855,Sistem Informasi Kesehatan,IKS12800/IKI20700
+Perancangan & Pemrograman Web,IKO31250,Sistem Interaksi,IKI20201
+Dasar-Dasar Arsitektur Komputer/Pengantar Organisasi Komputer,IKI20505,Sistem Operasi,IKS21501/IKO21502
+Jaringan Komputer,IKO41554,Sistem Terdistribusi,IKO31503
+Pengantar Organisasi Komputer,IKO31551,Sistem Tertanam,IKO21502
+Dasar-Dasar Pemrograman,IKI10400,Struktur Data & Algoritma,IKI10200
+Enterprise Resource Planning,IKS31605,Manajemen Rantai Suplai,IKS22602
+Struktur Data & Algoritma/Teori Bahasa & Automata,IKO32257,Teknik Kompilator,IKI10400/IKO22401
+Jaringan Komunikasi Data/Jaringan Komputer,IKS41759,Teknologi Mobile,IKS31504/IKO31503
+Matematika Diskret 1/Matematika Diskret 2,IKO22401,Teori Bahasa & Automata,IKI10100/IKI20101
+Statistika & Probabilitas/Matematika Dasar 2,IKO32150,Teori Informasi,IKI20102/IKO21105

@@ -17,7 +17,7 @@ DjangoTest:
   script:
     - ./django-lint.sh
     - if [[ $GITLAB_USER_LOGIN == "faiz97" || $GITLAB_USER_LOGIN == "sarahdfxo" || $GITLAB_USER_LOGIN == "tinna.fauziah" ]]; then coverage run --include='api/*','mahasiswa/*' manage.py test api.tests_functional; fi
-    - coverage run --include='api/*','mahasiswa/*' --append manage.py test api.tests_unit api.db.tests_unit api.siak.tests_unit mahasiswa.tests_unit
+    - coverage run --include='api/*','mahasiswa/*' --omit='mahasiswa/utils.py','mahasiswa/views.py' --append manage.py test api.tests_unit api.db.tests_unit api.ml_models.tests_unit api.siak.tests_unit mahasiswa.tests_unit
     - coverage report -m --fail-under=90
   coverage: '/\d+\%\s*$/'
 
@@ -48,7 +48,7 @@ DeploymentStaging:
   script:
     - dpl --provider=heroku --app=prima-sit-uat --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
-    - heroku run bash --app prima-sit-uat deployment.sh
+    - heroku run bash --app prima-sit-uat deployment.sh 
   environment:
     name: staging
     url: https://prima-sit-uat.herokuapp.com/

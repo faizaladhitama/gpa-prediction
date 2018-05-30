@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from api.models import MahasiswaSIAK
+from api.db.utils import create_mahasiswa_siak, conv_nama_matkul_to_kode_matkul
+from api.models import MahasiswaSIAK, PrediksiMataKuliah
 
 
 def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
@@ -22,3 +23,15 @@ def save_status(npm, status):
         return status
     except ObjectDoesNotExist as exception:
         return None, str(exception)
+
+
+def save_status_matakuliah(npm, mk_target, status):
+    if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
+        create_mahasiswa_siak(npm)
+    mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
+    print(mk_target)
+    kd_mk = conv_nama_matkul_to_kode_matkul(mk_target)
+    print(kd_mk)
+    record = PrediksiMataKuliah(npm=mahasiswa, kode_matkul=kd_mk, status=status)
+    record.save()
+    return status

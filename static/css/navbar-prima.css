@@ -14,7 +14,7 @@
 }
 #dropdown{
 	margin-top: -1%;
-	outline: blue;
+	outline: transparent;
 }
 #second-navbar{
 	background-color: #F4D03F;
@@ -25,7 +25,7 @@
 	font-weight: bolder;
 }
 #second-navbar a:hover{
-	border-bottom: 3px solid #0091ea;
+	border-bottom: 3px solid #000;
 }
 #second-navbar a:active{
 	border-bottom: 3px solid #5C5858;

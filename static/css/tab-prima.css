@@ -13,7 +13,7 @@ h5 {
 }
 
 .nav-link:focus {
-	background-color: #81d4fa;
+	background-color: transparent;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
@@ -24,4 +24,17 @@ h5 {
 
 a:hover {
 	color: red;
+}
+
+@media screen and (max-width: 768px) {
+
+	#tab-prediktor-evaluasi-akademik {
+		display: block;
+		width: 100%;
+	}
+	
+	#tab-prediktor-matkul {
+		display: block;
+		width: 100%;
+	}
 }

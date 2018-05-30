@@ -1,3 +1,37 @@
+@media screen and (max-width: 768px) {
+	#prediktor-eval-button {
+		position: relative;
+		margin-left: 45% !important;
+	}
+	#prediktor-title {
+		margin-top: 2%;
+		font-family: 'Montserrat-Bold';
+		font-size: 1.5em !important;
+		text-align: center;
+	}
+	.prediktor-body {
+		margin-top: 10% !important;
+	}
+	#prediktor-matkul-button {
+		position: relative;
+		margin-left: 45% !important;
+		margin-top: 5%;
+	}
+
+	#table-matkul-prasyarat {
+		margin-left: -7% !important;
+	}
+
+	.matkul-to-predict {
+		font-family: 'Montserrat-SemiBold';
+		color: #09A8DD;
+		position: relative;
+		text-align: center;
+		top: 2% !important;
+		margin-bottom: 2%;
+	}
+}
+
 @font-face {
     font-family: Montserrat-Bold;
     src: url("../fonts/Montserrat-Bold.ttf");
@@ -8,13 +42,8 @@
     src: url("../fonts/Montserrat-SemiBold.ttf");
 }
 
-h1 {
-	font-family: 'Montserrat-Bold';
-}
-
 h3 {
 	font-family: 'Montserrat-Bold';
-	margin-top: 5%;
 }
 
 h7 {
@@ -25,8 +54,9 @@ h7 {
 .matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
-	margin-left: 40%;
-	margin-top: 10px;
+	position: relative;
+	text-align: center;
+	top: 5%;
 }
 
 #mytabs {
@@ -51,25 +81,35 @@ h7 {
 	margin-left: 35%;
 }
 
-.prediktor-title {
-	margin-left: 20%;
+#prediktor-title {
 	margin-top: 2%;
+	font-family: 'Montserrat-Bold';
+	font-size: 2em;
+	text-align: center;
 }
 
 .prediktor-title-matkul {
-	margin-left: 30%;
+	top: 5%;
+	bottom: 5%;
+	font-family: 'Montserrat-Bold';
+	font-size: 2em;
+	text-align: center;
+	position: relative;
 }
 
 .prediktor-body {
 	margin-top: 5%;
 }
 
-#result-button {
-	margin-left: 20%;
+#prediktor-matkul-button {
+	position: relative;
+	left: 32%;
+	margin-top: 3%;
 }
 
-.prediktor-message {
-	margin-top: 30px;
+#prediktor-message {
+	position: relative;
+	top: -100%;
 }
 
 .verdict {
@@ -78,12 +118,13 @@ h7 {
 }
 
 #prediktor-eval-button {
-	margin-left: 32%;
+	position: relative;
+	left: 32%;
+
 }
 
 #table-matkul-prasyarat {
-	margin-left: 50%;
-	margin-top: 15%;
+	margin-left: -3%;
 }
 
 .btn-link{
@@ -94,10 +135,17 @@ body{
     overflow-x:hidden;
 }
 
-.prediktor-button{
-    padding: 8.2rem 1rem;
-}
+/* .prediktor-button{
+	position: relative;
+	margin-left: 50%;
+} */
 
 .prediktor-red-button{
     padding:4.2rem 4rem;
+}
+
+.search-bar {
+	font-family: 'Montserrat-Bold';
+	font-size: 2em;
+	text-align: center;
 }

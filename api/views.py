@@ -5,7 +5,6 @@ from django.urls import reverse
 
 from .siak import get_access_token, verify_user
 
-
 def landing(request):
     context = {'team': 'usagi studio'}
     return render(request, 'landing_page.tpl', context)
@@ -16,7 +15,6 @@ def login(request):
 
 
 def auth_login(request):
-    print("#==> auth_login ", request.method)
     try:
         username = request.POST['username']
         password = request.POST['password']
@@ -35,7 +33,6 @@ def auth_login(request):
             request.session['access_token'] = access_token
             request.session['kode_identitas'] = kode_identitas
             request.session['role'] = role
-
             if role == 'admin' or role == 'mahasiswa':
                 messages.success(request, "Anda berhasil login " + username)
                 return HttpResponseRedirect(reverse('mahasiswa:index'))
@@ -52,7 +49,6 @@ def auth_login(request):
 
 
 def auth_logout(request):
-    print("#==> auth logout")
     request.session.flush()  # menghapus semua session\
     messages.info(request, "Anda berhasil logout.")
     return HttpResponseRedirect(reverse('api:landing'))

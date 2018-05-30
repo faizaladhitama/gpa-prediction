@@ -23,6 +23,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="{% static 'favicon/favicon-96x96.png' %}">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
 <link rel="manifest" href="{% static 'favicon/manifest.json' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
@@ -32,8 +33,7 @@
 
 <div id="loader">
 	{% load static %}
-	<img src="{% static 'assets/loader.gif' %}" id="img-loader" >
-	<p>please wait ;)</p>
+	<img src="{% static 'assets/Wedges-3s-200px.apng' %}" id="img-loader" >
 </div>
 
 {% block content %}

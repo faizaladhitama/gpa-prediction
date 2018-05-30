@@ -1,9 +1,10 @@
 import datetime
 import os
-
+import math
+import json
 import requests
 
-from api.db.utils import caching
+from api.db.utils import caching, get_nama_prasyarat
 from api.siak.utils import AuthGenerator, Requester, \
     make_sks_req_list, cek_huruf_lulus, huruf_to_angka, cek_mpkos
 
@@ -23,6 +24,8 @@ def get_academic_record(npm, username, password):
     except ValueError as exception:
         return str(exception)
     except requests.ConnectionError as exception:
+        return str(exception)
+    except requests.HTTPError as exception:
         return str(exception)
 
 
@@ -44,6 +47,8 @@ def get_access_token(username, password):
         return str(exception)
     except requests.ConnectionError as exception:
         return str(exception)
+    except requests.HTTPError as exception:
+        return str(exception)
 
 
 def verify_user(access_token):
@@ -58,6 +63,8 @@ def verify_user(access_token):
         return str(exception)
     except requests.ConnectionError as exception:
         return str(exception)
+    except requests.HTTPError as exception:
+        return str(exception)
 
 
 def get_data_user(access_token, npm):
@@ -69,6 +76,8 @@ def get_data_user(access_token, npm):
     except ValueError as exception:
         return None, str(exception)
     except requests.ConnectionError as exception:
+        return None, str(exception)
+    except requests.HTTPError as exception:
         return None, str(exception)
 
 
@@ -118,6 +127,9 @@ def get_sks_sequential(access_token, npm):
         return None, str(exception)
     except requests.ConnectionError as exception:
         return None, str(exception)
+    except requests.HTTPError as exception:
+        return None, str(exception)
+
 
 
 def get_all_sks_term(access_token, npm):
@@ -156,6 +168,8 @@ def get_all_sks_term(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+    except requests.HTTPError as exception:
+        return {}, str(exception)
 
 
 def get_sks_term(access_token, npm, year, term):
@@ -175,6 +189,8 @@ def get_sks_term(access_token, npm, year, term):
     except ValueError as exception:
         return 0, str(exception)
     except requests.ConnectionError as exception:
+        return 0, str(exception)
+    except requests.HTTPError as exception:
         return 0, str(exception)
 
 
@@ -203,6 +219,8 @@ def get_ip_term(access_token, npm, year, term):
     except ValueError as exception:
         return 0, str(exception)
     except requests.ConnectionError as exception:
+        return 0, str(exception)
+    except requests.HTTPError as exception:
         return 0, str(exception)
 
 
@@ -241,6 +259,8 @@ def get_all_ip_term(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+    except requests.HTTPError as exception:
+        return {}, str(exception)
 
 
 def get_total_mutu(access_token, npm):
@@ -268,3 +288,60 @@ def get_total_mutu(access_token, npm):
         return {}, str(exception)
     except requests.ConnectionError as exception:
         return {}, str(exception)
+    except requests.HTTPError as exception:
+        return {}, str(exception)
+
+def get_mata_kuliah(access_token, retreives=0):
+    try:
+        data = Requester.request_mata_kuliah(1, os.environ['CLIENT_ID'], access_token)
+        total_data = data["count"]
+        res = data["results"]
+        if retreives == 0:
+            retreives = math.ceil(total_data/100)
+        for i in range(2, retreives+1):
+            data = Requester.request_mata_kuliah(i, os.environ['CLIENT_ID'], access_token)
+            res += data["results"]
+        with open('list_matkul.json', 'w') as file:
+            json.dump(res, file)
+        return res, None
+    except ValueError as exception:
+        return {}, str(exception)
+    except requests.ConnectionError as exception:
+        return {}, str(exception)
+
+def get_nilai_prasyarat(access_token, npm, nama_matkul):
+    try:
+        data = caching("request_mahasiswa_data", Requester.request_mahasiswa_data,
+                       (npm, os.environ['CLIENT_ID'], access_token), npm)
+        angkatan = data['program'][0]['angkatan']
+
+        now = datetime.datetime.now()
+
+        prasyarat = get_nama_prasyarat(nama_matkul)
+
+        if prasyarat == "Prasyarat tidak ditemukan":
+            raise ValueError
+
+        nilai_prasyarat = {}
+
+        for year in range(int(angkatan), now.year + 1):
+            for term in range(1, 4):
+                key_name = "request_sks"+"_"+str(term)+"_"+str(year)
+                res = caching(key_name, Requester.request_sks,
+                              (npm, term, year, os.environ['CLIENT_ID'], access_token), npm)
+                #res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
+                for course in res:
+                    if ((course['kelas'] != None) and\
+                     (course['kelas']['nm_mk_cl']['nm_mk'] in prasyarat)):
+                        pras = course['kelas']['nm_mk_cl']['nm_mk']
+                        nilai_prasyarat[pras] = course['nilai']
+
+        keys = list(nilai_prasyarat.keys())
+
+        for matkul in prasyarat:
+            if matkul not in keys:
+                nilai_prasyarat[matkul] = '-'
+
+        return nilai_prasyarat, None
+    except ValueError as exception:
+        return "Mata Kuliah atau Prasyarat Tidak Ditemukan", str(exception)

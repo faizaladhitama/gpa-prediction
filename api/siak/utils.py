@@ -128,6 +128,15 @@ class Requester:
             raise ValueError(err_msg)
         return response.json()
 
+    @staticmethod
+    def request_mata_kuliah(page, client_id, token):
+        url = "https://api.cs.ui.ac.id/siakngcs/matakuliah-list/?"
+        url = "{}page={}&client_id={}&access_token={}".format(url, page, client_id, token)
+        response = requests.get(url)
+        if response.status_code == 403:
+            err_msg = response.json()['detail']
+            raise ValueError(err_msg)
+        return response.json()
 
 class AuthGenerator:
     def __init__(self):
@@ -142,10 +151,12 @@ class AuthGenerator:
             'cache-control': "no-cache",
             'content-type': "application/x-www-form-urlencoded"
         }
+
         if username == "admin" and password == "admin":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         elif username == "dosen" and password == "dosen":
             return "12345678910ABCDEFGHIJKLMNOPQRSTUVWXYY"
+
         response = requests.post(self.api_token, data=payload, headers=headers)
         if response.status_code == 401:
             raise ValueError("Wrong username or password")

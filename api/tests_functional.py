@@ -5,8 +5,8 @@ from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as wait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class SeleniumTestCase(LiveServerTestCase):
@@ -72,7 +72,6 @@ class LandingPageTest(SeleniumTestCase):
         self.browser.find_element_by_css_selector('#logout-button').click()
         self.assertIn("Anda berhasil logout.",
                       self.browser.page_source)
-
 
 class URLTest(TestCase):
     def test_login(self):

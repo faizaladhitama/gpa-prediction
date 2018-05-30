@@ -1,12 +1,16 @@
 from datetime import datetime
 
 from django.core.paginator import Paginator, EmptyPage
+
 from api.db.utils import caching, create_mahasiswa_siak, convert_kode_to_nama
-from api.utils import give_verdict, save_status
+from api.ml_models import get_prediction, huruf_converter
+from api.models import MahasiswaSIAK, PrediksiMataKuliah
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
     get_total_mutu
-from api.models import MahasiswaSIAK, PrediksiMataKuliah
+from api.siak import get_nilai_prasyarat
+from api.utils import give_verdict, save_status
+from api.utils import save_status_matakuliah
 
 
 def get_term(now):
@@ -25,6 +29,7 @@ def get_context_mahasiswa(request, term_str):
     try:
         token = request.session['access_token']
         npm = request.session['kode_identitas']
+        semester = get_semester_now(npm, int(term_str[-1:]))
         if request.session['kode_identitas'] != 'admin':
             mahasiswa, err = caching("get_data_user", get_data_user,
                                      (token, npm), npm)
@@ -38,7 +43,8 @@ def get_context_mahasiswa(request, term_str):
             'user': request.session['user_login'],
             'id': npm,
             'role': request.session['role'],
-            'name': request.session['name']
+            'name': request.session['name'],
+            'semester_now': str(semester)
         }
         return context
 
@@ -59,6 +65,7 @@ def get_recommendation(npm):
         res.append([prediksi.kode_matkul, nama_matkul])
     return res
 
+
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
     if term % 2 > 0:
         term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
@@ -75,7 +82,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
                                 get_sks_sequential, (token, npm), npm)[0]
         else:
             pass
-            #sks_lulus = caching("sks_lulus", get_sks, (token, npm), npm)[0]
+            # sks_lulus = caching("sks_lulus", get_sks, (token, npm), npm)[0]
     sks_diambil = 18
     ip_now = 3.0  # diitung ntr
     try:
@@ -85,6 +92,45 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
         return status
     except TypeError:
         return "Argument salah"
+
+
+def request_course_prediction(npm, mk_target, nilai):
+    print(nilai)
+    status = get_prediction(prass=nilai, nama_matkul=mk_target)
+    save_status_matakuliah(npm, mk_target, status)
+    return status
+
+
+# def get_query_checker(request, query_matkul, context):
+#     pass
+
+
+def get_prediktor_matkul_context(request, matkul_to_predict, context):
+    try:
+        token = request.session['access_token']
+    except AttributeError as ex:
+        return str(ex)
+    except KeyError as ex:
+        return str(ex)
+    context_prediktor_matkul = {}
+    prasyarat = get_nilai_prasyarat(token, context['id'], matkul_to_predict)
+    nilai_prasyarat = prasyarat[0]
+    scores = []
+    not_found = 'Mata Kuliah atau Prasyarat Tidak Ditemukan'
+    print("matkul_to_predict", matkul_to_predict, nilai_prasyarat)
+    if isinstance(nilai_prasyarat, str) and nilai_prasyarat == not_found:
+        status_matkul = not_found
+    else:
+        for key in nilai_prasyarat:
+            if nilai_prasyarat[key] == '-':
+                continue
+            scores.append(huruf_converter(nilai_prasyarat[key]))
+        status_matkul = request_course_prediction(context['id'], matkul_to_predict, scores)
+    context_prediktor_matkul.update({'matkul': matkul_to_predict,
+                                     'status_matkul': status_matkul,
+                                     'matkul_prasyarat': prasyarat[0]})
+    context_prediktor_matkul = {**context, **context_prediktor_matkul}
+    return context_prediktor_matkul
 
 
 def get_evaluation_detail_message(jenjang, semester, evaluation_status):
@@ -234,7 +280,8 @@ def get_index_mahasiswa_context(request, context):
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
-                                'name' : request.session['name']})
+                                'name': request.session['name']})
+                context = {**context}
         elif request.session['user_login'] == 'admin':
             semester = 4
             sks_seharusnya = get_sks_seharusnya(semester)
@@ -344,7 +391,6 @@ def convert_dict_for_ip_term(token, npm):
 
 
 def create_graph_ip(token, npm):
-
     xdata = []
     ydata = []
     all_ip_term = caching("convert_dict_for_ip_term", convert_dict_for_ip_term, (token, npm), npm)
@@ -398,7 +444,7 @@ def get_profile(request, context):
                                  (request.session['access_token'], npm), npm)[0]
             ipk = total_mutu / total_sks_dpo
             prodi = mahasiswa['program'][last_term]['nm_org'] + \
-                        ", " + mahasiswa['program'][0]['nm_prg']
+                    ", " + mahasiswa['program'][0]['nm_prg']
             context.update({'angkatan': mahasiswa['program'][last_term]['angkatan'],
                             'prodi': prodi,
                             'status': mahasiswa['program'][last_term]['nm_status'],
@@ -407,8 +453,7 @@ def get_profile(request, context):
                                                  (request.session['access_token'], npm), npm)[0],
                             'mutu': str(round(total_mutu, 2)),
                             'ipk': str(round(ipk, 2)),
-                            'sks_diperoleh': total_sks_dpo
-                           })
+                            'sks_diperoleh': total_sks_dpo})
         return context
     except KeyError as excp:
         return str(excp)
