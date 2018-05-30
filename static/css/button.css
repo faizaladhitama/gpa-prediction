@@ -2,7 +2,6 @@
     #status-prediktor {
         font-size: 30px !important;
         position: relative;
-        left: -20%;
     }
     
     .btn3d {
@@ -78,7 +77,7 @@
 	border-radius: 50%;
 	width: 300px;
 	height: 300px;
-	font-size: 60px;
+	font-size: 50px;
 	font-family: Montserrat-Bold;
 	text-transform: uppercase;
 }

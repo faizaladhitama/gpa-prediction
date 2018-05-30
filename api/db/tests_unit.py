@@ -102,6 +102,13 @@ class UtilsTest(TestCase):
         populate_prasyarat_matkul(mock_csv)
         self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
 
+    def test_get_nama_prasyarat_nfound(self):
+        mock_csv = './api/db/prasyarat_matkul.csv'
+        mock_nama_matkul = 'dummy'
+        mock_nama_prasyarat = "Prasyarat tidak ditemukan"
+        populate_prasyarat_matkul(mock_csv)
+        self.assertEqual(mock_nama_prasyarat, get_nama_prasyarat(mock_nama_matkul))
+
     def test_conv_nama_to_kode(self):
         mock_csv = './api/db/prasyarat_matkul.csv'
         mock_nama_matkul = 'Penambangan Data'
@@ -148,7 +155,7 @@ class CacheTest(TestCase):
         res = caching("non_cache", lazy, 0)
         end = time.time() - start
         self.assertEqual(res, 0)
-        self.assertGreaterEqual(end, 10)
+        self.assertGreaterEqual(end, 6)
 
     def test_with_caching(self):
         caching("cache", lazy, 0)

@@ -1,28 +1,29 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-{% include 'search-bar.tpl' %}
-{% if matkul_prasyarat != '' %}
-    {% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
-    <div class="alert alert-danger">
-    <strong>Mohon Maaf</strong>, Mata Kuliah atau Prasyarat Tidak Ditemukan
-    </div>
-    {% else %}
+{% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
+<div class="container">
+    <div class="alert alert-danger text-center mt-5">
+		<strong>Mohon maaf, </strong> Mata Kuliah <strong>{{matkul}}</strong>
+		atau Prasyarat dari <strong>{{matkul}}</strong> Tidak Ditemukan.
+	</div>
+</div>
+{% else %}
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
 <div class="row prediktor-body">
-			<div class="col xs-4" id="prediktor-matkul-button">
+			<div class="col" id="prediktor-matkul-button">
 				{% if status_matkul == 'lulus' %}
-    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">lulus</button>
+    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">lulus</button>
 				{% elif status_matkul == 'hati hati' %}
-    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#detailAkademik">hati-hati</button>
+    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#tabelPrasyarat">hati-hati</button>
     				}
 				{% else %}
-    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">tidak<br> lulus</button>
+    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">tidak<br> lulus</button>
 					}
 				{% endif %}
 			</div>
-		<div class="col-xs-8"> 
+		<!--div class="col-xs-8"> 
 			<div class="table-responsive" id="table-matkul-prasyarat">
 				<table class="table table-condensed table-hover table-striped">
 					<thead class="table-primary">
@@ -41,7 +42,7 @@
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</div-->
 	</div>
 
 	<div class="row ">
@@ -57,7 +58,14 @@
 			{% endif %}
 		</div>
 	</div>
+	{% endif %}
+		<div class="row ">
+		<div class="col text-center">
+			<a href="/mahasiswa/search-matkul" role="button" class="btn btn-info btn-arrow-left mb-3" onclick="displayLoader()">prediksikan mata kuliah lain</a>
+		</div>
+	</div>
 </div>
-{% endif %}
-{% endif %}
 {% endblock %}
+{% block modal%}
+{% include 'mahasiswa/tabel-prasyarat.tpl' with modal_id="tabelPrasyarat" modal_form_title="Tabel Nilai Mata Kuliah Prasyarat"  %}
+{% endblock%}

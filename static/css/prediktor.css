@@ -9,6 +9,27 @@
 		font-size: 1.5em !important;
 		text-align: center;
 	}
+	.prediktor-body {
+		margin-top: 10% !important;
+	}
+	#prediktor-matkul-button {
+		position: relative;
+		margin-left: 45% !important;
+		margin-top: 5%;
+	}
+
+	#table-matkul-prasyarat {
+		margin-left: -7% !important;
+	}
+
+	.matkul-to-predict {
+		font-family: 'Montserrat-SemiBold';
+		color: #09A8DD;
+		position: relative;
+		text-align: center;
+		top: 2% !important;
+		margin-bottom: 2%;
+	}
 }
 
 @font-face {
@@ -23,7 +44,6 @@
 
 h3 {
 	font-family: 'Montserrat-Bold';
-	margin-top: 5%;
 }
 
 h7 {
@@ -34,8 +54,9 @@ h7 {
 .matkul-to-predict {
 	font-family: 'Montserrat-SemiBold';
 	color: #09A8DD;
-	margin-left: 40%;
-	margin-top: 10px;
+	position: relative;
+	text-align: center;
+	top: 5%;
 }
 
 #mytabs {
@@ -68,10 +89,12 @@ h7 {
 }
 
 .prediktor-title-matkul {
-	margin-top: 2%;
+	top: 5%;
+	bottom: 5%;
 	font-family: 'Montserrat-Bold';
 	font-size: 2em;
 	text-align: center;
+	position: relative;
 }
 
 .prediktor-body {
@@ -80,7 +103,8 @@ h7 {
 
 #prediktor-matkul-button {
 	position: relative;
-	left: 20%;
+	left: 32%;
+	margin-top: 3%;
 }
 
 #prediktor-message {
@@ -100,8 +124,7 @@ h7 {
 }
 
 #table-matkul-prasyarat {
-	position: relative;
-	left: -30%;
+	margin-left: -3%;
 }
 
 .btn-link{

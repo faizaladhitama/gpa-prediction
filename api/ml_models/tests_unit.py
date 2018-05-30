@@ -1,104 +1,49 @@
-# import os.path
+import os.path
 
-# from django.test import TestCase
+from django.test import TestCase
 
-# from api.ml_models.dt_model import DTModel
-# from api.ml_models.nb_model import NbModel
+from api.ml_models import get_prediction, huruf_converter, huruf_status_converter, create_training_data
+from api.ml_models.classifier import Classifier
 
+class NbModelTest(TestCase):
 
-# class NbModelTest(TestCase):
-#     def setUp(self):
-#         kolom = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP', 'status']
-#         fitur = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP']
-#         self.model = NbModel("dummy", kolom, fitur)
+    def test_prediction(self):
+       res = get_prediction([3.0, 2.0, 1.0], 'Usagi Studio')
+       self.assertEqual(True, True)
 
-#     def test_create(self):
-#         kolom = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP', 'status']
-#         data_frame = self.model.create_model()
-#         return self.assertEqual(len(data_frame.columns),
-#                                 len(kolom)) and self.model.data_frame is not None
+    def test_huruf_converter(self):
+       res = huruf_converter('A')
+       self.assertEqual(res, 4.0)
 
-#     def test_train(self):
-#         self.model.create_model()
-#         self.model.train_model()
-#         return self.model.accuracy != None and self.model.accuracy >= 0
+    def test_hurufb_converter(self):
+       res = huruf_converter('B')
+       self.assertEqual(res, 3.0)
 
-#     def test_train_wo_create(self):
-#         kolom = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP', 'status']
-#         fitur = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP']
-#         model_wo_create = NbModel("dummy", kolom, fitur)
-#         model_wo_create.train_model()
-#         self.assertEqual(True, True)
+    def test_huruf_converter_status_lulus(self):
+       res = huruf_status_converter('B')
+       self.assertEqual(res, 'lulus')
 
-#     def test_save(self):
-#         self.model.save_model()
-#         pwd = os.path.dirname(__file__)
-#         file_name = pwd + '/savefile/' + self.model.course_name + '.sav'
-#         self.assertTrue(os.path.isfile(file_name))
+    def test_huruf_converter_status_hati(self):
+       res = huruf_status_converter('C')
+       self.assertEqual(res, 'hati hati')
 
-#     def test_build(self):
-#         self.model.build_model()
-#         flag1 = self.model.accuracy is not None
-#         flag2 = self.model.data_frame is not None
-#         self.assertTrue(flag1)
-#         self.assertTrue(flag2)
+    def test_huruf_converter_statusd(self):
+       res = huruf_status_converter('D')
+       self.assertEqual(res, 'tidak lulus')
 
+    def test_creation_passed(self):
+        res = create_training_data("CSF1600400", "SDA", ["CSF1600200"])
+        self.assertEqual(res[0], 'passed')
 
-# class DTModelTest(TestCase):
-#     def setUp(self):
-#         kolom = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP', 'status']
-#         fitur = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP']
-#         self.model = DTModel("dummy", kolom, fitur)
+    def test_creation_none(self):
+        res = create_training_data("CSF1600400", "SDA", [])
+        self.assertEqual(res[0], 'passed')
 
-#     def test_create(self):
-#         kolom = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP', 'status']
-#         data_frame = self.model.create_model()
-#         return self.assertEqual(len(data_frame.columns),
-#                                 len(kolom)) and self.model.data_frame is not None
+    def test_creation_tidak(self):
+        res = create_training_data("Usagi", "SDA", [])
+        self.assertEqual(res[0], 'E')
 
-#     def test_train(self):
-#         self.model.create_model()
-#         self.model.train_model()
-#         return self.model.accuracy != None and self.model.accuracy >= 0
-
-#     def test_train_wo_create(self):
-#         kolom = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP', 'status']
-#         fitur = ['nilaiDumA', 'nilaiDumB', 'absDumA', 'absDumB', 'IP']
-#         model_wo_create = DTModel("dummy", kolom, fitur)
-#         model_wo_create.train_model()
-#         self.assertEqual(True, True)
-
-#     def test_save(self):
-#         self.model.save_model()
-#         pwd = os.path.dirname(__file__)
-#         file_name = pwd + '/savefile/' + self.model.course_name + '.sav'
-#         return os.path.isfile(file_name)
-
-#     def test_build(self):
-#         self.model.build_model()
-#         flag1 = self.model.accuracy is not None
-#         flag2 = self.model.data_frame is not None
-#         return flag1 and flag2
-
-
-# class PrediktorKelulusanMatkulTest(TestCase):
-#     def matkul_not_found(self):
-#         # self.assertEqual(get_prediction_by_matkul("admin", "SPS"), "not-found")
-#         pass
-
-#     def pok_lulus_test(self):
-#         # self.assertEqual(get_prediction_by_matkul("admin", "POK"), "lulus")
-#         pass
-
-#     def pok_hati_hati_test(self):
-#         # self.assertEqual(get_prediction_by_matkul("CIA", "POK"), "hati-hati")
-#         pass
-
-#     def pok_tidak_lulus_test(self):
-#         # self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")
-#         pass
-
-#     def creation_passed(self):
-#         # res = create_training_data("CSF1600400", "SDA", ["CSF1600200"])
-#         # self.assertEqual(res, 'passed')
-#         pass
+    def test_classfier(self):
+    	a = Classifier('DSA', columns=['hasil', 'pras2'], num_features=['pras2'])
+    	a.build_model()
+    	self.assertEqual(True, True)

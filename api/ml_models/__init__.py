@@ -111,27 +111,17 @@ def get_prediction(prass, nama_matkul):
 #     pras_std = np.std([pras1, pras2, pras3, pras4])
 #     pras_num = np.count_nonzero([pras1, pras2, pras3, pras4])
 #     input_model = np.zeros(76)
-    
+
 #     input_model[0] = pras_mean
 #     input_model[1] = pras_median
 #     input_model[2] = pras_std
 #     input_model[3] = pras_num
 #     input_model[matkul_converter(nama_matkul)] = 1
-    
+
 #     prediksi = Classifier('final')
 #     prediksi.load_model()
 #     hasil = prediksi.predict(input_model.reshape(1, -1))
 #     return hasil[0]
-
-def create_prediction(mata_kuliah, column, fitur):
-    model_baru = Classifier(mata_kuliah, column, fitur)
-    model_baru.build_model()
-
-
-def get_prediction_by_matkul(npm, matkul):
-    npm = matkul
-    matkul = npm
-
 
 def huruf_converter(huruf):
     bobot = {
@@ -199,43 +189,15 @@ def convert_to_ml_df(dataframe, kd_mk, prasyarats):
 
 
 def save_df_csv(dataframe, nama_mk):
-    try:
-        pwd = os.path.dirname(__file__)
-        file_name = pwd + "/data/" + str(nama_mk) + ".csv"
-        dataframe.to_csv(file_name, sep=',', index=False)
-        return "passed", True
-    except FileNotFoundError as exception:
-        return exception, False
-
+    pwd = os.path.dirname(__file__)
+    file_name = pwd + "/data/" + str(nama_mk) + ".csv"
+    dataframe.to_csv(file_name, sep=',', index=False)
+    return "passed", True
 
 def create_training_data(kd_mk, nama_mk, prasyarats=None):
     dataframe = load_nilai_df()
     df_hasil = convert_to_ml_df(dataframe, kd_mk, prasyarats)
     if not df_hasil[1]:
         return "Error " + df_hasil[0]
-    # df_hasil = df_hasil.dropna() #cleaning na rows
-    status = save_df_csv(df_hasil, nama_mk)
+    status = save_df_csv(df_hasil[0], nama_mk)
     return status
-
-
-def data_spawner():
-    create_training_data("CSC2601105", "MatDas 2", ["UIST601110"])
-    create_training_data("CSGE602022", "PPW", ["CSF1600200"])
-    create_training_data("CSCM601252", "POK", ["CSC1602500"])
-    create_training_data("CSF1600400", "SDA", ["CSF1600200"])
-    create_training_data("CSGE603291", "MPPI", ["UIGE600001", "UIGE600002"])
-    create_training_data("CSCM602023", "PemLan", ["CSGE601021", "CSGE602022"])
-    create_training_data("CSGE602055", "OS", ["CSCM601252"])
-    create_training_data("CSCM603154", "JarKom", ["CSGE602055"])
-    create_training_data("CSCE604123", "PemFung", ["CSGE602040"])
-    create_training_data("CSCM603127", "SysProg", ["CSGE602040", "CSGE602055"])
-    create_training_data("CSCE604183", "PBK", ["CSGE602022"])
-    create_training_data("CSCM603125", "RPL", ["CSGE601021"])
-    create_training_data("CSCM603130", "SC", ["CSGE601010", "CSGE602013", "CSGE602040"])
-    create_training_data("CSCM603234", "DSA",
-                         ["CSGE602013", "CSGE602070"])
-    create_training_data("CSCE604243", "CIS",
-                         ["CSCM603154", "CSGE601010", "CSGE601011", "CSGE602013"])
-    create_training_data("CSCE604129", "PemPar",
-                         ["CSCM602115", "CSGE601021", "CSGE602012", "CSGE602055"])
-    create_training_data("CSCM603228", "PPL", ["CSCM603125", "CSGE602070"])

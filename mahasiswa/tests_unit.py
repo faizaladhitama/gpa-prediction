@@ -46,8 +46,12 @@ class URLTest(TestCase):
         response = self.client.get('/mahasiswa/peraturan-akademik', follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_prediktor_matkul_valid(self):
-        response = self.client.get('/mahasiswa/prediktor-matkul', follow=True)
+    # def test_prediktor_matkul_valid(self):
+    #     response = self.client.get('/mahasiswa/prediktor-matkul', follow=True)
+    #     self.assertEqual(response.status_code, 200)
+
+    def test_search_matkul_valid(self):
+        response = self.client.get('/mahasiswa/search-matkul', follow=True)
         self.assertEqual(response.status_code, 200)
 
 
@@ -507,7 +511,7 @@ class RequestCourseStatusTest(TestCase):
 
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status[0], "hati hati")
+        self.assertEqual(status, "hati hati")
 
 
 class ViewTest(TestCase):
@@ -529,6 +533,16 @@ class ViewTest(TestCase):
 class GetPrediktorMatkulContext(TestCase):
     def test_prediktor_matkul_ctx_valid(self):
         matkul = 'Basis Data'
+        context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
+                   'access_token': 'dummy', 'user': 'dummy',
+                   'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}
+        request = MockRequest(context)
+        prediktor_matkul_context = get_prediktor_matkul_context(request,
+                                                                matkul, context)
+        self.assertIsNotNone(prediktor_matkul_context)
+
+    def test_prediktor_matkul_valid(self):
+        matkul = 'Analisis'
         context = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                    'access_token': 'dummy', 'user': 'dummy',
                    'id': 'dummy', 'role': 'dummy', 'name': 'dummy'}

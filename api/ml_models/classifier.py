@@ -68,8 +68,6 @@ class Classifier:
             self.data_frame.columns = self.columns
             self.data_frame = self.data_frame.iloc[1:, :]
 
-    def normalize_data(self):
-        pass
 
     def train_model(self):
         ros = RandomOverSampler()

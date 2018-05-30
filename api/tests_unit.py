@@ -129,7 +129,7 @@ class EvaluasiTest(TestCase):
 #     #     self.model.build_model()
 #     #     flag1 = self.model.accuracy is not None
 #     #     flag2 = self.model.data_frame is not None
-#     #     return flag1 and flag2
+# #     #     return flag1 and flag2
 
 
 # class PrediktorKelulusanMatkulTest(TestCase):
@@ -143,8 +143,4 @@ class EvaluasiTest(TestCase):
 #         self.assertEqual(get_prediction_by_matkul("CIA", "POK"), "hati-hati")
 
 #     def pok_tidak_lulus_test(self):
-#         self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus")
-
-#     def creation_passed(self):
-#         res = create_training_data("CSF1600400", "SDA", ["CSF1600200"])
-#         self.assertEqual(res, 'passed')
+#         self.assertEqual(get_prediction_by_matkul("CEO", "POK"), "tidak-lulus") 
