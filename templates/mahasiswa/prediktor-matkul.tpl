@@ -1,22 +1,21 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
 <div class="row prediktor-body">
-			<div class="col xs-4" id="prediktor-matkul-button">
+			<div class="col" id="prediktor-matkul-button">
 				{% if status_matkul == 'lulus' %}
-    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">lulus</button>
+    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">lulus</button>
 				{% elif status_matkul == 'hati hati' %}
-    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#detailAkademik">hati-hati</button>
+    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#tabelPrasyarat">hati-hati</button>
     				}
 				{% else %}
-    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#detailAkademik">tidak<br> lulus</button>
+    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">tidak<br> lulus</button>
 					}
 				{% endif %}
 			</div>
-		<div class="col-xs-8"> 
+		<!--div class="col-xs-8"> 
 			<div class="table-responsive" id="table-matkul-prasyarat">
 				<table class="table table-condensed table-hover table-striped">
 					<thead class="table-primary">
@@ -35,7 +34,7 @@
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</div-->
 	</div>
 
 	<div class="row ">
@@ -51,5 +50,12 @@
 			{% endif %}
 		</div>
 	</div>
+		<div class="row ">
+		<div class="col text-center">
+			<a href="/mahasiswa/search-matkul" role="button" class="btn btn-info btn-arrow-left mb-3" onclick="displayLoader()">prediksikan mata kuliah lain</a>
+		</div>
+	</div>
 </div>
+{% include 'mahasiswa/tabel-prasyarat.tpl' with modal_id="tabelPrasyarat" modal_form_title="Tabel Nilai Mata Kuliah Prasyarat"  %}
+
 {% endblock %}
