@@ -6,7 +6,6 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
       <div class="modal-body">
-<!--         {% include 'mahasiswa/detail-akademik-tab.tpl' %} -->
         <h5 class="text-center">Tekan tombol di bawah ini untuk melihat detail akademik</h5>
         <div class="text-center mt-3">
           <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-right" onclick="displayLoader()">Peraturan Akademik</a>
