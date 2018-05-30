@@ -7,7 +7,7 @@
     </a>
   </li>
 </ul> -->
-<h3 class="text-center"> Riwayat SKS</h3>
+<h3 class="text-center mt-3"> Riwayat SKS</h3>
 <div class="container mx-auto my-3" id="myTabContent2">
  <div class="text-center" id="sksTerm" role="tabpanel" aria-labelledby="sks-tab">
          <h3>Total SKS Diperoleh</h3>

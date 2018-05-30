@@ -7,7 +7,7 @@
     </a>
   </li>
 </ul> -->
-<h3 class="text-center"> Grafik IP</h3>
+<h3 class="text-center mt-3"> Grafik IP</h3>
 <div class="container mx-auto my-3" id="myTabContent2">
   <div class="text-center " id="grafikIp" aria-labelledby="ip-tab">
     <div class="col-xs-8">
