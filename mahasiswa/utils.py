@@ -96,7 +96,6 @@ def get_prediktor_matkul_context(request, matkul_to_predict, context):
         return str(ex)
     context_prediktor_matkul = {}
     prasyarat = get_nilai_prasyarat(token, context['id'], matkul_to_predict)
-    print(prasyarat)
     nilai_prasyarat = prasyarat[0]
     scores = []
     not_found = 'Mata Kuliah atau Prasyarat Tidak Ditemukan'

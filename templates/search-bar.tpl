@@ -10,7 +10,7 @@
                 {% csrf_token %}
                 <div class="container-fluid">
                     <div class="row mt-3">
-                        <input class="form-control col-4 my-2 my-sm-0 mx-auto" type="search" name="matkul" id="matkul" placeholder="Tuliskan nama mata kuliah yang akan diprediksi" aria-label="Search">
+                        <input class="form-control col-5 my-2 my-sm-0 mx-auto" type="search" name="matkul" id="matkul" placeholder="Tuliskan nama mata kuliah yang akan diprediksi" aria-label="Search">
                     </div>
                 <div class="row mt-3">
                     <button class="btn btn-info my-2 my-sm-0 mx-auto" type="submit">Cari <i class="fa fa-search"></i></button>

@@ -8,7 +8,7 @@
           <a class="dropdown-item" href="/mahasiswa/" onclick="displayLoader()">Evaluasi Akademik</a>
           <a class="dropdown-item" href="/mahasiswa/search-matkul" onclick="displayLoader()">Mata Kuliah</a>
         </div-->
-        <a class="nav-link" href="/mahasiswa/prediktor-matkul" onclick="displayLoader()">Prediktor Kelulusan Mata Kuliah</a>
+        <a class="nav-link" href="/mahasiswa/search-matkul" onclick="displayLoader()">Prediktor Kelulusan Mata Kuliah</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/mahasiswa/rekomendasi" onclick="displayLoader()">Rekomendasi Matkul</a>

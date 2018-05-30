@@ -65,9 +65,9 @@ def prediktor_matkul(request):
         #                                    (request, 'Analisis Numerik',
         #                                     context_mahasiswa), context_mahasiswa['id'])
         print("CONTEXT ON Analisis")
-        print(request.session['matkul-predict'])
         prediktor_matkul_context = get_prediktor_matkul_context(request,\
-         request.session['matkul-predict'], context_mahasiswa)
+                                                                request.session['matkul-predict'],
+                                                                context_mahasiswa)
         print("CONTEXT ON predictor_matkul " + str(prediktor_matkul_context))
         return render(request, 'mahasiswa/prediktor-matkul.tpl', prediktor_matkul_context)
     except TypeError as err_msg:
