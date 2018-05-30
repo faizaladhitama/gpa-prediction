@@ -1,6 +1,6 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-<h3 class="text-center"> Riwayat SKS</h3>
+<h3 class="text-center mt-5"> Riwayat SKS</h3>
 <div class="container mx-auto my-3" id="myTabContent2">
 	<h4 class="font-weight-bold">Total SKS Diperoleh</h4>
 	<h5>{{all_sks}} SKS</h5>
