@@ -6,16 +6,14 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from api.db.utils import caching
+from mahasiswa.utils import get_prediktor_matkul_context
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
     get_index_mahasiswa_context, get_riwayat_sks, get_riwayat_ip, \
-    get_peraturan, get_profile, get_prediktor_matkul_context
-
-
-# Create your views here.
+    get_peraturan, get_profile, get_rekomendasi_context
 
 
 def index(request):
-    #start = time.time()
+    # start = time.time()
     now = datetime.now()
     year = now.year
     term = 1
@@ -53,7 +51,7 @@ def prediktor_matkul(request):
             term = 2
     term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     try:
-        #context_mahasiswa = get_context_mahasiswa(request, term_str)
+        # context_mahasiswa = get_context_mahasiswa(request, term_str)
         # prediktor_matkul_context = get_prediktor_matkul_context(request,
         #                                                         'Jejaring Semantik',
         #                                                         context_mahasiswa)
@@ -65,7 +63,7 @@ def prediktor_matkul(request):
         #                                    (request, 'Analisis Numerik',
         #                                     context_mahasiswa), context_mahasiswa['id'])
         print("CONTEXT ON Analisis")
-        prediktor_matkul_context = get_prediktor_matkul_context(request,\
+        prediktor_matkul_context = get_prediktor_matkul_context(request, \
                                                                 request.session['matkul-predict'],
                                                                 context_mahasiswa)
         print("CONTEXT ON predictor_matkul " + str(prediktor_matkul_context))
@@ -73,6 +71,7 @@ def prediktor_matkul(request):
     except TypeError as err_msg:
         print('ini eror' + str(err_msg))
         return render(request, 'landing_page.tpl', {})
+
 
 def search_matkul(request):
     now = datetime.now()
@@ -90,6 +89,7 @@ def search_matkul(request):
         return render(request, 'search-bar.tpl', context_mahasiswa)
     except TypeError:
         return render(request, 'landing_page.tpl', {})
+
 
 def query_checker(request):
     matkul_to_predict = request.POST['matkul']
@@ -116,8 +116,22 @@ def profile(request):
 
 
 def rekomendasi(request):
-    context = {'name': 'mahasiswa'}
-    return render(request, 'mahasiswa/rekomendasi.tpl', context)
+    now = datetime.now()
+    print("NOW", now)
+    term_str = get_term(now)
+    print("TERM_STR", term_str)
+    try:
+        context_mahasiswa = get_context_mahasiswa(request, term_str)
+        print("CONTEXT_MAHASISWA", context_mahasiswa)
+        context_rekomendasi = get_rekomendasi_context(request, context_mahasiswa)
+        print("CONTEXT_REKOMENDASI", context_rekomendasi)
+        # context = caching("get_riwayat_sks",
+        #                   get_riwayat_sks, (request, context_mahasiswa),
+        #                   context_mahasiswa['id'])
+        return render(request, 'mahasiswa/rekomendasi.tpl', context_rekomendasi)
+    except TypeError as e:
+        print("TypeError", e)
+        return render(request, 'landing_page.tpl', {})
 
 
 def riwayat_sks(request):

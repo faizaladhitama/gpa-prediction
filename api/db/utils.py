@@ -8,7 +8,6 @@ from api.models import Dosen, Mahasiswa, RekamJejakNilaiMataKuliah,\
  MataKuliah, MahasiswaSIAK, PrasyaratMataKuliah
 
 
-
 def insert_to_db_rekam_jejak(npm, kode_matkul, nilai, term=0):
     if Mahasiswa.objects.filter(npm=npm).count() < 1:
         create_mahasiswa(npm=npm)
@@ -55,6 +54,16 @@ def create_matakuliah(kode_matkul, nip=0, nama="namaMatkul", prodi="semua", tkt_
 
 def create_mock_data_mahasiswa():
     return True
+
+
+def convert_kode_to_nama(kode_matkul):
+    if PrasyaratMataKuliah.objects.filter(kode_matkul=kode_matkul).count() < 1:
+        return "Nama Not Found"
+    else:
+        obj = PrasyaratMataKuliah.objects.get(kode_matkul=kode_matkul).nama_matkul
+        if obj is not None:
+            return obj
+        return "Nama Not Found"
 
 
 def create_mock_data_dosen(jumlah):

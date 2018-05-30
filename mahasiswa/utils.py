@@ -1,11 +1,17 @@
 from datetime import datetime
 
-from api.db.utils import caching
+from django.core.paginator import Paginator, EmptyPage
+
+from api.db.utils import caching, create_mahasiswa_siak, convert_kode_to_nama
 from api.ml_models import get_prediction, huruf_converter
+from api.models import MahasiswaSIAK, PrediksiMataKuliah
 from api.siak import get_jenjang, get_all_sks_term, \
     get_all_ip_term, get_sks_sequential, get_data_user, \
-    get_total_mutu, get_nilai_prasyarat
-from api.utils import give_verdict, save_status, save_status_matakuliah
+    get_total_mutu
+from api.siak import get_nilai_prasyarat
+from api.utils import give_verdict, save_status
+from api.utils import save_status_matakuliah
+
 
 def get_term(now):
     year = now.year
@@ -46,6 +52,18 @@ def get_context_mahasiswa(request, term_str):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
+
+
+def get_recommendation(npm):
+    if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
+        create_mahasiswa_siak(npm)
+    mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
+    quer = PrediksiMataKuliah.objects.filter(npm=mahasiswa, status='lulus').order_by('kode_matkul')
+    res = []
+    for prediksi in quer:
+        nama_matkul = convert_kode_to_nama(prediksi.kode_matkul)
+        res.append([prediksi.kode_matkul, nama_matkul])
+    return res
 
 
 def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
@@ -441,3 +459,31 @@ def get_profile(request, context):
         return str(excp)
     except AttributeError as excp:
         return str(excp)
+
+
+def get_rekomendasi_context(request, context_mahasiswa):
+    try:
+        npm = context_mahasiswa['id']
+        # print("NPM", npm)
+        if request is not None:
+            prediksi_list = get_recommendation(npm)
+            # print("PREDIKSI_LIST", prediksi_list)
+            page = request.GET.get('page', 1)
+            # print("PAGE", page)
+            answers_list = list(prediksi_list)
+            # print("ANSWER_LIST", answers_list)
+            paginator = Paginator(answers_list, 10)
+            # print("PAGINATOR", paginator)
+            try:
+                prediksi = paginator.page(page)
+            except EmptyPage:
+                prediksi = paginator.page(paginator.num_pages)
+            # print("PREDIKSI", prediksi)
+            context_mahasiswa.update({'table': prediksi})
+            # print("CONTEXT_MAHASISWA", context_mahasiswa)
+            return context_mahasiswa
+        else:
+            # print("CONTEXT_MAHASISWA", context_mahasiswa)
+            return context_mahasiswa
+    except KeyError:
+        return {}

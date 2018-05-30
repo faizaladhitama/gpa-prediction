@@ -18,11 +18,11 @@ class MahasiswaSSO(Mahasiswa):
 
 class MataKuliah(models.Model):
     kode_matkul = models.TextField(primary_key=True, max_length=100, blank=True) # key
-    nip_pengajar = models.IntegerField()
-    sks = models.IntegerField()
-    nama_matkul = models.CharField(max_length=40)
-    prodi = models.CharField(max_length=30)
-    tingkatKerjasama = models.IntegerField(0)
+    nip_pengajar = models.IntegerField(null=True)
+    sks = models.IntegerField(null=True)
+    nama_matkul = models.CharField(max_length=40, null=True)
+    prodi = models.CharField(max_length=30, null=True)
+    tingkatKerjasama = models.IntegerField(0, null=True)
 
 class Dosen(Civitas):
     nip = models.TextField(primary_key=True, max_length=100, blank=True)

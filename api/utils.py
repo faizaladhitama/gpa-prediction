@@ -1,7 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from api.models import MahasiswaSIAK, PrediksiMataKuliah
 from api.db.utils import create_mahasiswa_siak, conv_nama_matkul_to_kode_matkul
+from api.models import MahasiswaSIAK, PrediksiMataKuliah
+
 
 def give_verdict(sks_minimal, sks_lulus, sks_diambil, ip_sekarang):
     status = "Tidak Lolos"

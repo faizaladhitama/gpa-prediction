@@ -13,7 +13,10 @@ disable=
     no-name-in-module,
     duplicate-code,
     wrong-import-position,
-    attribute-defined-outside-init
+    attribute-defined-outside-init,
+    wrong-import-position,
+    global-statement,
+    invalid-name
 
 [VARIABLES]
 
