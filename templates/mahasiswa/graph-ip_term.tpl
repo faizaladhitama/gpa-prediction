@@ -1,6 +1,6 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-<h3 class="text-center"> Grafik IP</h3>
+<h3 class="text-center mt-5"> Grafik IP</h3>
 <div class="container mx-auto my-3" id="myTabContent2">
  <div class="col-xs-8">
            {% include_container "discretebarchart_container" 400 1000 %}
