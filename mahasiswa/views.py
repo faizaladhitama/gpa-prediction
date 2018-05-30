@@ -1,7 +1,9 @@
 import time
 from datetime import datetime
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from api.db.utils import caching
 from mahasiswa.utils import get_term, get_context_mahasiswa, \
@@ -63,9 +65,10 @@ def prediktor_matkul(request):
         #                                    (request, 'Analisis Numerik',
         #                                     context_mahasiswa), context_mahasiswa['id'])
         print("CONTEXT ON Analisis")
+        print(request.session['matkul-predict'])
         prediktor_matkul_context = get_prediktor_matkul_context(request,\
-         'Pengolahan Bahasa Manusia', context_mahasiswa)
-        print("CONTEXT ON predictor_matkul " +  str(prediktor_matkul_context))
+         request.session['matkul-predict'], context_mahasiswa)
+        print("CONTEXT ON predictor_matkul " + str(prediktor_matkul_context))
         return render(request, 'mahasiswa/prediktor-matkul.tpl', prediktor_matkul_context)
     except TypeError as err_msg:
         print('ini eror' + str(err_msg))
@@ -89,20 +92,9 @@ def search_matkul(request):
         return render(request, 'landing_page.tpl', {})
 
 def query_checker(request):
-    now = datetime.now()
-    year = now.year
-    term = 1
-    if now.month < 8:
-        year = now.year - 1
-        term = 3
-        if now.month > 2 and now.month < 7:
-            term = 2
-    term_str = str(year) + "/" + str(year + 1) + " - " + str(term)
     matkul_to_predict = request.POST['matkul']
-    context_mahasiswa = caching("get_context_mahasiswa", get_context_mahasiswa,
-                                (request, term_str), request.session['kode_identitas'])
-    print('ini matkul yg dicari ' + matkul_to_predict)
-    return render(request, 'search-bar.tpl', context_mahasiswa)
+    request.session['matkul-predict'] = matkul_to_predict
+    return HttpResponseRedirect(reverse('mahasiswa:prediktor_matkul'))
 
 
 def profile(request):

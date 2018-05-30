@@ -1,6 +1,33 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
-
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <div class="col-12 mt-5">
+                <h1 class="text-center search-bar">Cari Mata Kuliah</h1>
+            </div>
+            <form class="form-inline row" action="{% url 'mahasiswa:query-checker' %}" method="POST">
+                {% csrf_token %}
+                <div class="container-fluid">
+                    <div class="row mt-3">
+                        <input class="form-control col-4 my-2 my-sm-0 mx-auto" type="search" name="matkul" id="matkul" placeholder="Tuliskan nama mata kuliah yang akan diprediksi" aria-label="Search">
+                    </div>
+                <div class="row mt-3">
+                    <button class="btn btn-info my-2 my-sm-0 mx-auto" type="submit">Cari <i class="fa fa-search"></i></button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+{% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
+    <div class="alert alert-danger text-center">
+    <strong>Mohon maaf, </strong> Mata Kuliah <strong>{{matkul}}</strong>
+    atau Prasyarat dari <strong>{{matkul}}</strong> Tidak Ditemukan.
+</div>
+<div class="container mt-5">
+{% else %}
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
@@ -16,26 +43,6 @@
 					}
 				{% endif %}
 			</div>
-		<div class="col-xs-8"> 
-			<div class="table-responsive" id="table-matkul-prasyarat">
-				<table class="table table-condensed table-hover table-striped">
-					<thead class="table-primary">
-					<tr>
-						<th>Mata Kuliah Prasyarat</th>
-						<th>Nilai</th>
-					</tr>
-					</thead>
-					<tbody>
-					    {% for i,v in matkul_prasyarat.items  %}
-						<tr>
-						    <td>{{i}}</td>
-						    <td>{{v}}</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		</div>
 	</div>
 
 	<div class="row ">
@@ -52,4 +59,8 @@
 		</div>
 	</div>
 </div>
+{% endif %}
 {% endblock %}
+{% block modal%}
+{% include 'mahasiswa/prasyarat-modal.tpl' %}
+{% endblock%}
