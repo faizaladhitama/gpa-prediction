@@ -1,4 +1,4 @@
-from api.ml_models.nb_model import NbModel
+from api.ml_models.classifier import Classifier
 
 def convert_nama_to_kode(nama_mk):
     return nama_mk
@@ -52,7 +52,7 @@ def search_matkul(request, nama_mk):
     for i in range(len(pras)):
         arr_col.append("pras" + (i + 1))
         pras_col.append("pras" + (i + 1))
-    model = NbModel(nama_mk, arr_col, pras_col)
+    model = Classifier(nama_mk)
     model.build_model()
 
     test = []

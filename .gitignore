@@ -114,3 +114,5 @@ os
 
 #vscode
 .vscode/
+
+db.sqlite3

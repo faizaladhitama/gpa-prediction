@@ -32,6 +32,7 @@ DeploymentProduction:
   script:
     - dpl --provider=heroku --app=prima-pplc7 --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
+    - heroku pg:reset DATABASE --confirm=prima-pplc7 --app prima-pplc7
     - heroku run bash --app prima-pplc7 deployment.sh
   environment:
     name: production
@@ -48,6 +49,7 @@ DeploymentStaging:
   script:
     - dpl --provider=heroku --app=prima-sit-uat --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
+    - heroku pg:reset DATABASE --confirm=prima-sit-uat --app prima-sit-uat
     - heroku run bash --app prima-sit-uat deployment.sh 
   environment:
     name: staging
@@ -65,6 +67,7 @@ DeploymentCobacoba:
   script:
     - dpl --provider=heroku --app=prima-cobacoba --api-key=$API_KEY
     - export HEROKU_API_KEY=$API_KEY
+    - heroku pg:reset DATABASE --confirm=prima-cobacoba --app prima-cobacoba 
     - heroku run bash --app prima-cobacoba deployment.sh
   environment:
     name: coba-coba

@@ -2,7 +2,7 @@ import os.path
 import pickle
 
 import pandas as pd
-from imblearn.over_sampling import RandomOverSampler, SMOTE
+from imblearn.over_sampling import SMOTE
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis, LinearDiscriminantAnalysis
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
@@ -10,8 +10,6 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
 from sklearn.linear_model import RidgeClassifierCV
-from sklearn.metrics import confusion_matrix, \
-    accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB, BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -22,7 +20,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 class Classifier:
-    def __init__(self, name, columns=None, num_features=None, md_name="Gaussian"):
+    def __init__(self, name, md_name="Gaussian"):
         self.model = {
             "Gaussian": GaussianNB(),
             "Bernoulli": BernoulliNB(),
@@ -49,58 +47,16 @@ class Classifier:
             "Label Propagation": LabelPropagation(),
             "Label Spreading": LabelSpreading()
         }
-        print("\nModel :", md_name)
 
         # Classifier berdasarkan nama model
         self.clf = self.model[md_name]
         self.course_name = str(name)
         self.pwd = os.path.dirname(__file__)
         self.file_name = self.pwd + '/savefile/' + self.course_name + '.sav'
-        if name == "final":
-            # Ikutin kicut aja
-            self.final_test()
-        else:
-            # Inisialisasi data
-            self.columns = columns
-            self.num_features = num_features
-            self.address = self.pwd + "/data/" + self.course_name + ".csv"
-            self.data_frame = pd.read_csv(self.address, header=None, delimiter=",", engine='python')
-            self.data_frame.columns = self.columns
-            self.data_frame = self.data_frame.iloc[1:, :]
 
+        self.build_model()
 
     def train_model(self):
-        ros = RandomOverSampler()
-        features = self.data_frame.values[:, 1:]
-        target = self.data_frame.values[:, 0]
-        x_res, y_res = ros.fit_sample(features, target)
-        features_train, features_test, target_train, \
-        target_test = train_test_split(x_res,
-                                       y_res, test_size=0.33, random_state=10)
-        self.clf.fit(features_train, target_train)
-        target_pred = self.clf.predict(features_test)
-
-        accuracy = round(accuracy_score(target_test, target_pred), 3)
-        print("\naccuracy over sampling: {}".format(accuracy))
-        print(confusion_matrix(target_test, target_pred))
-        return accuracy
-
-    def save_model(self):
-        pickle.dump(self.clf, open(self.file_name, 'wb'))
-
-    def load_model(self):
-        self.clf = pickle.load(open(self.file_name, 'rb'))
-        return self.clf
-
-    def predict(self, features_test):
-        prediction = self.clf.predict(features_test)
-        return prediction
-
-    def build_model(self):
-        self.train_model()
-        self.save_model()
-
-    def final_test(self):
         data = pd.read_csv(self.pwd + '/final.csv')
         used = data.loc[:, ['mean_pras', 'y']]
         used = used.dropna()
@@ -119,4 +75,18 @@ class Classifier:
             features_train.values.reshape(-1, 1), target_train)
 
         self.clf.fit(features_train.reshape(-1, 1), target_train)
-        pickle.dump(self.clf, open(self.pwd + "/savefile/final.sav", "wb"))
+
+    def set_model(self, md_name):
+        self.clf = self.model[md_name]
+        self.build_model()
+
+    def save_model(self):
+        pickle.dump(self.clf, open(self.file_name, 'wb'))
+
+    def predict(self, features_test):
+        prediction = self.clf.predict(features_test)
+        return prediction
+
+    def build_model(self):
+        self.train_model()
+        self.save_model()
