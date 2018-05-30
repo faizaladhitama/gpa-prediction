@@ -1,5 +1,18 @@
 {% extends 'mahasiswa/base-mahasiswa.tpl'%}
 {% block contentPage %}
+<!--div class="container">
+{% if matkul_prasyarat == 'Mata Kuliah atau Prasyarat Tidak Ditemukan' %}
+    <div class="alert alert-danger text-center mt-5">
+		<strong>Mohon maaf, </strong> Mata Kuliah <strong>{{matkul}}</strong>
+		atau Prasyarat dari <strong>{{matkul}}</strong> Tidak Ditemukan.
+	</div>
+	<div class="row">
+		<div class="col text-center">
+			<a href="/mahasiswa/search-matkul" role="button" class="btn btn-info btn-arrow-left mb-3 " onclick="displayLoader()">prediksikan mata kuliah lain</a>
+		</div>
+	</div>
+</div>
+{% endif %}-->
 <h1 class="prediktor-title-matkul">Prediktor Kelulusan Mata Kuliah</h1>
 <h3 class="matkul-to-predict">{{matkul}}</h3>
 <div class="container">
@@ -57,5 +70,7 @@
 	</div>
 </div>
 {% include 'mahasiswa/tabel-prasyarat.tpl' with modal_id="tabelPrasyarat" modal_form_title="Tabel Nilai Mata Kuliah Prasyarat"  %}
-
 {% endblock %}
+{% block modal%}
+{% include 'mahasiswa/prasyarat-modal.tpl' %}
+{% endblock%}
