@@ -55,7 +55,7 @@ def get_context_mahasiswa(request, term_str):
 
 
 def get_recommendation(npm):
-    print (npm)
+    print("get_recommendation", npm)
     if MahasiswaSIAK.objects.filter(npm=npm).count() < 1:
         create_mahasiswa_siak(npm)
     mahasiswa = MahasiswaSIAK.objects.get(npm=npm)
