@@ -58,6 +58,7 @@ class Classifier:
 
     def train_model(self):
         data = pd.read_csv(self.pwd + '/final.csv')
+        used = data.loc[:, ['mean_pras', 'y']]
 
         #Preprocessing Model
         data['Nama_Matkul'] = data['Nama_Matkul'].str.strip()

@@ -242,27 +242,27 @@ class AngkatanTest(TestCase):
 
 class EvaluationStatusTest(TestCase):
     def test_status_lolos(self):
-        status = get_evaluation_status(3, 48, 18)
+        status = get_evaluation_status("S1", 3, 48, 18)
         self.assertEqual(status, "Lolos".lower())
 
     def test_status_lolos_invalid(self):
-        status = get_evaluation_status(3, 48, 18)
+        status = get_evaluation_status("S1", 3, 48, 18)
         self.assertEqual(status, "Lolos".lower())
 
     def test_status_hati(self):
-        status = get_evaluation_status(3, 36, 12)
+        status = get_evaluation_status("S1", 3, 36, 12)
         self.assertEqual(status, "Hati-Hati".lower())
 
     def test_status_hati_invalid(self):
-        status = get_evaluation_status(3, 36, 12)
+        status = get_evaluation_status("S1", 3, 36, 12)
         self.assertEqual(status, "Hati-Hati".lower())
 
     def test_status_fail(self):
-        status = get_evaluation_status(3, 25, 12)
+        status = get_evaluation_status("S1", 3, 25, 12)
         self.assertEqual(status, "Tidak Lolos".lower())
 
     def test_status_fail_invalid(self):
-        status = get_evaluation_status(3, 25, 12)
+        status = get_evaluation_status("S1", 3, 25, 12)
         self.assertEqual(status, "Tidak Lolos".lower())
 
 
@@ -299,11 +299,13 @@ class SplitJenjangJalurTest(TestCase):
 class GetIndexMahasiswaContext(MockSiak):
     def test_context_index_valid(self):
         self.mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
+        self.mocked_get_data.return_value = {'program': [{'angkatan': 2015, 'nm_prg':'S1 Regular'}]}
 
         context_mahasiswa = {'term': '2017/2018 - 2', 'team': 'usagi studio',
                              'user_login': 'dummy', 'id': 'dummy',
                              'role': 'dummy', 'name': 'dummy', 'bypass': True,
                              'kode_identitas':'dummy'}
+        self.mocked_generator.return_value = None
         request = MockRequest(context_mahasiswa)
         context = get_index_mahasiswa_context(request, context_mahasiswa)
         self.assertNotEqual(context, None)
@@ -521,7 +523,7 @@ class RequestStatusTest(TestCase):
         mocked_get_sks.return_value = 70
         mocked_get_eval.return_value = "lolos"
         mocked_save.return_value = True
-        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
+        status = request_evaluation_status("S1", self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "lolos")
 
     @patch('api.siak.get_sks_sequential')
@@ -531,7 +533,7 @@ class RequestStatusTest(TestCase):
         mocked_get_sks.return_value = 70
         mocked_get_eval.return_value = "lolos"
         mocked_save.return_value = True
-        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 70)
+        status = request_evaluation_status("S1", self.mocked_npm, self.mocked_token, self.mocked_term, 70)
         self.assertEqual(status, "lolos")
 
     @patch('api.siak.get_sks_sequential')
@@ -541,7 +543,7 @@ class RequestStatusTest(TestCase):
         mocked_get_sks.return_value = 30
         mocked_get_eval.return_value = "tidak lolos"
         mocked_save.return_value = True
-        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term, 30)
+        status = request_evaluation_status("S1", self.mocked_npm, self.mocked_token, self.mocked_term, 30)
         self.assertEqual(status, "tidak lolos")
 
     @patch('api.siak.utils.Requester.request_sks')
@@ -549,7 +551,7 @@ class RequestStatusTest(TestCase):
     def test_invalid(self, mocked_req_data, mocked_req_sks):
         mocked_req_sks.return_value = [{'kelas': {'nm_mk_cl': {'jml_sks': 3}}, 'nilai': 'B-'}]
         mocked_req_data.return_value = {'program': [{'angkatan': 2015}]}
-        status = request_evaluation_status(self.mocked_npm, self.mocked_token, self.mocked_term)
+        status = request_evaluation_status("S1", self.mocked_npm, self.mocked_token, self.mocked_term)
         self.assertEqual(status, "Argument salah")
 
 
@@ -561,7 +563,7 @@ class RequestCourseStatusTest(TestCase):
 
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status, "hati hati")
+        self.assertEqual(status, "tidak lulus")
 
 
 class ViewTest(TestCase):

@@ -14,6 +14,8 @@
 {% endblock %}
 {% block content %}
 	{% include 'navbar.tpl' %}
+	<div class="alert alert-danger">
+    Data yang diolah sampai dengan data pada term <strong>2016/2017-2 </strong> </div>
 	{% block contentPage %}
 	{% endblock %}
 	<footer class="footer-copyright text-center" >

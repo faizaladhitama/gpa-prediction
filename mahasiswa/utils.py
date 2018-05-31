@@ -69,6 +69,7 @@ def get_recommendation(npm):
 
 
 def get_evaluation_status(jenjang, term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
+    sks_minimal = 0
     if jenjang == "S1":
         if term <= 2:
             sks_minimal = 24
@@ -87,7 +88,6 @@ def get_evaluation_status(jenjang, term, sks_lulus, sks_diambil, ip_now=3.0, npm
     #     term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
     # sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
     print("JENJANG :", jenjang, "get_evaluation_status")
-    print(sks_minimal, term)
     verdict = caching("give_verdict", give_verdict,
                       (sks_minimal, sks_lulus, sks_diambil, ip_now), npm)
     return verdict

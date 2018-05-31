@@ -63,3 +63,4 @@ class ClassifierTest(TestCase):
 
         res.predict(input_model.reshape(1, -1))
         self.assertEqual(True, True)
+
