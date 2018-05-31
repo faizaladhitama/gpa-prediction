@@ -1,9 +1,61 @@
+@media (min-width: 240px) and (max-width: 360px) {
+	input[type=date], input[type=datetime-local], input[type=email], input[type=number], input[type=password], input[type=search-md], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], textarea.textarea-new {
+		background-color: transparent;
+		border: none;
+		border-bottom: 2px solid #bdbdbd;
+		border-radius: 0;
+		outline: 0;
+		height: 2.1.2rem;
+		width: 70%;
+		font-size: 1.2rem;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
+		-webkit-transition: all .3s;
+		transition: all .3s;
+	}
+
+	#logo {
+		display: block;
+		position: relative;
+		left: -23%;
+	}
+
+	#login-button {
+		margin: 30px auto !important;
+		display: block;
+		width: 80%;
+	}
+
+	.login-form {
+		position: relative;
+		top: 0 !important;
+	}
+
+	.login-label {
+		display: block;
+		text-align: center;
+		font-size: 20px;
+	}
+
+	#username {
+		margin: 0 auto;
+		display: block;
+	}
+
+	#password {
+		margin: 0 auto;
+		display: block;
+	}	
+}
+
 /* 
   ##Device = Most of the Smartphones Mobiles (Portrait)
   ##Screen = B/w 320px to 479px
 */
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 360px) and (max-width: 414px) {
   
 	input[type=date], input[type=datetime-local], input[type=email], input[type=number], input[type=password], input[type=search-md], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], textarea.textarea-new {
 		background-color: transparent;
@@ -26,7 +78,62 @@
 		display: block;
 		position: relative;
 		top: 5%;
-		left: -25%;
+		left: -15%;
+	}
+
+	#login-button {
+		margin: 30px auto !important;
+		display: block;
+		width: 80%;
+	}
+
+	.login-form {
+		position: relative;
+		top: 0 !important;
+	}
+
+	.login-label {
+		display: block;
+		text-align: center;
+		font-size: 20px;
+	}
+
+	#username {
+		margin: 0 auto;
+		display: block;
+	}
+
+	#password {
+		margin: 0 auto;
+		display: block;
+	}	
+	
+}
+
+@media (min-width: 414px) and (max-width: 480px) {
+  
+	input[type=date], input[type=datetime-local], input[type=email], input[type=number], input[type=password], input[type=search-md], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], textarea.textarea-new {
+		background-color: transparent;
+		border: none;
+		border-bottom: 2px solid #bdbdbd;
+		border-radius: 0;
+		outline: 0;
+		height: 2.1.2rem;
+		width: 70%;
+		font-size: 1.2rem;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
+		-webkit-transition: all .3s;
+		transition: all .3s;
+	}
+
+	#logo {
+		display: block;
+		position: relative;
+		top: 5%;
+		left: -10%;
 	}
 
 	#login-button {
@@ -85,7 +192,7 @@
 		display: block;
 		position: relative;
 		top: 3%;
-		left: 1%;
+		left: -3% !important;
 	}
 
 	#login-button {
