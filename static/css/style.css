@@ -52,3 +52,20 @@ th{
 	left: 43vw;
 	top: 38vh;
 }
+
+@media (min-width: 320px) and (max-width: 480px) {
+	#img-loader {
+		position: absolute;
+		left: 17vw !important;
+		top: 38vh;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+	#img-loader {
+		position: absolute;
+		left: 30vw !important;
+		top: 38vh;
+	}
+
+}
