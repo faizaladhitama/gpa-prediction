@@ -46,12 +46,12 @@
 	<div class="row ">
 		<div class="col text-center">
 			{% if status_matkul == 'lulus' %}
-				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> <strong>{{matkul}}</strong> !</p>
+				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> dalam mata kuliah <strong>{{matkul}}</strong> !</p>
 
 			{% elif status_matkul == 'hati hati' %}
-				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> {{matkul}} dalam mengambil mata kuliah <strong> {{matkul}}</strong>!</p> <p class="prediktor-message">Anda harus berusaha keras agar dapat lulus mata kuliah {{matkul}}. Semangat! :)</p>
+				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> dalam mengambil mata kuliah <strong> {{matkul}}</strong>!</p> <p class="prediktor-message">Anda harus berusaha keras agar dapat lulus mata kuliah {{matkul}}. Semangat! :)</p>
 			{% else %}
-				<p class="prediktor-message">Anda terancam <span class ="verdict">{{status_matkul}}</span>  <strong> {{matkul}} </strong>!</p>
+				<p class="prediktor-message">Anda terancam <span class ="verdict">{{status_matkul}}</span> dalam mata kuliah <strong> {{matkul}} </strong>!</p>
 				<p class="prediktor-message"> Silakan mengambil mata kuliah yang lain atau diskusikan dengan PA anda untuk solusi yang terbaik</p>
 			{% endif %}
 		</div>
