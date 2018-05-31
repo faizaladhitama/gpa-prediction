@@ -149,20 +149,23 @@ def lazy(count):
 def dict_cache(dict_):
     return dict_
 
+def tuple_cache(f):
+    f, None
+
 
 class CacheTest(TestCase):
+    def test_tuple_cache(self):
+        res = caching("lazy", tuple_cache, "s")
+        self.assertEqual(True, True)
+
     def test_without_caching(self):
-        start = time.time()
         res = caching("non_cache", lazy, 0)
-        end = time.time() - start
         self.assertEqual(res, 0)
         self.assertGreaterEqual(end, 6)
 
     def test_with_caching(self):
         caching("cache", lazy, 0)
-        start = time.time()
         res = caching("cache", lazy, 0)
-        end = time.time() - start
         self.assertEqual(res, 0)
         self.assertLessEqual(end, 2)
 
