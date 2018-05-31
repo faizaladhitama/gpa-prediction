@@ -27,10 +27,10 @@
 	</div>
 	<div class="row ">
 	    <div class="col ">
-		      <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3">Kembali ke Prediktor</a>
-		      <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-left my-3">
+		      <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3" onclick="displayLoader()">Kembali ke Prediktor</a>
+		      <a href="/mahasiswa/peraturan-akademik" role="button" class="btn btn-danger btn-arrow-left my-3" onclick="displayLoader()">
 		      Peraturan Akademik</a>
-		      <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3">Riwayat IP</a>
+		      <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3" onclick="displayLoader()">Riwayat IP</a>
 	    </div>
 	</div>
 </div>

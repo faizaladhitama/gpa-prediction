@@ -32,9 +32,9 @@
   </div>
   <div class="row ">
            <div class="col ">
-                  <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3 ml-3">Kembali ke Prediktor</a>
-                  <a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-left my-3 ml-3">Riwayat SKS</a>
-                  <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3 ml-3">Riwayat IP</a>
+                  <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3 ml-3" onclick="displayLoader()">Kembali ke Prediktor</a>
+                  <a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-left my-3 ml-3" onclick="displayLoader()">Riwayat SKS</a>
+                  <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3 ml-3" onclick="displayLoader()">Riwayat IP</a>
            </div>
   </div>
 </div>
