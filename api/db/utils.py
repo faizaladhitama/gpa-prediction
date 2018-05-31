@@ -110,7 +110,7 @@ def get_kode_prasyarat(kode):
 def get_nama_prasyarat(nama_matkul):
     try:
         kode_prasyarat = PrasyaratMataKuliah.objects.get(nama_matkul=nama_matkul).nama_matkul_pras
-        return kode_prasyarat.split('/')
+        return kode_prasyarat.rstrip().split('/')
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 

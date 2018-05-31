@@ -318,6 +318,7 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
         now = datetime.datetime.now()
 
         prasyarat = get_nama_prasyarat(nama_matkul)
+        print(prasyarat)
 
         if prasyarat == "Prasyarat tidak ditemukan":
             raise ValueError
@@ -332,7 +333,7 @@ def get_nilai_prasyarat(access_token, npm, nama_matkul):
                 #res = Requester.request_sks(npm, term, year, os.environ['CLIENT_ID'], access_token)
                 for course in res:
                     if ((course['kelas'] != None) and\
-                     (course['kelas']['nm_mk_cl']['nm_mk'] in prasyarat)):
+                     (course['kelas']['nm_mk_cl']['nm_mk'].rstrip() in prasyarat)):
                         pras = course['kelas']['nm_mk_cl']['nm_mk']
                         nilai_prasyarat[pras] = course['nilai']
 
