@@ -14,13 +14,11 @@
 <div class="row prediktor-body">
 			<div class="col" id="prediktor-matkul-button">
 				{% if status_matkul == 'lulus' %}
-    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">lulus</button>
+    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat"><p id="status-prediktor">lulus</p></button>
 				{% elif status_matkul == 'hati hati' %}
-    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#tabelPrasyarat">hati-hati</button>
-    				}
+    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#tabelPrasyarat"><p id="status-prediktor">hati-hati</p></button>
 				{% else %}
-    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">tidak<br> lulus</button>
-					}
+    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat"><p id="status-prediktor">tidak<br> lulus</p></button>				
 				{% endif %}
 			</div>
 		<!--div class="col-xs-8"> 
