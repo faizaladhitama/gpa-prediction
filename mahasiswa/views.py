@@ -93,7 +93,7 @@ def search_matkul(request):
 
 def query_checker(request):
     matkul_to_predict = request.POST['matkul']
-    request.session['matkul-predict'] = matkul_to_predict
+    request.session['matkul-predict'] = matkul_to_predict.title()
     return HttpResponseRedirect(reverse('mahasiswa:prediktor_matkul'))
 
 
