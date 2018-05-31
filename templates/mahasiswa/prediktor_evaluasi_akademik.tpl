@@ -24,6 +24,8 @@
 					<p>Anda kurang <strong>{{sks_kurang}} SKS</strong> dari <strong>{{sks_seharusnya}} SKS</strong> untuk lolos evaluasi akademik</p>
 					<p> Harap diskusikan dengan PA anda untuk solusi yang terbaik</p>
 				{% endif %}
+				<p id="disc">N.b. data yang diolah sampai dengan data pada term 2016/2017-2 </p>
+
 			</div>
 		</div>
 </div>
