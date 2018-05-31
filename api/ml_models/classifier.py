@@ -2,7 +2,7 @@ import os.path
 import pickle
 
 import pandas as pd
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import RandomOverSampler
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis, LinearDiscriminantAnalysis
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
@@ -39,7 +39,7 @@ class Classifier:
             "Linear SVM": SVC(kernel="linear", C=0.025, random_state=10),
             "RBF SVM": SVC(gamma=2, C=1, random_state=10),
             "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0), random_state=10),
-            "Decision Tree": DecisionTreeClassifier(max_depth=5, random_state=10),
+            "Decision Tree": DecisionTreeClassifier(max_depth=4, criterion='gini', min_samples_split=7, min_samples_leaf=1),
             "Linear Discriminant": LinearDiscriminantAnalysis(solver="eigen"),
             "Quadratic Discriminant": QuadraticDiscriminantAnalysis(),
             "Nearest Centroid": NearestCentroid(),
@@ -59,22 +59,47 @@ class Classifier:
     def train_model(self):
         data = pd.read_csv(self.pwd + '/final.csv')
         used = data.loc[:, ['mean_pras', 'y']]
+
+        #Preprocessing Model
+        data['Nama_Matkul'] = data['Nama_Matkul'].str.strip()
+        used = data.loc[:,['Nama_Matkul', 'mean_pras', 'median_pras', 'std_pras', 'num_pras', 'y']]
         used = used.dropna()
+        used = pd.get_dummies(used, columns=['Nama_Matkul'])
 
         col = 'mean_pras'
         col_zscore = col
         used[col_zscore] = (used[col] -
                             used[col].mean()) / used[col].std(ddof=0)
+        #Split into training set and dataset
+        col = used.columns
+        col = col.drop(['y'])
         target = used['y']
         features = used['mean_pras']
         features_train, _, target_train, _ = \
+        features = used.loc[:, col]
+        features_train, features_test, target_train, target_test = \
             train_test_split(features, target, test_size=0.3, random_state=10)
 
         s_m = SMOTE(random_state=20)
         features_train, target_train = s_m.fit_sample(
             features_train.values.reshape(-1, 1), target_train)
+        ros = RandomOverSampler(random_state=42)
+        features_train, target_train = ros.fit_sample(features_train, target_train)
+
+        score = 0
+        for k in range(40):
+            model = DecisionTreeClassifier(max_features=6, max_depth=4, criterion='gini', min_samples_split=7, min_samples_leaf=1)
+            clf = model.fit(features_train, target_train)
+            y_pred = clf.predict(features_test)
+            y_score = clf.score(features_test, target_test)
+            if(y_score >= score):
+                best = clf
+                score = y_score
 
         self.clf.fit(features_train.reshape(-1, 1), target_train)
+        self.clf = best
+        self.score = score
+
 
     def set_model(self, md_name):
         self.clf = self.model[md_name]

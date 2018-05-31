@@ -45,5 +45,21 @@ class ClassifierTest(TestCase):
     def test_classfier(self):
         res = Classifier('DSA')
         res.set_model("Decision Tree")
-        res.predict(3.0)
+
+        nilai = [3,3,3]
+
+        pras_mean = np.mean(nilai)
+        pras_median = np.median(nilai)
+        pras_std = np.std(nilai)
+        pras_num = np.count_nonzero(nilai)
+        input_model = np.zeros(76)
+
+        input_model[0] = pras_mean
+        input_model[1] = pras_median
+        input_model[2] = pras_std
+        input_model[3] = pras_num
+        input_model[49] = 1
+
+        res.predict(input_model.reshape(1, -1))
         self.assertEqual(True, True)
+
