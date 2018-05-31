@@ -563,7 +563,7 @@ class RequestCourseStatusTest(TestCase):
 
     def test_course_status(self):
         status = request_course_prediction(self.mocked_npm, self.mocked_course, self.mocked_nilai)
-        self.assertEqual(status, "lulus")
+        self.assertEqual(status, "tidak lulus")
 
 
 class ViewTest(TestCase):
