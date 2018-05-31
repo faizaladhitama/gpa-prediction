@@ -1,4 +1,5 @@
 from django.test import TestCase
+import numpy as np
 
 from api.ml_models import get_prediction, \
     huruf_converter, huruf_status_converter, create_training_data

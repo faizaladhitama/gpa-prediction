@@ -103,14 +103,14 @@ def populate_prasyarat_matkul(file_csv):
 def get_kode_prasyarat(kode):
     try:
         kode_prasyarat = PrasyaratMataKuliah.objects.get(kode_matkul=kode).kode_matkul_pras
-        return kode_prasyarat.rstrip().split('/')
+        return kode_prasyarat.split('/')
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 
 def get_nama_prasyarat(nama_matkul):
     try:
         kode_prasyarat = PrasyaratMataKuliah.objects.get(nama_matkul=nama_matkul).nama_matkul_pras
-        return kode_prasyarat.split('/')
+        return kode_prasyarat.rstrip().split('/')
     except ObjectDoesNotExist:
         return "Prasyarat tidak ditemukan"
 
@@ -171,16 +171,19 @@ def caching(name, func, args, kode=""):
             dic = json.loads(dic)
 
         try:
-            ret, err = dic[name]
+            if isinstance(dic[name], tuple):
+                ret, err = dic[name]
+            else:
+                raise TypeError
         except KeyError:
             if isinstance(args, tuple):
                 temp = func(*args)
-                if isinstance(temp, dict):
+                if not isinstance(temp, tuple):
                     raise TypeError
                 ret, err = temp
             else:
                 temp = func(args)
-                if isinstance(temp, (str, dict)):
+                if not isinstance(temp, tuple):
                     raise TypeError
             ret, err = temp
             dic[name] = (ret, err)

@@ -20,7 +20,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 class Classifier:
-    def __init__(self, name, md_name="Gaussian"):
+    def __init__(self, name, md_name="Decision Tree"):
         self.model = {
             "Gaussian": GaussianNB(),
             "Bernoulli": BernoulliNB(),
@@ -66,23 +66,14 @@ class Classifier:
         used = used.dropna()
         used = pd.get_dummies(used, columns=['Nama_Matkul'])
 
-        col = 'mean_pras'
-        col_zscore = col
-        used[col_zscore] = (used[col] -
-                            used[col].mean()) / used[col].std(ddof=0)
         #Split into training set and dataset
         col = used.columns
         col = col.drop(['y'])
         target = used['y']
-        features = used['mean_pras']
-        features_train, _, target_train, _ = \
         features = used.loc[:, col]
         features_train, features_test, target_train, target_test = \
             train_test_split(features, target, test_size=0.3, random_state=10)
 
-        s_m = SMOTE(random_state=20)
-        features_train, target_train = s_m.fit_sample(
-            features_train.values.reshape(-1, 1), target_train)
         ros = RandomOverSampler(random_state=42)
         features_train, target_train = ros.fit_sample(features_train, target_train)
 
@@ -96,10 +87,8 @@ class Classifier:
                 best = clf
                 score = y_score
 
-        self.clf.fit(features_train.reshape(-1, 1), target_train)
         self.clf = best
         self.score = score
-
 
     def set_model(self, md_name):
         self.clf = self.model[md_name]

@@ -9,8 +9,8 @@
        </div>
        <h4>
        Anda berada pada <strong> semester {{semester_now}} </strong>
-       dengan total sks yang anda diperoleh sebanyak <strong>{{all_sks}} sks</strong>.
-       Anda membutuhkan <strong>{{sks_kurang}} sks</strong>
+       dengan total SKS yang anda diperoleh sebanyak <strong>{{all_sks}} SKS</strong>.
+       Anda membutuhkan <strong>{{sks_kurang}} SKS</strong>
        untuk dapat lolos evaluasi akademik di <strong> semester {{semester_evaluation}}</strong>.
        Semangat! Dengan usaha yang maksimal anda pasti bisa lolos evaluasi akademik! :)
        </h4>
@@ -24,7 +24,7 @@
        </div>
        <h4>
        Anda berada pada <strong> semester {{semester_now}} </strong>
-       dengan total sks yang anda diperoleh sebanyak <strong>{{all_sks}} sks</strong>.
+       dengan total SKS yang anda diperoleh sebanyak <strong>{{all_sks}} SKS</strong>.
        Anda sudah lolos evaluasi akademik di <strong> semester {{semester_evaluation}}</strong>.
        Pertahankan! :)
        </h4>
@@ -32,9 +32,9 @@
   </div>
   <div class="row ">
            <div class="col ">
-                  <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3 ml-3">Kembali ke Prediktor</a>
-                  <a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-left my-3 ml-3">Riwayat SKS</a>
-                  <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3 ml-3">Riwayat IP</a>
+                  <a href="/mahasiswa" role="button" class="btn btn-info btn-arrow-left my-3 ml-3" onclick="displayLoader()">Kembali ke Prediktor</a>
+                  <a href="/mahasiswa/riwayat-sks" role="button" class="btn btn-warning btn-arrow-left my-3 ml-3" onclick="displayLoader()">Riwayat SKS</a>
+                  <a href="/mahasiswa/riwayat-ip" role="button" class="btn btn-success btn-arrow-left my-3 ml-3" onclick="displayLoader()">Riwayat IP</a>
            </div>
   </div>
 </div>

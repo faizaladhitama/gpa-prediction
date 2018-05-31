@@ -68,16 +68,32 @@ def get_recommendation(npm):
     return res
 
 
-def get_evaluation_status(term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
-    if term % 2 > 0:
-        term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
-    sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
+def get_evaluation_status(jenjang, term, sks_lulus, sks_diambil, ip_now=3.0, npm=""):
+    sks_minimal = 0
+    if jenjang == "S1":
+        if term <= 2:
+            sks_minimal = 24
+        elif term <= 4:
+            sks_minimal = 48
+        elif term <= 8:
+            sks_minimal = 96
+        elif term >= 12:
+            sks_minimal = 144
+    elif jenjang == "S2":
+        if term <= 2:
+            sks_minimal = 18
+        elif term >= 4:
+            sks_minimal = 36
+    # if term % 2 > 0:
+    #     term = term + 1  # evaluasi dilakukan di semester genap,jdi sks min nya disesuaikan
+    # sks_minimal = 12 * term  # still a temporary form , will be integrated with proper flow later
+    print("JENJANG :", jenjang, "get_evaluation_status")
     verdict = caching("give_verdict", give_verdict,
                       (sks_minimal, sks_lulus, sks_diambil, ip_now), npm)
     return verdict
 
 
-def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
+def request_evaluation_status(jenjang, npm, token, term, sks_lulus=-1, mode=1):
     if sks_lulus < 0:
         if mode == 1:
             sks_lulus = caching("get_sks_sequential",
@@ -89,7 +105,7 @@ def request_evaluation_status(npm, token, term, sks_lulus=-1, mode=1):
     ip_now = 3.0  # diitung ntr
     try:
         status = caching("get_evaluation_status", get_evaluation_status,
-                         (term, sks_lulus, sks_diambil, ip_now, npm), npm)
+                         (jenjang, term, sks_lulus, sks_diambil, ip_now, npm), npm)
         save_status(npm, status)
         return status
     except TypeError:
@@ -227,6 +243,7 @@ def get_semester_evaluation(kode_identitas, term):
         semester = (tahun - angkatan) * 2
     if semester == 6:
         semester = 8
+    print("SEMESTER EVALUASI :", semester)
     return semester
 
 
@@ -269,16 +286,18 @@ def get_index_mahasiswa_context(request, context):
     try:
         token, npm = request.session['access_token'], context['id']
         term = int(context['term'][-1:])
+        jenjang_str, err = caching("get_jenjang", get_jenjang, (token, npm), npm)
         if 'admin' not in request.session['user_login']:
             semester = caching("get_semester_evaluation", get_semester_evaluation, (npm, term), npm)
             sks_seharusnya = caching("get_sks_seharusnya", get_sks_seharusnya, (semester), npm)
             all_sks, err = caching("get_sks_sequential", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
             if err is None:
+                jenjang = caching("split_jenjang_and_jalur", split_jenjang_and_jalur, jenjang_str, npm)
                 sks_kurang = caching("get_sks_kurang",
                                      get_sks_kurang, (sks_seharusnya, all_sks), npm)
                 status = caching("request_evaluation_status",
-                                 request_evaluation_status, (npm, token, semester, all_sks), npm)
+                                 request_evaluation_status, (jenjang, npm, token, semester, all_sks), npm)
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,
@@ -311,7 +330,10 @@ def get_peraturan(request, context):
             semester_evaluation = caching("get_semester_evaluation",
                                           get_semester_evaluation, (npm, term), npm)
             status = caching("request_evaluation_status", request_evaluation_status,
-                             (npm, token, semester_evaluation, 1), npm)
+                             (jenjang, npm, token, semester_evaluation, 1), npm)
+            print("STATUS :", status)
+            print("JENJANG :", jenjang)
+            print("SEMESTER EVALUATION :", semester_evaluation)
             detail_evaluasi = caching("get_evaluation_detail_message",
                                       get_evaluation_detail_message,
                                       (jenjang, semester_evaluation, status), npm)
@@ -326,6 +348,7 @@ def get_peraturan(request, context):
                             'semester_evaluation': semester_evaluation,
                             'sks_kurang': sks_kurang, 'name': request.session['name']})
             context = {**context, **detail_evaluasi}
+        print("CONTEXT GET PERATURAN :", context)
         return context
     except KeyError as excp:
         return str(excp)
@@ -417,12 +440,14 @@ def get_sks_seharusnya(semester):
             result = 12 * semester
         else:
             result = 96
+    print("SKS SEHARUSNYA :", result)
     return result
 
 
 def get_sks_kurang(sks_seharusnya, all_sks):
     try:
         sks_kurang = sks_seharusnya - all_sks
+        print("SKS KURANG :", sks_kurang)
         return sks_kurang
     except TypeError:
         return "sks seharusnya atau sks diperoleh bermasalah"

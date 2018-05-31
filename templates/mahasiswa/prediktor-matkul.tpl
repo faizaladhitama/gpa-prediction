@@ -14,13 +14,11 @@
 <div class="row prediktor-body">
 			<div class="col" id="prediktor-matkul-button">
 				{% if status_matkul == 'lulus' %}
-    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">lulus</button>
+    				<button type="button" class="btn btn-success btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat"><p id="status-prediktor">lulus</p></button>
 				{% elif status_matkul == 'hati hati' %}
-    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#tabelPrasyarat">hati-hati</button>
-    				}
+    				<button type="button" class="btn btn-warning btn-lg btn3d " data-toggle="modal" data-target="#tabelPrasyarat"><p id="status-prediktor">hati-hati</p></button>
 				{% else %}
-    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat">tidak<br> lulus</button>
-					}
+    				<button type="button" class="btn btn-danger btn-lg btn3d" data-toggle="modal" data-target="#tabelPrasyarat"><p id="status-prediktor">tidak<br> lulus</p></button>				
 				{% endif %}
 			</div>
 		<!--div class="col-xs-8"> 
@@ -48,12 +46,12 @@
 	<div class="row ">
 		<div class="col text-center">
 			{% if status_matkul == 'lulus' %}
-				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> <strong>{{matkul}}</strong> !</p>
+				<p class="prediktor-message"> Selamat, anda berpeluang <span class ="verdict">{{status_matkul}}</span> dalam mata kuliah <strong>{{matkul}}</strong> !</p>
 
 			{% elif status_matkul == 'hati hati' %}
-				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> {{matkul}} dalam mengambil mata kuliah <strong> {{matkul}}</strong>!</p> <p class="prediktor-message">Anda harus berusaha keras agar dapat lulus mata kuliah {{matkul}}. Semangat! :)</p>
+				<p class="prediktor-message">Anda harus ber<span class ="verdict">{{status_matkul}}</span> dalam mengambil mata kuliah <strong> {{matkul}}</strong>!</p> <p class="prediktor-message">Anda harus berusaha keras agar dapat lulus mata kuliah {{matkul}}. Semangat! :)</p>
 			{% else %}
-				<p class="prediktor-message">Anda terancam <span class ="verdict">{{status_matkul}}</span>  <strong> {{matkul}} </strong>!</p>
+				<p class="prediktor-message">Anda terancam <span class ="verdict">{{status_matkul}}</span> dalam mata kuliah <strong> {{matkul}} </strong>!</p>
 				<p class="prediktor-message"> Silakan mengambil mata kuliah yang lain atau diskusikan dengan PA anda untuk solusi yang terbaik</p>
 			{% endif %}
 		</div>
