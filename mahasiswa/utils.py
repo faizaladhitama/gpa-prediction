@@ -293,11 +293,13 @@ def get_index_mahasiswa_context(request, context):
             all_sks, err = caching("get_sks_sequential", get_sks_sequential,
                                    (request.session['access_token'], npm), npm)
             if err is None:
-                jenjang = caching("split_jenjang_and_jalur", split_jenjang_and_jalur, jenjang_str, npm)
+                jenjang = caching("split_jenjang_and_jalur",
+                                  split_jenjang_and_jalur, jenjang_str, npm)
                 sks_kurang = caching("get_sks_kurang",
                                      get_sks_kurang, (sks_seharusnya, all_sks), npm)
                 status = caching("request_evaluation_status",
-                                 request_evaluation_status, (jenjang, npm, token, semester, all_sks), npm)
+                                 request_evaluation_status, (jenjang,
+                                                             npm, token, semester, all_sks), npm)
                 context.update({'sks_seharusnya': sks_seharusnya,
                                 'sks_kurang': sks_kurang, 'all_sks': all_sks,
                                 'status': status, 'semester': semester,

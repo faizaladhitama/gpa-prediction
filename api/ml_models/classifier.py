@@ -39,7 +39,10 @@ class Classifier:
             "Linear SVM": SVC(kernel="linear", C=0.025, random_state=10),
             "RBF SVM": SVC(gamma=2, C=1, random_state=10),
             "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0), random_state=10),
-            "Decision Tree": DecisionTreeClassifier(max_depth=4, criterion='gini', min_samples_split=7, min_samples_leaf=1),
+            "Decision Tree": DecisionTreeClassifier(max_depth=4,
+                                                    criterion='gini',
+                                                    min_samples_split=7,
+                                                    min_samples_leaf=1),
             "Linear Discriminant": LinearDiscriminantAnalysis(solver="eigen"),
             "Quadratic Discriminant": QuadraticDiscriminantAnalysis(),
             "Nearest Centroid": NearestCentroid(),
@@ -60,13 +63,13 @@ class Classifier:
         data = pd.read_csv(self.pwd + '/final.csv')
         used = data.loc[:, ['mean_pras', 'y']]
 
-        #Preprocessing Model
+        # Preprocessing Model
         data['Nama_Matkul'] = data['Nama_Matkul'].str.strip()
-        used = data.loc[:,['Nama_Matkul', 'mean_pras', 'median_pras', 'std_pras', 'num_pras', 'y']]
+        used = data.loc[:, ['Nama_Matkul', 'mean_pras', 'median_pras', 'std_pras', 'num_pras', 'y']]
         used = used.dropna()
         used = pd.get_dummies(used, columns=['Nama_Matkul'])
 
-        #Split into training set and dataset
+        # Split into training set and dataset
         col = used.columns
         col = col.drop(['y'])
         target = used['y']
@@ -78,12 +81,16 @@ class Classifier:
         features_train, target_train = ros.fit_sample(features_train, target_train)
 
         score = 0
-        for k in range(40):
-            model = DecisionTreeClassifier(max_features=6, max_depth=4, criterion='gini', min_samples_split=7, min_samples_leaf=1)
+        for _ in range(40):
+            model = DecisionTreeClassifier(max_features=6,
+                                           max_depth=4,
+                                           criterion='gini',
+                                           min_samples_split=7,
+                                           min_samples_leaf=1)
             clf = model.fit(features_train, target_train)
-            y_pred = clf.predict(features_test)
+            # y_pred = clf.predict(features_test)
             y_score = clf.score(features_test, target_test)
-            if(y_score >= score):
+            if y_score >= score:
                 best = clf
                 score = y_score
 

@@ -165,13 +165,13 @@ def caching(name, func, args, kode=""):
     try:
         dic = cache.get(kode)
         if dic is None:
-            new_dict = dict()
-            cache.set(kode, json.dumps(new_dict))
+            dic = dict()
+            cache.set(kode, json.dumps(dic))
         else:
             dic = json.loads(dic)
 
         try:
-            if isinstance(dic[name], tuple):
+            if isinstance(dic[name], list):
                 ret, err = dic[name]
             else:
                 raise TypeError
@@ -180,7 +180,6 @@ def caching(name, func, args, kode=""):
                 temp = func(*args)
                 if not isinstance(temp, tuple):
                     raise TypeError
-                ret, err = temp
             else:
                 temp = func(args)
                 if not isinstance(temp, tuple):

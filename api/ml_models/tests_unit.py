@@ -47,7 +47,7 @@ class ClassifierTest(TestCase):
         res = Classifier('DSA')
         res.set_model("Decision Tree")
 
-        nilai = [3,3,3]
+        nilai = [3, 3, 3]
 
         pras_mean = np.mean(nilai)
         pras_median = np.median(nilai)
@@ -63,4 +63,3 @@ class ClassifierTest(TestCase):
 
         res.predict(input_model.reshape(1, -1))
         self.assertEqual(True, True)
-
